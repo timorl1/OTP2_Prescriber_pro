@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package main;
-// MIKSEI GIT TOIMI
+//MIKSEI GIT TOIMI
+//TEsti 2
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
