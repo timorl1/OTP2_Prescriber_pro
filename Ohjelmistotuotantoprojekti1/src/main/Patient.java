@@ -14,20 +14,18 @@ public class Patient {
     private final String SSN;
     private String firstName;
     private String lastName;
-    private String sex;
+    private String gender;
     private double weight;
     private double height;
-    private String[] diagnoses;
     private String[] allergies;
 
-    public Patient(String SSN, String firstName, String lastName, String sex, double weight, double height, String[] diagnoses, String[] allergies) {
+    public Patient(String SSN, String firstName, String lastName, String gender, double weight, double height, String[] allergies) {
         this.SSN = SSN;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.sex = sex;
+        this.gender = gender;
         this.weight = weight;
         this.height = height;
-        this.diagnoses = diagnoses;
         this.allergies = allergies;
     }
 
@@ -51,12 +49,12 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public double getWeight() {
@@ -73,14 +71,6 @@ public class Patient {
 
     public void setHeight(double height) {
         this.height = height;
-    }
-
-    public String[] getDiagnoses() {
-        return diagnoses;
-    }
-
-    public void setDiagnoses(String[] diagnoses) {
-        this.diagnoses = diagnoses;
     }
 
     public String[] getAllergies() {
