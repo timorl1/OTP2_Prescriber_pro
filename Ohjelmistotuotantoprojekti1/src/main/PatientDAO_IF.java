@@ -9,6 +9,7 @@ package main;
  *
  * @author joosiika
  */
-public interface PatientDatabaseDAO_IF {
-    public abstract boolean createConnection(PatientDBParameter parameters);
+public interface PatientDAO_IF {
+    public abstract Patient readPatient(String SSN);
+    public abstract Patient[] readPatients();
 }
