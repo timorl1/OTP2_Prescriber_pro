@@ -11,15 +11,17 @@ package main;
  */
 public class Doctor extends User{
     
+    private String SNN;
     private String firstName;
     private String lastName;
-    private final String privilege = "CRUD";
+    
     
     
     public Doctor(){}
     
-    public Doctor (String username, String firstname, String lastname){
-        super(username);
+    public Doctor (int id, String username,String password, String firstname, String lastname,
+            String email, String privileges){
+        super(id, username, password, email, privileges);
         this.firstName = firstname;
         this.lastName = lastname;
     }
@@ -40,9 +42,7 @@ public class Doctor extends User{
         this.lastName = lastName;
     }
 
-    public String getPrivilege(){
-        return privilege;
-    }
+  
     
     
 }
