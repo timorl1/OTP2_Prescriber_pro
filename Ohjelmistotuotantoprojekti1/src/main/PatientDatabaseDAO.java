@@ -73,7 +73,56 @@ public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{
 
     @Override
     public PatientDBParameter readPatientDBParameter() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        final String URL = "jdbc:mysql://localhost/patient";
+	final String USERNAME = "root";
+	final String PASSWORD = "66067251isojoo";
+        
+        Connection conn = null;
+        PatientDBParameter PDP = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e) {
+            System.err.println("JDBC-ajurin lataus epäonnistui");
+            System.exit(-1);
+        }
+
+        try {
+            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            System.err.println("Tietokanta yhteyden luonti epäonnistui");
+        }
+        
+        String[] result = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM patientdbparameter";
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            int i = 0;
+            while (rs.next()) {
+                PDP = new PatientDBParameter(rs.getString("url"), rs.getString("user"), rs.getString("password"), rs.getString("tableName"),rs.getString("SSN"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("gender"), rs.getString("weight"), rs.getString("height"), rs.getString("allergies"));
+            }
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+        finally {
+            try {
+                if (rs != null) {
+                        rs.close();
+                }
+                if (stmt != null) {
+                        stmt.close();
+                }
+            }
+            catch (Exception e) {
+                    e.printStackTrace();
+            }
+        }
+        return PDP;
     }
 
     @Override
