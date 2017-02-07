@@ -13,18 +13,23 @@ public class PatientDBParameter {
     private String url;
     private String username;
     private String password;
+    private String patientTable;
     private String SSNField;
     private String firstNameField;
     private String lastNameField;
     private String genderField;
-    private double weightField;
-    private double heightField;
+    private String weightField;
+    private String heightField;
     private String allergiesField;
+    
+    public PatientDBParameter() {
+    }
 
-    public PatientDBParameter(String url, String username, String password, String SSNField, String firstNameField, String lastNameField, String genderField, double weightField, double heightField, String allergiesField) {
+    public PatientDBParameter(String url, String username, String password, String patientTable, String SSNField, String firstNameField, String lastNameField, String genderField, String weightField, String heightField, String allergiesField) {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.patientTable = patientTable;
         this.SSNField = SSNField;
         this.firstNameField = firstNameField;
         this.lastNameField = lastNameField;
@@ -56,6 +61,14 @@ public class PatientDBParameter {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getPatientTable() {
+        return patientTable;
+    }
+
+    public void setPatientTable(String patientTable) {
+        this.patientTable = patientTable;
     }
 
     public String getSSNField() {
@@ -90,19 +103,19 @@ public class PatientDBParameter {
         this.genderField = genderField;
     }
 
-    public double getWeightField() {
+    public String getWeightField() {
         return weightField;
     }
 
-    public void setWeightField(double weightField) {
+    public void setWeightField(String weightField) {
         this.weightField = weightField;
     }
 
-    public double getHeightField() {
+    public String getHeightField() {
         return heightField;
     }
 
-    public void setHeightField(double heightField) {
+    public void setHeightField(String heightField) {
         this.heightField = heightField;
     }
 

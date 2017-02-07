@@ -5,17 +5,18 @@
  */
 package main;
 
+import java.sql.*;
 /**
  *
  * @author joosiika
  */
 public interface PatientDatabaseDAO_IF {
     //Creates the connection to the Patient database
-    public abstract boolean createConnection(String url, String username, String password);
+    public abstract Connection createConnection(String url, String username, String password);
     //Reads all field names from the Patient database and returns them as array of strings
-    public abstract String[] getDBFieldNames();
+    public abstract String[] getDBFieldNames(Connection conn, PatientDBParameter PDP);
     //Accesses the software's database and reads from the patientdbparameter-table and constructs the PatientDBParamater-object
     public abstract PatientDBParameter readPatientDBParameter();
     //Accesses the software's database and writes a PatientDBParameter-object into the patientdbparameter-table
-    public abstract boolean writePatientDBParameter();
+    public abstract boolean writePatientDBParameter(PatientDBParameter PDP);
 }
