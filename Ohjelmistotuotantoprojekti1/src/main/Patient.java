@@ -11,7 +11,7 @@ package main;
  */
 public class Patient {
     
-    private final String SSN;
+    private String SSN;
     private String firstName;
     private String lastName;
     private String gender;
@@ -19,6 +19,7 @@ public class Patient {
     private double height;
     private String[] allergies;
 
+    public Patient(){};
     public Patient(String SSN, String firstName, String lastName, String gender, double weight, double height, String[] allergies) {
         this.SSN = SSN;
         this.firstName = firstName;
@@ -28,7 +29,11 @@ public class Patient {
         this.height = height;
         this.allergies = allergies;
     }
-
+    
+    public void setSSN(String SSN){
+        this.SSN = SSN;
+    }
+    
     public String getSSN() {
         return SSN;
     }
