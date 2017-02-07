@@ -5,11 +5,13 @@
  */
 package main;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author joosiika
  */
 public interface PatientDAO_IF {
-    public abstract Patient readPatient(String SSN);
-    public abstract Patient[] readPatients();
+    public abstract Patient readPatient(String SSN) throws SQLException;
+    public abstract Patient[] readPatients() throws SQLException;
 }
