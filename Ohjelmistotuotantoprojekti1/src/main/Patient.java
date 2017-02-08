@@ -20,14 +20,13 @@ public class Patient {
     private String[] allergies;
 
     public Patient(){};
-    public Patient(String SSN, String firstName, String lastName, String gender, double weight, double height, String[] allergies) {
+    public Patient(String SSN, String firstName, String lastName, String gender, double weight, double height) {
         this.SSN = SSN;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.weight = weight;
         this.height = height;
-        this.allergies = allergies;
     }
     
     public void setSSN(String SSN){
