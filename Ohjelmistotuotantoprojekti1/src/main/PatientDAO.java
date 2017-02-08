@@ -52,18 +52,18 @@ public class PatientDAO implements PatientDAO_IF{
         PreparedStatement statement = null;
 	ResultSet rs = null;
             try {
-            	String sqlSelect = "SELECT * FROM patient where ssn = ?";
+            	String sqlSelect = "SELECT * FROM patient where hetu = ?";
                 //String sqlSelect = "SELECT * FROM "+parameters.getPatientTable()+" where "+parameters.getSSNField()+" = ?";
 		statement = connection.prepareStatement(sqlSelect);
 		statement.setString(1, SSN);
                 rs = statement.executeQuery();
 		while(rs.next()){
-			String ssn = rs.getString("SSN");
-			String firstName = rs.getString("firstname");
-			String lastName = rs.getString("lastname");
-                        String gender = rs.getString("gender");
-                        double weight = rs.getDouble("weight");
-                        double height = rs.getDouble("height");
+			String ssn = rs.getString("hetu");
+			String firstName = rs.getString("etunimi");
+			String lastName = rs.getString("sukunimi");
+                        String gender = rs.getString("sukupuoli");
+                        double weight = rs.getDouble("paino");
+                        double height = rs.getDouble("pituus");
                         /*String ssn = rs.getString(parameters.getSSNField());
 			String firstName = rs.getString(parameters.getFirstNameField());
 			String lastName = rs.getString(parameters.getLastNameField());
@@ -110,12 +110,12 @@ public class PatientDAO implements PatientDAO_IF{
                     rs = statement.executeQuery(sqlSelect);
 
 		while(rs.next()){
-                    String ssn = rs.getString("SSN");
-                    String firstName = rs.getString("firstname");
-                    String lastName = rs.getString("lastname");
-                    String gender = rs.getString("gender");
-                    double weight = rs.getDouble("weight");
-                    double height = rs.getDouble("height");
+                    String ssn = rs.getString("hetu");
+			String firstName = rs.getString("etunimi");
+			String lastName = rs.getString("sukunimi");
+                        String gender = rs.getString("sukupuoli");
+                        double weight = rs.getDouble("paino");
+                        double height = rs.getDouble("pituus");
                     /*String ssn = rs.getString(parameters.getSSNField());
                     String firstName = rs.getString(parameters.getFirstNameField());
                     String lastName = rs.getString(parameters.getLastNameField());
