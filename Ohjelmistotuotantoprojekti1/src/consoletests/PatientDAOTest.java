@@ -8,7 +8,7 @@ package consoletests;
 import java.sql.SQLException;
 import main.Patient;
 import main.PatientDAO;
-import main.PatientDBParameter;
+import main.PatientDBProperties;
 /**
  *
  * @author Timo
@@ -20,7 +20,7 @@ public class PatientDAOTest {
      */
     public static void main(String[] args) throws SQLException {
         
-        PatientDBParameter dbp = new PatientDBParameter();
+        PatientDBProperties dbp = new PatientDBProperties();
         PatientDAO dao = new PatientDAO();
         Patient patient = new Patient();
         patient = dao.readPatient("120635-124s");

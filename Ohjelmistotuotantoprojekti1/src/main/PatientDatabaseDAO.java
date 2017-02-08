@@ -5,12 +5,21 @@
  */
 package main;
 
+import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Properties;
 /**
  *
  * @author joosiika
  */
 public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{
+    
+    private static Properties defaultProperties;
+    private ArrayList <String> fieldNames;
+    private Connection conn;
+    private Statement stmt;
+    private ResultSet rs;
 
     @Override
     public Connection createConnection(String url, String username, String password) {
@@ -19,7 +28,7 @@ public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{
 	final String USERNAME = username;
 	final String PASSWORD = password;
         
-        Connection conn = null;
+        this.conn = null;
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -38,19 +47,16 @@ public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{
     }
 
     @Override
-    public String[] getDBFieldNames(Connection conn, PatientDBParameter PDP) {
-        String[] fieldNames = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        String query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + PDP.getPatientTable() + "'";
+    public ArrayList getDBFieldNames(Connection conn) {
+        this.fieldNames = new ArrayList();
+        this.stmt = null;
+        this.rs = null;
+        String query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + defaultProperties.getProperty("tableName") + "'";
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            fieldNames = new String[20];
-            int i = 0;
             while (rs.next()) {
-                fieldNames[i] = rs.getString("COLUMN_NAME");
-                i++;
+                fieldNames.add(rs.getString("COLUMN_NAME"));
             }
         } catch (SQLException e) {
                 e.printStackTrace();
@@ -58,76 +64,49 @@ public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{
         finally {
             try {
                 if (rs != null) {
-                        rs.close();
+                    rs.close();
                 }
                 if (stmt != null) {
-                        stmt.close();
+                    stmt.close();
                 }
             }
             catch (Exception e) {
-                    e.printStackTrace();
+                e.printStackTrace();
             }
         }
         return fieldNames;
     }
 
     @Override
-    public PatientDBParameter readPatientDBParameter() {
+    public Properties readPatientDBProperties() {
         
-        final String URL = "jdbc:mysql://localhost/patient";
-	final String USERNAME = "root";
-	final String PASSWORD = "66067251isojoo";
-        
-        Connection conn = null;
-        PatientDBParameter PDP = null;
+        defaultProperties = new Properties();
+        FileInputStream fis;
         
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            fis = new FileInputStream("default.properties");
+            defaultProperties.load(fis);
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (ClassNotFoundException e) {
-            System.err.println("JDBC-ajurin lataus epäonnistui");
-            System.exit(-1);
-        }
-
-        try {
-            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            System.err.println("Tietokanta yhteyden luonti epäonnistui");
-        }
-        
-        String[] result = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        String query = "SELECT * FROM patientdbparameter";
-        try {
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
-            int i = 0;
-            while (rs.next()) {
-                PDP = new PatientDBParameter(rs.getString("url"), rs.getString("user"), rs.getString("password"), rs.getString("tableName"),rs.getString("SSN"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("gender"), rs.getString("weight"), rs.getString("height"), rs.getString("allergies"));
-            }
-        } catch (SQLException e) {
-                e.printStackTrace();
-        }
-        finally {
-            try {
-                if (rs != null) {
-                        rs.close();
-                }
-                if (stmt != null) {
-                        stmt.close();
-                }
-            }
-            catch (Exception e) {
-                    e.printStackTrace();
-            }
-        }
-        return PDP;
+        return defaultProperties;
     }
 
     @Override
-    public boolean writePatientDBParameter(PatientDBParameter PDP) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean writePatientDBProperties(Properties properties) {
+        
+        defaultProperties = properties;
+        FileOutputStream fos;
+        
+        try {
+            fos = new FileOutputStream("default.properties");
+            this.defaultProperties.store(fos, "---No Comment---");
+            fos.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    
 }

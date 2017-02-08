@@ -1,15 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
+
+import java.io.Serializable;
 
 /**
  *
  * @author joosiika
  */
-public class PatientDBParameter {
+
+public class PatientDBProperties implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
     private String url;
     private String username;
     private String password;
@@ -22,10 +23,10 @@ public class PatientDBParameter {
     private String heightField;
     private String allergiesField;
     
-    public PatientDBParameter() {
+    public PatientDBProperties() {
     }
 
-    public PatientDBParameter(String url, String username, String password, String patientTable, String SSNField, String firstNameField, String lastNameField, String genderField, String weightField, String heightField, String allergiesField) {
+    public PatientDBProperties(String url, String username, String password, String patientTable, String SSNField, String firstNameField, String lastNameField, String genderField, String weightField, String heightField, String allergiesField) {
         this.url = url;
         this.username = username;
         this.password = password;

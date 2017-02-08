@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Properties;
 /**
  *
  * @author joosiika
@@ -14,9 +11,9 @@ public interface PatientDatabaseDAO_IF {
     //Creates the connection to the Patient database
     public abstract Connection createConnection(String url, String username, String password);
     //Reads all field names from the Patient database and returns them as array of strings
-    public abstract String[] getDBFieldNames(Connection conn, PatientDBParameter PDP);
-    //Accesses the software's database and reads from the patientdbparameter-table and constructs the PatientDBParamater-object
-    public abstract PatientDBParameter readPatientDBParameter();
+    public abstract ArrayList getDBFieldNames(Connection connection);
+    //Set a property to patientDBProperties
+    public abstract Properties readPatientDBProperties();
     //Accesses the software's database and writes a PatientDBParameter-object into the patientdbparameter-table
-    public abstract boolean writePatientDBParameter(PatientDBParameter PDP);
+    public abstract boolean writePatientDBProperties(Properties properties);
 }

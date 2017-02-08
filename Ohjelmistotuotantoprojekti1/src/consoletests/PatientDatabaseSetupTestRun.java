@@ -5,7 +5,8 @@
  */
 package consoletests;
 
-import main.PatientDBParameter;
+import java.util.ArrayList;
+import java.util.Properties;
 import main.PatientDatabaseDAO;
 
 /**
@@ -19,69 +20,65 @@ public class PatientDatabaseSetupTestRun {
      */
     public static void main(String[] args) {
         PatientDatabaseDAO PDD = new PatientDatabaseDAO();
-        PatientDBParameter PDP = new PatientDBParameter();
+        Properties PDP = PDD.readPatientDBProperties();
         String fieldName;
         
-        try {
-            PDP = PDD.readPatientDBParameter();
-        }
-        catch (Exception e) {
-            System.out.println("ei löydy");
-        }
-        
-        if (PDP.getUrl() == null) {
+        if (PDP.isEmpty()) {
             System.out.println("Tietokannan URL: ");
-            PDP.setUrl(Reader.readLine());
+            PDP.setProperty("url", Reader.readLine());
             System.out.println("Tietokannan käyttäjätunnus: ");
-            PDP.setUsername(Reader.readLine());
+            PDP.setProperty("username", Reader.readLine());
             System.out.println("Tietokannan salasana: ");
-            PDP.setPassword(Reader.readLine());
+            PDP.setProperty("password", Reader.readLine());
             System.out.println("Tietotaulun nimi: ");
-            PDP.setPatientTable(Reader.readLine());
+            PDP.setProperty("tableName", Reader.readLine());
+            PDD.writePatientDBProperties(PDP);
             //Luo tietokantayhteys ja hae kenttien nimet
-            String[] fieldNames = PDD.getDBFieldNames(PDD.createConnection(PDP.getUrl(), PDP.getUsername(), PDP.getPassword()), PDP);
+            ArrayList<String>fieldNames = PDD.getDBFieldNames(PDD.createConnection(PDP.getProperty("url"), PDP.getProperty("username"), PDP.getProperty("password")));
+            
             System.out.println("Valitse sosiaaliturvatunnuksen kentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setSSNField(fieldName);
-            System.out.println("Valitse etunimikentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            PDP.setProperty("SSN", fieldNames.get(Reader.readInt()-1));
+            
+            System.out.println("Valitse etunimikentän kentän nimi: ");
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setFirstNameField(fieldName);
-            System.out.println("Valitse sukunimikentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            PDP.setProperty("firstName", fieldNames.get(Reader.readInt()-1));
+            
+            System.out.println("Valitse sukunimikentän kentän nimi: ");
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setLastNameField(fieldName);
+            PDP.setProperty("lastName", fieldNames.get(Reader.readInt()-1));
+            
             System.out.println("Valitse sukupuolikentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setGenderField(fieldName);
+            PDP.setProperty("gender", fieldNames.get(Reader.readInt()-1));
+            
             System.out.println("Valitse painokentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setWeightField(fieldName);
+            PDP.setProperty("weight", fieldNames.get(Reader.readInt()-1));
+            
             System.out.println("Valitse pituuskentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setHeightField(fieldName);
+            PDP.setProperty("height", fieldNames.get(Reader.readInt()-1));
+            
             System.out.println("Valitse allergiakentän nimi: ");
-            for (int i = 0; i < fieldNames.length; i++) {
-                System.out.println(i+1 + ". " + fieldNames[i]);
+            for (int i = 0; i < fieldNames.size(); i++) {
+                System.out.println(i+1 + ". " + fieldNames.get(i));
             }
-            fieldName = fieldNames[Reader.readInt()-1];
-            PDP.setAllergiesField(fieldName);
+            PDP.setProperty("allergies", fieldNames.get(Reader.readInt()-1));
+            
+            PDD.writePatientDBProperties(PDP);
         }
         else {
             System.out.println(PDP);

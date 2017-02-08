@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class PatientDAO implements PatientDAO_IF{
     
-    private PatientDBParameter parameters;
+    private PatientDBProperties parameters;
     private Patient patient;
     Connection connection = null;
     final String URL = "jdbc:mysql://localhost/patient";
@@ -22,7 +22,7 @@ public class PatientDAO implements PatientDAO_IF{
     final String PASSWD = "appdb";
     
     //Set database parameters, what to get
-    public PatientDAO(PatientDBParameter parameters){
+    public PatientDAO(PatientDBProperties parameters){
         this.parameters = parameters;
     }
     public PatientDAO(){
