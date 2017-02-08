@@ -17,7 +17,6 @@ import static org.junit.Assert.*;
  * @author Timo
  */
 public class PatientDAOTest {
-    Patient [] test = new Patient[1];
     
     public PatientDAOTest() {
     }
@@ -32,7 +31,6 @@ public class PatientDAOTest {
     
     @Before
     public void setUp() {
-        test [0] = new Patient("120635-124s","Maija","Meikäläinen","Female",165.0,55.0);
     }
     
     @After
@@ -47,9 +45,13 @@ public class PatientDAOTest {
         System.out.println("readPatient");
         String SSN = "120635-124s";
         PatientDAO instance = new PatientDAO();
-        String expResult = "Female";
-        String result = instance.readPatient(SSN).getGender();
-        assertEquals(expResult, result);
+        Patient result = instance.readPatient(SSN);
+        assertEquals("120635-124s", result.getSSN());
+        assertEquals("Maija", result.getFirstName());
+        assertEquals("Meikäläinen", result.getLastName());
+        assertEquals("Female", result.getGender());
+        assertEquals(165.0, result.getHeight(),0.1);
+        assertEquals(55.0, result.getWeight(),0.1); 
         }
 
     /**
@@ -59,9 +61,13 @@ public class PatientDAOTest {
     public void testReadPatients() throws Exception {
         System.out.println("readPatients");
         PatientDAO instance = new PatientDAO();
-        Patient[] expResult = test;
         Patient[] result = instance.readPatients();
-        assertArrayEquals(expResult, result);
+        assertEquals("120635-124s", result[0].getSSN());
+        assertEquals("Maija", result[0].getFirstName());
+        assertEquals("Meikäläinen", result[0].getLastName());
+        assertEquals("Female", result[0].getGender());
+        assertEquals(165.0, result[0].getHeight(),0.1);
+        assertEquals(55.0, result[0].getWeight(),0.1);        
     }
     
 }
