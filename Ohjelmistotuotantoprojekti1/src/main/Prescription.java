@@ -15,20 +15,20 @@ public class Prescription {
     private int id;
     private Patient patient;
     private Doctor doctor;
-    private Drug drug;
-    private Diagnose diagnose;  
+   // private Drug drug;
+   // private Diagnose diagnose;  
     private double dosage; //vai oliko dose?
     private int timesADay;
     private String[] info;
     private String startDate;
     private String endDate;
 
-    public Prescription(int id, Patient patient, Doctor doc, Drug drug, Diagnose diagnose, double dosage, int timesADay, String[] info, String startDate, String endDate) {
+    public Prescription(int id, Patient patient, Doctor doc, /*Drug drug, Diagnose diagnose,*/ double dosage, int timesADay, String[] info, String startDate, String endDate) {
         this.id = id;
         this.patient = patient;
         this.doctor = doc;
-        this.drug = drug;
-        this.diagnose = diagnose;
+        //this.drug = drug;
+        //this.diagnose = diagnose;
         this.dosage = dosage;
         this.timesADay = timesADay;
         this.info = info;
@@ -60,7 +60,7 @@ public class Prescription {
         this.doctor = doc;
     }
 
-    public Drug getDrug() {
+    /*public Drug getDrug() {
         return drug;
     }
 
@@ -74,7 +74,7 @@ public class Prescription {
 
     public void setDiagnose(Diagnose diagnose) {
         this.diagnose = diagnose;
-    }
+    }*/
 
     public double getDosage() {
         return dosage;
