@@ -15,17 +15,15 @@ import main.PatientDBProperties;
  */
 public class PatientDAOTest {
 
-    /**
-     * @param args the command line arguments
-     */
+  
     public static void main(String[] args) throws SQLException {
         
         PatientDBProperties dbp = new PatientDBProperties();
-        PatientDAO dao = new PatientDAO();
+        PatientDAO dao = new PatientDAO(dbp);
         Patient patient = new Patient();
         patient = dao.readPatient("120635-124s");
         System.out.println(patient.getGender());
-        dao = new PatientDAO();
+        dao = new PatientDAO(dbp);
         for (Patient p : dao.readPatients()){
             System.out.println(p.getFirstName()+" "+p.getLastName());
         }

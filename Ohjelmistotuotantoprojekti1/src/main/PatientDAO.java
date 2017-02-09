@@ -17,23 +17,30 @@ public class PatientDAO implements PatientDAO_IF{
     private PatientDBProperties parameters;
     private Patient patient;
     Connection connection = null;
-    final String URL = "jdbc:mysql://localhost/patient";
+    /*final String URL = "jdbc:mysql://localhost/patient";
     final String USER = "app";
-    final String PASSWD = "appdb";
+    final String PASSWD = "appdb";*/
     
     //Set database parameters, what to get
     public PatientDAO(PatientDBProperties parameters){
         this.parameters = parameters;
-    }
-    public PatientDAO(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASSWD);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/patient","app","appdb");
             }catch(Exception e){
                 System.err.print("Ajuria ei löytynyt");
                 System.exit(0);
             }
     }
+    /*public PatientDAO(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection(parameters.getUrl(), parameters.getUsername(), parameters.getPassword());
+            }catch(Exception e){
+                System.err.print("Ajuria ei löytynyt");
+                System.exit(0);
+            }
+    }*/
     @Override
     protected void finalize(){
 	try{
@@ -52,24 +59,24 @@ public class PatientDAO implements PatientDAO_IF{
         PreparedStatement statement = null;
 	ResultSet rs = null;
             try {
-            	String sqlSelect = "SELECT * FROM patient where hetu = ?";
-                //String sqlSelect = "SELECT * FROM "+parameters.getPatientTable()+" where "+parameters.getSSNField()+" = ?";
+            	//String sqlSelect = "SELECT * FROM patient where hetu = ?";
+                String sqlSelect = "SELECT * FROM "+parameters.getPatientTable()+" where "+parameters.getSSNField()+" = ?";
 		statement = connection.prepareStatement(sqlSelect);
 		statement.setString(1, SSN);
                 rs = statement.executeQuery();
 		while(rs.next()){
-			String ssn = rs.getString("hetu");
+			/*String ssn = rs.getString("hetu");
 			String firstName = rs.getString("etunimi");
 			String lastName = rs.getString("sukunimi");
                         String gender = rs.getString("sukupuoli");
                         double weight = rs.getDouble("paino");
-                        double height = rs.getDouble("pituus");
-                        /*String ssn = rs.getString(parameters.getSSNField());
+                        double height = rs.getDouble("pituus");*/
+                        String ssn = rs.getString(parameters.getSSNField());
 			String firstName = rs.getString(parameters.getFirstNameField());
 			String lastName = rs.getString(parameters.getLastNameField());
                         String gender = rs.getString(parameters.getGenderField());
                         double weight = rs.getDouble(parameters.getWeightField());
-                        double height = rs.getDouble(parameters.getHeightField());*/
+                        double height = rs.getDouble(parameters.getHeightField());
 			pat = new Patient();
                         pat.setSSN(ssn);
                         pat.setFirstName(firstName);
@@ -104,24 +111,24 @@ public class PatientDAO implements PatientDAO_IF{
 		Statement statement = null;
 		ResultSet rs = null;
 		try {
-                    String sqlSelect = "SELECT * FROM patient";
-                    //String sqlSelect = "SELECT * FROM "+parameters.getPatientTable();
+                    //String sqlSelect = "SELECT * FROM patient";
+                    String sqlSelect = "SELECT * FROM "+parameters.getPatientTable();
                     statement = connection.createStatement();
                     rs = statement.executeQuery(sqlSelect);
 
 		while(rs.next()){
-                    String ssn = rs.getString("hetu");
-			String firstName = rs.getString("etunimi");
-			String lastName = rs.getString("sukunimi");
-                        String gender = rs.getString("sukupuoli");
-                        double weight = rs.getDouble("paino");
-                        double height = rs.getDouble("pituus");
-                    /*String ssn = rs.getString(parameters.getSSNField());
+                    /*String ssn = rs.getString("hetu");
+                    String firstName = rs.getString("etunimi");
+                    String lastName = rs.getString("sukunimi");
+                    String gender = rs.getString("sukupuoli");
+                    double weight = rs.getDouble("paino");
+                    double height = rs.getDouble("pituus");*/
+                    String ssn = rs.getString(parameters.getSSNField());
                     String firstName = rs.getString(parameters.getFirstNameField());
                     String lastName = rs.getString(parameters.getLastNameField());
                     String gender = rs.getString(parameters.getGenderField());
                     double weight = rs.getDouble(parameters.getWeightField());
-                    double height = rs.getDouble(parameters.getHeightField());*/
+                    double height = rs.getDouble(parameters.getHeightField());
                     Patient p = new Patient();
                     p.setSSN(ssn);
                     p.setFirstName(firstName);
