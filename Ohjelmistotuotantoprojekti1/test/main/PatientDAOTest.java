@@ -43,15 +43,15 @@ public class PatientDAOTest {
     @Test
     public void testReadPatient() throws Exception {
         System.out.println("readPatient");
-        String SSN = "120635-124s";
+        String SSN = "123456-789a";
         PatientDAO instance = new PatientDAO();
         Patient result = instance.readPatient(SSN);
-        assertEquals("120635-124s", result.getSSN());
-        assertEquals("Maija", result.getFirstName());
-        assertEquals("Meikäläinen", result.getLastName());
-        assertEquals("Female", result.getGender());
-        assertEquals(165.0, result.getHeight(),0.1);
-        assertEquals(55.0, result.getWeight(),0.1); 
+        assertEquals("123456-789a", result.getSSN());
+        assertEquals("Potilas", result.getFirstName());
+        assertEquals("Saarinen", result.getLastName());
+        assertEquals("Mies", result.getGender());
+        assertEquals(160.0, result.getHeight(),0.1);
+        assertEquals(65.0, result.getWeight(),0.1); 
         }
 
     /**
@@ -62,12 +62,12 @@ public class PatientDAOTest {
         System.out.println("readPatients");
         PatientDAO instance = new PatientDAO();
         Patient[] result = instance.readPatients();
-        assertEquals("120635-124s", result[0].getSSN());
-        assertEquals("Maija", result[0].getFirstName());
-        assertEquals("Meikäläinen", result[0].getLastName());
-        assertEquals("Female", result[0].getGender());
-        assertEquals(165.0, result[0].getHeight(),0.1);
-        assertEquals(55.0, result[0].getWeight(),0.1);        
+        assertEquals("123456-789a", result[0].getSSN());
+        assertEquals("Potilas", result[0].getFirstName());
+        assertEquals("Saarinen", result[0].getLastName());
+        assertEquals("Mies", result[0].getGender());
+        assertEquals(160.0, result[0].getHeight(),0.1);
+        assertEquals(65.0, result[0].getWeight(),0.1);        
     }
     
 }

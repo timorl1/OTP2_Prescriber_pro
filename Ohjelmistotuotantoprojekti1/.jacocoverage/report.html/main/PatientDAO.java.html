@@ -7,6 +7,7 @@ package main;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -14,141 +15,122 @@ import java.util.ArrayList;
  */
 public class PatientDAO implements PatientDAO_IF{
     
-    private PatientDBProperties parameters;
-    private Patient patient;
-<span class="pc" id="L19">    Connection connection = null;</span>
-<span class="pc" id="L20">    final String URL = &quot;jdbc:mysql://localhost/patient&quot;;</span>
-<span class="pc" id="L21">    final String USER = &quot;app&quot;;</span>
-<span class="pc" id="L22">    final String PASSWD = &quot;appdb&quot;;</span>
+<span class="fc" id="L18">    private PatientDatabaseDAO parameters = new PatientDatabaseDAO();</span>
+<span class="fc" id="L19">    Connection connection = null;</span>
+<span class="fc" id="L20">    private Properties properties = parameters.readPatientDBProperties();</span>
     
     //Set database parameters, what to get
-<span class="nc" id="L25">    public PatientDAO(PatientDBProperties parameters){</span>
-<span class="nc" id="L26">        this.parameters = parameters;</span>
-<span class="nc" id="L27">    }</span>
-<span class="fc" id="L28">    public PatientDAO(){</span>
+<span class="fc" id="L23">    public PatientDAO(){</span>
         try{
-<span class="fc" id="L30">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
-<span class="fc" id="L31">            connection = DriverManager.getConnection(URL, USER, PASSWD);</span>
-<span class="nc" id="L32">            }catch(Exception e){</span>
-<span class="nc" id="L33">                System.err.print(&quot;Ajuria ei löytynyt&quot;);</span>
-<span class="nc" id="L34">                System.exit(0);</span>
-<span class="fc" id="L35">            }</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L25">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L26">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot;+properties.getProperty(&quot;url&quot;),properties.getProperty(&quot;username&quot;),properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L27">            }catch(Exception e){</span>
+<span class="nc" id="L28">                System.err.print(&quot;Ajuria ei löytynyt&quot;);</span>
+<span class="nc" id="L29">                System.exit(0);</span>
+<span class="fc" id="L30">            }</span>
+<span class="fc" id="L31">    }</span>
+    
     @Override
     protected void finalize(){
 	try{
-<span class="nc bnc" id="L40" title="All 2 branches missed.">            if(connection != null){</span>
-<span class="nc" id="L41">                connection.close();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if(connection != null){</span>
+<span class="nc" id="L37">                connection.close();</span>
             }
-<span class="nc" id="L43">            }catch(Exception e){</span>
-<span class="nc" id="L44">            	e.printStackTrace();</span>
-<span class="nc" id="L45">            }</span>
-<span class="nc" id="L46">	}</span>
+<span class="nc" id="L39">            }catch(Exception e){</span>
+<span class="nc" id="L40">            	e.printStackTrace();</span>
+<span class="nc" id="L41">            }</span>
+<span class="nc" id="L42">	}</span>
     
     //Get single patient from database with SSN
     @Override
     public Patient readPatient(String SSN) throws SQLException{
-<span class="fc" id="L51">        Patient pat = null;</span>
-<span class="fc" id="L52">        PreparedStatement statement = null;</span>
-<span class="fc" id="L53">	ResultSet rs = null;</span>
+<span class="fc" id="L47">        Patient pat = null;</span>
+<span class="fc" id="L48">        PreparedStatement statement = null;</span>
+<span class="fc" id="L49">	ResultSet rs = null;</span>
             try {
-<span class="fc" id="L55">            	String sqlSelect = &quot;SELECT * FROM patient where hetu = ?&quot;;</span>
-                //String sqlSelect = &quot;SELECT * FROM &quot;+parameters.getPatientTable()+&quot; where &quot;+parameters.getSSNField()+&quot; = ?&quot;;
-<span class="fc" id="L57">		statement = connection.prepareStatement(sqlSelect);</span>
-<span class="fc" id="L58">		statement.setString(1, SSN);</span>
-<span class="fc" id="L59">                rs = statement.executeQuery();</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">		while(rs.next()){</span>
-<span class="fc" id="L61">			String ssn = rs.getString(&quot;hetu&quot;);</span>
-<span class="fc" id="L62">			String firstName = rs.getString(&quot;etunimi&quot;);</span>
-<span class="fc" id="L63">			String lastName = rs.getString(&quot;sukunimi&quot;);</span>
-<span class="fc" id="L64">                        String gender = rs.getString(&quot;sukupuoli&quot;);</span>
-<span class="fc" id="L65">                        double weight = rs.getDouble(&quot;paino&quot;);</span>
-<span class="fc" id="L66">                        double height = rs.getDouble(&quot;pituus&quot;);</span>
-                        /*String ssn = rs.getString(parameters.getSSNField());
-			String firstName = rs.getString(parameters.getFirstNameField());
-			String lastName = rs.getString(parameters.getLastNameField());
-                        String gender = rs.getString(parameters.getGenderField());
-                        double weight = rs.getDouble(parameters.getWeightField());
-                        double height = rs.getDouble(parameters.getHeightField());*/
-<span class="fc" id="L73">			pat = new Patient();</span>
-<span class="fc" id="L74">                        pat.setSSN(ssn);</span>
-<span class="fc" id="L75">                        pat.setFirstName(firstName);</span>
-<span class="fc" id="L76">                        pat.setLastName(lastName);</span>
-<span class="fc" id="L77">                        pat.setGender(gender);</span>
-<span class="fc" id="L78">                        pat.setWeight(weight);</span>
-<span class="fc" id="L79">                        pat.setHeight(height);</span>
-<span class="fc" id="L80">		}</span>
+<span class="fc" id="L51">                String sqlSelect = &quot;SELECT * FROM &quot;+properties.getProperty(&quot;tableName&quot;)+&quot; where &quot;+properties.getProperty(&quot;SSN&quot;)+&quot; = ?&quot;;</span>
+<span class="fc" id="L52">		statement = connection.prepareStatement(sqlSelect);</span>
+<span class="fc" id="L53">		statement.setString(1, SSN);</span>
+<span class="fc" id="L54">                rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		while(rs.next()){</span>
+<span class="fc" id="L56">                        String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
+<span class="fc" id="L57">			String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
+<span class="fc" id="L58">			String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
+<span class="fc" id="L59">                        String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
+<span class="fc" id="L60">                        double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
+<span class="fc" id="L61">                        double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
+<span class="fc" id="L62">			pat = new Patient();</span>
+<span class="fc" id="L63">                        pat.setSSN(ssn);</span>
+<span class="fc" id="L64">                        pat.setFirstName(firstName);</span>
+<span class="fc" id="L65">                        pat.setLastName(lastName);</span>
+<span class="fc" id="L66">                        pat.setGender(gender);</span>
+<span class="fc" id="L67">                        pat.setWeight(weight);</span>
+<span class="fc" id="L68">                        pat.setHeight(height);</span>
+<span class="fc" id="L69">		}</span>
 
-<span class="nc" id="L82">		}catch(SQLException e){</span>
-<span class="nc" id="L83">			System.err.println(&quot;viesti: &quot;+ e.getMessage() );</span>
-<span class="nc" id="L84">			System.err.println(&quot;virhekoodi: &quot;+ e.getErrorCode());</span>
-<span class="nc" id="L85">			System.err.println(&quot;sql-tilakoodi : &quot;+ e.getSQLState());</span>
+<span class="nc" id="L71">		}catch(SQLException e){</span>
+<span class="nc" id="L72">			System.err.println(&quot;viesti: &quot;+ e.getMessage() );</span>
+<span class="nc" id="L73">			System.err.println(&quot;virhekoodi: &quot;+ e.getErrorCode());</span>
+<span class="nc" id="L74">			System.err.println(&quot;sql-tilakoodi : &quot;+ e.getSQLState());</span>
                 }finally{
-<span class="pc bpc" id="L87" title="5 of 6 branches missed.">                    if(rs!=null){</span>
-<span class="pc" id="L88">			rs.close();</span>
+<span class="pc bpc" id="L76" title="5 of 6 branches missed.">                    if(rs!=null){</span>
+<span class="pc" id="L77">			rs.close();</span>
                     }
-<span class="pc bpc" id="L90" title="5 of 6 branches missed.">		if(statement!=null){</span>
-<span class="pc" id="L91">			statement.close();</span>
+<span class="pc bpc" id="L79" title="5 of 6 branches missed.">		if(statement!=null){</span>
+<span class="pc" id="L80">			statement.close();</span>
 		}
-<span class="pc bpc" id="L93" title="5 of 6 branches missed.">		if(connection != null){</span>
-<span class="pc" id="L94">			connection.close();</span>
+<span class="pc bpc" id="L82" title="5 of 6 branches missed.">		if(connection != null){</span>
+<span class="pc" id="L83">			connection.close();</span>
 			}
 		}
-<span class="fc" id="L97">        return pat;</span>
+<span class="fc" id="L86">        return pat;</span>
     }
     
     //Get all patients from database and return it as patient array
     @Override
     public Patient[] readPatients() throws SQLException{
-<span class="fc" id="L103">        ArrayList&lt;Patient&gt; lista = new ArrayList&lt;Patient&gt;();</span>
-<span class="fc" id="L104">		Statement statement = null;</span>
-<span class="fc" id="L105">		ResultSet rs = null;</span>
+<span class="fc" id="L92">        ArrayList&lt;Patient&gt; lista = new ArrayList&lt;Patient&gt;();</span>
+<span class="fc" id="L93">		Statement statement = null;</span>
+<span class="fc" id="L94">		ResultSet rs = null;</span>
 		try {
-<span class="fc" id="L107">                    String sqlSelect = &quot;SELECT * FROM patient&quot;;</span>
-                    //String sqlSelect = &quot;SELECT * FROM &quot;+parameters.getPatientTable();
-<span class="fc" id="L109">                    statement = connection.createStatement();</span>
-<span class="fc" id="L110">                    rs = statement.executeQuery(sqlSelect);</span>
+<span class="fc" id="L96">                    String sqlSelect = &quot;SELECT * FROM &quot;+properties.getProperty(&quot;tableName&quot;);</span>
+<span class="fc" id="L97">                    statement = connection.createStatement();</span>
+<span class="fc" id="L98">                    rs = statement.executeQuery(sqlSelect);</span>
 
-<span class="fc bfc" id="L112" title="All 2 branches covered.">		while(rs.next()){</span>
-<span class="fc" id="L113">                    String ssn = rs.getString(&quot;hetu&quot;);</span>
-<span class="fc" id="L114">			String firstName = rs.getString(&quot;etunimi&quot;);</span>
-<span class="fc" id="L115">			String lastName = rs.getString(&quot;sukunimi&quot;);</span>
-<span class="fc" id="L116">                        String gender = rs.getString(&quot;sukupuoli&quot;);</span>
-<span class="fc" id="L117">                        double weight = rs.getDouble(&quot;paino&quot;);</span>
-<span class="fc" id="L118">                        double height = rs.getDouble(&quot;pituus&quot;);</span>
-                    /*String ssn = rs.getString(parameters.getSSNField());
-                    String firstName = rs.getString(parameters.getFirstNameField());
-                    String lastName = rs.getString(parameters.getLastNameField());
-                    String gender = rs.getString(parameters.getGenderField());
-                    double weight = rs.getDouble(parameters.getWeightField());
-                    double height = rs.getDouble(parameters.getHeightField());*/
-<span class="fc" id="L125">                    Patient p = new Patient();</span>
-<span class="fc" id="L126">                    p.setSSN(ssn);</span>
-<span class="fc" id="L127">                    p.setFirstName(firstName);</span>
-<span class="fc" id="L128">                    p.setLastName(lastName);</span>
-<span class="fc" id="L129">                    p.setGender(gender);</span>
-<span class="fc" id="L130">                    p.setWeight(weight);</span>
-<span class="fc" id="L131">                    p.setHeight(height);</span>
-<span class="fc" id="L132">                    lista.add(p);</span>
-<span class="fc" id="L133">		}</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		while(rs.next()){</span>
+<span class="fc" id="L101">                    String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
+<span class="fc" id="L102">                    String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
+<span class="fc" id="L103">                    String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
+<span class="fc" id="L104">                    String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
+<span class="fc" id="L105">                    double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
+<span class="fc" id="L106">                    double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
+<span class="fc" id="L107">                    Patient p = new Patient();</span>
+<span class="fc" id="L108">                    p.setSSN(ssn);</span>
+<span class="fc" id="L109">                    p.setFirstName(firstName);</span>
+<span class="fc" id="L110">                    p.setLastName(lastName);</span>
+<span class="fc" id="L111">                    p.setGender(gender);</span>
+<span class="fc" id="L112">                    p.setWeight(weight);</span>
+<span class="fc" id="L113">                    p.setHeight(height);</span>
+<span class="fc" id="L114">                    lista.add(p);</span>
+<span class="fc" id="L115">		}</span>
 
-<span class="nc" id="L135">		}catch(SQLException e){</span>
-<span class="nc" id="L136">			System.err.println(&quot;viesti: &quot;+ e.getMessage() );</span>
-<span class="nc" id="L137">			System.err.println(&quot;virhekoodi: &quot;+ e.getErrorCode());</span>
-<span class="nc" id="L138">			System.err.println(&quot;sql-tilakoodi : &quot;+ e.getSQLState());</span>
+<span class="nc" id="L117">		}catch(SQLException e){</span>
+<span class="nc" id="L118">			System.err.println(&quot;viesti: &quot;+ e.getMessage() );</span>
+<span class="nc" id="L119">			System.err.println(&quot;virhekoodi: &quot;+ e.getErrorCode());</span>
+<span class="nc" id="L120">			System.err.println(&quot;sql-tilakoodi : &quot;+ e.getSQLState());</span>
                 }finally{
-<span class="pc bpc" id="L140" title="5 of 6 branches missed.">                    if(rs!=null){</span>
-<span class="pc" id="L141">			rs.close();</span>
+<span class="pc bpc" id="L122" title="5 of 6 branches missed.">                    if(rs!=null){</span>
+<span class="pc" id="L123">			rs.close();</span>
                     }
-<span class="pc bpc" id="L143" title="5 of 6 branches missed.">		if(statement!=null){</span>
-<span class="pc" id="L144">			statement.close();</span>
+<span class="pc bpc" id="L125" title="5 of 6 branches missed.">		if(statement!=null){</span>
+<span class="pc" id="L126">			statement.close();</span>
 		}
-<span class="pc bpc" id="L146" title="5 of 6 branches missed.">		if(connection != null){</span>
-<span class="pc" id="L147">			connection.close();</span>
+<span class="pc bpc" id="L128" title="5 of 6 branches missed.">		if(connection != null){</span>
+<span class="pc" id="L129">			connection.close();</span>
 			}
 		}
-<span class="fc" id="L150">	Patient[] paluuLista = new Patient[lista.size()];</span>
-<span class="fc" id="L151">	return (Patient[])lista.toArray(paluuLista);</span>
+<span class="fc" id="L132">	Patient[] paluuLista = new Patient[lista.size()];</span>
+<span class="fc" id="L133">	return (Patient[])lista.toArray(paluuLista);</span>
     }
     
 }

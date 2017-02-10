@@ -20,7 +20,7 @@ public class PatientDAOTest {
         
         PatientDAO dao = new PatientDAO();
         Patient patient = new Patient();
-        patient = dao.readPatient("120635-124s");
+        patient = dao.readPatient("123456-789a");
         System.out.println(patient.getGender());
         dao = new PatientDAO();
         for (Patient p : dao.readPatients()){

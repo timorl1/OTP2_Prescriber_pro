@@ -16,7 +16,6 @@ import java.util.Properties;
 public class PatientDAO implements PatientDAO_IF{
     
     private PatientDatabaseDAO parameters = new PatientDatabaseDAO();
-    private Patient patient;
     Connection connection = null;
     private Properties properties = parameters.readPatientDBProperties();
     
@@ -99,12 +98,6 @@ public class PatientDAO implements PatientDAO_IF{
                     rs = statement.executeQuery(sqlSelect);
 
 		while(rs.next()){
-                    /*String ssn = rs.getString("hetu");
-                    String firstName = rs.getString("etunimi");
-                    String lastName = rs.getString("sukunimi");
-                    String gender = rs.getString("sukupuoli");
-                    double weight = rs.getDouble("paino");
-                    double height = rs.getDouble("pituus");*/
                     String ssn = rs.getString(properties.getProperty("SSN"));
                     String firstName = rs.getString(properties.getProperty("firstName"));
                     String lastName = rs.getString(properties.getProperty("lastName"));
