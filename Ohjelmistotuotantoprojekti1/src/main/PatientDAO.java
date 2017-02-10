@@ -19,9 +19,6 @@ public class PatientDAO implements PatientDAO_IF{
     private Patient patient;
     Connection connection = null;
     private Properties properties = parameters.readPatientDBProperties();
-    /*final String URL = "jdbc:mysql://localhost/patient";
-    final String USER = "app";
-    final String PASSWD = "appdb";*/
     
     //Set database parameters, what to get
     public PatientDAO(){
@@ -33,15 +30,7 @@ public class PatientDAO implements PatientDAO_IF{
                 System.exit(0);
             }
     }
-    /*public PatientDAO(){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(parameters.getUrl(), parameters.getUsername(), parameters.getPassword());
-            }catch(Exception e){
-                System.err.print("Ajuria ei löytynyt");
-                System.exit(0);
-            }
-    }*/
+    
     @Override
     protected void finalize(){
 	try{
@@ -60,18 +49,11 @@ public class PatientDAO implements PatientDAO_IF{
         PreparedStatement statement = null;
 	ResultSet rs = null;
             try {
-            	//String sqlSelect = "SELECT * FROM patient where hetu = ?";
                 String sqlSelect = "SELECT * FROM "+properties.getProperty("tableName")+" where "+properties.getProperty("SSN")+" = ?";
 		statement = connection.prepareStatement(sqlSelect);
 		statement.setString(1, SSN);
                 rs = statement.executeQuery();
 		while(rs.next()){
-			/*String ssn = rs.getString("hetu");
-			String firstName = rs.getString("etunimi");
-			String lastName = rs.getString("sukunimi");
-                        String gender = rs.getString("sukupuoli");
-                        double weight = rs.getDouble("paino");
-                        double height = rs.getDouble("pituus");*/
                         String ssn = rs.getString(properties.getProperty("SSN"));
 			String firstName = rs.getString(properties.getProperty("firstName"));
 			String lastName = rs.getString(properties.getProperty("lastName"));
@@ -112,7 +94,6 @@ public class PatientDAO implements PatientDAO_IF{
 		Statement statement = null;
 		ResultSet rs = null;
 		try {
-                    //String sqlSelect = "SELECT * FROM patient";
                     String sqlSelect = "SELECT * FROM "+properties.getProperty("tableName");
                     statement = connection.createStatement();
                     rs = statement.executeQuery(sqlSelect);
