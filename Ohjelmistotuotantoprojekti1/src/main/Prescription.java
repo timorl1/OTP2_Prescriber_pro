@@ -15,8 +15,8 @@ public class Prescription {
     private int id;
     private Patient patient;
     private Doctor doctor;
-   // private Drug drug;
-   // private Diagnose diagnose;  
+    //private Drug drug;
+    //private Diagnose diagnose;  
     private double dosage; //vai oliko dose?
     private int timesADay;
     private String[] info;

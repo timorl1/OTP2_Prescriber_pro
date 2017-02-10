@@ -101,7 +101,7 @@ public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{
         
         try {
             fos = new FileOutputStream("default.properties");
-            this.defaultProperties.store(fos, "---No Comment---");
+            this.defaultProperties.store(fos, "Patient Database Settings");
             fos.close();
             return true;
         } catch (Exception e) {
