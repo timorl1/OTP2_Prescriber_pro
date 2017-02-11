@@ -55,7 +55,7 @@ public class DrugDAO implements DrugDAO_IF{
     }
 
     @Override
-    public Drug readDrug(String SN) {
+    public Drug readDrug(int SN) {
         Drug drug = null;
         session = sf.openSession();
         try {

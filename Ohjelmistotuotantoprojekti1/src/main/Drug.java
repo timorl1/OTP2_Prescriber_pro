@@ -1,15 +1,13 @@
 package main;
 
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
-import org.hibernate.annotations.Immutable;
 
 /**
  *
  * @author joosiika
  */
-@Entity
-@Immutable
+@Entity (name="lääke")
 @Table (name="lääke")
 public class Drug {
     @Id
@@ -17,20 +15,24 @@ public class Drug {
     private int SN;
     @Column (name="nimi")
     private String name;
-    @ManyToMany (mappedBy="lääkeaine", cascade = {CascadeType.ALL})
-    private ArrayList<ActiveAgent> activeAgents;
-    @ManyToMany (mappedBy="lääkkeen_allergeeni", cascade = {CascadeType.ALL})
-    private ArrayList<Allergen> allergens;
+    @ManyToMany (fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinTable(name="lääkeaine", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "lääkeaine_id", referencedColumnName = "id"))
+    private List<ActiveAgent> activeAgents;
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="lääkkeen_allergeeni", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "allergeeni_id", referencedColumnName = "id"))
+    private List<Allergen> allergens;
     @Column (name="suositeltuannos")
     private double recommendedDose;
     @Column (name="maxannos")
     private double maxDose;
     @Column (name="yksikkö")
     private String unit;
-    @ManyToMany (mappedBy="yleinen", cascade = {CascadeType.ALL})
-    private ArrayList<AdverseEffect> commonAdverseEffects;
-    @ManyToMany (mappedBy="harvinainen", cascade = {CascadeType.ALL})
-    private ArrayList<AdverseEffect> rareAdverseEffects;
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="yleinen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
+    private List<AdverseEffect> commonAdverseEffects;
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="harvinainen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
+    private List<AdverseEffect> rareAdverseEffects;
 
     public Drug() {
     }
@@ -50,20 +52,20 @@ public class Drug {
     public void setName(String name) {
         this.name = name;
     }
-
-    public ArrayList<ActiveAgent> getActiveAgents() {
+    
+    public List<ActiveAgent> getActiveAgents() {
         return activeAgents;
     }
 
-    public void setActiveAgents(ArrayList<ActiveAgent> activeAgents) {
+    public void setActiveAgents(List<ActiveAgent> activeAgents) {
         this.activeAgents = activeAgents;
     }
 
-    public ArrayList<Allergen> getAllergens() {
+    public List<Allergen> getAllergens() {
         return allergens;
     }
 
-    public void setAllergens(ArrayList<Allergen> allergens) {
+    public void setAllergens(List<Allergen> allergens) {
         this.allergens = allergens;
     }
 
@@ -91,19 +93,19 @@ public class Drug {
         this.unit = unit;
     }
 
-    public ArrayList<AdverseEffect> getCommonAdverseEffects() {
+    public List<AdverseEffect> getCommonAdverseEffects() {
         return commonAdverseEffects;
     }
 
-    public void setCommonAdverseEffects(ArrayList<AdverseEffect> commonAdverseEffects) {
+    public void setCommonAdverseEffects(List<AdverseEffect> commonAdverseEffects) {
         this.commonAdverseEffects = commonAdverseEffects;
     }
 
-    public ArrayList<AdverseEffect> getRareAdverseEffects() {
+    public List<AdverseEffect> getRareAdverseEffects() {
         return rareAdverseEffects;
     }
 
-    public void setRareAdverseEffects(ArrayList<AdverseEffect> rareAdverseEffects) {
+    public void setRareAdverseEffects(List<AdverseEffect> rareAdverseEffects) {
         this.rareAdverseEffects = rareAdverseEffects;
     }
 }

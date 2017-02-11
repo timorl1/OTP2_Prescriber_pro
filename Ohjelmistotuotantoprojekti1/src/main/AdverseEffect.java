@@ -7,19 +7,23 @@ import javax.persistence.*;
  *
  * @author joosiika
  */
-@Entity (name="vaikuttava_aine")
-@Table (name="vaikuttava_aine")
-public class ActiveAgent {
+@Entity (name="haittavaikutus")
+@Table (name="haittavaikutus")
+public class AdverseEffect {
     
     @Id
     @Column(name="id")
     private int id;
+    @Column(name="sairaus_id")
+    private int diseaseID;
     @Column(name="nimi")
     private String name;
-    @ManyToMany (mappedBy="activeAgents")
+    @ManyToMany (mappedBy="commonAdverseEffects")
     private List<Drug> drugs;
+    @ManyToMany (mappedBy="rareAdverseEffects")
+    private List<Drug> drugs2;
 
-    public ActiveAgent() {
+    public AdverseEffect() {
     }
 
     public int getId() {
@@ -28,6 +32,14 @@ public class ActiveAgent {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getDiseaseID() {
+        return diseaseID;
+    }
+
+    public void setDiseaseID(int diseaseID) {
+        this.diseaseID = diseaseID;
     }
 
     public String getName() {
