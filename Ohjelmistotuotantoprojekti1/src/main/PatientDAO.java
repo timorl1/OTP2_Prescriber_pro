@@ -15,15 +15,16 @@ import java.util.Properties;
  */
 public class PatientDAO implements PatientDAO_IF{
     
-    private PatientDatabaseDAO parameters = new PatientDatabaseDAO();
+    private Properties properties = new Properties();
+    private DatabaseDAO parameters = new DatabaseDAO(properties, "db.properties");
     Connection connection = null;
-    private Properties properties = parameters.readPatientDBProperties();
     
     //Set database parameters, what to get
     public PatientDAO(){
+        properties = parameters.readDBProperties();
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url"),properties.getProperty("username"),properties.getProperty("password"));
+            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
             }catch(Exception e){
                 System.err.print("Ajuria ei löytynyt");
                 System.exit(0);
@@ -48,7 +49,7 @@ public class PatientDAO implements PatientDAO_IF{
         PreparedStatement statement = null;
 	ResultSet rs = null;
             try {
-                String sqlSelect = "SELECT * FROM "+properties.getProperty("tableName")+" where "+properties.getProperty("SSN")+" = ?";
+                String sqlSelect = "SELECT * FROM "+properties.getProperty("table")+" where "+properties.getProperty("SSN")+" = ?";
 		statement = connection.prepareStatement(sqlSelect);
 		statement.setString(1, SSN);
                 rs = statement.executeQuery();
@@ -93,7 +94,7 @@ public class PatientDAO implements PatientDAO_IF{
 		Statement statement = null;
 		ResultSet rs = null;
 		try {
-                    String sqlSelect = "SELECT * FROM "+properties.getProperty("tableName");
+                    String sqlSelect = "SELECT * FROM "+properties.getProperty("table");
                     statement = connection.createStatement();
                     rs = statement.executeQuery(sqlSelect);
 
