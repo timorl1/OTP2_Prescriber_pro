@@ -1,21 +1,36 @@
 package main;
 
 import java.util.ArrayList;
+import javax.persistence.*;
+import org.hibernate.annotations.Immutable;
 
 /**
  *
  * @author joosiika
  */
+@Entity
+@Immutable
+@Table (name="lääke")
 public class Drug {
+    @Id
+    @Column (name="tuotenumero")
     private int SN;
+    @Column (name="nimi")
     private String name;
-    private ArrayList<String> activeAgents;
-    private ArrayList<String> allergens;
+    @ManyToMany (mappedBy="lääkeaine", cascade = {CascadeType.ALL})
+    private ArrayList<ActiveAgent> activeAgents;
+    @ManyToMany (mappedBy="lääkkeen_allergeeni", cascade = {CascadeType.ALL})
+    private ArrayList<Allergen> allergens;
+    @Column (name="suositeltuannos")
     private double recommendedDose;
+    @Column (name="maxannos")
     private double maxDose;
+    @Column (name="yksikkö")
     private String unit;
-    private ArrayList<String> commonAdverseEffects;
-    private ArrayList<String> rareAdverseEffects;
+    @ManyToMany (mappedBy="yleinen", cascade = {CascadeType.ALL})
+    private ArrayList<AdverseEffect> commonAdverseEffects;
+    @ManyToMany (mappedBy="harvinainen", cascade = {CascadeType.ALL})
+    private ArrayList<AdverseEffect> rareAdverseEffects;
 
     public Drug() {
     }
@@ -36,19 +51,19 @@ public class Drug {
         this.name = name;
     }
 
-    public ArrayList<String> getActiveAgents() {
+    public ArrayList<ActiveAgent> getActiveAgents() {
         return activeAgents;
     }
 
-    public void setActiveAgents(ArrayList<String> activeAgents) {
+    public void setActiveAgents(ArrayList<ActiveAgent> activeAgents) {
         this.activeAgents = activeAgents;
     }
 
-    public ArrayList<String> getAllergens() {
+    public ArrayList<Allergen> getAllergens() {
         return allergens;
     }
 
-    public void setAllergens(ArrayList<String> allergens) {
+    public void setAllergens(ArrayList<Allergen> allergens) {
         this.allergens = allergens;
     }
 
@@ -76,19 +91,19 @@ public class Drug {
         this.unit = unit;
     }
 
-    public ArrayList<String> getCommonAdverseEffects() {
+    public ArrayList<AdverseEffect> getCommonAdverseEffects() {
         return commonAdverseEffects;
     }
 
-    public void setCommonAdverseEffects(ArrayList<String> commonAdverseEffects) {
+    public void setCommonAdverseEffects(ArrayList<AdverseEffect> commonAdverseEffects) {
         this.commonAdverseEffects = commonAdverseEffects;
     }
 
-    public ArrayList<String> getRareAdverseEffects() {
+    public ArrayList<AdverseEffect> getRareAdverseEffects() {
         return rareAdverseEffects;
     }
 
-    public void setRareAdverseEffects(ArrayList<String> rareAdverseEffects) {
+    public void setRareAdverseEffects(ArrayList<AdverseEffect> rareAdverseEffects) {
         this.rareAdverseEffects = rareAdverseEffects;
     }
 }

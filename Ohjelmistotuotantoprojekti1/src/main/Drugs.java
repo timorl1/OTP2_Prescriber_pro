@@ -10,8 +10,8 @@ public class Drugs {
     
     private ArrayList<Drug> druglist;
 
-    public Drugs() {
-        this.druglist = new ArrayList();
+    public Drugs(ArrayList drugs) {
+        this.druglist = drugs;
     }
     
     public void addDrug(Drug drug) {
