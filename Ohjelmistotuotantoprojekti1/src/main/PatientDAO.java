@@ -7,6 +7,7 @@ package main;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -14,33 +15,21 @@ import java.util.ArrayList;
  */
 public class PatientDAO implements PatientDAO_IF{
     
-    private PatientDBProperties parameters;
-    private Patient patient;
+    private PatientDatabaseDAO parameters = new PatientDatabaseDAO();
     Connection connection = null;
-    /*final String URL = "jdbc:mysql://localhost/patient";
-    final String USER = "app";
-    final String PASSWD = "appdb";*/
+    private Properties properties = parameters.readPatientDBProperties();
     
     //Set database parameters, what to get
-    public PatientDAO(PatientDBProperties parameters){
-        this.parameters = parameters;
+    public PatientDAO(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/patient","app","appdb");
+            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url"),properties.getProperty("username"),properties.getProperty("password"));
             }catch(Exception e){
                 System.err.print("Ajuria ei löytynyt");
                 System.exit(0);
             }
     }
-    /*public PatientDAO(){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(parameters.getUrl(), parameters.getUsername(), parameters.getPassword());
-            }catch(Exception e){
-                System.err.print("Ajuria ei löytynyt");
-                System.exit(0);
-            }
-    }*/
+    
     @Override
     protected void finalize(){
 	try{
@@ -59,24 +48,17 @@ public class PatientDAO implements PatientDAO_IF{
         PreparedStatement statement = null;
 	ResultSet rs = null;
             try {
-            	//String sqlSelect = "SELECT * FROM patient where hetu = ?";
-                String sqlSelect = "SELECT * FROM "+parameters.getPatientTable()+" where "+parameters.getSSNField()+" = ?";
+                String sqlSelect = "SELECT * FROM "+properties.getProperty("tableName")+" where "+properties.getProperty("SSN")+" = ?";
 		statement = connection.prepareStatement(sqlSelect);
 		statement.setString(1, SSN);
                 rs = statement.executeQuery();
 		while(rs.next()){
-			/*String ssn = rs.getString("hetu");
-			String firstName = rs.getString("etunimi");
-			String lastName = rs.getString("sukunimi");
-                        String gender = rs.getString("sukupuoli");
-                        double weight = rs.getDouble("paino");
-                        double height = rs.getDouble("pituus");*/
-                        String ssn = rs.getString(parameters.getSSNField());
-			String firstName = rs.getString(parameters.getFirstNameField());
-			String lastName = rs.getString(parameters.getLastNameField());
-                        String gender = rs.getString(parameters.getGenderField());
-                        double weight = rs.getDouble(parameters.getWeightField());
-                        double height = rs.getDouble(parameters.getHeightField());
+                        String ssn = rs.getString(properties.getProperty("SSN"));
+			String firstName = rs.getString(properties.getProperty("firstName"));
+			String lastName = rs.getString(properties.getProperty("lastName"));
+                        String gender = rs.getString(properties.getProperty("gender"));
+                        double weight = rs.getDouble(properties.getProperty("weight"));
+                        double height = rs.getDouble(properties.getProperty("height"));
 			pat = new Patient();
                         pat.setSSN(ssn);
                         pat.setFirstName(firstName);
@@ -111,24 +93,17 @@ public class PatientDAO implements PatientDAO_IF{
 		Statement statement = null;
 		ResultSet rs = null;
 		try {
-                    //String sqlSelect = "SELECT * FROM patient";
-                    String sqlSelect = "SELECT * FROM "+parameters.getPatientTable();
+                    String sqlSelect = "SELECT * FROM "+properties.getProperty("tableName");
                     statement = connection.createStatement();
                     rs = statement.executeQuery(sqlSelect);
 
 		while(rs.next()){
-                    /*String ssn = rs.getString("hetu");
-                    String firstName = rs.getString("etunimi");
-                    String lastName = rs.getString("sukunimi");
-                    String gender = rs.getString("sukupuoli");
-                    double weight = rs.getDouble("paino");
-                    double height = rs.getDouble("pituus");*/
-                    String ssn = rs.getString(parameters.getSSNField());
-                    String firstName = rs.getString(parameters.getFirstNameField());
-                    String lastName = rs.getString(parameters.getLastNameField());
-                    String gender = rs.getString(parameters.getGenderField());
-                    double weight = rs.getDouble(parameters.getWeightField());
-                    double height = rs.getDouble(parameters.getHeightField());
+                    String ssn = rs.getString(properties.getProperty("SSN"));
+                    String firstName = rs.getString(properties.getProperty("firstName"));
+                    String lastName = rs.getString(properties.getProperty("lastName"));
+                    String gender = rs.getString(properties.getProperty("gender"));
+                    double weight = rs.getDouble(properties.getProperty("weight"));
+                    double height = rs.getDouble(properties.getProperty("height"));
                     Patient p = new Patient();
                     p.setSSN(ssn);
                     p.setFirstName(firstName);

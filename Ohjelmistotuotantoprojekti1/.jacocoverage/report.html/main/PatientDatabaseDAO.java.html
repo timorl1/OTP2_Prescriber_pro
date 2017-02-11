@@ -13,7 +13,7 @@ import java.util.Properties;
  *
  * @author joosiika
  */
-<span class="nc" id="L16">public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{</span>
+<span class="fc" id="L16">public class PatientDatabaseDAO implements PatientDatabaseDAO_IF{</span>
     
     private static Properties defaultProperties;
     private ArrayList &lt;String&gt; fieldNames;
@@ -80,17 +80,17 @@ import java.util.Properties;
     @Override
     public Properties readPatientDBProperties() {
         
-<span class="nc" id="L83">        defaultProperties = new Properties();</span>
+<span class="fc" id="L83">        defaultProperties = new Properties();</span>
         FileInputStream fis;
         
         try {
-<span class="nc" id="L87">            fis = new FileInputStream(&quot;default.properties&quot;);</span>
-<span class="nc" id="L88">            defaultProperties.load(fis);</span>
-<span class="nc" id="L89">            fis.close();</span>
+<span class="fc" id="L87">            fis = new FileInputStream(&quot;default.properties&quot;);</span>
+<span class="fc" id="L88">            defaultProperties.load(fis);</span>
+<span class="fc" id="L89">            fis.close();</span>
 <span class="nc" id="L90">        } catch (Exception e) {</span>
 <span class="nc" id="L91">            e.printStackTrace();</span>
-<span class="nc" id="L92">        }</span>
-<span class="nc" id="L93">        return defaultProperties;</span>
+<span class="fc" id="L92">        }</span>
+<span class="fc" id="L93">        return defaultProperties;</span>
     }
 
     @Override
@@ -101,7 +101,7 @@ import java.util.Properties;
         
         try {
 <span class="nc" id="L103">            fos = new FileOutputStream(&quot;default.properties&quot;);</span>
-<span class="nc" id="L104">            this.defaultProperties.store(fos, &quot;---No Comment---&quot;);</span>
+<span class="nc" id="L104">            this.defaultProperties.store(fos, &quot;Patient Database Settings&quot;);</span>
 <span class="nc" id="L105">            fos.close();</span>
 <span class="nc" id="L106">            return true;</span>
 <span class="nc" id="L107">        } catch (Exception e) {</span>
