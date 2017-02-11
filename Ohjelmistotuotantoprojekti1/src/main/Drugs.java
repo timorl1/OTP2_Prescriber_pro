@@ -19,7 +19,7 @@ public class Drugs {
     }
     
     public Drug getDrug(int SN) {
-        if (druglist.contains(SN)) {
+        if (druglist.indexOf(SN) != -1) {
             return druglist.get(druglist.indexOf(SN));
         }
         return null;
