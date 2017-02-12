@@ -19,7 +19,7 @@ public class DrugDBTestRun {
         DrugDAO drugdb = new DrugDAO();
         Drugs drugs = drugdb.readDrugs();
         List<Drug> drugCollection = drugs.getCollection();
-        
+        drugdb.finalize();
         System.out.println(drugCollection.get(0).getName() + ", " + drugCollection.get(0).getActiveAgents().get(0).getName());
         System.out.println("that's all folks!");
     }

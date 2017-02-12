@@ -17,7 +17,8 @@ public class Patient {
     private String gender;
     private double weight;
     private double height;
-    private String[] allergies;
+    private Diagnoses diagnoses;
+    private Prescriptions prescriptions;
 
     public Patient(){};
     public Patient(String SSN, String firstName, String lastName, String gender, double weight, double height) {
@@ -77,12 +78,20 @@ public class Patient {
         this.height = height;
     }
 
-    public String[] getAllergies() {
-        return allergies;
+    public Diagnoses getDiagnoses() {
+        return diagnoses;
     }
 
-    public void setAllergies(String[] allergies) {
-        this.allergies = allergies;
+    public void setDiagnoses(Diagnoses diagnoses) {
+        this.diagnoses = diagnoses;
+    }
+
+    public Prescriptions getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(Prescriptions prescriptions) {
+        this.prescriptions = prescriptions;
     }
     
 }

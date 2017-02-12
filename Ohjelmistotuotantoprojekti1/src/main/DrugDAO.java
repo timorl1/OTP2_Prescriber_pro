@@ -33,7 +33,7 @@ public class DrugDAO implements DrugDAO_IF{
     }
     
     @Override
-    protected void finalize() {
+    public void finalize() {
         boolean success = false;
         do {
             try {

@@ -1,6 +1,6 @@
 package main;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -8,10 +8,10 @@ import java.util.ArrayList;
  */
 public class Patients {
     
-    private ArrayList<Patient> patientlist;
+    private List<Patient> patientlist;
 
-    public Patients() {
-        this.patientlist = new ArrayList();
+    public Patients(List patientlist) {
+        this.patientlist = patientlist;
     }
     
     public void addPatient(Patient patient) {
@@ -21,6 +21,17 @@ public class Patients {
     public Patient getPatient(int SSN) {
         if (patientlist.indexOf(SSN) != -1) {
             return patientlist.get(patientlist.indexOf(SSN));
+        }
+        return null;
+    }
+    
+    public List getCollection() {
+        return this.patientlist;
+    }
+    
+    public Patient forEach() {
+        for (Patient patient : this.patientlist) {
+            return patient;
         }
         return null;
     }
