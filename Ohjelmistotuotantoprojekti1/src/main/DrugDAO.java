@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.*;
 import org.hibernate.Transaction;
@@ -26,7 +25,7 @@ public class DrugDAO implements DrugDAO_IF{
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
         }
         catch (Exception e) {
-            System.err.println("Istuntotehtaan luonti epäonnistui");
+            System.err.println("Session failed to initialize.");
             e.printStackTrace();
             StandardServiceRegistryBuilder.destroy(reg);
             System.exit(-1);
@@ -62,6 +61,10 @@ public class DrugDAO implements DrugDAO_IF{
             session.beginTransaction();
             session.load(drug = new Drug(), SN);
             session.getTransaction().commit();
+            Hibernate.initialize(drug.getActiveAgents());
+            Hibernate.initialize(drug.getAllergens());
+            Hibernate.initialize(drug.getCommonAdverseEffects());
+            Hibernate.initialize(drug.getRareAdverseEffects());
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
         } finally {
@@ -78,13 +81,19 @@ public class DrugDAO implements DrugDAO_IF{
             session.beginTransaction();
             result = session.createQuery("from lääke").getResultList();
             session.getTransaction().commit();
+            for (Drug drug : result) {
+                Hibernate.initialize(drug.getActiveAgents());
+                Hibernate.initialize(drug.getAllergens());
+                Hibernate.initialize(drug.getCommonAdverseEffects());
+                Hibernate.initialize(drug.getRareAdverseEffects());
+            }
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
             e.printStackTrace();
         } finally {
             session.close();
         }
-        Drugs drugs = new Drugs(new ArrayList(result));
+        Drugs drugs = new Drugs(result);
         return drugs;
     }
     

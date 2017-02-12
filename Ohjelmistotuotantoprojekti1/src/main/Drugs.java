@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -8,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Drugs {
     
-    private ArrayList<Drug> druglist;
+    private List<Drug> druglist;
 
-    public Drugs(ArrayList drugs) {
+    public Drugs(List drugs) {
         this.druglist = drugs;
     }
     
@@ -21,6 +22,17 @@ public class Drugs {
     public Drug getDrug(int SN) {
         if (druglist.indexOf(SN) != -1) {
             return druglist.get(druglist.indexOf(SN));
+        }
+        return null;
+    }
+    
+    public List getCollection() {
+        return this.druglist;
+    }
+    
+    public Drug forEach() {
+        for (Drug drug : this.druglist) {
+            return drug;
         }
         return null;
     }

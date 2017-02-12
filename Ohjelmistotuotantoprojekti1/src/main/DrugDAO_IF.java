@@ -1,5 +1,7 @@
 package main;
 
+import org.hibernate.Session;
+
 /**
  *
  * @author joosiika

@@ -15,7 +15,7 @@ public class Drug {
     private int SN;
     @Column (name="nimi")
     private String name;
-    @ManyToMany (fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(name="lääkeaine", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "lääkeaine_id", referencedColumnName = "id"))
     private List<ActiveAgent> activeAgents;
     @ManyToMany (cascade = {CascadeType.ALL})

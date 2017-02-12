@@ -1,8 +1,12 @@
 package consoletests;
 
+import java.util.List;
+import main.ActiveAgent;
 import main.Drug;
 import main.DrugDAO;
 import main.Drugs;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 
 /**
  *
@@ -13,10 +17,11 @@ public class DrugDBTestRun {
     
     public static void main(String[] args) {
         DrugDAO drugdb = new DrugDAO();
-        Drug drug = drugdb.readDrug(123456);
+        Drugs drugs = drugdb.readDrugs();
+        List<Drug> drugCollection = drugs.getCollection();
         
-        System.out.println(drug.getName());
-        System.out.println(drug.getActiveAgents().get(0).getName());
+        System.out.println(drugCollection.get(0).getName() + ", " + drugCollection.get(0).getActiveAgents().get(0).getName());
+        System.out.println("that's all folks!");
     }
     
 }
