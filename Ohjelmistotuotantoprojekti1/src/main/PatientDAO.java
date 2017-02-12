@@ -7,7 +7,10 @@ package main;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +21,7 @@ public class PatientDAO implements PatientDAO_IF{
     private Properties properties = new Properties();
     private DatabaseDAO parameters = new DatabaseDAO(properties, "db.properties");
     Connection connection = null;
+    private Doctor placeholder = new Doctor();
     
     //Set database parameters, what to get
     public PatientDAO(){
@@ -46,6 +50,7 @@ public class PatientDAO implements PatientDAO_IF{
     @Override
     public Patient readPatient(String SSN) throws SQLException{
         Patient pat = null;
+        Diagnose dia = null;
         PreparedStatement statement = null;
 	ResultSet rs = null;
             try {
@@ -68,7 +73,7 @@ public class PatientDAO implements PatientDAO_IF{
                         pat.setWeight(weight);
                         pat.setHeight(height);
 		}
-
+                
 		}catch(SQLException e){
 			System.err.println("viesti: "+ e.getMessage() );
 			System.err.println("virhekoodi: "+ e.getErrorCode());
@@ -94,6 +99,7 @@ public class PatientDAO implements PatientDAO_IF{
 		Statement statement = null;
 		ResultSet rs = null;
 		try {
+                    
                     String sqlSelect = "SELECT * FROM "+properties.getProperty("table");
                     statement = connection.createStatement();
                     rs = statement.executeQuery(sqlSelect);
@@ -113,6 +119,7 @@ public class PatientDAO implements PatientDAO_IF{
                     p.setWeight(weight);
                     p.setHeight(height);
                     lista.add(p);
+                    
 		}
 
 		}catch(SQLException e){
@@ -132,6 +139,54 @@ public class PatientDAO implements PatientDAO_IF{
 		}
 	Patient[] paluuLista = new Patient[lista.size()];
 	return (Patient[])lista.toArray(paluuLista);
+    }
+    
+    public Diagnoses getPatientDiagnoses(Patient pat) throws SQLException {
+        Diagnose dia = null;
+        PreparedStatement statement = null;
+	ResultSet rs = null;
+        Diagnoses diagnoses = new Diagnoses(new ArrayList());
+        String sqlSelect = "SELECT * FROM diagnoosi where " + properties.getProperty("SSN") + " = ?";
+        try {
+            statement = connection.prepareStatement(sqlSelect);
+            statement.setString(1, pat.getSSN());
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("diagnoosiID");
+                int diseaseID = rs.getInt("sairaustunniste");
+                String epicrisis = rs.getString("epikriisi");
+                Timestamp creationDate = rs.getTimestamp("luontipäivä");
+                Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
+                dia = new Diagnose();
+                dia.setId(id);
+                dia.setPatient(pat);
+                dia.setDoctor(placeholder);
+                dia.setDiseaseID(diseaseID);
+                dia.setEpicrisis(epicrisis);
+                dia.setCreationDate(creationDate);
+                dia.setResolutionDate(resolutionDate);
+                diagnoses.addDiagnose(dia);
+            }
+            if (diagnoses.getCollection().size() != 0) {
+                pat.setDiagnoses(diagnoses);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return diagnoses;
     }
     
 }

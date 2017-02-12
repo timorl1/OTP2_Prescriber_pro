@@ -1,29 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
  *
  * @author Johanna
  */
+@Entity(name="prescription")
+@Table(name="prescription")
 public class Prescription {
-    
+    @Id
+    @Column(name="prescriptionID")
     private int id;
+    @Column(name="patientID")
+    private String patientID;
+    @Transient
     private Patient patient;
+    @Column(name="doctorID")
+    private int doctorID;
+    @Transient
     private Doctor doctor;
+    @Column(name="drugID")
+    private int drugID;
+    @Transient
     private Drug drug;
-    private Diagnose diagnose;  
-    private double dose;
+    @Column(name="diagnoseID")
+    private int diagnoseID;
+    @Transient
+    private Diagnose diagnose;
+    @Column(name="dose")
+    private String dose;
+    @Column(name="timesADay")
     private int timesADay;
+    @Column(name="info")
     private String info;
+    @Column(name="startDate")
     private String startDate;
+    @Column(name="endDate")
     private String endDate;
+    @Column(name="creationDate")
+    //@Temporal(TemporalType.TIMESTAMP)
     private Timestamp creationDate;
+    @Column(name="username")
+    private String username;
 
     public Prescription() {
     }
@@ -42,6 +62,7 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+        this.patientID = patient.getSSN();
     }
 
     public Doctor getDoc() {
@@ -50,6 +71,7 @@ public class Prescription {
 
     public void setDoc(Doctor doc) {
         this.doctor = doc;
+        this.doctorID = doc.getId();
     }
 
     public Drug getDrug() {
@@ -58,6 +80,7 @@ public class Prescription {
 
     public void setDrug(Drug drug) {
         this.drug = drug;
+        this.drugID = drug.getSN();
     }
 
     public Diagnose getDiagnose() {
@@ -66,13 +89,14 @@ public class Prescription {
 
     public void setDiagnose(Diagnose diagnose) {
         this.diagnose = diagnose;
+        this.diagnoseID = diagnose.getId();
     }
 
-    public double getDose() {
+    public String getDose() {
         return dose;
     }
 
-    public void setDose(double dose) {
+    public void setDose(String dose) {
         this.dose = dose;
     }
 
@@ -114,6 +138,14 @@ public class Prescription {
     
     public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

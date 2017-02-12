@@ -18,7 +18,7 @@ public class ApplicationDAO implements ApplicationDAO_IF{
 
     public ApplicationDAO() {
         sf = null;
-        reg = new StandardServiceRegistryBuilder().configure("drugdb.cfg.xml").build();
+        reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
 
         try {
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
@@ -95,7 +95,7 @@ public class ApplicationDAO implements ApplicationDAO_IF{
         session = sf.openSession();
         try {
             session.beginTransaction();
-            result = session.createQuery("from prescription where patientID = " + patient.getSSN()).getResultList();
+            result = session.createQuery("from prescription where patientID = "+"'"+patient.getSSN()+"'").getResultList();
             session.getTransaction().commit();
             /*for (Prescription prescription : result) {
                 Hibernate.initialize(drug.getActiveAgents());

@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 public class Diagnose {
     private int id;
-    private String diseaseID;
+    private int diseaseID;
     private String epicrisis;
     private Timestamp creationDate;
     private Timestamp resolutionDate;
@@ -26,11 +26,11 @@ public class Diagnose {
         this.id = id;
     }
 
-    public String getDiseaseID() {
+    public int getDiseaseID() {
         return diseaseID;
     }
 
-    public void setDiseaseID(String diseaseID) {
+    public void setDiseaseID(int diseaseID) {
         this.diseaseID = diseaseID;
     }
 
