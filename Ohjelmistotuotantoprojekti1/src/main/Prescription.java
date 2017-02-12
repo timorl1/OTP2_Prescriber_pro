@@ -5,35 +5,27 @@
  */
 package main;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author Johanna
  */
 public class Prescription {
     
-    
     private int id;
     private Patient patient;
     private Doctor doctor;
-    //private Drug drug;
-    //private Diagnose diagnose;  
-    private double dosage; //vai oliko dose?
+    private Drug drug;
+    private Diagnose diagnose;  
+    private double dose;
     private int timesADay;
-    private String[] info;
+    private String info;
     private String startDate;
     private String endDate;
+    private Timestamp creationDate;
 
-    public Prescription(int id, Patient patient, Doctor doc, /*Drug drug, Diagnose diagnose,*/ double dosage, int timesADay, String[] info, String startDate, String endDate) {
-        this.id = id;
-        this.patient = patient;
-        this.doctor = doc;
-        //this.drug = drug;
-        //this.diagnose = diagnose;
-        this.dosage = dosage;
-        this.timesADay = timesADay;
-        this.info = info;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Prescription() {
     }
 
     public int getId() {
@@ -60,7 +52,7 @@ public class Prescription {
         this.doctor = doc;
     }
 
-    /*public Drug getDrug() {
+    public Drug getDrug() {
         return drug;
     }
 
@@ -74,14 +66,14 @@ public class Prescription {
 
     public void setDiagnose(Diagnose diagnose) {
         this.diagnose = diagnose;
-    }*/
-
-    public double getDosage() {
-        return dosage;
     }
 
-    public void setDosage(double dosage) {
-        this.dosage = dosage;
+    public double getDose() {
+        return dose;
+    }
+
+    public void setDose(double dose) {
+        this.dose = dose;
     }
 
     public int getTimesADay() {
@@ -92,11 +84,11 @@ public class Prescription {
         this.timesADay = timesADay;
     }
 
-    public String[] getInfo() {
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(String[] info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 
@@ -116,7 +108,12 @@ public class Prescription {
         this.endDate = endDate;
     }
     
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
     
-    
-    
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
+    }
+
 }
