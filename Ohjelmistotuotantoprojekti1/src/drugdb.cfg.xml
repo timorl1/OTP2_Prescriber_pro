@@ -13,10 +13,10 @@
        <property name="hbm2ddl.auto">validate</property>
        <property name="show_sql">true</property>
        <property name="hibernate.max_fetch_depth">3</property>
-       <mapping class="main.Drug"/>
-       <mapping class="main.AdverseEffect"/>
-       <mapping class="main.ActiveAgent"/>
-       <mapping class="main.Allergen"/>
+       <mapping class="model.Drug"/>
+       <mapping class="model.AdverseEffect"/>
+       <mapping class="model.ActiveAgent"/>
+       <mapping class="model.Allergen"/>
 
     </session-factory>
 </hibernate-configuration>
