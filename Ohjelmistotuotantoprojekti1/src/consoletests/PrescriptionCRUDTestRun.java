@@ -136,7 +136,12 @@ public class PrescriptionCRUDTestRun {
                         }
                     char x = Reader.readChar();
                     break;
+                
+                case'5':
+                    break;
             }
+            
+            
         }
         while(select != 5);
         appdb.finalize();
