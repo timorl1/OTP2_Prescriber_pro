@@ -1,7 +1,7 @@
 package main;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -40,8 +40,8 @@ public class Prescription {
     @Column(name="endDate")
     private String endDate;
     @Column(name="creationDate")
-    //@Temporal(TemporalType.TIMESTAMP)
-    private Timestamp creationDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
     @Column(name="username")
     private String username;
 
@@ -132,11 +132,11 @@ public class Prescription {
         this.endDate = endDate;
     }
     
-    public Timestamp getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
     
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 

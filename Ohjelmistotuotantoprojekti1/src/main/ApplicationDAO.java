@@ -15,6 +15,8 @@ public class ApplicationDAO implements ApplicationDAO_IF{
 
     private Session session;
     private Transaction transaction;
+    
+    private DrugDAO drugdb = new DrugDAO();
 
     public ApplicationDAO() {
         sf = null;
@@ -97,12 +99,6 @@ public class ApplicationDAO implements ApplicationDAO_IF{
             session.beginTransaction();
             result = session.createQuery("from prescription where patientID = "+"'"+patient.getSSN()+"'").getResultList();
             session.getTransaction().commit();
-            /*for (Prescription prescription : result) {
-                Hibernate.initialize(drug.getActiveAgents());
-                Hibernate.initialize(drug.getAllergens());
-                Hibernate.initialize(drug.getCommonAdverseEffects());
-                Hibernate.initialize(drug.getRareAdverseEffects());
-            }*/
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
             e.printStackTrace();
