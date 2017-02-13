@@ -90,7 +90,7 @@ public class ApplicationDAO implements ApplicationDAO_IF{
         }
         return prescription;
     }
-
+    
     @Override
     public Prescriptions getPrescriptionsByPatient(Patient patient) {
         List<Prescription> result = null;
@@ -98,6 +98,24 @@ public class ApplicationDAO implements ApplicationDAO_IF{
         try {
             session.beginTransaction();
             result = session.createQuery("from prescription where patientID = "+"'"+patient.getSSN()+"'").getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Caught an error while reading resources.");
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        Prescriptions prescriptions = new Prescriptions(result);
+        return prescriptions;
+    }
+
+    @Override
+    public Prescriptions readPrescriptions() {
+        List<Prescription> result = null;
+        session = sf.openSession();
+        try {
+            session.beginTransaction();
+            result = session.createQuery("from prescription").getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");

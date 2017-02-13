@@ -130,6 +130,66 @@ public class PrescriptionCRUDTestRun {
                         }
                     char x = Reader.readChar();
                     break;
+                case'3':
+                    System.out.println("Valitse muokattava resepti: ");
+                        i = 1;
+                    prescriptions = appdb.readPrescriptions().getCollection();
+                    for (Prescription p : prescriptions) {
+                        System.out.println(i + ". " + p.getId());
+                        System.out.println("  " + p.getPatient());
+                        System.out.println("  " + p.getDoc());
+                        System.out.println("  " + p.getDiagnose());
+                        System.out.println("  " + p.getDose());
+                        System.out.println("  " + p.getTimesADay());
+                        System.out.println("  " + p.getInfo());
+                        i++;
+                    }
+                    prescription = prescriptions.get(Reader.readInt()-1);
+                    
+                    System.out.println("Valitse lääke: ");
+                    Drugs drugs = drugdb.readDrugs();
+                    List<Drug> druglist = drugs.getCollection();
+                    i = 1;
+                    for (Drug drug : druglist) {
+                        System.out.println(i + ". " + drug.getName());
+                        i++;
+                    }
+                    prescription.setDrug(druglist.get(Reader.readInt() - 1));
+
+                    System.out.println("Anna annostus: ");
+                    prescription.setDose(Reader.readLine());
+
+                    System.out.println("Montako kertaa päivässä: ");
+                    prescription.setTimesADay(Reader.readInt());
+
+                    System.out.println("Anna ohjeet: ");
+                    prescription.setInfo(Reader.readLine());
+
+                    System.out.println("Anna aloituspäivämäärä: ");
+                    prescription.setStartDate(Reader.readLine());
+
+                    System.out.println("Anna lopetuspäivämäärä: ");
+                    prescription.setEndDate(Reader.readLine());
+
+                    prescription.setUsername("admin");
+
+                    appdb.updatePrescription(prescription);
+                case'4':
+                    System.out.println("Valitse poistettava resepti: ");
+                        i = 1;
+                    prescriptions = appdb.readPrescriptions().getCollection();
+                    for (Prescription p : prescriptions) {
+                        System.out.println(i + ". " + p.getId());
+                        System.out.println("  " + p.getPatient());
+                        System.out.println("  " + p.getDoc());
+                        System.out.println("  " + p.getDiagnose());
+                        System.out.println("  " + p.getDose());
+                        System.out.println("  " + p.getTimesADay());
+                        System.out.println("  " + p.getInfo());
+                        i++;
+                    }
+                    prescription = prescriptions.get(Reader.readInt()-1);
+                    appdb.deletePrescription(prescription);
             }
         }
         while(select != 5);
