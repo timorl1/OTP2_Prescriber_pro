@@ -7,6 +7,7 @@ package main;
 public interface ApplicationDAO_IF {
     public abstract boolean createPrescription(Prescription prescription);
     public abstract Prescription readPrescription(int id);
+    public abstract Prescriptions readPrescriptions();
     public abstract Prescriptions getPrescriptionsByPatient(Patient patient);
     public abstract Prescriptions getPrescriptionsByDoctor(Doctor doctor);
     public abstract Prescription getPrescriptionByDiagnose(Diagnose diagnose);
