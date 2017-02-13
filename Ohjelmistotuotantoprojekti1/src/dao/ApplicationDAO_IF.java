@@ -1,4 +1,10 @@
-package main;
+package dao;
+
+import model.Diagnose;
+import model.Doctor;
+import model.Patient;
+import model.Prescription;
+import model.Prescriptions;
 
 /**
  *

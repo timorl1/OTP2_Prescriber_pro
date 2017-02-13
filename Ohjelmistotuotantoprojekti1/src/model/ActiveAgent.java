@@ -1,4 +1,4 @@
-package main;
+package model;
 
 import java.util.List;
 import javax.persistence.*;
@@ -7,19 +7,19 @@ import javax.persistence.*;
  *
  * @author joosiika
  */
-@Entity (name="allergeeni")
-@Table (name="allergeeni")
-public class Allergen {
+@Entity (name="vaikuttava_aine")
+@Table (name="vaikuttava_aine")
+public class ActiveAgent {
     
     @Id
     @Column(name="id")
     private int id;
     @Column(name="nimi")
     private String name;
-    @ManyToMany (mappedBy="allergens")
+    @ManyToMany (mappedBy="activeAgents")
     private List<Drug> drugs;
 
-    public Allergen() {
+    public ActiveAgent() {
     }
 
     public int getId() {

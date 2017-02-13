@@ -1,5 +1,6 @@
-package main;
+package model;
 
+import model.Patient;
 import javax.persistence.*;
 import java.util.Date;
 
