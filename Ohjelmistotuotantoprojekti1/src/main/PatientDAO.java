@@ -25,14 +25,6 @@ public class PatientDAO implements PatientDAO_IF{
     
     //Set database parameters, what to get
     public PatientDAO(){
-        properties = parameters.readDBProperties();
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
-            }catch(Exception e){
-                System.err.print("Ajuria ei löytynyt");
-                System.exit(0);
-            }
     }
     
     @Override
@@ -49,6 +41,14 @@ public class PatientDAO implements PatientDAO_IF{
     //Get single patient from database with SSN
     @Override
     public Patient readPatient(String SSN) throws SQLException{
+        properties = parameters.readDBProperties();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
+            }catch(Exception e){
+                System.err.print("Ajuria ei löytynyt");
+                System.exit(0);
+            }
         Patient pat = null;
         Diagnose dia = null;
         PreparedStatement statement = null;
@@ -95,6 +95,14 @@ public class PatientDAO implements PatientDAO_IF{
     //Get all patients from database and return it as patient array
     @Override
     public Patient[] readPatients() throws SQLException{
+        properties = parameters.readDBProperties();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
+            }catch(Exception e){
+                System.err.print("Ajuria ei löytynyt");
+                System.exit(0);
+            }
         ArrayList<Patient> lista = new ArrayList<Patient>();
 		Statement statement = null;
 		ResultSet rs = null;
@@ -140,8 +148,16 @@ public class PatientDAO implements PatientDAO_IF{
 	Patient[] paluuLista = new Patient[lista.size()];
 	return (Patient[])lista.toArray(paluuLista);
     }
-    
+    // Reads patients diagnoses from database
     public Diagnoses getPatientDiagnoses(Patient pat) throws SQLException {
+        properties = parameters.readDBProperties();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
+            }catch(Exception e){
+                System.err.print("Ajuria ei löytynyt");
+                System.exit(0);
+            }
         Diagnose dia = null;
         PreparedStatement statement = null;
 	ResultSet rs = null;
