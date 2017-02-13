@@ -1,6 +1,8 @@
-package main;
+package dao;
 
 import java.util.List;
+import model.Drug;
+import model.Drugs;
 import org.hibernate.*;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.*;

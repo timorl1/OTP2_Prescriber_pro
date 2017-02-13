@@ -1,6 +1,11 @@
-package main;
+package dao;
 
 import java.util.List;
+import model.Diagnose;
+import model.Doctor;
+import model.Patient;
+import model.Prescription;
+import model.Prescriptions;
 import org.hibernate.*;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.*;

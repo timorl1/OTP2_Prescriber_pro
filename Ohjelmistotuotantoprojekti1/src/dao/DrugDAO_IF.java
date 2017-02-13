@@ -1,5 +1,7 @@
-package main;
+package dao;
 
+import model.Drug;
+import model.Drugs;
 import org.hibernate.Session;
 
 /**

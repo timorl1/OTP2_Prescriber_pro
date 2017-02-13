@@ -1,10 +1,10 @@
 package consoletests;
 
 import java.util.List;
-import main.ActiveAgent;
-import main.Drug;
-import main.DrugDAO;
-import main.Drugs;
+import model.ActiveAgent;
+import model.Drug;
+import dao.DrugDAO;
+import model.Drugs;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
