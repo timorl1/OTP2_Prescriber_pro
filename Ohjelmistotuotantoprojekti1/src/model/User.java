@@ -5,16 +5,27 @@
  */
 package model;
 
+import javax.persistence.*;
+
 /**
  *
  * @author Johanna
  */
+
+@Entity
+@Table
 public class User {
     
+    @Column(name="userid")
     private int id;
+    @Id
+    @Column
     private String username;
+    @Column
     private String password;
-    private String privileges;
+    @Column
+    private String priviledges;
+    @Column
     private String email;
     
     
@@ -24,7 +35,7 @@ public class User {
         this.id = id;
         this.username = username;
         this.password = passw;
-        this.privileges = priv;
+        this.priviledges = priv;
         this.email = email;
     }
 
@@ -52,12 +63,12 @@ public class User {
         this.password = password;
     }
 
-    public String getPrivileges() {
-        return privileges;
+    public String getPriviledges() {
+        return priviledges;
     }
 
-    public void setPrivileges(String privileges) {
-        this.privileges = privileges;
+    public void setPriviledges(String priviledges) {
+        this.priviledges = priviledges;
     }
 
     public String getEmail() {
