@@ -192,8 +192,8 @@ public class PrescriptionCRUDTestRun {
                 case '5':
                     break;
             }
-        } while (select != 5);
-        appdb.finalize();
+        } while (select != '5');
+        System.exit(0);
         
         
     }
