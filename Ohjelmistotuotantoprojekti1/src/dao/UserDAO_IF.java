@@ -12,6 +12,6 @@ import model.User;
  * @author Timo
  */
 public interface UserDAO_IF {
-    public abstract void updateUser(User user);
-    
+    public abstract boolean updateUser(User user);
+    public abstract User[] getUsers();
 }
