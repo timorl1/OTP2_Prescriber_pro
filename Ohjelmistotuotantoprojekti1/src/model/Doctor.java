@@ -20,8 +20,8 @@ public class Doctor extends User{
     public Doctor(){}
     
     public Doctor (int id, String username,String password, String firstname, String lastname,
-            String email, String privileges){
-        super(id, username, password, email, privileges);
+            String email, int priviledges){
+        super(id, username, password, priviledges, email);
         this.firstName = firstname;
         this.lastName = lastname;
     }
