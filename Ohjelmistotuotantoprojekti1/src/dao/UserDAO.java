@@ -25,7 +25,7 @@ public class UserDAO implements UserDAO_IF {
 
     private Session session;
     private Transaction transaction;
-    //private User user = new User();
+    
     
     public UserDAO(){
         sf = null;
@@ -102,5 +102,23 @@ public class UserDAO implements UserDAO_IF {
 		}
 	return users;
     }
-    
+
+    @Override
+    public User getUser(String username) {
+        User user = null;
+        session = sf.openSession();
+	transaction = session.beginTransaction();
+            try{
+                user = new User();
+                session.load(user, username);
+                session.getTransaction().commit();
+			
+		}catch(Exception e){
+			System.out.println("Lukeminen ei onnistunut");
+			throw e;
+		}finally{
+			session.close();
+		}
+        return user;
+    }
 }

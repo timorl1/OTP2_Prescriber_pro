@@ -31,6 +31,7 @@ public class UserDAOCRUDTest {
     public static void main(String[] args) {
         char select;
         UserDAO_IF userdao = new UserDAO();
+        User user = new User();
         
         do {
             System.out.println("\n\t\t\t1. Lisää käyttäjä.");
@@ -46,13 +47,26 @@ public class UserDAOCRUDTest {
                     
                     break;
                 case '2':
-                    for(User user : userdao.getUsers()){
-                        System.out.println("Id:"+user.getId()+", username:"+user.getUsername()+
-                                ", priviledges:"+user.getPriviledges());
+                    for(User users : userdao.getUsers()){
+                        System.out.println("Id:"+users.getId()+", username:"+users.getUsername()+
+                                ", priviledges:"+users.getPriviledges());
                     }
                     break;
                 case '3':
-                    System.out.println("Valitse muokattava käyttäjä: ");
+                    System.out.println("Valitse muokattava käyttäjänimi: ");
+                    for(User users : userdao.getUsers()){
+                        System.out.println("Id: "+users.getId()+", username: "+users.getUsername()+
+                                ", priviledges: "+users.getPriviledges());
+                    }
+                    user = userdao.getUser(Reader.readLine());
+                    System.out.println("Anna uusi käyttöoikeus");
+                    user.setPriviledges(Reader.readInt());
+                    if(userdao.updateUser(user) == !false){
+                    System.out.println("Muokkaus onnistui");
+                    }else{
+                        System.out.println("Muokkaus epäonnistui");
+                    }                    
+                    break;
                     
                 case '4':
                     System.out.println("Valitse poistettava käyttäjä: ");
