@@ -12,26 +12,26 @@ import javax.persistence.*;
  * @author Johanna
  */
 
-@Entity
-@Table
+@Entity(name="user")
+@Table(name="user")
 public class User {
     
-    @Column(name="userid")
+    @Column(name="userID")
     private int id;
     @Id
-    @Column
+    @Column(name="username")
     private String username;
-    @Column
+    @Column(name="password")
     private String password;
-    @Column
-    private String priviledges;
-    @Column
+    @Column(name="priviledges")
+    private int priviledges;
+    @Column(name="email")
     private String email;
     
     
     public User(){}
     
-    public User(int id, String username, String passw, String priv, String email){
+    public User(int id, String username, String passw, int priv, String email){
         this.id = id;
         this.username = username;
         this.password = passw;
@@ -63,11 +63,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPriviledges() {
+    public int getPriviledges() {
         return priviledges;
     }
 
-    public void setPriviledges(String priviledges) {
+    public void setPriviledges(int priviledges) {
         this.priviledges = priviledges;
     }
 
