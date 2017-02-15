@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="model">
+    <class name="Patient" table="potilas">
+        <meta attribute="class-description"> 
+        </meta>
+        <id name="SSN" type="string" column="hetu">
+            <generator class="native"/>
+        </id>
+        <property name="firstName" column="etunimi" type="string"/>
+        <property name="lastName" column="sukunimi" type="string"/>
+        <property name="gender" column="sukupuoli" type="string"/>
+        <property name="weight" column="paino" type="double"/>
+        <property name="height" column="pituus" type="double"/>
+    </class>
+
+</hibernate-mapping>
