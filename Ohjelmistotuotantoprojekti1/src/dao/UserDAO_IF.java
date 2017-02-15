@@ -15,4 +15,5 @@ public interface UserDAO_IF {
     public abstract boolean updateUser(User user);
     public abstract User[] getUsers();
     public abstract User getUser(String username);
+    public abstract boolean deleteUser(User user);
 }

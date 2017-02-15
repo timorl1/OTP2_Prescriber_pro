@@ -121,4 +121,29 @@ public class UserDAO implements UserDAO_IF {
 		}
         return user;
     }
+    
+    @Override
+    public boolean deleteUser(User user) {
+        
+        session = sf.openSession();
+        boolean success = false;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(user);
+            transaction.commit();
+            success = true;
+        } catch (Exception e){
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println("Deleting an entry from DB failed.");
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return success;
+    }
+
+    
 }

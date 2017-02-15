@@ -69,7 +69,21 @@ public class UserDAOCRUDTest {
                     break;
                     
                 case '4':
-                    System.out.println("Valitse poistettava käyttäjä: ");
+                    System.out.println("Valitse poistettava käyttäjä käyttäjänimen perusteella: ");
+                    
+                    for(User users : userdao.getUsers()){
+                        System.out.println("Id: "+users.getId()+", username: "+users.getUsername()+
+                                ", priviledges: "+users.getPriviledges());
+                    }
+                    user = userdao.getUser(Reader.readLine());
+                    boolean result = userdao.deleteUser(user);
+                    
+                    
+                    if (result == true){
+                        System.out.println("poisto onnistui");
+                    } else {
+                        System.out.println("poisto epäonnistui");
+                    }
                     
                 case '5':
                     break;
