@@ -53,15 +53,15 @@ public class UserDAOCRUDTest {
                     }
                     break;
                 case '3':
-                    System.out.println("Valitse muokattava käyttäjänimi: ");
                     for(User users : userdao.getUsers()){
                         System.out.println("Id: "+users.getId()+", username: "+users.getUsername()+
                                 ", priviledges: "+users.getPriviledges());
                     }
+                    System.out.println("Valitse muokattava käyttäjänimi: ");
                     user = userdao.getUser(Reader.readLine());
                     System.out.println("Anna uusi käyttöoikeus");
                     user.setPriviledges(Reader.readInt());
-                    if(userdao.updateUser(user) == !false){
+                    if(userdao.updateUser(user)){
                     System.out.println("Muokkaus onnistui");
                     }else{
                         System.out.println("Muokkaus epäonnistui");
