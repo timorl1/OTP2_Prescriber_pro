@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -17,7 +18,7 @@ public class ActiveAgent {
     @Column(name="nimi")
     private String name;
     @ManyToMany (mappedBy="activeAgents")
-    private List<Drug> drugs;
+    private List<Drug> drugs = new ArrayList();
 
     public ActiveAgent() {
     }
@@ -36,5 +37,13 @@ public class ActiveAgent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Drug> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(List<Drug> drugs) {
+        this.drugs = drugs;
     }
 }

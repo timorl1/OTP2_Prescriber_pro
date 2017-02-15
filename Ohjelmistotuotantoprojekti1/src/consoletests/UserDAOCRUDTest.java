@@ -5,18 +5,8 @@
  */
 package consoletests;
 
-import dao.PatientDAO;
 import dao.UserDAO;
 import dao.UserDAO_IF;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Diagnose;
-import model.Drug;
-import model.Drugs;
-import model.Patient;
-import model.Prescription;
 import model.User;
 
 /**

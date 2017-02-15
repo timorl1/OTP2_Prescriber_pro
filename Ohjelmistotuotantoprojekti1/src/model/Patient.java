@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,17 +15,10 @@ public class Patient {
     private String gender;
     private double weight;
     private double height;
-    private Diagnoses diagnoses;
-    private Prescriptions prescriptions;
+    private List<Diagnose> diagnoses = new ArrayList();
+    private List<Prescription> prescriptions = new ArrayList();
 
-    public Patient(){};
-    public Patient(String SSN, String firstName, String lastName, String gender, double weight, double height) {
-        this.SSN = SSN;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.weight = weight;
-        this.height = height;
+    public Patient(){
     }
     
     public void setSSN(String SSN){
@@ -78,19 +69,19 @@ public class Patient {
         this.height = height;
     }
 
-    public Diagnoses getDiagnoses() {
+    public List<Diagnose> getDiagnoses() {
         return diagnoses;
     }
 
-    public void setDiagnoses(Diagnoses diagnoses) {
+    public void setDiagnoses(List<Diagnose> diagnoses) {
         this.diagnoses = diagnoses;
     }
 
-    public Prescriptions getPrescriptions() {
+    public List<Prescription> getPrescriptions() {
         return prescriptions;
     }
 
-    public void setPrescriptions(Prescriptions prescriptions) {
+    public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
     

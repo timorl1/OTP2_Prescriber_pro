@@ -1,10 +1,10 @@
 package dao;
 
+import java.util.List;
 import model.Diagnose;
 import model.Doctor;
 import model.Patient;
 import model.Prescription;
-import model.Prescriptions;
 
 /**
  *
@@ -13,11 +13,12 @@ import model.Prescriptions;
 public interface ApplicationDAO_IF {
     public abstract boolean createPrescription(Prescription prescription);
     public abstract Prescription readPrescription(int id);
-    public abstract Prescriptions readPrescriptions();
-    public abstract Prescriptions getPrescriptionsByPatient(Patient patient);
-    public abstract Prescriptions getPrescriptionsByDoctor(Doctor doctor);
+    public abstract List<Prescription> readPrescriptions();
+    public abstract List<Prescription> getPrescriptionsByPatient(Patient patient);
+    public abstract List<Prescription> getPrescriptionsByDoctor(Doctor doctor);
     public abstract Prescription getPrescriptionByDiagnose(Diagnose diagnose);
     public abstract boolean updatePrescription(Prescription prescription);
     public abstract boolean deletePrescription(Prescription prescription);
+    public abstract void shutDown();
     
 }

@@ -2,7 +2,6 @@ package dao;
 
 import java.util.List;
 import model.Drug;
-import model.Drugs;
 import org.hibernate.*;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.*;
@@ -76,14 +75,14 @@ public class DrugDAO implements DrugDAO_IF{
     }
 
     @Override
-    public Drugs readDrugs() {
-        List<Drug> result = null;
+    public List<Drug> readDrugs() {
+        List<Drug> drugs = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
-            result = session.createQuery("from lääke").getResultList();
+            drugs = session.createQuery("from lääke").getResultList();
             session.getTransaction().commit();
-            for (Drug drug : result) {
+            for (Drug drug : drugs) {
                 Hibernate.initialize(drug.getActiveAgents());
                 Hibernate.initialize(drug.getAllergens());
                 Hibernate.initialize(drug.getCommonAdverseEffects());
@@ -95,7 +94,6 @@ public class DrugDAO implements DrugDAO_IF{
         } finally {
             session.close();
         }
-        Drugs drugs = new Drugs(result);
         return drugs;
     }
     

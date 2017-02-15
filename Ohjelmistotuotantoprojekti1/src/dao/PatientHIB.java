@@ -1,30 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Drug;
-import model.Drugs;
 import model.Patient;
-import model.Patients;
-import org.dom4j.Entity;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 /**
  *
@@ -101,14 +87,14 @@ public class PatientHIB {
     }
 
     //@Override
-    public Patients readPatients() {
-        List<Patient> result = null;
+    public List<Patient> readPatients() {
+        List<Patient> patients = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
-            result = session.createQuery("from potilas").getResultList();
+            patients = session.createQuery("from potilas").getResultList();
             session.getTransaction().commit();
-            for (Patient patient : result) {
+            for (Patient patient : patients) {
                 Hibernate.initialize(patient.getDiagnoses());
                 Hibernate.initialize(patient.getPrescriptions());
             }
@@ -118,7 +104,6 @@ public class PatientHIB {
         } finally {
             session.close();
         }
-        Patients patients = new Patients(result);
         return patients;
     }
 }

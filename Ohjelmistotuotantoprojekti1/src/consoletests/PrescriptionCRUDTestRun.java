@@ -8,7 +8,6 @@ import dao.ApplicationDAO;
 import model.Diagnose;
 import model.Drug;
 import dao.DrugDAO;
-import model.Drugs;
 import model.Patient;
 import dao.PatientDAO;
 import model.Prescription;
@@ -58,7 +57,7 @@ public class PrescriptionCRUDTestRun {
                         patientdb = new PatientDAO();
                         int i = 1;
                         try {
-                            List<Diagnose> diagnoses = patientdb.getPatientDiagnoses(prescription.getPatient()).getCollection();
+                            List<Diagnose> diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());
                             for (Diagnose diagnose : diagnoses) {
                                 System.out.println(i + ". " + diagnose.getId());
                                 i++;
@@ -69,14 +68,13 @@ public class PrescriptionCRUDTestRun {
                         }
 
                         System.out.println("Valitse lääke: ");
-                        Drugs drugs = drugdb.readDrugs();
-                        List<Drug> druglist = drugs.getCollection();
+                        List<Drug> drugs = drugdb.readDrugs();
                         i = 1;
-                        for (Drug drug : druglist) {
+                        for (Drug drug : drugs) {
                             System.out.println(i + ". " + drug.getName());
                             i++;
                         }
-                        prescription.setDrug(druglist.get(Reader.readInt() - 1));
+                        prescription.setDrug(drugs.get(Reader.readInt() - 1));
 
                         System.out.println("Anna annostus: ");
                         prescription.setDose(Reader.readLine());
@@ -116,7 +114,7 @@ public class PrescriptionCRUDTestRun {
                     System.out.println("Potilaan reseptit: ");
                     patientdb = new PatientDAO();
                     int i = 1;
-                    List<Prescription> prescriptions = appdb.getPrescriptionsByPatient(patient).getCollection();
+                    List<Prescription> prescriptions = appdb.getPrescriptionsByPatient(patient);
                     for (Prescription p : prescriptions) {
                         System.out.println(i + ". " + p.getId());
                         System.out.println("  " + p.getPatient());
@@ -132,7 +130,7 @@ public class PrescriptionCRUDTestRun {
                 case '3':
                     System.out.println("Valitse muokattava resepti: ");
                     i = 1;
-                    prescriptions = appdb.readPrescriptions().getCollection();
+                    prescriptions = appdb.readPrescriptions();
                     for (Prescription p : prescriptions) {
                         System.out.println(i + ". " + p.getId());
                         System.out.println("  " + p.getPatient());
@@ -146,14 +144,13 @@ public class PrescriptionCRUDTestRun {
                     prescription = prescriptions.get(Reader.readInt() - 1);
 
                     System.out.println("Valitse lääke: ");
-                    Drugs drugs = drugdb.readDrugs();
-                    List<Drug> druglist = drugs.getCollection();
+                    List<Drug> drugs = drugdb.readDrugs();
                     i = 1;
-                    for (Drug drug : druglist) {
+                    for (Drug drug : drugs) {
                         System.out.println(i + ". " + drug.getName());
                         i++;
                     }
-                    prescription.setDrug(druglist.get(Reader.readInt() - 1));
+                    prescription.setDrug(drugs.get(Reader.readInt() - 1));
 
                     System.out.println("Anna annostus: ");
                     prescription.setDose(Reader.readLine());
@@ -176,7 +173,7 @@ public class PrescriptionCRUDTestRun {
                 case '4':
                     System.out.println("Valitse poistettava resepti: ");
                     i = 1;
-                    prescriptions = appdb.readPrescriptions().getCollection();
+                    prescriptions = appdb.readPrescriptions();
                     for (Prescription p : prescriptions) {
                         System.out.println(i + ". " + p.getId());
                         System.out.println("  " + p.getPatient());

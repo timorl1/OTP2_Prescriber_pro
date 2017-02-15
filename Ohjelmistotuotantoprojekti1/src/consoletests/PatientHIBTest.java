@@ -7,7 +7,6 @@ package consoletests;
 
 import java.sql.SQLException;
 import model.Patient;
-import model.Patients;
 import dao.PatientDAO;
 import dao.PatientHIB;
 import java.util.List;
@@ -25,9 +24,8 @@ public class PatientHIBTest {
         Patient patient = new Patient();
         patient = dao.readPatient("123456-789a");
         System.out.println(patient.getGender());
-        Patients patients = dao.readPatients();
-        List<Patient> plist = patients.getCollection();
-        for (Patient p : plist){
+        List<Patient> patients = dao.readPatients();
+        for (Patient p : patients){
             System.out.println(p.getFirstName()+" "+p.getLastName());
         }
     }
