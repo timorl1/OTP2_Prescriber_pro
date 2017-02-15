@@ -6,6 +6,8 @@
 package dao;
 
 import java.sql.SQLException;
+import java.util.List;
+import model.Diagnose;
 import model.Patient;
 
 /**
@@ -15,4 +17,5 @@ import model.Patient;
 public interface PatientDAO_IF {
     public abstract Patient readPatient(String SSN) throws SQLException;
     public abstract Patient[] readPatients() throws SQLException;
+    public abstract List<Diagnose> readPatientDiagnoses(Patient pat) throws SQLException;
 }

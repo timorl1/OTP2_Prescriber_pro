@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -19,9 +20,9 @@ public class AdverseEffect {
     @Column(name="nimi")
     private String name;
     @ManyToMany (mappedBy="commonAdverseEffects")
-    private List<Drug> drugs;
+    private List<Drug> drugsCommon = new ArrayList();
     @ManyToMany (mappedBy="rareAdverseEffects")
-    private List<Drug> drugs2;
+    private List<Drug> drugsRare = new ArrayList();
 
     public AdverseEffect() {
     }
@@ -48,5 +49,21 @@ public class AdverseEffect {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Drug> getDrugsCommon() {
+        return drugsCommon;
+    }
+
+    public void setDrugsCommon(List<Drug> drugsCommon) {
+        this.drugsCommon = drugsCommon;
+    }
+
+    public List<Drug> getDrugsRare() {
+        return drugsRare;
+    }
+
+    public void setDrugsRare(List<Drug> drugsRare) {
+        this.drugsRare = drugsRare;
     }
 }

@@ -1,8 +1,7 @@
 package dao;
 
+import java.util.List;
 import model.Drug;
-import model.Drugs;
-import org.hibernate.Session;
 
 /**
  *
@@ -10,5 +9,5 @@ import org.hibernate.Session;
  */
 public interface DrugDAO_IF {
     public abstract Drug readDrug(int SN);
-    public abstract Drugs readDrugs();
+    public abstract List<Drug> readDrugs();
 }

@@ -5,7 +5,6 @@ import model.Diagnose;
 import model.Doctor;
 import model.Patient;
 import model.Prescription;
-import model.Prescriptions;
 import org.hibernate.*;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.*;
@@ -39,7 +38,7 @@ public class ApplicationDAO implements ApplicationDAO_IF{
     }
     
     @Override
-    public void finalize() {
+    public void shutDown() {
         boolean success = false;
         do {
             try {
@@ -97,7 +96,7 @@ public class ApplicationDAO implements ApplicationDAO_IF{
     }
     
     @Override
-    public Prescriptions getPrescriptionsByPatient(Patient patient) {
+    public List<Prescription> getPrescriptionsByPatient(Patient patient) {
         List<Prescription> result = null;
         session = sf.openSession();
         try {
@@ -110,17 +109,16 @@ public class ApplicationDAO implements ApplicationDAO_IF{
         } finally {
             session.close();
         }
-        Prescriptions prescriptions = new Prescriptions(result);
-        return prescriptions;
+        return result;
     }
 
     @Override
-    public Prescriptions readPrescriptions() {
-        List<Prescription> result = null;
+    public List<Prescription> readPrescriptions() {
+        List<Prescription> prescriptions = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
-            result = session.createQuery("from prescription").getResultList();
+            prescriptions = session.createQuery("from prescription").getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
@@ -128,17 +126,16 @@ public class ApplicationDAO implements ApplicationDAO_IF{
         } finally {
             session.close();
         }
-        Prescriptions prescriptions = new Prescriptions(result);
         return prescriptions;
     }
 
     @Override
-    public Prescriptions getPrescriptionsByDoctor(Doctor doctor) {
-        List<Prescription> result = null;
+    public List<Prescription> getPrescriptionsByDoctor(Doctor doctor) {
+        List<Prescription> prescriptions = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
-            result = session.createQuery("from prescription where doctorID = " + doctor.getId()).getResultList();
+            prescriptions = session.createQuery("from prescription where doctorID = " + doctor.getId()).getResultList();
             session.getTransaction().commit();
             /*for (Prescription prescription : result) {
                 Hibernate.initialize(drug.getActiveAgents());
@@ -152,7 +149,6 @@ public class ApplicationDAO implements ApplicationDAO_IF{
         } finally {
             session.close();
         }
-        Prescriptions prescriptions = new Prescriptions(result);
         return prescriptions;
     }
 

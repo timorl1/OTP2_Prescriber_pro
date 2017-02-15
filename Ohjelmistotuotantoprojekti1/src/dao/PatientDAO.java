@@ -9,10 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Diagnose;
-import model.Diagnoses;
 import model.Doctor;
 import model.Patient;
 
@@ -20,152 +17,151 @@ import model.Patient;
  *
  * @author Timo
  */
-public class PatientDAO implements PatientDAO_IF{
-    
+public class PatientDAO implements PatientDAO_IF {
+
     private Properties properties = new Properties();
     private DatabaseDAO parameters = new DatabaseDAO(properties, "db.properties");
     Connection connection = null;
     private Doctor placeholder = new Doctor();
-    
+
     //Set database parameters, what to get
-    public PatientDAO(){
+    public PatientDAO() {
     }
-    
+
     @Override
-    protected void finalize(){
-	try{
-            if(connection != null){
+    protected void finalize() {
+        try {
+            if (connection != null) {
                 connection.close();
             }
-            }catch(Exception e){
-            	e.printStackTrace();
-            }
-	}
-    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //Get single patient from database with SSN
     @Override
-    public Patient readPatient(String SSN) throws SQLException{
+    public Patient readPatient(String SSN) throws SQLException {
         properties = parameters.readDBProperties();
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"), properties.getProperty("password") );    
-        }catch(Exception e){
-                System.err.print("Ajuria ei löytynyt");
-                System.exit(0);
-            }
+            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
+        } catch (Exception e) {
+            System.err.print("Ajuria ei löytynyt");
+            System.exit(0);
+        }
         Patient pat = null;
         Diagnose dia = null;
         PreparedStatement statement = null;
-	ResultSet rs = null;
-            try {
-                String sqlSelect = "SELECT * FROM "+properties.getProperty("table")+" where "+properties.getProperty("SSN")+" = ?";
-		statement = connection.prepareStatement(sqlSelect);
-		statement.setString(1, SSN);
-                rs = statement.executeQuery();
-		while(rs.next()){
-                        String ssn = rs.getString(properties.getProperty("SSN"));
-			String firstName = rs.getString(properties.getProperty("firstName"));
-			String lastName = rs.getString(properties.getProperty("lastName"));
-                        String gender = rs.getString(properties.getProperty("gender"));
-                        double weight = rs.getDouble(properties.getProperty("weight"));
-                        double height = rs.getDouble(properties.getProperty("height"));
-			pat = new Patient();
-                        pat.setSSN(ssn);
-                        pat.setFirstName(firstName);
-                        pat.setLastName(lastName);
-                        pat.setGender(gender);
-                        pat.setWeight(weight);
-                        pat.setHeight(height);
-		}
-                
-		}catch(SQLException e){
-			System.err.println("viesti: "+ e.getMessage() );
-			System.err.println("virhekoodi: "+ e.getErrorCode());
-			System.err.println("sql-tilakoodi : "+ e.getSQLState());
-                }finally{
-                    if(rs!=null){
-			rs.close();
-                    }
-		if(statement!=null){
-			statement.close();
-		}
-		if(connection != null){
-			connection.close();
-			}
-		}
+        ResultSet rs = null;
+        try {
+            String sqlSelect = "SELECT * FROM " + properties.getProperty("table") + " where " + properties.getProperty("SSN") + " = ?";
+            statement = connection.prepareStatement(sqlSelect);
+            statement.setString(1, SSN);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                String ssn = rs.getString(properties.getProperty("SSN"));
+                String firstName = rs.getString(properties.getProperty("firstName"));
+                String lastName = rs.getString(properties.getProperty("lastName"));
+                String gender = rs.getString(properties.getProperty("gender"));
+                double weight = rs.getDouble(properties.getProperty("weight"));
+                double height = rs.getDouble(properties.getProperty("height"));
+                pat = new Patient();
+                pat.setSSN(ssn);
+                pat.setFirstName(firstName);
+                pat.setLastName(lastName);
+                pat.setGender(gender);
+                pat.setWeight(weight);
+                pat.setHeight(height);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("viesti: " + e.getMessage());
+            System.err.println("virhekoodi: " + e.getErrorCode());
+            System.err.println("sql-tilakoodi : " + e.getSQLState());
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
         return pat;
     }
-    
+
     //Get all patients from database and return it as patient array
     @Override
-    public Patient[] readPatients() throws SQLException{
+    public Patient[] readPatients() throws SQLException {
         properties = parameters.readDBProperties();
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"), properties.getProperty("password"));
-            }catch(Exception e){
-                System.err.print("Ajuria ei löytynyt");
-                System.exit(0);
-            }
+            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
+        } catch (Exception e) {
+            System.err.print("Ajuria ei löytynyt");
+            System.exit(0);
+        }
         ArrayList<Patient> lista = new ArrayList<Patient>();
-		Statement statement = null;
-		ResultSet rs = null;
-		try {
-                    
-                    String sqlSelect = "SELECT * FROM "+properties.getProperty("table");
-                    statement = connection.createStatement();
-                    rs = statement.executeQuery(sqlSelect);
+        Statement statement = null;
+        ResultSet rs = null;
+        try {
+            String sqlSelect = "SELECT * FROM " + properties.getProperty("table");
+            statement = connection.createStatement();
+            rs = statement.executeQuery(sqlSelect);
+            while (rs.next()) {
+                String ssn = rs.getString(properties.getProperty("SSN"));
+                String firstName = rs.getString(properties.getProperty("firstName"));
+                String lastName = rs.getString(properties.getProperty("lastName"));
+                String gender = rs.getString(properties.getProperty("gender"));
+                double weight = rs.getDouble(properties.getProperty("weight"));
+                double height = rs.getDouble(properties.getProperty("height"));
+                Patient p = new Patient();
+                p.setSSN(ssn);
+                p.setFirstName(firstName);
+                p.setLastName(lastName);
+                p.setGender(gender);
+                p.setWeight(weight);
+                p.setHeight(height);
+                lista.add(p);
 
-		while(rs.next()){
-                    String ssn = rs.getString(properties.getProperty("SSN"));
-                    String firstName = rs.getString(properties.getProperty("firstName"));
-                    String lastName = rs.getString(properties.getProperty("lastName"));
-                    String gender = rs.getString(properties.getProperty("gender"));
-                    double weight = rs.getDouble(properties.getProperty("weight"));
-                    double height = rs.getDouble(properties.getProperty("height"));
-                    Patient p = new Patient();
-                    p.setSSN(ssn);
-                    p.setFirstName(firstName);
-                    p.setLastName(lastName);
-                    p.setGender(gender);
-                    p.setWeight(weight);
-                    p.setHeight(height);
-                    lista.add(p);
-                    
-		}
-
-		}catch(SQLException e){
-			System.err.println("viesti: "+ e.getMessage() );
-			System.err.println("virhekoodi: "+ e.getErrorCode());
-			System.err.println("sql-tilakoodi : "+ e.getSQLState());
-                }finally{
-                    if(rs!=null){
-			rs.close();
-                    }
-		if(statement!=null){
-			statement.close();
-		}
-		if(connection != null){
-			connection.close();
-			}
-		}
-	Patient[] paluuLista = new Patient[lista.size()];
-	return (Patient[])lista.toArray(paluuLista);
-    }
-    // Reads patients diagnoses from database
-    public Diagnoses getPatientDiagnoses(Patient pat) throws SQLException {
-        properties = parameters.readDBProperties();
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
-            }catch(Exception e){
-                System.err.print("Ajuria ei löytynyt");
-                System.exit(0);
             }
+        } catch (SQLException e) {
+            System.err.println("viesti: " + e.getMessage());
+            System.err.println("virhekoodi: " + e.getErrorCode());
+            System.err.println("sql-tilakoodi : " + e.getSQLState());
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        Patient[] paluuLista = new Patient[lista.size()];
+        return (Patient[]) lista.toArray(paluuLista);
+    }
+
+    // Reads patients diagnoses from database
+    @Override
+    public List<Diagnose> readPatientDiagnoses(Patient pat) throws SQLException {
+        properties = parameters.readDBProperties();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
+        } catch (Exception e) {
+            System.err.print("Ajuria ei löytynyt");
+            System.exit(0);
+        }
         Diagnose dia = null;
         PreparedStatement statement = null;
-	ResultSet rs = null;
-        Diagnoses diagnoses = new Diagnoses(new ArrayList());
+        ResultSet rs = null;
+        List<Diagnose> diagnoses = new ArrayList();
         String sqlSelect = "SELECT * FROM diagnoosi where " + properties.getProperty("SSN") + " = ?";
         try {
             statement = connection.prepareStatement(sqlSelect);
@@ -185,17 +181,15 @@ public class PatientDAO implements PatientDAO_IF{
                 dia.setEpicrisis(epicrisis);
                 dia.setCreationDate(creationDate);
                 dia.setResolutionDate(resolutionDate);
-                diagnoses.addDiagnose(dia);
+                diagnoses.add(dia);
             }
-            if (diagnoses.getCollection().size() != 0) {
+            if (!diagnoses.isEmpty()) {
                 pat.setDiagnoses(diagnoses);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-        finally {
+        } finally {
             if (rs != null) {
                 rs.close();
             }
@@ -208,5 +202,5 @@ public class PatientDAO implements PatientDAO_IF{
         }
         return diagnoses;
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -17,10 +18,10 @@ public class Drug {
     private String name;
     @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(name="lääkeaine", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "lääkeaine_id", referencedColumnName = "id"))
-    private List<ActiveAgent> activeAgents;
+    private List<ActiveAgent> activeAgents = new ArrayList();
     @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(name="lääkkeen_allergeeni", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "allergeeni_id", referencedColumnName = "id"))
-    private List<Allergen> allergens;
+    private List<Allergen> allergens = new ArrayList();
     @Column (name="suositeltuannos")
     private double recommendedDose;
     @Column (name="maxannos")
@@ -29,10 +30,10 @@ public class Drug {
     private String unit;
     @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(name="yleinen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
-    private List<AdverseEffect> commonAdverseEffects;
+    private List<AdverseEffect> commonAdverseEffects = new ArrayList();
     @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(name="harvinainen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
-    private List<AdverseEffect> rareAdverseEffects;
+    private List<AdverseEffect> rareAdverseEffects = new ArrayList();
 
     public Drug() {
     }
