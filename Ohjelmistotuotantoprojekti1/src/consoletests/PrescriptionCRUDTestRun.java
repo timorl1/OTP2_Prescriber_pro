@@ -189,9 +189,11 @@ public class PrescriptionCRUDTestRun {
                     }
                     prescription = prescriptions.get(Reader.readInt() - 1);
                     appdb.deletePrescription(prescription);
+                case '5':
+                    break;
             }
-        } while (select != 5);
-        appdb.finalize();
+        } while (select != '5');
+        System.exit(0);
         
         
     }

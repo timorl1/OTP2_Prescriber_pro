@@ -48,8 +48,8 @@ public class PatientDAO implements PatientDAO_IF{
         properties = parameters.readDBProperties();
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
-            }catch(Exception e){
+            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"), properties.getProperty("password") );    
+        }catch(Exception e){
                 System.err.print("Ajuria ei löytynyt");
                 System.exit(0);
             }
@@ -102,7 +102,7 @@ public class PatientDAO implements PatientDAO_IF{
         properties = parameters.readDBProperties();
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"),properties.getProperty("password"));
+            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"),properties.getProperty("username"), properties.getProperty("password"));
             }catch(Exception e){
                 System.err.print("Ajuria ei löytynyt");
                 System.exit(0);
