@@ -10,6 +10,7 @@ import model.Drug;
 import dao.DrugDAO;
 import model.Patient;
 import dao.PatientDAO;
+import java.util.ArrayList;
 import model.Prescription;
 
 /**
@@ -27,7 +28,7 @@ public class PrescriptionCRUDTestRun {
         DrugDAO drugdb = new DrugDAO();
         PatientDAO patientdb = new PatientDAO();
         Prescription prescription = new Prescription();
-        Patient[] patients = null;
+        List<Patient> patients = new ArrayList();
         String fieldName;
         
         do {
@@ -47,10 +48,10 @@ public class PrescriptionCRUDTestRun {
                         Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     if (patients != null) {
-                        for (int i = 0; i < patients.length; i++) {
-                            System.out.println(i + 1 + ". " + patients[i].getFirstName() + " " + patients[i].getLastName());
+                        for (int i = 0; i < patients.size(); i++) {
+                            System.out.println(i + 1 + ". " + patients.get(i).getFirstName() + " " + patients.get(i).getLastName());
                         }
-                        prescription.setPatient(patients[Reader.readInt() - 1]);
+                        prescription.setPatient(patients.get(Reader.readInt() - 1));
                         System.out.println(prescription.getPatient().getFirstName());
 
                         System.out.println("Valitse diagnoosi: ");
@@ -105,10 +106,10 @@ public class PrescriptionCRUDTestRun {
                         Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     if (patients != null) {
-                        for (int i = 0; i < patients.length; i++) {
-                            System.out.println(i + 1 + ". " + patients[i].getFirstName() + " " + patients[i].getLastName());
+                        for (int i = 0; i < patients.size(); i++) {
+                            System.out.println(i + 1 + ". " + patients.get(i).getFirstName() + " " + patients.get(i).getLastName());
                         }
-                        patient = patients[Reader.readInt() - 1];
+                        patient = patients.get(Reader.readInt() - 1);
                         System.out.println(patient.getFirstName());
                     }
                     System.out.println("Potilaan reseptit: ");

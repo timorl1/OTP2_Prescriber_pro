@@ -7,6 +7,7 @@ package main;
 
 import model.Patient;
 import dao.PatientDAO;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -63,13 +64,13 @@ public class PatientDAOTest {
     public void testReadPatients() throws Exception {
         System.out.println("readPatients");
         PatientDAO instance = new PatientDAO();
-        Patient[] result = instance.readPatients();
-        assertEquals("123456-789a", result[0].getSSN());
-        assertEquals("Potilas", result[0].getFirstName());
-        assertEquals("Saarinen", result[0].getLastName());
-        assertEquals("Mies", result[0].getGender());
-        assertEquals(160.0, result[0].getHeight(),0.1);
-        assertEquals(65.0, result[0].getWeight(),0.1);        
+        List<Patient> result = instance.readPatients();
+        assertEquals("123456-789a", result.get(0).getSSN());
+        assertEquals("Potilas", result.get(0).getFirstName());
+        assertEquals("Saarinen", result.get(0).getLastName());
+        assertEquals("Mies", result.get(0).getGender());
+        assertEquals(160.0, result.get(0).getHeight(),0.1);
+        assertEquals(65.0, result.get(0).getWeight(),0.1);        
     }
     
 }

@@ -95,7 +95,7 @@ public class PatientDAO implements PatientDAO_IF {
 
     //Get all patients from database and return it as patient array
     @Override
-    public Patient[] readPatients() throws SQLException {
+    public List<Patient> readPatients() throws SQLException {
         properties = parameters.readDBProperties();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -104,7 +104,7 @@ public class PatientDAO implements PatientDAO_IF {
             System.err.print("Ajuria ei löytynyt");
             System.exit(0);
         }
-        ArrayList<Patient> lista = new ArrayList<Patient>();
+        List<Patient> lista = new ArrayList();
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -143,8 +143,7 @@ public class PatientDAO implements PatientDAO_IF {
                 connection.close();
             }
         }
-        Patient[] paluuLista = new Patient[lista.size()];
-        return (Patient[]) lista.toArray(paluuLista);
+        return lista;
     }
 
     // Reads patients diagnoses from database
