@@ -8,7 +8,7 @@ import model.User;
  */
 public interface Controller_IF {
     public abstract User[] getUsers();
-    public abstract User getUser(String username);
+    public abstract User getUser();
     public abstract void calculateDose();
     public abstract void checkDose();
     public abstract void setPriviledges();
