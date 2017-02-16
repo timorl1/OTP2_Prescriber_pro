@@ -59,7 +59,7 @@ public class DrugDAOTest {
      * Test of readDrugss method, of class DrugDAO.
      */
     @Test
-    public void testReadPatients() throws Exception {
+    public void testReadDrugs() throws Exception {
         System.out.println("readDrugs");
         DrugDAO instance = new DrugDAO();
         List<Drug> result = instance.readDrugs();
