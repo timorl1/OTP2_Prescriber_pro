@@ -18,6 +18,7 @@ public class DrugDAO implements DrugDAO_IF{
     private Session session;
     private Transaction transaction;
     
+    //Builds session factory
     public DrugDAO() {
         sf = null;
         reg = new StandardServiceRegistryBuilder().configure("drugdb.cfg.xml").build();
@@ -53,7 +54,8 @@ public class DrugDAO implements DrugDAO_IF{
         } while (!success);
         System.out.println("DB connection shut down.");
     }
-
+    
+    //Get a single drug from database identified by serial number
     @Override
     public Drug readDrug(int SN) {
         Drug drug = null;
@@ -73,7 +75,8 @@ public class DrugDAO implements DrugDAO_IF{
         }
         return drug;
     }
-
+    
+    //Gets all drugs in database and returns them as a List
     @Override
     public List<Drug> readDrugs() {
         List<Drug> drugs = null;
