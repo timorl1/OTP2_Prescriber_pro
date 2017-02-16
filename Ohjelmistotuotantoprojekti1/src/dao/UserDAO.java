@@ -145,5 +145,10 @@ public class UserDAO implements UserDAO_IF {
         return success;
     }
 
+    @Override
+    public boolean createUser(User user) {
+        return false;
+    }
+
     
 }

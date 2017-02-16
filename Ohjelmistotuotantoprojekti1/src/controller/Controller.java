@@ -21,12 +21,13 @@ public class Controller implements Controller_IF {
 
     @Override
     public User[] getUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return userdao.getUsers();
     }
 
     @Override
-    public User getUser(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User getUser() {
+        User user = userdao.getUser("HAKEE OLION USERNAMELLA, SE TULEE GUISTA");
+        return user;
     }
 
     @Override
@@ -41,17 +42,29 @@ public class Controller implements Controller_IF {
 
     @Override
     public void setPriviledges() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
+        user.setPriviledges(0); // TÄHÄN TULEE KANSSA GUISTA ARVO
+        if(userdao.updateUser(user)){
+         //TRUE, MENEE VARMAAN JOKU VIESTI GUI   
+        }else{
+            //FALSE, MENEE VARMAAN JOKU VIESTI GUI
+        }
     }
 
     @Override
     public void createUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
     }
 
     @Override
     public void deleteUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user =userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
+        if(userdao.deleteUser(user)){
+            //TRUE, VIESTI GUILLE POISTOSTA
+        }else{
+            //FALSE, VIESTI GUILLE POISTOSTA
+        }
     }
     
     
