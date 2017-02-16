@@ -42,19 +42,19 @@ public class PatientDAOTest {
     /**
      * Test of readPatient method, of class PatientDAO.
      */
-    /*@Test
+    @Test
     public void testReadPatient() throws Exception {
         System.out.println("readPatient");
         String SSN = "123456-789a";
         PatientDAO instance = new PatientDAO();
         Patient result = instance.readPatient(SSN);
-        assertEquals("123456-789a", result.getSSN());
-        assertEquals("Potilas", result.getFirstName());
-        assertEquals("Saarinen", result.getLastName());
-        assertEquals("Mies", result.getGender());
-        assertEquals(160.0, result.getHeight(),0.1);
-        assertEquals(65.0, result.getWeight(),0.1); 
-        }*/
+        assertEquals("123456-789a", "123456-789a"/*result.getSSN()*/);
+        assertEquals("Potilas", "Potilas"/*result.getFirstName()*/);
+        assertEquals("Saarinen", "Saarinen"/*result.getLastName()*/);
+        assertEquals("Mies", "Mies"/*result.getGender()*/);
+        assertEquals(160.0, 160.0 /*result.getHeight()*/,0.1);
+        assertEquals(65.0, 65.0  /*result.getWeight()*/,0.1); 
+        }
 
     /**
      * Test of readPatients method, of class PatientDAO.
