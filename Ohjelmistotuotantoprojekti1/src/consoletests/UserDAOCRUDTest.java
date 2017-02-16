@@ -23,6 +23,7 @@ public class UserDAOCRUDTest {
         UserDAO_IF userdao = new UserDAO();
         User user = new User();
         
+        
         do {
             System.out.println("\n\t\t\t1. Lisää käyttäjä.");
             System.out.println("\t\t\t2. Näytä käyttäjät.");
@@ -32,10 +33,34 @@ public class UserDAOCRUDTest {
             System.out.print("\n\n"); // tehdään tyhjiä rivejä
             select = Reader.readChar();
             switch (select) {
+                
                 case '1':
-                    System.out.println("Valitse potilas: ");
+                                   
+                    System.out.println("Valitse työntekijä id: ");
+                    user.setId(Reader.readInt());
+                    
+                    System.out.println("Valitse käyttäjätunnus: ");
+                    user.setUsername(Reader.readLine());
+                    
+                    System.out.println("Valitse salasana: ");
+                    user.setPassword(Reader.readLine());
+                    
+                    System.out.println("Kirjoita email: ");
+                    user.setEmail(Reader.readLine());
+                    
+                    System.out.print("Käyttöoikeus: ");
+                    user.setPriviledges(Reader.readInt());
+                    
+                    userdao.createUser(user);
+                    
+                    if(userdao.createUser(user) == !false){
+                        System.out.println("Lisäys onnistui");
+                    } else{ 
+                           System.out.println("Lisäys epäonnistui"); 
+                    }                   
                     
                     break;
+                  
                 case '2':
                     for(User users : userdao.getUsers()){
                         System.out.println("Id:"+users.getId()+", username:"+users.getUsername()+
