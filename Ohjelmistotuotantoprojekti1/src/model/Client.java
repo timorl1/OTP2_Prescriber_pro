@@ -10,7 +10,6 @@ import java.util.List;
 public class Client {
     PatientDAO db = new PatientDAO();
     List<Patient> patients = db.readPatients();
-    List<Employee> employees = db.readEmployees();
     
     public List<Patient> getPatients() {
         return patients;
@@ -18,9 +17,5 @@ public class Client {
     
     public List<Diagnose> getPatientDiagnoses(Patient patient) {
         return db.readPatientDiagnoses(patient);
-    }
-    
-    public List<Employee> getEmployees() {
-        return employees;
     }
 }
