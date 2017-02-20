@@ -20,13 +20,14 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  * @author Timo
  */
 public class UserDAO implements UserDAO_IF {
-        SessionFactory sf;
+    
+    SessionFactory sf;
     final StandardServiceRegistry reg;
 
     private Session session;
     private Transaction transaction;
     
-    
+    // Builds session factory
     public UserDAO(){
         sf = null;
         reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
@@ -62,6 +63,7 @@ public class UserDAO implements UserDAO_IF {
         System.out.println("DB connection shut down.");
     }
     
+    //Used for updating user information to database
     @Override
     public boolean updateUser(User user) {
         session = sf.openSession();
@@ -83,6 +85,7 @@ public class UserDAO implements UserDAO_IF {
         return false;
     }
 
+    // Gets all users from database and returns them as array
     @Override
     public User[] getUsers() {
         User [] users = null ;
@@ -102,7 +105,8 @@ public class UserDAO implements UserDAO_IF {
 		}
 	return users;
     }
-
+    
+    // Gets user from database identified by username
     @Override
     public User getUser(String username) {
         User user = null;
@@ -122,6 +126,7 @@ public class UserDAO implements UserDAO_IF {
         return user;
     }
     
+    //Deletes user from database identified by username 
     @Override
     public boolean deleteUser(User user) {
         

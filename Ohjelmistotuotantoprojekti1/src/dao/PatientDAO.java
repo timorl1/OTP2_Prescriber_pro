@@ -39,7 +39,7 @@ public class PatientDAO implements PatientDAO_IF {
         }
     }
 
-    //Get single patient from database with SSN
+    //Get single patient from database identified by Social security number
     @Override
     public Patient readPatient(String SSN) {
         properties = parameters.readDBProperties();
@@ -97,7 +97,7 @@ public class PatientDAO implements PatientDAO_IF {
         return pat;
     }
 
-    //Get all patients from database and return it as patient array
+    //Gets all patients from database and return it as Patient array
     @Override
     public List<Patient> readPatients() {
         properties = parameters.readDBProperties();
