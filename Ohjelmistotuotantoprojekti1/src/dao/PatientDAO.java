@@ -41,7 +41,7 @@ public class PatientDAO implements PatientDAO_IF {
 
     //Get single patient from database with SSN
     @Override
-    public Patient readPatient(String SSN) throws SQLException {
+    public Patient readPatient(String SSN) {
         properties = parameters.readDBProperties();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -80,14 +80,18 @@ public class PatientDAO implements PatientDAO_IF {
             System.err.println("virhekoodi: " + e.getErrorCode());
             System.err.println("sql-tilakoodi : " + e.getSQLState());
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch(Exception e) {
+                
             }
         }
         return pat;
@@ -95,7 +99,7 @@ public class PatientDAO implements PatientDAO_IF {
 
     //Get all patients from database and return it as patient array
     @Override
-    public List<Patient> readPatients() throws SQLException {
+    public List<Patient> readPatients() {
         properties = parameters.readDBProperties();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -133,14 +137,18 @@ public class PatientDAO implements PatientDAO_IF {
             System.err.println("virhekoodi: " + e.getErrorCode());
             System.err.println("sql-tilakoodi : " + e.getSQLState());
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch(Exception e) {
+                
             }
         }
         return lista;
@@ -148,7 +156,7 @@ public class PatientDAO implements PatientDAO_IF {
 
     // Reads patients diagnoses from database
     @Override
-    public List<Diagnose> readPatientDiagnoses(Patient pat) throws SQLException {
+    public List<Diagnose> readPatientDiagnoses(Patient pat) {
         properties = parameters.readDBProperties();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -189,14 +197,18 @@ public class PatientDAO implements PatientDAO_IF {
             e.printStackTrace();
             return null;
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch(Exception e) {
+                
             }
         }
         return diagnoses;

@@ -3,17 +3,69 @@
  */
 
 .mainFxmlClass {
-    
+    -fx-background-image: url('img/f6167730e9b2b7434d5c00f897700464.jpg');
+    -fx-background-position: right top;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
-.tab-pane:top *.tab-header-area {
-    -fx-background-insets: 0, 0 0 0 0;
- /* -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
-    -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* overriden as 5 2 0 0 */
-    -fx-margin: 0 0 0 0;
-    -fx-border-radius: 0;
+.mainFxmlClass .tabPane .tab {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
 }
 
-.tree-view .tree-cell {
-    -fx-color: #666666;
+.mainFxmlClass .tabPane .tab:selected {
+    -fx-background-color: rgba(255, 255, 255, 1);
+    -fx-background-radius: 20;
 }
+
+.mainFxmlClass .tabPane .tab-header-area .tab-header-background{
+    -fx-background-color: transparent;
+}
+
+.mainFxmlClass .titled-pane *.content{
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
+    -fx-border-color: transparent;
+}
+
+.mainFxmlClass .titled-pane .title {
+    -fx-background-color: transparent;
+    -fx-font-size: 24px;
+}
+
+.mainFxmlClass .titled-pane .list-view {
+    -fx-background-color: transparent ;
+}
+
+.mainFxmlClass .titled-pane .list-view .list-cell{
+    -fx-background-color: transparent ;
+    -fx-padding: 20;
+}
+
+.mainFxmlClass .titled-pane .list-view .list-cell:filled:selected{
+    -fx-text-fill: #00ccff;
+}
+
+.mainFxmlClass .tabPane .list-view {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-radius: 20;
+}
+
+.mainFxmlClass .tabPane .table-view {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-radius: 20;
+}
+
+.mainFxmlClass .tabPane .list-view .list-cell{
+    -fx-background-color: transparent ;
+    -fx-padding: 20;
+    -fx-margin: 20;
+}
+
+.mainFxmlClass .tabPane .list-view .list-cell:filled:selected{
+    -fx-text-fill: #000000;
+}
+

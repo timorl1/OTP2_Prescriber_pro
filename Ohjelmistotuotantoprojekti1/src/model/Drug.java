@@ -109,4 +109,9 @@ public class Drug {
     public void setRareAdverseEffects(List<AdverseEffect> rareAdverseEffects) {
         this.rareAdverseEffects = rareAdverseEffects;
     }
+    
+    @Override
+    public String toString() {
+        return this.name + ", " + this.activeAgents.get(0).getName();
+    }
 }

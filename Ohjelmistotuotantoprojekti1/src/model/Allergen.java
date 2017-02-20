@@ -46,4 +46,9 @@ public class Allergen {
     public void setDrugs(List<Drug> drugs) {
         this.drugs = drugs;
     }
+    
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

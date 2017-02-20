@@ -85,4 +85,9 @@ public class Patient {
         this.prescriptions = prescriptions;
     }
     
+    @Override
+    public String toString() {
+        return this.lastName + ", " + this.firstName;
+    }
+    
 }

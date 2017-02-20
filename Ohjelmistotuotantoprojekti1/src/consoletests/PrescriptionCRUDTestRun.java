@@ -42,11 +42,7 @@ public class PrescriptionCRUDTestRun {
             switch (select) {
                 case '1':
                     System.out.println("Valitse potilas: ");
-                    try {
-                        patients = patientdb.readPatients();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    patients = patientdb.readPatients();
                     if (patients != null) {
                         for (int i = 0; i < patients.size(); i++) {
                             System.out.println(i + 1 + ". " + patients.get(i).getFirstName() + " " + patients.get(i).getLastName());
@@ -57,16 +53,12 @@ public class PrescriptionCRUDTestRun {
                         System.out.println("Valitse diagnoosi: ");
                         patientdb = new PatientDAO();
                         int i = 1;
-                        try {
-                            List<Diagnose> diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());
-                            for (Diagnose diagnose : diagnoses) {
-                                System.out.println(i + ". " + diagnose.getId());
-                                i++;
-                            }
-                            prescription.setDiagnose(diagnoses.get(Reader.readInt() - 1));
-                        } catch (SQLException ex) {
-                            Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);
+                        List<Diagnose> diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());
+                        for (Diagnose diagnose : diagnoses) {
+                            System.out.println(i + ". " + diagnose.getId());
+                            i++;
                         }
+                        prescription.setDiagnose(diagnoses.get(Reader.readInt() - 1));
 
                         System.out.println("Valitse lääke: ");
                         List<Drug> drugs = drugdb.readDrugs();
@@ -100,11 +92,7 @@ public class PrescriptionCRUDTestRun {
                 case '2':
                     Patient patient = null;
                     System.out.println("Valitse potilas: ");
-                    try {
-                        patients = patientdb.readPatients();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    patients = patientdb.readPatients();
                     if (patients != null) {
                         for (int i = 0; i < patients.size(); i++) {
                             System.out.println(i + 1 + ". " + patients.get(i).getFirstName() + " " + patients.get(i).getLastName());
