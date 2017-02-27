@@ -74,6 +74,10 @@ public class PatientDAOTest {
         assertEquals(65.0, result.get(0).getWeight(),0.1);        
     }
     
+    
+    /**
+     * Test of readPatientDiagnoses method, of class PatientDAO.
+     */
     @Test 
     public void testReadPatientDiagnoses() throws Exception {
         System.out.println("readPatientDiagnoses");
