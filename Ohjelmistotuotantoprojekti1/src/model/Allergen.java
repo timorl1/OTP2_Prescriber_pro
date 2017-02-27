@@ -19,6 +19,9 @@ public class Allergen {
     private String name;
     @ManyToMany (mappedBy="allergens")
     private List<Drug> drugs = new ArrayList();
+    @ManyToMany (mappedBy="disease")
+    private List<Disease> disease = new ArrayList();
+
 
     public Allergen() {
     }
@@ -46,6 +49,15 @@ public class Allergen {
     public void setDrugs(List<Drug> drugs) {
         this.drugs = drugs;
     }
+    
+        public List<Disease> getDisease() {
+        return disease;
+    }
+
+    public void setDisease(List<Disease> disease) {
+        this.disease = disease;
+    }
+
     
     @Override
     public String toString() {
