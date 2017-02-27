@@ -13,7 +13,7 @@ import org.hibernate.boot.registry.*;
  *
  * @author joosiika
  */
-public class ApplicationDAO implements ApplicationDAO_IF{
+public class PrescriptionDAO implements PrescriptionDAO_IF{
     SessionFactory sf;
     final StandardServiceRegistry reg;
 
@@ -22,7 +22,7 @@ public class ApplicationDAO implements ApplicationDAO_IF{
     
     private DrugDAO drugdb = new DrugDAO();
 
-    public ApplicationDAO() {
+    public PrescriptionDAO() {
         sf = null;
         reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
 
