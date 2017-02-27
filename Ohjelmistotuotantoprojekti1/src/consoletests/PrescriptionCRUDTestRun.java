@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import dao.ApplicationDAO;
+import dao.PrescriptionDAO;
 import model.Diagnose;
 import model.Drug;
 import dao.DrugDAO;
@@ -24,7 +24,7 @@ public class PrescriptionCRUDTestRun {
      */
     public static void main(String[] args) {
         char select;
-        ApplicationDAO appdb = new ApplicationDAO();
+        PrescriptionDAO appdb = new PrescriptionDAO();
         DrugDAO drugdb = new DrugDAO();
         PatientDAO patientdb = new PatientDAO();
         Prescription prescription = new Prescription();

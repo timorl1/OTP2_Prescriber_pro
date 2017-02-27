@@ -10,7 +10,7 @@ import model.Prescription;
  *
  * @author joosiika
  */
-public interface ApplicationDAO_IF {
+public interface PrescriptionDAO_IF {
     public abstract boolean createPrescription(Prescription prescription);
     public abstract Prescription readPrescription(int id);
     public abstract List<Prescription> readPrescriptions();

@@ -2,6 +2,7 @@ package controller;
 
 import dao.UserDAO_IF;
 import gui.GUI_IF;
+import java.util.List;
 import model.User;
 
 
@@ -20,7 +21,7 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public User[] getUsers() {
+    public List<User> getUsers() {
         return userdao.getUsers();
     }
 

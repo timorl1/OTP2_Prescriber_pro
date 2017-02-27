@@ -87,23 +87,19 @@ public class UserDAO implements UserDAO_IF {
 
     // Gets all users from database and returns them as array
     @Override
-    public User[] getUsers() {
-        User [] users = null ;
-		session = sf.openSession();
-		transaction = session.beginTransaction();
-		try{
-                    @SuppressWarnings("unchecked")
-                    List<User> result = session.createQuery( "from user" ).getResultList();
-                    users = result.toArray(new User[result.size()]);
-                    session.getTransaction().commit();
-			
-		}catch(Exception e){
-			System.out.println("Lukeminen ei onnistunut");
-			throw e;
-		}finally{
-			session.close();
-		}
-	return users;
+    public List<User> getUsers() {
+        List<User> users = null;
+        session = sf.openSession();
+        try {
+            session.beginTransaction();
+            users = session.createQuery("from user").getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Lukeminen ei onnistunut");
+        } finally {
+            session.close();
+        }
+        return users;
     }
     
     // Gets user from database identified by username
@@ -119,7 +115,6 @@ public class UserDAO implements UserDAO_IF {
 			
 		}catch(Exception e){
 			System.out.println("Lukeminen ei onnistunut");
-			throw e;
 		}finally{
 			session.close();
 		}

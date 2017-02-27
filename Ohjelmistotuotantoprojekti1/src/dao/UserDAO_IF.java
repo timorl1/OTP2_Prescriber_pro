@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.List;
 import model.User;
 
 /**
@@ -13,7 +14,7 @@ import model.User;
  */
 public interface UserDAO_IF {
     public abstract boolean updateUser(User user);
-    public abstract User[] getUsers();
+    public abstract List<User> getUsers();
     public abstract User getUser(String username);
     public abstract boolean deleteUser(User user);
     public abstract boolean createUser(User user);

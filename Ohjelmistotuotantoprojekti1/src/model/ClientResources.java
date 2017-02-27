@@ -1,18 +1,18 @@
 package model;
 
 import dao.PatientDAO;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author joosiika
  */
-public class Client {
+public class ClientResources {
     PatientDAO db = new PatientDAO();
-    List<Patient> patients = db.readPatients();
     
     public List<Patient> getPatients() {
-        return patients;
+        return db.readPatients();
     }
     
     public List<Diagnose> getPatientDiagnoses(Patient patient) {

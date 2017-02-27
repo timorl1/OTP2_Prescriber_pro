@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import model.User;
 
 /**
@@ -7,7 +8,7 @@ import model.User;
  * @author Timo
  */
 public interface Controller_IF {
-    public abstract User[] getUsers();
+    public abstract List<User> getUsers();
     public abstract User getUser();
     public abstract void calculateDose();
     public abstract void checkDose();
