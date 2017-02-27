@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Prescription.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Prescription.java</span></div><h1>Prescription.java</h1><pre class="source lang-java linenums">package model;
+
+import model.Patient;
+import javax.persistence.*;
+import java.util.Date;
+
+/**
+ *
+ * @author Johanna
+ */
+@Entity(name=&quot;prescription&quot;)
+@Table(name=&quot;prescription&quot;)
+public class Prescription {
+    @Id
+    @Column(name=&quot;prescriptionID&quot;)
+    private int id;
+    @Column(name=&quot;patientID&quot;)
+    private String patientID;
+    @Transient
+    private Patient patient;
+    @Column(name=&quot;doctorID&quot;)
+    private int doctorID;
+    @Transient
+    private Doctor doctor;
+    @Column(name=&quot;drugID&quot;)
+    private int drugID;
+    @Transient
+    private Drug drug;
+    @Column(name=&quot;diagnoseID&quot;)
+    private int diagnoseID;
+    @Transient
+    private Diagnose diagnose;
+    @Column(name=&quot;dose&quot;)
+    private String dose;
+    @Column(name=&quot;timesADay&quot;)
+    private int timesADay;
+    @Column(name=&quot;info&quot;)
+    private String info;
+    @Column(name=&quot;startDate&quot;)
+    private String startDate;
+    @Column(name=&quot;endDate&quot;)
+    private String endDate;
+    @Column(name=&quot;creationDate&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+    @Column(name=&quot;username&quot;)
+    private String username;
+
+<span class="nc" id="L49">    public Prescription() {</span>
+<span class="nc" id="L50">    }</span>
+
+    public int getId() {
+<span class="nc" id="L53">        return id;</span>
+    }
+
+    public void setId(int id) {
+<span class="nc" id="L57">        this.id = id;</span>
+<span class="nc" id="L58">    }</span>
+
+    public Patient getPatient() {
+<span class="nc" id="L61">        return patient;</span>
+    }
+
+    public void setPatient(Patient patient) {
+<span class="nc" id="L65">        this.patient = patient;</span>
+<span class="nc" id="L66">        this.patientID = patient.getSSN();</span>
+<span class="nc" id="L67">    }</span>
+
+    public Doctor getDoc() {
+<span class="nc" id="L70">        return doctor;</span>
+    }
+
+    public void setDoc(Doctor doc) {
+<span class="nc" id="L74">        this.doctor = doc;</span>
+<span class="nc" id="L75">        this.doctorID = doc.getId();</span>
+<span class="nc" id="L76">    }</span>
+
+    public Drug getDrug() {
+<span class="nc" id="L79">        return drug;</span>
+    }
+
+    public void setDrug(Drug drug) {
+<span class="nc" id="L83">        this.drug = drug;</span>
+<span class="nc" id="L84">        this.drugID = drug.getSN();</span>
+<span class="nc" id="L85">    }</span>
+
+    public Diagnose getDiagnose() {
+<span class="nc" id="L88">        return diagnose;</span>
+    }
+
+    public void setDiagnose(Diagnose diagnose) {
+<span class="nc" id="L92">        this.diagnose = diagnose;</span>
+<span class="nc" id="L93">        this.diagnoseID = diagnose.getId();</span>
+<span class="nc" id="L94">    }</span>
+
+    public String getDose() {
+<span class="nc" id="L97">        return dose;</span>
+    }
+
+    public void setDose(String dose) {
+<span class="nc" id="L101">        this.dose = dose;</span>
+<span class="nc" id="L102">    }</span>
+
+    public int getTimesADay() {
+<span class="nc" id="L105">        return timesADay;</span>
+    }
+
+    public void setTimesADay(int timesADay) {
+<span class="nc" id="L109">        this.timesADay = timesADay;</span>
+<span class="nc" id="L110">    }</span>
+
+    public String getInfo() {
+<span class="nc" id="L113">        return info;</span>
+    }
+
+    public void setInfo(String info) {
+<span class="nc" id="L117">        this.info = info;</span>
+<span class="nc" id="L118">    }</span>
+
+    public String getStartDate() {
+<span class="nc" id="L121">        return startDate;</span>
+    }
+
+    public void setStartDate(String startDate) {
+<span class="nc" id="L125">        this.startDate = startDate;</span>
+<span class="nc" id="L126">    }</span>
+
+    public String getEndDate() {
+<span class="nc" id="L129">        return endDate;</span>
+    }
+
+    public void setEndDate(String endDate) {
+<span class="nc" id="L133">        this.endDate = endDate;</span>
+<span class="nc" id="L134">    }</span>
+    
+    public Date getCreationDate() {
+<span class="nc" id="L137">        return creationDate;</span>
+    }
+    
+    public void setCreationDate(Date creationDate) {
+<span class="nc" id="L141">        this.creationDate = creationDate;</span>
+<span class="nc" id="L142">    }</span>
+
+    public String getUsername() {
+<span class="nc" id="L145">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="nc" id="L149">        this.username = username;</span>
+<span class="nc" id="L150">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
