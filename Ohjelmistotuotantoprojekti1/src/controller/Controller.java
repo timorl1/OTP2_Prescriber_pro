@@ -1,7 +1,7 @@
 package controller;
 
 import dao.UserDAO_IF;
-import gui.GUI_IF;
+import gui.MainGUI_IF;
 import java.util.List;
 import model.User;
 
@@ -13,9 +13,9 @@ import model.User;
 public class Controller implements Controller_IF {
     
     private UserDAO_IF userdao;
-    private GUI_IF gui;
+    private MainGUI_IF gui;
     
-    public Controller(GUI_IF gui, UserDAO_IF userdao){
+    public Controller(MainGUI_IF gui, UserDAO_IF userdao){
         this.gui = gui;
         this.userdao = userdao;
     }
