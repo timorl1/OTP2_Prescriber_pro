@@ -14,7 +14,7 @@ public interface Controller_IF {
     public abstract void login(String username, String password);
     public abstract List<Patient> getPatients();
     public abstract void filterPatients();
-    public abstract List<String> getPatientDetails();
+    public abstract Patient getBuiltPatient(Patient patient);
     public abstract List<String> getPatientDiagnoses();
     public abstract List<String> getPatientPrescriptions();
     public abstract List<Drug> getDrugs();
