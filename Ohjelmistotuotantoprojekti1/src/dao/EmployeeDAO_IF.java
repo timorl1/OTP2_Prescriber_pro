@@ -16,8 +16,4 @@ public interface EmployeeDAO_IF {
     public abstract Employee readEmployee(int userID);
     public abstract List<Employee> readEmployees();
     
-    /*
-    public abstract List<Employee>getEmployees();
-    public abstract Employee getEmployee(int userID); */
-    
 }
