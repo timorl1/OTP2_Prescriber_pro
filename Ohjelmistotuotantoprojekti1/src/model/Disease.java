@@ -20,7 +20,7 @@ public class Disease {
     private String diseaseDesc;
     @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(name="rajoitteet", joinColumns = @JoinColumn(name = "sairausid"), inverseJoinColumns = @JoinColumn(name = "allergeeniID", referencedColumnName = "allergeeniID"))
-    private List<Allergen> allergens = new ArrayList();
+    private List<Disease_Allergen> allergens = new ArrayList();
     
     public Disease(){};
 
@@ -48,11 +48,11 @@ public class Disease {
         this.diseaseDesc = diseaseDesc;
     }
 
-    public List<Allergen> getAllergenList() {
+    public List<Disease_Allergen> getAllergenList() {
         return allergens;
     }
 
-    public void setAllergenList(List<Allergen> allergenList) {
+    public void setAllergenList(List<Disease_Allergen> allergenList) {
         this.allergens = allergenList;
     }
    
