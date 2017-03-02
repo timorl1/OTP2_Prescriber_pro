@@ -34,7 +34,7 @@ public class DrugDAO implements DrugDAO_IF{
                         sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();
                     }catch (Exception e3){
                         System.err.println("Session failed to initialize.");
-                        e.printStackTrace();
+                        e3.printStackTrace();
                         StandardServiceRegistryBuilder.destroy(reg);
                         System.exit(-1);
                     }
