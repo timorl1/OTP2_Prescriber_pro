@@ -4,196 +4,185 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import dao.ApplicationDAO;
+import dao.PrescriptionDAO;
 import model.Diagnose;
 import model.Drug;
 import dao.DrugDAO;
 import model.Patient;
 import dao.PatientDAO;
+import java.util.ArrayList;
 import model.Prescription;
 
 /**
  *
  * @author joosiika
  */
-<span class="nc" id="L19">public class PrescriptionCRUDTestRun {</span>
+<span class="nc" id="L20">public class PrescriptionCRUDTestRun {</span>
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         char select;
-<span class="nc" id="L26">        ApplicationDAO appdb = new ApplicationDAO();</span>
-<span class="nc" id="L27">        DrugDAO drugdb = new DrugDAO();</span>
-<span class="nc" id="L28">        PatientDAO patientdb = new PatientDAO();</span>
-<span class="nc" id="L29">        Prescription prescription = new Prescription();</span>
-<span class="nc" id="L30">        Patient[] patients = null;</span>
+<span class="nc" id="L27">        PrescriptionDAO appdb = new PrescriptionDAO();</span>
+<span class="nc" id="L28">        DrugDAO drugdb = new DrugDAO();</span>
+<span class="nc" id="L29">        PatientDAO patientdb = new PatientDAO();</span>
+<span class="nc" id="L30">        Prescription prescription = new Prescription();</span>
+<span class="nc" id="L31">        List&lt;Patient&gt; patients = new ArrayList();</span>
         String fieldName;
         
         do {
-<span class="nc" id="L34">            System.out.println(&quot;\n\t\t\t1. Lisää resepti.&quot;);</span>
-<span class="nc" id="L35">            System.out.println(&quot;\t\t\t2. Näytä potilaan reseptit.&quot;);</span>
-<span class="nc" id="L36">            System.out.println(&quot;\t\t\t3. Muokkaa reseptiä.&quot;);</span>
-<span class="nc" id="L37">            System.out.println(&quot;\t\t\t4. Poista resepti.&quot;);</span>
-<span class="nc" id="L38">            System.out.println(&quot;\t\t\t5. Lopeta.&quot;);</span>
-<span class="nc" id="L39">            System.out.print(&quot;\n\n&quot;); // tehdään tyhjiä rivejä</span>
-<span class="nc" id="L40">            select = Reader.readChar();</span>
-<span class="nc bnc" id="L41" title="All 5 branches missed.">            switch (select) {</span>
+<span class="nc" id="L35">            System.out.println(&quot;\n\t\t\t1. Lisää resepti.&quot;);</span>
+<span class="nc" id="L36">            System.out.println(&quot;\t\t\t2. Näytä potilaan reseptit.&quot;);</span>
+<span class="nc" id="L37">            System.out.println(&quot;\t\t\t3. Muokkaa reseptiä.&quot;);</span>
+<span class="nc" id="L38">            System.out.println(&quot;\t\t\t4. Poista resepti.&quot;);</span>
+<span class="nc" id="L39">            System.out.println(&quot;\t\t\t5. Lopeta.&quot;);</span>
+<span class="nc" id="L40">            System.out.print(&quot;\n\n&quot;); // tehdään tyhjiä rivejä</span>
+<span class="nc" id="L41">            select = Reader.readChar();</span>
+<span class="nc bnc" id="L42" title="All 5 branches missed.">            switch (select) {</span>
                 case '1':
-<span class="nc" id="L43">                    System.out.println(&quot;Valitse potilas: &quot;);</span>
-                    try {
-<span class="nc" id="L45">                        patients = patientdb.readPatients();</span>
-<span class="nc" id="L46">                    } catch (SQLException ex) {</span>
-<span class="nc" id="L47">                        Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L48">                    }</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">                    if (patients != null) {</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">                        for (int i = 0; i &lt; patients.length; i++) {</span>
-<span class="nc" id="L51">                            System.out.println(i + 1 + &quot;. &quot; + patients[i].getFirstName() + &quot; &quot; + patients[i].getLastName());</span>
+<span class="nc" id="L44">                    System.out.println(&quot;Valitse potilas: &quot;);</span>
+<span class="nc" id="L45">                    patients = patientdb.readPatients();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                    if (patients != null) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                        for (int i = 0; i &lt; patients.size(); i++) {</span>
+<span class="nc" id="L48">                            System.out.println(i + 1 + &quot;. &quot; + patients.get(i).getFirstName() + &quot; &quot; + patients.get(i).getLastName());</span>
                         }
-<span class="nc" id="L53">                        prescription.setPatient(patients[Reader.readInt() - 1]);</span>
-<span class="nc" id="L54">                        System.out.println(prescription.getPatient().getFirstName());</span>
+<span class="nc" id="L50">                        prescription.setPatient(patients.get(Reader.readInt() - 1));</span>
+<span class="nc" id="L51">                        System.out.println(prescription.getPatient().getFirstName());</span>
 
-<span class="nc" id="L56">                        System.out.println(&quot;Valitse diagnoosi: &quot;);</span>
-<span class="nc" id="L57">                        patientdb = new PatientDAO();</span>
-<span class="nc" id="L58">                        int i = 1;</span>
-                        try {
-<span class="nc" id="L60">                            List&lt;Diagnose&gt; diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">                            for (Diagnose diagnose : diagnoses) {</span>
-<span class="nc" id="L62">                                System.out.println(i + &quot;. &quot; + diagnose.getId());</span>
-<span class="nc" id="L63">                                i++;</span>
-<span class="nc" id="L64">                            }</span>
-<span class="nc" id="L65">                            prescription.setDiagnose(diagnoses.get(Reader.readInt() - 1));</span>
-<span class="nc" id="L66">                        } catch (SQLException ex) {</span>
-<span class="nc" id="L67">                            Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L68">                        }</span>
+<span class="nc" id="L53">                        System.out.println(&quot;Valitse diagnoosi: &quot;);</span>
+<span class="nc" id="L54">                        patientdb = new PatientDAO();</span>
+<span class="nc" id="L55">                        int i = 1;</span>
+<span class="nc" id="L56">                        List&lt;Diagnose&gt; diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                        for (Diagnose diagnose : diagnoses) {</span>
+<span class="nc" id="L58">                            System.out.println(i + &quot;. &quot; + diagnose.getId());</span>
+<span class="nc" id="L59">                            i++;</span>
+<span class="nc" id="L60">                        }</span>
+<span class="nc" id="L61">                        prescription.setDiagnose(diagnoses.get(Reader.readInt() - 1));</span>
 
-<span class="nc" id="L70">                        System.out.println(&quot;Valitse lääke: &quot;);</span>
-<span class="nc" id="L71">                        List&lt;Drug&gt; drugs = drugdb.readDrugs();</span>
-<span class="nc" id="L72">                        i = 1;</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">                        for (Drug drug : drugs) {</span>
-<span class="nc" id="L74">                            System.out.println(i + &quot;. &quot; + drug.getName());</span>
-<span class="nc" id="L75">                            i++;</span>
-<span class="nc" id="L76">                        }</span>
-<span class="nc" id="L77">                        prescription.setDrug(drugs.get(Reader.readInt() - 1));</span>
+<span class="nc" id="L63">                        System.out.println(&quot;Valitse lääke: &quot;);</span>
+<span class="nc" id="L64">                        List&lt;Drug&gt; drugs = drugdb.readDrugs();</span>
+<span class="nc" id="L65">                        i = 1;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                        for (Drug drug : drugs) {</span>
+<span class="nc" id="L67">                            System.out.println(i + &quot;. &quot; + drug.getName());</span>
+<span class="nc" id="L68">                            i++;</span>
+<span class="nc" id="L69">                        }</span>
+<span class="nc" id="L70">                        prescription.setDrug(drugs.get(Reader.readInt() - 1));</span>
 
-<span class="nc" id="L79">                        System.out.println(&quot;Anna annostus: &quot;);</span>
-<span class="nc" id="L80">                        prescription.setDose(Reader.readLine());</span>
+<span class="nc" id="L72">                        System.out.println(&quot;Anna annostus: &quot;);</span>
+<span class="nc" id="L73">                        prescription.setDose(Reader.readLine());</span>
 
-<span class="nc" id="L82">                        System.out.println(&quot;Montako kertaa päivässä: &quot;);</span>
-<span class="nc" id="L83">                        prescription.setTimesADay(Reader.readInt());</span>
+<span class="nc" id="L75">                        System.out.println(&quot;Montako kertaa päivässä: &quot;);</span>
+<span class="nc" id="L76">                        prescription.setTimesADay(Reader.readInt());</span>
 
-<span class="nc" id="L85">                        System.out.println(&quot;Anna ohjeet: &quot;);</span>
-<span class="nc" id="L86">                        prescription.setInfo(Reader.readLine());</span>
+<span class="nc" id="L78">                        System.out.println(&quot;Anna ohjeet: &quot;);</span>
+<span class="nc" id="L79">                        prescription.setInfo(Reader.readLine());</span>
 
-<span class="nc" id="L88">                        System.out.println(&quot;Anna aloituspäivämäärä: &quot;);</span>
-<span class="nc" id="L89">                        prescription.setStartDate(Reader.readLine());</span>
+<span class="nc" id="L81">                        System.out.println(&quot;Anna aloituspäivämäärä: &quot;);</span>
+<span class="nc" id="L82">                        prescription.setStartDate(Reader.readLine());</span>
 
-<span class="nc" id="L91">                        System.out.println(&quot;Anna lopetuspäivämäärä: &quot;);</span>
-<span class="nc" id="L92">                        prescription.setEndDate(Reader.readLine());</span>
+<span class="nc" id="L84">                        System.out.println(&quot;Anna lopetuspäivämäärä: &quot;);</span>
+<span class="nc" id="L85">                        prescription.setEndDate(Reader.readLine());</span>
 
-<span class="nc" id="L94">                        prescription.setUsername(&quot;admin&quot;);</span>
+<span class="nc" id="L87">                        prescription.setUsername(&quot;admin&quot;);</span>
 
-<span class="nc" id="L96">                        appdb.createPrescription(prescription);</span>
-<span class="nc" id="L97">                    }</span>
+<span class="nc" id="L89">                        appdb.createPrescription(prescription);</span>
+<span class="nc" id="L90">                    }</span>
                     break;
                 case '2':
-<span class="nc" id="L100">                    Patient patient = null;</span>
-<span class="nc" id="L101">                    System.out.println(&quot;Valitse potilas: &quot;);</span>
-                    try {
-<span class="nc" id="L103">                        patients = patientdb.readPatients();</span>
-<span class="nc" id="L104">                    } catch (SQLException ex) {</span>
-<span class="nc" id="L105">                        Logger.getLogger(PrescriptionCRUDTestRun.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L106">                    }</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                    if (patients != null) {</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">                        for (int i = 0; i &lt; patients.length; i++) {</span>
-<span class="nc" id="L109">                            System.out.println(i + 1 + &quot;. &quot; + patients[i].getFirstName() + &quot; &quot; + patients[i].getLastName());</span>
+<span class="nc" id="L93">                    Patient patient = null;</span>
+<span class="nc" id="L94">                    System.out.println(&quot;Valitse potilas: &quot;);</span>
+<span class="nc" id="L95">                    patients = patientdb.readPatients();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                    if (patients != null) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                        for (int i = 0; i &lt; patients.size(); i++) {</span>
+<span class="nc" id="L98">                            System.out.println(i + 1 + &quot;. &quot; + patients.get(i).getFirstName() + &quot; &quot; + patients.get(i).getLastName());</span>
                         }
-<span class="nc" id="L111">                        patient = patients[Reader.readInt() - 1];</span>
-<span class="nc" id="L112">                        System.out.println(patient.getFirstName());</span>
+<span class="nc" id="L100">                        patient = patients.get(Reader.readInt() - 1);</span>
+<span class="nc" id="L101">                        System.out.println(patient.getFirstName());</span>
                     }
-<span class="nc" id="L114">                    System.out.println(&quot;Potilaan reseptit: &quot;);</span>
-<span class="nc" id="L115">                    patientdb = new PatientDAO();</span>
-<span class="nc" id="L116">                    int i = 1;</span>
-<span class="nc" id="L117">                    List&lt;Prescription&gt; prescriptions = appdb.getPrescriptionsByPatient(patient);</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
-<span class="nc" id="L119">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
-<span class="nc" id="L120">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
-<span class="nc" id="L121">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
-<span class="nc" id="L122">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
-<span class="nc" id="L123">                        System.out.println(&quot;  &quot; + p.getDose());</span>
-<span class="nc" id="L124">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
-<span class="nc" id="L125">                        System.out.println(&quot;  &quot; + p.getInfo());</span>
-<span class="nc" id="L126">                        i++;</span>
-<span class="nc" id="L127">                    }</span>
-<span class="nc" id="L128">                    char x = Reader.readChar();</span>
-<span class="nc" id="L129">                    break;</span>
+<span class="nc" id="L103">                    System.out.println(&quot;Potilaan reseptit: &quot;);</span>
+<span class="nc" id="L104">                    patientdb = new PatientDAO();</span>
+<span class="nc" id="L105">                    int i = 1;</span>
+<span class="nc" id="L106">                    List&lt;Prescription&gt; prescriptions = appdb.getPrescriptionsByPatient(patient);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
+<span class="nc" id="L108">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
+<span class="nc" id="L109">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
+<span class="nc" id="L110">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
+<span class="nc" id="L111">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
+<span class="nc" id="L112">                        System.out.println(&quot;  &quot; + p.getDose());</span>
+<span class="nc" id="L113">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
+<span class="nc" id="L114">                        System.out.println(&quot;  &quot; + p.getInfo());</span>
+<span class="nc" id="L115">                        i++;</span>
+<span class="nc" id="L116">                    }</span>
+<span class="nc" id="L117">                    char x = Reader.readChar();</span>
+<span class="nc" id="L118">                    break;</span>
                 case '3':
-<span class="nc" id="L131">                    System.out.println(&quot;Valitse muokattava resepti: &quot;);</span>
-<span class="nc" id="L132">                    i = 1;</span>
-<span class="nc" id="L133">                    prescriptions = appdb.readPrescriptions();</span>
-<span class="nc bnc" id="L134" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
-<span class="nc" id="L135">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
-<span class="nc" id="L136">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
-<span class="nc" id="L137">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
-<span class="nc" id="L138">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
-<span class="nc" id="L139">                        System.out.println(&quot;  &quot; + p.getDose());</span>
-<span class="nc" id="L140">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
-<span class="nc" id="L141">                        System.out.println(&quot;  &quot; + p.getInfo());</span>
-<span class="nc" id="L142">                        i++;</span>
-<span class="nc" id="L143">                    }</span>
-<span class="nc" id="L144">                    prescription = prescriptions.get(Reader.readInt() - 1);</span>
+<span class="nc" id="L120">                    System.out.println(&quot;Valitse muokattava resepti: &quot;);</span>
+<span class="nc" id="L121">                    i = 1;</span>
+<span class="nc" id="L122">                    prescriptions = appdb.readPrescriptions();</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
+<span class="nc" id="L124">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
+<span class="nc" id="L125">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
+<span class="nc" id="L126">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
+<span class="nc" id="L127">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
+<span class="nc" id="L128">                        System.out.println(&quot;  &quot; + p.getDose());</span>
+<span class="nc" id="L129">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
+<span class="nc" id="L130">                        System.out.println(&quot;  &quot; + p.getInfo());</span>
+<span class="nc" id="L131">                        i++;</span>
+<span class="nc" id="L132">                    }</span>
+<span class="nc" id="L133">                    prescription = prescriptions.get(Reader.readInt() - 1);</span>
 
-<span class="nc" id="L146">                    System.out.println(&quot;Valitse lääke: &quot;);</span>
-<span class="nc" id="L147">                    List&lt;Drug&gt; drugs = drugdb.readDrugs();</span>
-<span class="nc" id="L148">                    i = 1;</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">                    for (Drug drug : drugs) {</span>
-<span class="nc" id="L150">                        System.out.println(i + &quot;. &quot; + drug.getName());</span>
-<span class="nc" id="L151">                        i++;</span>
-<span class="nc" id="L152">                    }</span>
-<span class="nc" id="L153">                    prescription.setDrug(drugs.get(Reader.readInt() - 1));</span>
+<span class="nc" id="L135">                    System.out.println(&quot;Valitse lääke: &quot;);</span>
+<span class="nc" id="L136">                    List&lt;Drug&gt; drugs = drugdb.readDrugs();</span>
+<span class="nc" id="L137">                    i = 1;</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                    for (Drug drug : drugs) {</span>
+<span class="nc" id="L139">                        System.out.println(i + &quot;. &quot; + drug.getName());</span>
+<span class="nc" id="L140">                        i++;</span>
+<span class="nc" id="L141">                    }</span>
+<span class="nc" id="L142">                    prescription.setDrug(drugs.get(Reader.readInt() - 1));</span>
 
-<span class="nc" id="L155">                    System.out.println(&quot;Anna annostus: &quot;);</span>
-<span class="nc" id="L156">                    prescription.setDose(Reader.readLine());</span>
+<span class="nc" id="L144">                    System.out.println(&quot;Anna annostus: &quot;);</span>
+<span class="nc" id="L145">                    prescription.setDose(Reader.readLine());</span>
 
-<span class="nc" id="L158">                    System.out.println(&quot;Montako kertaa päivässä: &quot;);</span>
-<span class="nc" id="L159">                    prescription.setTimesADay(Reader.readInt());</span>
+<span class="nc" id="L147">                    System.out.println(&quot;Montako kertaa päivässä: &quot;);</span>
+<span class="nc" id="L148">                    prescription.setTimesADay(Reader.readInt());</span>
 
-<span class="nc" id="L161">                    System.out.println(&quot;Anna ohjeet: &quot;);</span>
-<span class="nc" id="L162">                    prescription.setInfo(Reader.readLine());</span>
+<span class="nc" id="L150">                    System.out.println(&quot;Anna ohjeet: &quot;);</span>
+<span class="nc" id="L151">                    prescription.setInfo(Reader.readLine());</span>
 
-<span class="nc" id="L164">                    System.out.println(&quot;Anna aloituspäivämäärä: &quot;);</span>
-<span class="nc" id="L165">                    prescription.setStartDate(Reader.readLine());</span>
+<span class="nc" id="L153">                    System.out.println(&quot;Anna aloituspäivämäärä: &quot;);</span>
+<span class="nc" id="L154">                    prescription.setStartDate(Reader.readLine());</span>
 
-<span class="nc" id="L167">                    System.out.println(&quot;Anna lopetuspäivämäärä: &quot;);</span>
-<span class="nc" id="L168">                    prescription.setEndDate(Reader.readLine());</span>
+<span class="nc" id="L156">                    System.out.println(&quot;Anna lopetuspäivämäärä: &quot;);</span>
+<span class="nc" id="L157">                    prescription.setEndDate(Reader.readLine());</span>
 
-<span class="nc" id="L170">                    prescription.setUsername(&quot;admin&quot;);</span>
+<span class="nc" id="L159">                    prescription.setUsername(&quot;admin&quot;);</span>
 
-<span class="nc" id="L172">                    appdb.updatePrescription(prescription);</span>
+<span class="nc" id="L161">                    appdb.updatePrescription(prescription);</span>
                 case '4':
-<span class="nc" id="L174">                    System.out.println(&quot;Valitse poistettava resepti: &quot;);</span>
-<span class="nc" id="L175">                    i = 1;</span>
-<span class="nc" id="L176">                    prescriptions = appdb.readPrescriptions();</span>
-<span class="nc bnc" id="L177" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
-<span class="nc" id="L178">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
-<span class="nc" id="L179">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
-<span class="nc" id="L180">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
-<span class="nc" id="L181">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
-<span class="nc" id="L182">                        System.out.println(&quot;  &quot; + p.getDose());</span>
-<span class="nc" id="L183">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
-<span class="nc" id="L184">                        System.out.println(&quot;  &quot; + p.getInfo());</span>
-<span class="nc" id="L185">                        i++;</span>
-<span class="nc" id="L186">                    }</span>
-<span class="nc" id="L187">                    prescription = prescriptions.get(Reader.readInt() - 1);</span>
-<span class="nc" id="L188">                    appdb.deletePrescription(prescription);</span>
+<span class="nc" id="L163">                    System.out.println(&quot;Valitse poistettava resepti: &quot;);</span>
+<span class="nc" id="L164">                    i = 1;</span>
+<span class="nc" id="L165">                    prescriptions = appdb.readPrescriptions();</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
+<span class="nc" id="L167">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
+<span class="nc" id="L168">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
+<span class="nc" id="L169">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
+<span class="nc" id="L170">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
+<span class="nc" id="L171">                        System.out.println(&quot;  &quot; + p.getDose());</span>
+<span class="nc" id="L172">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
+<span class="nc" id="L173">                        System.out.println(&quot;  &quot; + p.getInfo());</span>
+<span class="nc" id="L174">                        i++;</span>
+<span class="nc" id="L175">                    }</span>
+<span class="nc" id="L176">                    prescription = prescriptions.get(Reader.readInt() - 1);</span>
+<span class="nc" id="L177">                    appdb.deletePrescription(prescription);</span>
                 case '5':
                     break;
             }
-<span class="nc bnc" id="L192" title="All 2 branches missed.">        } while (select != '5');</span>
-<span class="nc" id="L193">        System.exit(0);</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        } while (select != '5');</span>
+<span class="nc" id="L182">        System.exit(0);</span>
         
         
-<span class="nc" id="L196">    }</span>
+<span class="nc" id="L185">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PrescriptionDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">PrescriptionDAO.java</span></div><h1>PrescriptionDAO.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.util.List;
+import model.Diagnose;
+import model.Doctor;
+import model.Patient;
+import model.Prescription;
+import org.hibernate.*;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.*;
+
+/**
+ *
+ * @author joosiika
+ */
+public class PrescriptionDAO implements PrescriptionDAO_IF{
+    SessionFactory sf;
+    final StandardServiceRegistry reg;
+    final StandardServiceRegistry reg2;
+    
+    private Session session;
+    private Transaction transaction;
+    
+<span class="fc" id="L24">    private DrugDAO drugdb = new DrugDAO();</span>
+
+<span class="fc" id="L26">    public PrescriptionDAO() {</span>
+<span class="fc" id="L27">        sf = null;</span>
+<span class="fc" id="L28">        reg = new StandardServiceRegistryBuilder().configure(&quot;applicationdb.cfg.xml&quot;).build();</span>
+
+<span class="fc" id="L30">        reg2 = new StandardServiceRegistryBuilder().configure(&quot;applicationdbjenkins.cfg.xml&quot;).build();</span>
+        try {
+<span class="fc" id="L32">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
+<span class="nc" id="L33">        }catch (Exception e){</span>
+<span class="nc" id="L34">            System.out.println(&quot;Session failed to initialize.&quot;);</span>
+                    try{
+<span class="nc" id="L36">                        System.out.println(&quot;Trying with jenkins&quot;);</span>
+                        
+<span class="nc" id="L38">                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();</span>
+<span class="nc" id="L39">                    }catch (Exception e3){</span>
+<span class="nc" id="L40">                        System.err.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L41">                        e3.printStackTrace();</span>
+<span class="nc" id="L42">                        StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="nc" id="L43">                        System.exit(-1);</span>
+<span class="nc" id="L44">                    }</span>
+<span class="fc" id="L45">        }</span>
+<span class="fc" id="L46">    }</span>
+    
+    @Override
+    public void shutDown() {
+<span class="nc" id="L50">        boolean success = false;</span>
+        do {
+            try {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (reg != null) {</span>
+<span class="nc" id="L54">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+                }
+<span class="nc" id="L56">                success = true;</span>
+<span class="nc" id="L57">            } catch (Exception e) {</span>
+<span class="nc" id="L58">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
+                try {
+<span class="nc" id="L60">                    Thread.sleep(1000);</span>
+<span class="nc" id="L61">                } catch (InterruptedException e1) {</span>
+<span class="nc" id="L62">                    e1.printStackTrace();</span>
+<span class="nc" id="L63">                }</span>
+<span class="nc" id="L64">            }</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        } while (!success);</span>
+<span class="nc" id="L66">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="nc" id="L67">    }</span>
+
+    @Override
+    public boolean createPrescription(Prescription prescription) {
+<span class="fc" id="L71">        session = sf.openSession();</span>
+<span class="fc" id="L72">        transaction = null;</span>
+<span class="fc" id="L73">        boolean success = false;</span>
+        try {
+<span class="fc" id="L75">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L76">            session.saveOrUpdate(prescription);</span>
+<span class="fc" id="L77">            transaction.commit();</span>
+<span class="fc" id="L78">            success = true;</span>
+<span class="nc" id="L79">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (transaction != null) {</span>
+<span class="nc" id="L81">                transaction.rollback();</span>
+            }
+<span class="nc" id="L83">            System.out.println(&quot;Inserting an entry to DB failed.&quot;);</span>
+        } finally {
+<span class="pc" id="L85">            session.close();</span>
+<span class="pc" id="L86">        }</span>
+<span class="fc" id="L87">        return success;</span>
+    }
+
+    @Override
+    public Prescription readPrescription(int id) {
+<span class="fc" id="L92">        Prescription prescription = null;</span>
+<span class="fc" id="L93">        session = sf.openSession();</span>
+        try {
+<span class="fc" id="L95">            session.beginTransaction();</span>
+<span class="fc" id="L96">            session.load(prescription = new Prescription(), id);</span>
+<span class="fc" id="L97">            session.getTransaction().commit();</span>
+<span class="nc" id="L98">        } catch (Exception e) {</span>
+<span class="nc" id="L99">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+        } finally {
+<span class="pc" id="L101">            session.close();</span>
+<span class="pc" id="L102">        }</span>
+<span class="fc" id="L103">        return prescription;</span>
+    }
+    
+    @Override
+    public List&lt;Prescription&gt; getPrescriptionsByPatient(Patient patient) {
+<span class="fc" id="L108">        List&lt;Prescription&gt; result = null;</span>
+<span class="fc" id="L109">        session = sf.openSession();</span>
+        try {
+<span class="fc" id="L111">            session.beginTransaction();</span>
+<span class="fc" id="L112">            result = session.createQuery(&quot;from prescription where patientID = &quot;+&quot;'&quot;+patient.getSSN()+&quot;'&quot;).getResultList();</span>
+<span class="fc" id="L113">            session.getTransaction().commit();</span>
+<span class="nc" id="L114">        } catch (Exception e) {</span>
+<span class="nc" id="L115">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="nc" id="L116">            e.printStackTrace();</span>
+        } finally {
+<span class="pc" id="L118">            session.close();</span>
+<span class="pc" id="L119">        }</span>
+<span class="fc" id="L120">        return result;</span>
+    }
+
+    @Override
+    public List&lt;Prescription&gt; readPrescriptions() {
+<span class="fc" id="L125">        List&lt;Prescription&gt; prescriptions = null;</span>
+<span class="fc" id="L126">        session = sf.openSession();</span>
+        try {
+<span class="fc" id="L128">            session.beginTransaction();</span>
+<span class="fc" id="L129">            prescriptions = session.createQuery(&quot;from prescription&quot;).getResultList();</span>
+<span class="fc" id="L130">            session.getTransaction().commit();</span>
+<span class="nc" id="L131">        } catch (Exception e) {</span>
+<span class="nc" id="L132">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="nc" id="L133">            e.printStackTrace();</span>
+        } finally {
+<span class="pc" id="L135">            session.close();</span>
+<span class="pc" id="L136">        }</span>
+<span class="fc" id="L137">        return prescriptions;</span>
+    }
+
+    @Override
+    public List&lt;Prescription&gt; getPrescriptionsByDoctor(Doctor doctor) {
+<span class="fc" id="L142">        List&lt;Prescription&gt; prescriptions = null;</span>
+<span class="fc" id="L143">        session = sf.openSession();</span>
+        try {
+<span class="fc" id="L145">            session.beginTransaction();</span>
+<span class="fc" id="L146">            prescriptions = session.createQuery(&quot;from prescription where doctorID = &quot; + doctor.getId()).getResultList();</span>
+<span class="fc" id="L147">            session.getTransaction().commit();</span>
+            /*for (Prescription prescription : result) {
+                Hibernate.initialize(drug.getActiveAgents());
+                Hibernate.initialize(drug.getAllergens());
+                Hibernate.initialize(drug.getCommonAdverseEffects());
+                Hibernate.initialize(drug.getRareAdverseEffects());
+            }*/
+<span class="nc" id="L154">        } catch (Exception e) {</span>
+<span class="nc" id="L155">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="nc" id="L156">            e.printStackTrace();</span>
+        } finally {
+<span class="pc" id="L158">            session.close();</span>
+<span class="pc" id="L159">        }</span>
+<span class="fc" id="L160">        return prescriptions;</span>
+    }
+
+    @Override
+    public Prescription getPrescriptionByDiagnose(Diagnose diagnose) {
+<span class="fc" id="L165">        Prescription prescription = null;</span>
+<span class="fc" id="L166">        session = sf.openSession();</span>
+        try {
+<span class="fc" id="L168">            session.beginTransaction();</span>
+<span class="fc" id="L169">            session.load(prescription = new Prescription(), diagnose.getId());</span>
+<span class="fc" id="L170">            session.getTransaction().commit();</span>
+<span class="nc" id="L171">        } catch (Exception e) {</span>
+<span class="nc" id="L172">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+        } finally {
+<span class="pc" id="L174">            session.close();</span>
+<span class="pc" id="L175">        }</span>
+<span class="fc" id="L176">        return prescription;</span>
+    }
+
+    @Override
+    public boolean updatePrescription(Prescription prescription) {
+<span class="fc" id="L181">        session = sf.openSession();</span>
+<span class="fc" id="L182">        transaction = null;</span>
+<span class="fc" id="L183">        boolean success = false;</span>
+        try {
+<span class="fc" id="L185">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L186">            session.update(prescription);</span>
+<span class="fc" id="L187">            transaction.commit();</span>
+<span class="fc" id="L188">            success = true;</span>
+<span class="nc" id="L189">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">            if (transaction != null) {</span>
+<span class="nc" id="L191">                transaction.rollback();</span>
+            }
+<span class="nc" id="L193">            System.out.println(&quot;Updating an entry in DB failed.&quot;);</span>
+        } finally {
+<span class="pc" id="L195">            session.close();</span>
+<span class="pc" id="L196">        }</span>
+<span class="fc" id="L197">        return success;</span>
+    }
+
+    @Override
+    public boolean deletePrescription(Prescription prescription) {
+<span class="fc" id="L202">        session = sf.openSession();</span>
+<span class="fc" id="L203">        transaction = null;</span>
+<span class="fc" id="L204">        boolean success = false;</span>
+        try {
+<span class="fc" id="L206">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L207">            session.delete(prescription);</span>
+<span class="fc" id="L208">            transaction.commit();</span>
+<span class="fc" id="L209">            success = true;</span>
+<span class="nc" id="L210">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">            if (transaction != null) {</span>
+<span class="nc" id="L212">                transaction.rollback();</span>
+            }
+<span class="nc" id="L214">            System.out.println(&quot;Deleting an entry from DB failed.&quot;);</span>
+        } finally {
+<span class="pc" id="L216">            session.close();</span>
+<span class="pc" id="L217">        }</span>
+<span class="fc" id="L218">        return success;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

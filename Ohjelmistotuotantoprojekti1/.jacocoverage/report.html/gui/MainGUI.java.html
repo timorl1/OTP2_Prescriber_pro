@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MainGUI.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">MainGUI.java</span></div><h1>MainGUI.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.*;
+import model.Drug;
+import model.Patient;
+import model.Prescription;
+import model.User;
+
+/**
+ * FXML Controller class
+ *
+ * @author joosiika
+ */
+<span class="nc" id="L19">public class MainGUI implements Initializable, MainGUI_IF {</span>
+    
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private TabPane tabPane;
+    private SideBarGUI_IF sideBar;
+    private LoginGUI_IF login;
+    
+    private Controller controller;
+    
+    //Load login-component on initalization
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+<span class="nc" id="L33">        this.controller = new Controller(this);</span>
+<span class="nc" id="L34">        loadLogin();</span>
+<span class="nc" id="L35">    }</span>
+    
+    //Creates a new instance of the LoginGUI and passes itself as a parameter
+    //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
+    @Override
+    public void loadLogin() {
+<span class="nc" id="L41">        this.login = new LoginGUI();</span>
+<span class="nc" id="L42">        this.login.getButton().setOnAction((event) -&gt; {</span>
+<span class="nc" id="L43">            this.controller.login(this.login.getUsername(), this.login.getPassword());</span>
+<span class="nc" id="L44">        });</span>
+<span class="nc" id="L45">        this.root.getChildren().add((LoginGUI)this.login);</span>
+<span class="nc" id="L46">    }</span>
+    
+    //Removes the login component and loads the side bar component
+    //Component type is defined by user's priviledges
+    //1 - load nurses sidebar components
+    //2 - load doctors sidebar components
+    //3 - load administrators sidebar components
+    //0 - should print out &quot;access revoked&quot; and instructions to contact the administrator
+    @Override
+    public void loadSideBar() {
+<span class="nc" id="L56">        this.root.getChildren().remove((LoginGUI) this.login);</span>
+<span class="nc" id="L57">        this.sideBar = new SideBarGUI(this);</span>
+<span class="nc" id="L58">        this.root.getChildren().add((SideBarGUI) this.sideBar);</span>
+<span class="nc" id="L59">    }</span>
+
+    //Loads the tab pane component depending of the side bar content selection
+    @Override
+    public &lt;T&gt; void loadTabPane(T selection) {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (selection instanceof Patient) {</span>
+<span class="nc" id="L65">            this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L66">            ListTabGUI listTab = new ListTabGUI((Patient)selection, &quot;Potilaan tiedot&quot;, this);</span>
+<span class="nc" id="L67">            this.tabPane.getTabs().add(listTab);</span>
+<span class="nc" id="L68">        }</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        else if (selection instanceof Drug) {</span>
+<span class="nc" id="L70">            System.out.println(&quot;You selected drug &quot; + selection);</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    @Override
+    public void loadPatientList() {
+<span class="nc" id="L76">        SideBarListViewGUI&lt;Patient&gt; patientListView = new SideBarListViewGUI(&quot;Potilas&quot;);</span>
+<span class="nc" id="L77">        patientListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (patientListView.isExpanded()) {</span>
+<span class="nc" id="L79">                patientListView.setList(this.controller.getPatients());</span>
+            }
+<span class="nc" id="L81">        });</span>
+<span class="nc" id="L82">        this.sideBar.addView(patientListView);</span>
+<span class="nc" id="L83">    }</span>
+
+    @Override
+    public void loadDrugList() {
+<span class="nc" id="L87">        SideBarListViewGUI&lt;Drug&gt; drugListView = new SideBarListViewGUI(&quot;Lääkkeet&quot;);</span>
+<span class="nc" id="L88">        drugListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (drugListView.isExpanded()) {</span>
+<span class="nc" id="L90">                drugListView.setList(this.controller.getDrugs());</span>
+            }
+<span class="nc" id="L92">        });</span>
+<span class="nc" id="L93">        drugListView.getListView().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc" id="L94">            this.loadTabPane(drugListView.getSelection());</span>
+<span class="nc" id="L95">        });</span>
+<span class="nc" id="L96">        this.sideBar.addView(drugListView);</span>
+<span class="nc" id="L97">    }</span>
+
+    @Override
+    public void loadPrescriptionList() {
+<span class="nc" id="L101">        SideBarListViewGUI&lt;Prescription&gt; prescriptionListView = new SideBarListViewGUI(&quot;Omat Reseptit&quot;);</span>
+<span class="nc" id="L102">        prescriptionListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if (prescriptionListView.isExpanded()) {</span>
+<span class="nc" id="L104">                prescriptionListView.setList(this.controller.getPrescriptions());</span>
+            }
+<span class="nc" id="L106">        });</span>
+<span class="nc" id="L107">        this.sideBar.addView(prescriptionListView);</span>
+<span class="nc" id="L108">    }</span>
+
+    @Override
+    public void loadMessageList() {
+<span class="nc" id="L112">        SideBarListViewGUI&lt;String&gt; messageListView = new SideBarListViewGUI(&quot;Viestit&quot;);</span>
+<span class="nc" id="L113">        messageListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (messageListView.isExpanded()) {</span>
+<span class="nc" id="L115">                messageListView.setList(this.controller.getMessages());</span>
+            }
+<span class="nc" id="L117">        });</span>
+<span class="nc" id="L118">        this.sideBar.addView(messageListView);</span>
+<span class="nc" id="L119">    }</span>
+
+    @Override
+    public void loadUserList() {
+<span class="nc" id="L123">        SideBarListViewGUI&lt;User&gt; userListView = new SideBarListViewGUI(&quot;Käyttäjät&quot;);</span>
+<span class="nc" id="L124">        userListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (userListView.isExpanded()) {</span>
+<span class="nc" id="L126">                userListView.setList(this.controller.getUsers());</span>
+            }
+<span class="nc" id="L128">        });</span>
+<span class="nc" id="L129">        this.sideBar.addView(userListView);</span>
+<span class="nc" id="L130">    }</span>
+
+    @Override
+    public void loadEmployeeList() {
+<span class="nc" id="L134">        SideBarListViewGUI&lt;String&gt; employeeListView = new SideBarListViewGUI(&quot;Työntekijät&quot;);</span>
+<span class="nc" id="L135">        employeeListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (employeeListView.isExpanded()) {</span>
+<span class="nc" id="L137">                employeeListView.setList(this.controller.getEmployees());</span>
+            }
+<span class="nc" id="L139">        });</span>
+<span class="nc" id="L140">        this.sideBar.addView(employeeListView);</span>
+<span class="nc" id="L141">    }</span>
+
+    @Override
+    public void loadDatabaseList() {
+<span class="nc" id="L145">        SideBarListViewGUI&lt;String&gt; databaseListView = new SideBarListViewGUI(&quot;Tietokannat&quot;);</span>
+<span class="nc" id="L146">        databaseListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">            if (databaseListView.isExpanded()) {</span>
+<span class="nc" id="L148">                databaseListView.setList(this.controller.getEmployees());</span>
+            }
+<span class="nc" id="L150">        });</span>
+<span class="nc" id="L151">        this.sideBar.addView(databaseListView);</span>
+<span class="nc" id="L152">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
