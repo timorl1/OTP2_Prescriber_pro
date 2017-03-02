@@ -2,10 +2,13 @@ package gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
+import javafx.util.converter.DoubleStringConverter;
 import model.Drug;
 import model.Patient;
 import model.Prescription;
@@ -27,10 +30,12 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     private Controller controller;
     
+    private DoubleStringConverter dsc;
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.controller = new Controller(this);
+        this.dsc = new DoubleStringConverter();
         loadLogin();
     }
     
@@ -62,8 +67,17 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public <T> void loadTabPane(T selection) {
         if (selection instanceof Patient) {
+            Patient patient = this.controller.getBuiltPatient((Patient)selection);
             this.tabPane.getTabs().clear();
-            ListTabGUI listTab = new ListTabGUI((Patient)selection, "Potilaan tiedot", this);
+            ListTabGUI listTab = new ListTabGUI("Potilaan tiedot");
+            ObservableList<String> list = FXCollections.observableArrayList();
+            list.add("Etunimi: " + patient.getFirstName());
+            list.add("Sukunimi: " + patient.getLastName());
+            list.add("Sosiaaliturvatunnus: " + patient.getSSN());
+            list.add("Sukupuoli: " + patient.getGender());
+            list.add("Pituus: " + dsc.toString(patient.getHeight()) + " cm");
+            list.add("Paino: " + dsc.toString(patient.getWeight()) + " kg");
+            listTab.setList(list);
             this.tabPane.getTabs().add(listTab);
         }
         else if (selection instanceof Drug) {
@@ -78,6 +92,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
             if (patientListView.isExpanded()) {
                 patientListView.setList(this.controller.getPatients());
             }
+        });
+        patientListView.getListView().setOnMouseClicked((event) -> {
+            this.loadTabPane(patientListView.getSelection());
         });
         this.sideBar.addView(patientListView);
     }

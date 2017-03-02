@@ -5,7 +5,10 @@
  */
 package gui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +18,7 @@ import model.ClientResources;
 import model.Drug;
 import model.DrugResources;
 import model.Patient;
+import model.PatientBuilder;
 import model.Prescription;
 import model.User;
 
@@ -24,6 +28,7 @@ public class Controller implements Controller_IF {
     private Authenticator auth;
     private ClientResources clientRes;
     private DrugResources drugRes;
+    private PatientBuilder pBuilder;
     
     private User user;
     
@@ -32,6 +37,7 @@ public class Controller implements Controller_IF {
         this.auth = new Authenticator();
         this.clientRes = new ClientResources();
         this.drugRes = new DrugResources();
+        this.pBuilder = new PatientBuilder();
     }
 
     @Override
@@ -71,8 +77,8 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<String> getPatientDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Patient getBuiltPatient(Patient patient) {
+        return this.pBuilder.buildPatient(patient);
     }
 
     @Override

@@ -6,6 +6,8 @@
 package gui;
 
 import java.util.List;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 
 /**
  *
@@ -13,7 +15,7 @@ import java.util.List;
  * @param <E>
  */
 public interface ListTabGUI_IF<E> {
-    public abstract E getElement();
-    public abstract void setElement(E e);
+    public abstract Tab getTab();
+    public abstract ListView getListView();
     public abstract void setList(List<E> list);
 }

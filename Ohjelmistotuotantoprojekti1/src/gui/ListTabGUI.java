@@ -11,8 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -28,17 +30,12 @@ public class ListTabGUI<E> extends Tab implements ListTabGUI_IF<E> {
     @FXML
     private Tab tab;
     
-    private E e;
-    private E data;
     private final String title;
-    private final MainGUI_IF root;
     private FXMLLoader loader;
     
     private ObservableList<E> list;
     
-    public ListTabGUI(E data, String title, MainGUI_IF root) {
-        this.data = data;
-        this.root = root;
+    public ListTabGUI(String title) {
         this.title = title;
         try {
             loader = new FXMLLoader(getClass().getResource("ListTab.fxml"));
@@ -52,19 +49,18 @@ public class ListTabGUI<E> extends Tab implements ListTabGUI_IF<E> {
     }
     
     @Override
+    public Tab getTab() {
+        return this.tab;
+    }
+
+    @Override
+    public ListView getListView() {
+        return this.listView;
+    }
+    
+    @Override
     public void setList(List<E> list) {
         this.list = FXCollections.observableArrayList(list);
         this.listView.setItems(this.list);
     }
-
-    @Override
-    public E getElement() {
-        return e;
-    }
-
-    @Override
-    public void setElement(E e) {
-        this.e = e;
-    }
-    
 }
