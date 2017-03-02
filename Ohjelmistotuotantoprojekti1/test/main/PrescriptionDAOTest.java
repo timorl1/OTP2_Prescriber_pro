@@ -60,9 +60,9 @@ public class PrescriptionDAOTest {
         assertEquals("123456-789a", result.getPatient());
         assertEquals(0, result.getDoc());
         assertEquals(1, result.getDiagnose()); */
-        assertEquals("1000mg", result.getDose());
-        assertEquals(2, result.getTimesADay());
-        assertEquals("Syö yksinäs", result.getInfo());
+        assertEquals("400mg", result.getDose());
+        assertEquals(3, result.getTimesADay());
+        assertEquals("Tarvittaessa", result.getInfo());
     //    assertEquals(123456, result.getDrug());
     //    assertEquals("admin", result.getUsername());
         
@@ -76,9 +76,9 @@ public class PrescriptionDAOTest {
         PrescriptionDAO instance = new PrescriptionDAO();
         List<Prescription> pres = instance.readPrescriptions();
         
-        assertEquals("1000mg", pres.get(0).getDose());
-        assertEquals(2, pres.get(0).getTimesADay());
-        assertEquals("Syö yksinäs", pres.get(0).getInfo());
+        assertEquals("400mg", pres.get(0).getDose());
+        assertEquals(3, pres.get(0).getTimesADay());
+        assertEquals("Tarvittaessa", pres.get(0).getInfo());
     }
     
     /**
@@ -92,9 +92,9 @@ public class PrescriptionDAOTest {
         pat.setSSN("123456-789a");
         List<Prescription> pres = instance.getPrescriptionsByPatient(pat);
         
-        assertEquals("1000mg", pres.get(0).getDose());
-        assertEquals(2, pres.get(0).getTimesADay());
-        assertEquals("Syö yksinäs", pres.get(0).getInfo());
+        assertEquals("400mg", pres.get(0).getDose());
+        assertEquals(3, pres.get(0).getTimesADay());
+        assertEquals("Tarvittaessa", pres.get(0).getInfo());
         
         
     }
@@ -110,9 +110,9 @@ public class PrescriptionDAOTest {
         doc.setId(0);
         List<Prescription> pres = instance.getPrescriptionsByDoctor(doc);
        
-        assertEquals("1000mg", pres.get(0).getDose());
-        assertEquals(2, pres.get(0).getTimesADay());
-        assertEquals("Syö yksinäs", pres.get(0).getInfo());
+        assertEquals("400mg", pres.get(0).getDose());
+        assertEquals(3, pres.get(0).getTimesADay());
+        assertEquals("Tarvittaessa", pres.get(0).getInfo());
     }
     /**
      * Test of getPrescriptionByDiagnose method, of class PrescriptionDAO.
@@ -125,9 +125,9 @@ public class PrescriptionDAOTest {
         dia.setId(1);
         Prescription pres = instance.getPrescriptionByDiagnose(dia);
         
-        assertEquals("1000mg", pres.getDose());
-        assertEquals(2, pres.getTimesADay());
-        assertEquals("Syö yksinäs", pres.getInfo()); 
+        assertEquals("400mg", pres.getDose());
+        assertEquals(3, pres.getTimesADay());
+        assertEquals("Tarvittaessa", pres.getInfo()); 
     }
     
     /**
