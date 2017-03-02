@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UserDAOCRUDTest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">consoletests</a> &gt; <span class="el_source">UserDAOCRUDTest.java</span></div><h1>UserDAOCRUDTest.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package consoletests;
+
+import dao.UserDAO;
+import dao.UserDAO_IF;
+import model.User;
+
+/**
+ *
+ * @author Timo
+ */
+<span class="nc" id="L16">public class UserDAOCRUDTest {</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        char select;
+<span class="nc" id="L23">        UserDAO_IF userdao = new UserDAO();</span>
+<span class="nc" id="L24">        User user = new User();</span>
+        
+        do {
+<span class="nc" id="L27">            System.out.println(&quot;\n\t\t\t1. Lisää käyttäjä.&quot;);</span>
+<span class="nc" id="L28">            System.out.println(&quot;\t\t\t2. Näytä käyttäjät.&quot;);</span>
+<span class="nc" id="L29">            System.out.println(&quot;\t\t\t3. Muokkaa käyttäjää.&quot;);</span>
+<span class="nc" id="L30">            System.out.println(&quot;\t\t\t4. Poista käyttäjä.&quot;);</span>
+<span class="nc" id="L31">            System.out.println(&quot;\t\t\t5. Lopeta.&quot;);</span>
+<span class="nc" id="L32">            System.out.print(&quot;\n\n&quot;); // tehdään tyhjiä rivejä</span>
+<span class="nc" id="L33">            select = Reader.readChar();</span>
+<span class="nc bnc" id="L34" title="All 5 branches missed.">            switch (select) {</span>
+                case '1':
+<span class="nc" id="L36">                    System.out.println(&quot;Valitse potilas: &quot;);</span>
+                    
+<span class="nc" id="L38">                    break;</span>
+                case '2':
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                    for(User users : userdao.getUsers()){</span>
+<span class="nc" id="L41">                        System.out.println(&quot;Id:&quot;+users.getId()+&quot;, username:&quot;+users.getUsername()+</span>
+<span class="nc" id="L42">                                &quot;, priviledges:&quot;+users.getPriviledges());</span>
+<span class="nc" id="L43">                    }</span>
+<span class="nc" id="L44">                    break;</span>
+                case '3':
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                    for(User users : userdao.getUsers()){</span>
+<span class="nc" id="L47">                        System.out.println(&quot;Id: &quot;+users.getId()+&quot;, username: &quot;+users.getUsername()+</span>
+<span class="nc" id="L48">                                &quot;, priviledges: &quot;+users.getPriviledges());</span>
+<span class="nc" id="L49">                    }</span>
+<span class="nc" id="L50">                    System.out.println(&quot;Valitse muokattava käyttäjänimi: &quot;);</span>
+<span class="nc" id="L51">                    user = userdao.getUser(Reader.readLine());</span>
+<span class="nc" id="L52">                    System.out.println(&quot;Anna uusi käyttöoikeus&quot;);</span>
+<span class="nc" id="L53">                    user.setPriviledges(Reader.readInt());</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                    if(userdao.updateUser(user)){</span>
+<span class="nc" id="L55">                    System.out.println(&quot;Muokkaus onnistui&quot;);</span>
+                    }else{
+<span class="nc" id="L57">                        System.out.println(&quot;Muokkaus epäonnistui&quot;);</span>
+                    }                    
+<span class="nc" id="L59">                    break;</span>
+                    
+                case '4':
+<span class="nc" id="L62">                    System.out.println(&quot;Valitse poistettava käyttäjä käyttäjänimen perusteella: &quot;);</span>
+                    
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                    for(User users : userdao.getUsers()){</span>
+<span class="nc" id="L65">                        System.out.println(&quot;Id: &quot;+users.getId()+&quot;, username: &quot;+users.getUsername()+</span>
+<span class="nc" id="L66">                                &quot;, priviledges: &quot;+users.getPriviledges());</span>
+<span class="nc" id="L67">                    }</span>
+<span class="nc" id="L68">                    user = userdao.getUser(Reader.readLine());</span>
+<span class="nc" id="L69">                    boolean result = userdao.deleteUser(user);</span>
+                    
+                    
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                    if (result == true){</span>
+<span class="nc" id="L73">                        System.out.println(&quot;poisto onnistui&quot;);</span>
+                    } else {
+<span class="nc" id="L75">                        System.out.println(&quot;poisto epäonnistui&quot;);</span>
+                    }
+                    
+                case '5':
+                    break;
+            }
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        } while (select != '5');</span>
+<span class="nc" id="L82">        System.exit(0);</span>
+<span class="nc" id="L83">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

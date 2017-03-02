@@ -8,6 +8,7 @@ package main;
 import model.Patient;
 import dao.PatientDAO;
 import java.util.List;
+import model.Diagnose;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -73,4 +74,20 @@ public class PatientDAOTest {
         assertEquals(65.0, result.get(0).getWeight(),0.1);        
     }
     
+    
+    /**
+     * Test of readPatientDiagnoses method, of class PatientDAO.
+     */
+    @Test 
+    public void testReadPatientDiagnoses() throws Exception {
+        System.out.println("readPatientDiagnoses");
+        Patient pat = new Patient();
+        pat.setSSN("123456-789a");
+        PatientDAO instance = new PatientDAO();
+        List<Diagnose> result = instance.readPatientDiagnoses(pat);
+        
+        assertEquals(1, result.get(0).getId());
+        assertEquals(1, result.get(0).getDiseaseID());
+        assertEquals("Potilaalla havaittu äkillinen hengen menetys", result.get(0).getEpicrisis());
+    }
 }

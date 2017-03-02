@@ -6,8 +6,8 @@
 package consoletests;
 
 import java.sql.SQLException;
-import main.Patient;
-import main.PatientDAO;
+import model.Patient;
+import dao.PatientDAO;
 
 /**
  *
@@ -25,7 +25,7 @@ import main.PatientDAO;
 <span class="nc" id="L25">        dao = new PatientDAO();</span>
 <span class="nc bnc" id="L26" title="All 2 branches missed.">        for (Patient p : dao.readPatients()){</span>
 <span class="nc" id="L27">            System.out.println(p.getFirstName()+&quot; &quot;+p.getLastName());</span>
-        }
+<span class="nc" id="L28">        }</span>
 <span class="nc" id="L29">    }</span>
     
 }

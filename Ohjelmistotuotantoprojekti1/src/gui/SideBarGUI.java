@@ -19,7 +19,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author joosiika
  */
-public class SideBarGUI extends AnchorPane {
+public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
 
     @FXML
     private TextField searchField;
@@ -62,6 +62,7 @@ public class SideBarGUI extends AnchorPane {
         });*/
     }
     
+    @Override
     public void addView(TitledPane pane) {
         this.accordion.getPanes().add(pane);
     }

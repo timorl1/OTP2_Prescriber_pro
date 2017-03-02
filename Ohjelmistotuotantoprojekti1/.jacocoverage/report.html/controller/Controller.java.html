@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Controller.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">Controller.java</span></div><h1>Controller.java</h1><pre class="source lang-java linenums">package controller;
+
+import dao.UserDAO_IF;
+import gui.MainGUI_IF;
+import java.util.List;
+import model.User;
+
+
+/**
+ *
+ * @author Timo
+ */
+public class Controller implements Controller_IF {
+    
+    private UserDAO_IF userdao;
+    private MainGUI_IF gui;
+    
+<span class="nc" id="L18">    public Controller(MainGUI_IF gui, UserDAO_IF userdao){</span>
+<span class="nc" id="L19">        this.gui = gui;</span>
+<span class="nc" id="L20">        this.userdao = userdao;</span>
+<span class="nc" id="L21">    }</span>
+
+    @Override
+    public List&lt;User&gt; getUsers() {
+<span class="nc" id="L25">        return userdao.getUsers();</span>
+    }
+
+    @Override
+    public User getUser() {
+<span class="nc" id="L30">        User user = userdao.getUser(&quot;HAKEE OLION USERNAMELLA, SE TULEE GUISTA&quot;);</span>
+<span class="nc" id="L31">        return user;</span>
+    }
+
+    @Override
+    public void calculateDose() {
+<span class="nc" id="L36">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void checkDose() {
+<span class="nc" id="L41">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void setPriviledges() {
+<span class="nc" id="L46">        User user = userdao.getUser(&quot;USERNAME; TÄMÄ TULEE GUISTA&quot;);</span>
+<span class="nc" id="L47">        user.setPriviledges(0); // TÄHÄN TULEE KANSSA GUISTA ARVO</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if(userdao.updateUser(user)){</span>
+         //TRUE, MENEE VARMAAN JOKU VIESTI GUI   
+        }else{
+            //FALSE, MENEE VARMAAN JOKU VIESTI GUI
+        }
+<span class="nc" id="L53">    }</span>
+    
+    @Override
+    public void createUser() {
+        
+        
+<span class="nc" id="L59">    }</span>
+
+    @Override
+    public void deleteUser() {
+<span class="nc" id="L63">        User user =userdao.getUser(&quot;USERNAME; TÄMÄ TULEE GUISTA&quot;);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if(userdao.deleteUser(user)){</span>
+            //TRUE, VIESTI GUILLE POISTOSTA
+        }else{
+            //FALSE, VIESTI GUILLE POISTOSTA
+        }
+<span class="nc" id="L69">    }</span>
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
