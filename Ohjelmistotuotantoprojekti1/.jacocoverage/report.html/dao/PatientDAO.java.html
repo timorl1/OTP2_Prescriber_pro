@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PatientDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">PatientDAO.java</span></div><h1>PatientDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import model.Diagnose;
+import model.Doctor;
+import model.Patient;
+
+/**
+ *
+ * @author Timo
+ */
+public class PatientDAO implements PatientDAO_IF {
+
+<span class="fc" id="L22">    private Properties properties = new Properties();</span>
+<span class="fc" id="L23">    private DatabaseDAO parameters = new DatabaseDAO(properties, &quot;db.properties&quot;);</span>
+<span class="fc" id="L24">    Connection connection = null;</span>
+<span class="fc" id="L25">    private Doctor placeholder = new Doctor();</span>
+
+    //Set database parameters, what to get
+<span class="fc" id="L28">    public PatientDAO() {</span>
+<span class="fc" id="L29">    }</span>
+
+    @Override
+    protected void finalize() {
+        try {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (connection != null) {</span>
+<span class="nc" id="L35">                connection.close();</span>
+            }
+<span class="nc" id="L37">        } catch (Exception e) {</span>
+<span class="nc" id="L38">            e.printStackTrace();</span>
+<span class="nc" id="L39">        }</span>
+<span class="nc" id="L40">    }</span>
+
+    //Get single patient from database with SSN
+    @Override
+    public Patient readPatient(String SSN) throws SQLException {
+<span class="fc" id="L45">        properties = parameters.readDBProperties();</span>
+        try {
+<span class="fc" id="L47">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L48">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L49">        } catch (Exception e) {</span>
+<span class="nc" id="L50">            System.err.print(&quot;Ajuria ei löytynyt&quot;);</span>
+<span class="nc" id="L51">            System.exit(0);</span>
+<span class="fc" id="L52">        }</span>
+<span class="fc" id="L53">        Patient pat = null;</span>
+<span class="fc" id="L54">        Diagnose dia = null;</span>
+<span class="fc" id="L55">        PreparedStatement statement = null;</span>
+<span class="fc" id="L56">        ResultSet rs = null;</span>
+        try {
+<span class="fc" id="L58">            String sqlSelect = &quot;SELECT * FROM &quot; + properties.getProperty(&quot;table&quot;) + &quot; where &quot; + properties.getProperty(&quot;SSN&quot;) + &quot; = ?&quot;;</span>
+<span class="fc" id="L59">            statement = connection.prepareStatement(sqlSelect);</span>
+<span class="fc" id="L60">            statement.setString(1, SSN);</span>
+<span class="fc" id="L61">            rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L63">                String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
+<span class="fc" id="L64">                String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
+<span class="fc" id="L65">                String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
+<span class="fc" id="L66">                String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
+<span class="fc" id="L67">                double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
+<span class="fc" id="L68">                double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
+<span class="fc" id="L69">                pat = new Patient();</span>
+<span class="fc" id="L70">                pat.setSSN(ssn);</span>
+<span class="fc" id="L71">                pat.setFirstName(firstName);</span>
+<span class="fc" id="L72">                pat.setLastName(lastName);</span>
+<span class="fc" id="L73">                pat.setGender(gender);</span>
+<span class="fc" id="L74">                pat.setWeight(weight);</span>
+<span class="fc" id="L75">                pat.setHeight(height);</span>
+<span class="fc" id="L76">            }</span>
+
+<span class="nc" id="L78">        } catch (SQLException e) {</span>
+<span class="nc" id="L79">            System.err.println(&quot;viesti: &quot; + e.getMessage());</span>
+<span class="nc" id="L80">            System.err.println(&quot;virhekoodi: &quot; + e.getErrorCode());</span>
+<span class="nc" id="L81">            System.err.println(&quot;sql-tilakoodi : &quot; + e.getSQLState());</span>
+        } finally {
+<span class="pc bpc" id="L83" title="5 of 6 branches missed.">            if (rs != null) {</span>
+<span class="pc" id="L84">                rs.close();</span>
+            }
+<span class="pc bpc" id="L86" title="5 of 6 branches missed.">            if (statement != null) {</span>
+<span class="pc" id="L87">                statement.close();</span>
+            }
+<span class="pc bpc" id="L89" title="5 of 6 branches missed.">            if (connection != null) {</span>
+<span class="pc" id="L90">                connection.close();</span>
+            }
+        }
+<span class="fc" id="L93">        return pat;</span>
+    }
+
+    //Get all patients from database and return it as patient array
+    @Override
+    public Patient[] readPatients() throws SQLException {
+<span class="fc" id="L99">        properties = parameters.readDBProperties();</span>
+        try {
+<span class="fc" id="L101">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L102">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L103">        } catch (Exception e) {</span>
+<span class="nc" id="L104">            System.err.print(&quot;Ajuria ei löytynyt&quot;);</span>
+<span class="nc" id="L105">            System.exit(0);</span>
+<span class="fc" id="L106">        }</span>
+<span class="fc" id="L107">        ArrayList&lt;Patient&gt; lista = new ArrayList&lt;Patient&gt;();</span>
+<span class="fc" id="L108">        Statement statement = null;</span>
+<span class="fc" id="L109">        ResultSet rs = null;</span>
+        try {
+<span class="fc" id="L111">            String sqlSelect = &quot;SELECT * FROM &quot; + properties.getProperty(&quot;table&quot;);</span>
+<span class="fc" id="L112">            statement = connection.createStatement();</span>
+<span class="fc" id="L113">            rs = statement.executeQuery(sqlSelect);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L115">                String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
+<span class="fc" id="L116">                String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
+<span class="fc" id="L117">                String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
+<span class="fc" id="L118">                String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
+<span class="fc" id="L119">                double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
+<span class="fc" id="L120">                double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
+<span class="fc" id="L121">                Patient p = new Patient();</span>
+<span class="fc" id="L122">                p.setSSN(ssn);</span>
+<span class="fc" id="L123">                p.setFirstName(firstName);</span>
+<span class="fc" id="L124">                p.setLastName(lastName);</span>
+<span class="fc" id="L125">                p.setGender(gender);</span>
+<span class="fc" id="L126">                p.setWeight(weight);</span>
+<span class="fc" id="L127">                p.setHeight(height);</span>
+<span class="fc" id="L128">                lista.add(p);</span>
+
+<span class="fc" id="L130">            }</span>
+<span class="nc" id="L131">        } catch (SQLException e) {</span>
+<span class="nc" id="L132">            System.err.println(&quot;viesti: &quot; + e.getMessage());</span>
+<span class="nc" id="L133">            System.err.println(&quot;virhekoodi: &quot; + e.getErrorCode());</span>
+<span class="nc" id="L134">            System.err.println(&quot;sql-tilakoodi : &quot; + e.getSQLState());</span>
+        } finally {
+<span class="pc bpc" id="L136" title="5 of 6 branches missed.">            if (rs != null) {</span>
+<span class="pc" id="L137">                rs.close();</span>
+            }
+<span class="pc bpc" id="L139" title="5 of 6 branches missed.">            if (statement != null) {</span>
+<span class="pc" id="L140">                statement.close();</span>
+            }
+<span class="pc bpc" id="L142" title="5 of 6 branches missed.">            if (connection != null) {</span>
+<span class="pc" id="L143">                connection.close();</span>
+            }
+        }
+<span class="fc" id="L146">        Patient[] paluuLista = new Patient[lista.size()];</span>
+<span class="fc" id="L147">        return (Patient[]) lista.toArray(paluuLista);</span>
+    }
+
+    // Reads patients diagnoses from database
+    @Override
+    public List&lt;Diagnose&gt; readPatientDiagnoses(Patient pat) throws SQLException {
+<span class="nc" id="L153">        properties = parameters.readDBProperties();</span>
+        try {
+<span class="nc" id="L155">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="nc" id="L156">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L157">        } catch (Exception e) {</span>
+<span class="nc" id="L158">            System.err.print(&quot;Ajuria ei löytynyt&quot;);</span>
+<span class="nc" id="L159">            System.exit(0);</span>
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">        Diagnose dia = null;</span>
+<span class="nc" id="L162">        PreparedStatement statement = null;</span>
+<span class="nc" id="L163">        ResultSet rs = null;</span>
+<span class="nc" id="L164">        List&lt;Diagnose&gt; diagnoses = new ArrayList();</span>
+<span class="nc" id="L165">        String sqlSelect = &quot;SELECT * FROM diagnoosi where &quot; + properties.getProperty(&quot;SSN&quot;) + &quot; = ?&quot;;</span>
+        try {
+<span class="nc" id="L167">            statement = connection.prepareStatement(sqlSelect);</span>
+<span class="nc" id="L168">            statement.setString(1, pat.getSSN());</span>
+<span class="nc" id="L169">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L171">                int id = rs.getInt(&quot;diagnoosiID&quot;);</span>
+<span class="nc" id="L172">                int diseaseID = rs.getInt(&quot;sairaustunniste&quot;);</span>
+<span class="nc" id="L173">                String epicrisis = rs.getString(&quot;epikriisi&quot;);</span>
+<span class="nc" id="L174">                Timestamp creationDate = rs.getTimestamp(&quot;luontipäivä&quot;);</span>
+<span class="nc" id="L175">                Timestamp resolutionDate = rs.getTimestamp(&quot;päättymispäivä&quot;);</span>
+<span class="nc" id="L176">                dia = new Diagnose();</span>
+<span class="nc" id="L177">                dia.setId(id);</span>
+<span class="nc" id="L178">                dia.setPatient(pat);</span>
+<span class="nc" id="L179">                dia.setDoctor(placeholder);</span>
+<span class="nc" id="L180">                dia.setDiseaseID(diseaseID);</span>
+<span class="nc" id="L181">                dia.setEpicrisis(epicrisis);</span>
+<span class="nc" id="L182">                dia.setCreationDate(creationDate);</span>
+<span class="nc" id="L183">                dia.setResolutionDate(resolutionDate);</span>
+<span class="nc" id="L184">                diagnoses.add(dia);</span>
+<span class="nc" id="L185">            }</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">            if (!diagnoses.isEmpty()) {</span>
+<span class="nc" id="L187">                pat.setDiagnoses(diagnoses);</span>
+            }
+<span class="nc" id="L189">        } catch (Exception e) {</span>
+<span class="nc" id="L190">            e.printStackTrace();</span>
+<span class="nc" id="L191">            return null;</span>
+        } finally {
+<span class="nc bnc" id="L193" title="All 6 branches missed.">            if (rs != null) {</span>
+<span class="nc" id="L194">                rs.close();</span>
+            }
+<span class="nc bnc" id="L196" title="All 6 branches missed.">            if (statement != null) {</span>
+<span class="nc" id="L197">                statement.close();</span>
+            }
+<span class="nc bnc" id="L199" title="All 6 branches missed.">            if (connection != null) {</span>
+<span class="nc" id="L200">                connection.close();</span>
+            }
+        }
+<span class="nc" id="L203">        return diagnoses;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

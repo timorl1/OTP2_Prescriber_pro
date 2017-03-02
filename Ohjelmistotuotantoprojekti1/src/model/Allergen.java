@@ -19,6 +19,7 @@ public class Allergen {
     private String name;
     @ManyToMany (mappedBy="allergens")
     private List<Drug> drugs = new ArrayList();
+    
 
     public Allergen() {
     }
@@ -46,6 +47,7 @@ public class Allergen {
     public void setDrugs(List<Drug> drugs) {
         this.drugs = drugs;
     }
+    
     
     @Override
     public String toString() {

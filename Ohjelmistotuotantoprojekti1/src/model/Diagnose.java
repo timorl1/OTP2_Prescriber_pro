@@ -10,11 +10,13 @@ import java.sql.Timestamp;
 public class Diagnose {
     private int id;
     private int diseaseID;
+    private Disease disease;
     private String epicrisis;
     private Timestamp creationDate;
     private Timestamp resolutionDate;
     private Patient patient;
     private Doctor doctor;
+    
 
     public Diagnose() {
     }
@@ -35,6 +37,15 @@ public class Diagnose {
         this.diseaseID = diseaseID;
     }
 
+    public Disease getDisease() {
+        return disease;
+    }
+
+    public void setDisease(Disease disease) {
+        this.disease = disease;
+    }
+
+    
     public String getEpicrisis() {
         return epicrisis;
     }
