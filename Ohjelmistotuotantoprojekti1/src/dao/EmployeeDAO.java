@@ -149,45 +149,4 @@ public class EmployeeDAO implements EmployeeDAO_IF {
         }
         return lista;
     }
-    
-    //EN TIIÄ TARVIIKO, KESKEN SIIS VIELÄ SIKSI
-/* 
-  @Override
-    public List<Employee> getEmployees() {
-        List<Employee> users = null;
-        session = sf.openSession();
-        try {
-            session.beginTransaction();
-            users = session.createQuery("from user").getResultList();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("Lukeminen ei onnistunut");
-        } finally {
-            session.close();
-        }
-        return users;
-    }
-    
-    // Gets user from database identified by username
-    @Override
-    public Employee getEmployee(int userID) {
-        User user = null;
-        session = sf.openSession();
-	transaction = session.beginTransaction();
-            try{
-                user = new User();
-                session.load(user, username);
-                session.getTransaction().commit();
-			
-		}catch(Exception e){
-			System.out.println("Lukeminen ei onnistunut");
-		}finally{
-			session.close();
-		}
-        return user;
-    }
-*/
-    
-
-    
 }
