@@ -46,10 +46,19 @@ public class PatientDAO implements PatientDAO_IF {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
-        } catch (Exception e) {
-            System.err.print("Ajuria ei löytynyt");
-            System.exit(0);
+        }catch (SQLException e) {
+            System.out.println("Yhteyden muodostaminen epäonnistui");
+            try {
+                System.out.println("Yritetään muodostaa yhteys Jenkinsillä");
+                connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
+                "jenkins");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("JDBC-ajurin lataus epäonnistui");
         }
+        
         Patient pat = null;
         Diagnose dia = null;
         PreparedStatement statement = null;
