@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package gui;
+
+import java.util.List;
 
 /**
  *
  * @author joosiika
+ * @param <E>
  */
-public interface SideBarListViewController_IF {
-    public abstract void loadList(String type);
+public interface ListTabGUI_IF<E> {
+    public abstract E getElement();
+    public abstract void setElement(E e);
+    public abstract void setList(List<E> list);
 }

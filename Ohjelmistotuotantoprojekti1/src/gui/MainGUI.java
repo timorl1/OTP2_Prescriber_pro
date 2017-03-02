@@ -4,10 +4,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import model.Drug;
 import model.Patient;
+import model.Prescription;
 import model.User;
 
 /**
@@ -19,14 +20,17 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @FXML
     private AnchorPane root;
-    
-    private SideBarGUI sideBar;
-    
+    @FXML
+    private TabPane tabPane;
+    private SideBarGUI_IF sideBar;
     private LoginGUI_IF login;
+    
+    private Controller controller;
     
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.controller = new Controller(this);
         loadLogin();
     }
     
@@ -34,7 +38,10 @@ public class MainGUI implements Initializable, MainGUI_IF {
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void loadLogin() {
-        this.login = new LoginGUI(this);
+        this.login = new LoginGUI();
+        this.login.getButton().setOnAction((event) -> {
+            this.controller.login(this.login.getUsername(), this.login.getPassword());
+        });
         this.root.getChildren().add((LoginGUI)this.login);
     }
     
@@ -45,34 +52,103 @@ public class MainGUI implements Initializable, MainGUI_IF {
     //3 - load administrators sidebar components
     //0 - should print out "access revoked" and instructions to contact the administrator
     @Override
-    public void loadSideBar(User user) {
-        if (user.getPriviledges() == 1) {
-            this.root.getChildren().remove((LoginGUI)this.login);
-            this.sideBar = new SideBarGUI(this);
-            SideBarListViewGUI<Patient> patientListView = new SideBarListViewGUI("Patient", "Potilas", this);
-            this.sideBar.addView(patientListView);
-            SideBarListViewGUI<Drug> drugListView = new SideBarListViewGUI("Drug", "Lääkkeet", this);
-            this.sideBar.addView(drugListView);
-            this.root.getChildren().add(this.sideBar);
-        }
-        else if (user.getPriviledges() == 3) {
-            this.root.getChildren().remove((LoginGUI)this.login);
-            this.sideBar = new SideBarGUI(this);
-            SideBarListViewGUI<String> dbListView = new SideBarListViewGUI("Database", "Aseta tietokanta", this);
-            this.sideBar.addView(dbListView);
-            this.root.getChildren().add(this.sideBar);
-        }
+    public void loadSideBar() {
+        this.root.getChildren().remove((LoginGUI) this.login);
+        this.sideBar = new SideBarGUI(this);
+        this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
     //Loads the tab pane component depending of the side bar content selection
     @Override
     public <T> void loadTabPane(T selection) {
         if (selection instanceof Patient) {
-            System.out.println("You selected patient " + selection);
+            this.tabPane.getTabs().clear();
+            ListTabGUI listTab = new ListTabGUI((Patient)selection, "Potilaan tiedot", this);
+            this.tabPane.getTabs().add(listTab);
         }
         else if (selection instanceof Drug) {
             System.out.println("You selected drug " + selection);
         }
+    }
+
+    @Override
+    public void loadPatientList() {
+        SideBarListViewGUI<Patient> patientListView = new SideBarListViewGUI("Potilas");
+        patientListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (patientListView.isExpanded()) {
+                patientListView.setList(this.controller.getPatients());
+            }
+        });
+        this.sideBar.addView(patientListView);
+    }
+
+    @Override
+    public void loadDrugList() {
+        SideBarListViewGUI<Drug> drugListView = new SideBarListViewGUI("Lääkkeet");
+        drugListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (drugListView.isExpanded()) {
+                drugListView.setList(this.controller.getDrugs());
+            }
+        });
+        drugListView.getListView().setOnMouseClicked((event) -> {
+            this.loadTabPane(drugListView.getSelection());
+        });
+        this.sideBar.addView(drugListView);
+    }
+
+    @Override
+    public void loadPrescriptionList() {
+        SideBarListViewGUI<Prescription> prescriptionListView = new SideBarListViewGUI("Omat Reseptit");
+        prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (prescriptionListView.isExpanded()) {
+                prescriptionListView.setList(this.controller.getPrescriptions());
+            }
+        });
+        this.sideBar.addView(prescriptionListView);
+    }
+
+    @Override
+    public void loadMessageList() {
+        SideBarListViewGUI<String> messageListView = new SideBarListViewGUI("Viestit");
+        messageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (messageListView.isExpanded()) {
+                messageListView.setList(this.controller.getMessages());
+            }
+        });
+        this.sideBar.addView(messageListView);
+    }
+
+    @Override
+    public void loadUserList() {
+        SideBarListViewGUI<User> userListView = new SideBarListViewGUI("Käyttäjät");
+        userListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (userListView.isExpanded()) {
+                userListView.setList(this.controller.getUsers());
+            }
+        });
+        this.sideBar.addView(userListView);
+    }
+
+    @Override
+    public void loadEmployeeList() {
+        SideBarListViewGUI<String> employeeListView = new SideBarListViewGUI("Työntekijät");
+        employeeListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (employeeListView.isExpanded()) {
+                employeeListView.setList(this.controller.getEmployees());
+            }
+        });
+        this.sideBar.addView(employeeListView);
+    }
+
+    @Override
+    public void loadDatabaseList() {
+        SideBarListViewGUI<String> databaseListView = new SideBarListViewGUI("Tietokannat");
+        databaseListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (databaseListView.isExpanded()) {
+                databaseListView.setList(this.controller.getEmployees());
+            }
+        });
+        this.sideBar.addView(databaseListView);
     }
     
 }

@@ -1,5 +1,7 @@
 package gui;
 
+import javafx.scene.control.Button;
+
 /**
  *
  * @author joosiika
@@ -7,4 +9,5 @@ package gui;
 public interface LoginGUI_IF {
     public abstract String getUsername();
     public abstract String getPassword();
+    public abstract Button getButton();
 }

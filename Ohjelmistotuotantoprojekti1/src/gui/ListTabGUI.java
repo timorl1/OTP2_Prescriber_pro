@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package gui;
 
 import java.io.IOException;
@@ -7,7 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tab;
 
 /**
  * FXML Controller class
@@ -15,25 +20,32 @@ import javafx.scene.control.TitledPane;
  * @author joosiika
  * @param <E>
  */
-public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView_IF<E> {
+public class ListTabGUI<E> extends Tab implements ListTabGUI_IF<E> {
 
     @FXML
     private ListView<E> listView;
-    @FXML
-    private TitledPane pane;
     
+    @FXML
+    private Tab tab;
+    
+    private E e;
+    private E data;
     private final String title;
+    private final MainGUI_IF root;
     private FXMLLoader loader;
+    
     private ObservableList<E> list;
     
-    public SideBarListViewGUI(String title) {
+    public ListTabGUI(E data, String title, MainGUI_IF root) {
+        this.data = data;
+        this.root = root;
         this.title = title;
         try {
-            loader = new FXMLLoader(getClass().getResource("SideBarListView.fxml"));
+            loader = new FXMLLoader(getClass().getResource("ListTab.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
-            this.pane.setText(this.title);
+            this.tab.setText(this.title);
         } catch (IOException ex) {
             // handle exception
         }
@@ -46,18 +58,13 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     }
 
     @Override
-    public TitledPane getTitledPane() {
-        return this.pane;
+    public E getElement() {
+        return e;
     }
 
     @Override
-    public ListView getListView() {
-        return this.listView;
-    }
-
-    @Override
-    public E getSelection() {
-        return this.listView.getSelectionModel().getSelectedItem();
+    public void setElement(E e) {
+        this.e = e;
     }
     
 }
