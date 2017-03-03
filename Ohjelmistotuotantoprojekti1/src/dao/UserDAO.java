@@ -95,7 +95,7 @@ public class UserDAO implements UserDAO_IF {
             users = session.createQuery("from user").getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Lukeminen ei onnistunut");
+            System.out.println("Caught an error while reading resources.");
         } finally {
             session.close();
         }
@@ -114,7 +114,7 @@ public class UserDAO implements UserDAO_IF {
                 session.getTransaction().commit();
 			
 		}catch(Exception e){
-			System.out.println("Lukeminen ei onnistunut");
+			System.out.println("Caught an error while reading resources.");
 		}finally{
 			session.close();
 		}
