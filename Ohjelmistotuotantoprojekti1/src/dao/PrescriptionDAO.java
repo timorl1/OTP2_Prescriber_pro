@@ -33,7 +33,7 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
         }catch (Exception e){
             System.out.println("Session failed to initialize.");
                     try{
-                        System.out.println("Trying with jenkins");
+                        System.out.println("Trying to connect with Jenkins");
                         
                         sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();
                     }catch (Exception e3){
