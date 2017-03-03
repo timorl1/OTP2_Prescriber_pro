@@ -24,7 +24,7 @@ public class PatientDAO implements PatientDAO_IF {
     Connection connection = null;
     private Doctor placeholder = new Doctor();
 
-    //Set database parameters, what to get
+    
     public PatientDAO() {
     }
 
@@ -47,16 +47,16 @@ public class PatientDAO implements PatientDAO_IF {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
         }catch (SQLException e) {
-            System.out.println("Yhteyden muodostaminen epäonnistui");
+            System.out.println("Connection failed.");
             try {
-                System.out.println("Yritetään muodostaa yhteys Jenkinsillä");
+                System.out.println("Trying to connect with Jenkins");
                 connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
                 "jenkins");
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         } catch (ClassNotFoundException e) {
-            System.out.println("JDBC-ajurin lataus epäonnistui");
+            System.out.println("JDBC-driver failed.");
         }
         
         Patient pat = null;
@@ -114,16 +114,16 @@ public class PatientDAO implements PatientDAO_IF {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
         }catch (SQLException e) {
-            System.out.println("Yhteyden muodostaminen epäonnistui");
+            System.out.println("Connection failed");
             try {
-                System.out.println("Yritetään muodostaa yhteys Jenkinsillä");
+                System.out.println("Trying to connect with Jenkins");
                 connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
                 "jenkins");
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         } catch (ClassNotFoundException e) {
-            System.out.println("JDBC-ajurin lataus epäonnistui");
+            System.out.println("JDBC-driver failed");
         }
         List<Patient> lista = new ArrayList();
         Statement statement = null;
@@ -179,16 +179,16 @@ public class PatientDAO implements PatientDAO_IF {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
         }catch (SQLException e) {
-            System.out.println("Yhteyden muodostaminen epäonnistui");
+            System.out.println("Connection failed");
             try {
-                System.out.println("Yritetään muodostaa yhteys Jenkinsillä");
+                System.out.println("Trying to connect with Jenkins");
                 connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
                 "jenkins");
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         } catch (ClassNotFoundException e) {
-            System.out.println("JDBC-ajurin lataus epäonnistui");
+            System.out.println("JDBC-driver failed");
         }
         
         Diagnose dia = null;
