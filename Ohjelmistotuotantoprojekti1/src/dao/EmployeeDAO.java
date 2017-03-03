@@ -23,7 +23,7 @@ public class EmployeeDAO implements EmployeeDAO_IF {
     Connection connection = null;
     //private Doctor placeholder = new Doctor();
 
-    //Set database parameters, what to get
+  
     public EmployeeDAO() {
     }
 
@@ -38,19 +38,27 @@ public class EmployeeDAO implements EmployeeDAO_IF {
         }
     }
 
-    //Get single Employees from database identified by Social security number
+    //Get single Employees from database identified by Employee id
     @Override
     public Employee readEmployee(int userID) {
         properties = parameters.readDBProperties();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
-        } catch (Exception e) {
-            System.err.print("Ajuria ei löytynyt");
-            System.exit(0);
+        }catch (SQLException e) {
+            System.out.println("Connection failed");
+            try {
+                System.out.println("Trying to connect with Jenkins");
+                connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
+                "jenkins");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (ClassNotFoundException e2) {
+            System.out.println("JDBC-driver failed");
         }
         Employee pat = null;
-        //Diagnose dia = null;
+        
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
@@ -95,16 +103,24 @@ public class EmployeeDAO implements EmployeeDAO_IF {
         return pat;
     }
 
-    //Gets all employees from database and return it as Employee array
+    //Gets all employees from database and return it as Employee list
     @Override
     public List<Employee> readEmployees() {
         properties = parameters.readDBProperties();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
-        } catch (Exception e) {
-            System.err.print("Ajuria ei löytynyt");
-            System.exit(0);
+        }catch (SQLException e) {
+            System.out.println("Connection failed");
+            try {
+                System.out.println("Trying to connect with Jenkins");
+                connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
+                "jenkins");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (ClassNotFoundException e2) {
+            System.out.println("JDBC-driver failed");
         }
         List<Employee> lista = new ArrayList();
         Statement statement = null;
