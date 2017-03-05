@@ -8,6 +8,12 @@ package consoletests;
 import dao.UserDAO;
 import dao.UserDAO_IF;
 import model.User;
+import dao.EmployeeDAO;
+import dao.EmployeeDAO_IF;
+import model.Employee;
+import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -22,6 +28,10 @@ public class UserDAOCRUDTest {
         char select;
         UserDAO_IF userdao = new UserDAO();
         User user = new User();
+        EmployeeDAO employeedao = new EmployeeDAO();
+        Employee employee = new Employee();
+        
+        
         
         do {
             System.out.println("\n\t\t\t1. Lisää käyttäjä.");
@@ -32,10 +42,51 @@ public class UserDAOCRUDTest {
             System.out.print("\n\n"); // tehdään tyhjiä rivejä
             select = Reader.readChar();
             switch (select) {
+                
                 case '1':
-                    System.out.println("Valitse potilas: ");
+                    
+                    System.out.println("Valitse lisättävä käyttäjä (id): ");
+                    //employeedao = new EmployeeDAO();
+                    for  (Employee e: employeedao.readEmployees()){
+                        System.out.println("id: " + e.getUserID() + " " + e.getFirstName() +" "+ e.getLastName());
+                    } 
+                    
+                                        
+                    int id = Reader.readInt();
+                    employee = employeedao.readEmployee(id);
+                    System.out.println("\n Valittu käyttäjä: "+employee.getFirstName()+" "+employee.getLastName());
+                    user.setId(id);
+                    
+                    System.out.println("Valitse käyttäjätunnus: ");
+                    user.setUsername(Reader.readLine());
+                    
+                    System.out.println("Valitse salasana: ");
+                    user.setPassword(Reader.readLine());
+                    
+                    user.setEmail(employee.getEmail());
+                    
+                    if (employee.getTitle().equals("Hoitaja")){
+                        user.setPriviledges(1);
+                    }else if (employee.getTitle().equals("Lääkäri")){
+                        user.setPriviledges(2);
+                    }else if (employee.getTitle().equals("Admin")){
+                        user.setPriviledges(3);
+                    } else {
+                        System.out.println("EI käyttöoikeutta");
+                    }
+                   
+                    
+                    userdao.createUser(user);
+                    
+                    if(userdao.createUser(user) == !false){
+                        System.out.println("Lisäys onnistui");
+                        System.out.println("Luodun käyttäjän tiedot: \n id: "+ user.getId()+", käyttäjänimi: "+user.getUsername()+", Salasana: " +user.getPassword()+", sähköposti: " + user.getEmail()+ ", käyttöoikeus: " + user.getPriviledges());
+                    } else{ 
+                           System.out.println("Lisäys epäonnistui"); 
+                    }                   
                     
                     break;
+                  
                 case '2':
                     for(User users : userdao.getUsers()){
                         System.out.println("Id:"+users.getId()+", username:"+users.getUsername()+

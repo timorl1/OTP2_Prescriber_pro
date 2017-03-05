@@ -20,89 +20,89 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  * @author Timo
  */
 public class UserDAO implements UserDAO_IF {
-        SessionFactory sf;
+    
+    SessionFactory sf;
     final StandardServiceRegistry reg;
 
     private Session session;
     private Transaction transaction;
     
-    
-<span class="nc" id="L30">    public UserDAO(){</span>
-<span class="nc" id="L31">        sf = null;</span>
-<span class="nc" id="L32">        reg = new StandardServiceRegistryBuilder().configure(&quot;applicationdb.cfg.xml&quot;).build();</span>
+    // Builds session factory
+<span class="nc" id="L31">    public UserDAO(){</span>
+<span class="nc" id="L32">        sf = null;</span>
+<span class="nc" id="L33">        reg = new StandardServiceRegistryBuilder().configure(&quot;applicationdb.cfg.xml&quot;).build();</span>
 
         try {
-<span class="nc" id="L35">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
+<span class="nc" id="L36">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
         }
-<span class="nc" id="L37">        catch (Exception e) {</span>
-<span class="nc" id="L38">            System.err.println(&quot;Session failed to initialize.&quot;);</span>
-<span class="nc" id="L39">            e.printStackTrace();</span>
-<span class="nc" id="L40">            StandardServiceRegistryBuilder.destroy(reg);</span>
-<span class="nc" id="L41">            System.exit(-1);</span>
-<span class="nc" id="L42">        }</span>
-<span class="nc" id="L43">    }</span>
+<span class="nc" id="L38">        catch (Exception e) {</span>
+<span class="nc" id="L39">            System.err.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L40">            e.printStackTrace();</span>
+<span class="nc" id="L41">            StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="nc" id="L42">            System.exit(-1);</span>
+<span class="nc" id="L43">        }</span>
+<span class="nc" id="L44">    }</span>
     
     public void finalize() {
-<span class="nc" id="L46">        boolean success = false;</span>
+<span class="nc" id="L47">        boolean success = false;</span>
         do {
             try {
-<span class="nc bnc" id="L49" title="All 2 branches missed.">                if (reg != null) {</span>
-<span class="nc" id="L50">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (reg != null) {</span>
+<span class="nc" id="L51">                    StandardServiceRegistryBuilder.destroy(reg);</span>
                 }
-<span class="nc" id="L52">                success = true;</span>
-<span class="nc" id="L53">            } catch (Exception e) {</span>
-<span class="nc" id="L54">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
+<span class="nc" id="L53">                success = true;</span>
+<span class="nc" id="L54">            } catch (Exception e) {</span>
+<span class="nc" id="L55">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
                 try {
-<span class="nc" id="L56">                    Thread.sleep(1000);</span>
-<span class="nc" id="L57">                } catch (InterruptedException e1) {</span>
-<span class="nc" id="L58">                    e1.printStackTrace();</span>
-<span class="nc" id="L59">                }</span>
-<span class="nc" id="L60">            }</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        } while (!success);</span>
-<span class="nc" id="L62">        System.out.println(&quot;DB connection shut down.&quot;);</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L57">                    Thread.sleep(1000);</span>
+<span class="nc" id="L58">                } catch (InterruptedException e1) {</span>
+<span class="nc" id="L59">                    e1.printStackTrace();</span>
+<span class="nc" id="L60">                }</span>
+<span class="nc" id="L61">            }</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        } while (!success);</span>
+<span class="nc" id="L63">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="nc" id="L64">    }</span>
     
+    //Used for updating user information to database
     @Override
     public boolean updateUser(User user) {
-<span class="nc" id="L67">        session = sf.openSession();</span>
-<span class="nc" id="L68">        transaction = null;</span>
+<span class="nc" id="L69">        session = sf.openSession();</span>
+<span class="nc" id="L70">        transaction = null;</span>
         
         try {
-<span class="nc" id="L71">            transaction = session.beginTransaction();</span>
-<span class="nc" id="L72">            session.update(user);</span>
-<span class="nc" id="L73">            transaction.commit();</span>
-<span class="nc" id="L74">            return true;</span>
-<span class="nc" id="L75">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">            if (transaction != null) {</span>
-<span class="nc" id="L77">                transaction.rollback();</span>
+<span class="nc" id="L73">            transaction = session.beginTransaction();</span>
+<span class="nc" id="L74">            session.update(user);</span>
+<span class="nc" id="L75">            transaction.commit();</span>
+<span class="nc" id="L76">            return true;</span>
+<span class="nc" id="L77">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (transaction != null) {</span>
+<span class="nc" id="L79">                transaction.rollback();</span>
             }
-<span class="nc" id="L79">            System.out.println(&quot;Updating an entry in DB failed.&quot;);</span>
+<span class="nc" id="L81">            System.out.println(&quot;Updating an entry in DB failed.&quot;);</span>
         } finally {
-<span class="nc" id="L81">            session.close();</span>
-<span class="nc" id="L82">        }</span>
-<span class="nc" id="L83">        return false;</span>
+<span class="nc" id="L83">            session.close();</span>
+<span class="nc" id="L84">        }</span>
+<span class="nc" id="L85">        return false;</span>
     }
 
+    // Gets all users from database and returns them as array
     @Override
-    public User[] getUsers() {
-<span class="nc" id="L88">        User [] users = null ;</span>
-<span class="nc" id="L89">		session = sf.openSession();</span>
-<span class="nc" id="L90">		transaction = session.beginTransaction();</span>
-		try{
-                    @SuppressWarnings(&quot;unchecked&quot;)
-<span class="nc" id="L93">                    List&lt;User&gt; result = session.createQuery( &quot;from user&quot; ).getResultList();</span>
-<span class="nc" id="L94">                    users = result.toArray(new User[result.size()]);</span>
-<span class="nc" id="L95">                    session.getTransaction().commit();</span>
-			
-<span class="nc" id="L97">		}catch(Exception e){</span>
-<span class="nc" id="L98">			System.out.println(&quot;Lukeminen ei onnistunut&quot;);</span>
-<span class="nc" id="L99">			throw e;</span>
-		}finally{
-<span class="nc" id="L101">			session.close();</span>
-<span class="nc" id="L102">		}</span>
-<span class="nc" id="L103">	return users;</span>
+    public List&lt;User&gt; getUsers() {
+<span class="nc" id="L91">        List&lt;User&gt; users = null;</span>
+<span class="nc" id="L92">        session = sf.openSession();</span>
+        try {
+<span class="nc" id="L94">            session.beginTransaction();</span>
+<span class="nc" id="L95">            users = session.createQuery(&quot;from user&quot;).getResultList();</span>
+<span class="nc" id="L96">            session.getTransaction().commit();</span>
+<span class="nc" id="L97">        } catch (Exception e) {</span>
+<span class="nc" id="L98">            System.out.println(&quot;Lukeminen ei onnistunut&quot;);</span>
+        } finally {
+<span class="nc" id="L100">            session.close();</span>
+<span class="nc" id="L101">        }</span>
+<span class="nc" id="L102">        return users;</span>
     }
-
+    
+    // Gets user from database identified by username
     @Override
     public User getUser(String username) {
 <span class="nc" id="L108">        User user = null;</span>
@@ -115,13 +115,13 @@ public class UserDAO implements UserDAO_IF {
 			
 <span class="nc" id="L116">		}catch(Exception e){</span>
 <span class="nc" id="L117">			System.out.println(&quot;Lukeminen ei onnistunut&quot;);</span>
-<span class="nc" id="L118">			throw e;</span>
 		}finally{
-<span class="nc" id="L120">			session.close();</span>
-<span class="nc" id="L121">		}</span>
-<span class="nc" id="L122">        return user;</span>
+<span class="nc" id="L119">			session.close();</span>
+<span class="nc" id="L120">		}</span>
+<span class="nc" id="L121">        return user;</span>
     }
     
+    //Deletes user from database identified by username 
     @Override
     public boolean deleteUser(User user) {
         

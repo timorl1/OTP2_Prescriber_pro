@@ -23,7 +23,7 @@ public class UserDAO implements UserDAO_IF {
     
     SessionFactory sf;
     final StandardServiceRegistry reg;
-
+    
     private Session session;
     private Transaction transaction;
     
@@ -42,7 +42,7 @@ public class UserDAO implements UserDAO_IF {
             System.exit(-1);
         }
     }
-    
+       
     public void finalize() {
         boolean success = false;
         do {
@@ -95,7 +95,7 @@ public class UserDAO implements UserDAO_IF {
             users = session.createQuery("from user").getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Lukeminen ei onnistunut");
+            System.out.println("Caught an error while reading resources.");
         } finally {
             session.close();
         }
@@ -114,7 +114,7 @@ public class UserDAO implements UserDAO_IF {
                 session.getTransaction().commit();
 			
 		}catch(Exception e){
-			System.out.println("Lukeminen ei onnistunut");
+			System.out.println("Caught an error while reading resources.");
 		}finally{
 			session.close();
 		}
@@ -144,11 +144,30 @@ public class UserDAO implements UserDAO_IF {
         
         return success;
     }
-
-    @Override
-    public boolean createUser(User user) {
-        return false;
-    }
-
     
+     @Override
+    public boolean createUser(User user) {
+            
+        session = sf.openSession();
+        transaction = null;
+        boolean success = false;
+        try {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(user);
+            transaction.commit();
+            success = true;
+        } catch (Exception e){
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println("\"Inserting an entry in DB failed.\"");
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return success;
+    }  
+    
+  
 }
+

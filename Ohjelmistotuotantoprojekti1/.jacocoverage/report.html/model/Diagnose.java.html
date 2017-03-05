@@ -10,70 +10,81 @@ import java.sql.Timestamp;
 public class Diagnose {
     private int id;
     private int diseaseID;
+    private Disease disease;
     private String epicrisis;
     private Timestamp creationDate;
     private Timestamp resolutionDate;
     private Patient patient;
     private Doctor doctor;
+    
 
-<span class="nc" id="L19">    public Diagnose() {</span>
-<span class="nc" id="L20">    }</span>
+<span class="fc" id="L21">    public Diagnose() {</span>
+<span class="fc" id="L22">    }</span>
 
     public int getId() {
-<span class="nc" id="L23">        return id;</span>
+<span class="fc" id="L25">        return id;</span>
     }
 
     public void setId(int id) {
-<span class="nc" id="L27">        this.id = id;</span>
-<span class="nc" id="L28">    }</span>
+<span class="fc" id="L29">        this.id = id;</span>
+<span class="fc" id="L30">    }</span>
 
     public int getDiseaseID() {
-<span class="nc" id="L31">        return diseaseID;</span>
+<span class="fc" id="L33">        return diseaseID;</span>
     }
 
     public void setDiseaseID(int diseaseID) {
-<span class="nc" id="L35">        this.diseaseID = diseaseID;</span>
-<span class="nc" id="L36">    }</span>
+<span class="fc" id="L37">        this.diseaseID = diseaseID;</span>
+<span class="fc" id="L38">    }</span>
 
+    public Disease getDisease() {
+<span class="nc" id="L41">        return disease;</span>
+    }
+
+    public void setDisease(Disease disease) {
+<span class="nc" id="L45">        this.disease = disease;</span>
+<span class="nc" id="L46">    }</span>
+
+    
     public String getEpicrisis() {
-<span class="nc" id="L39">        return epicrisis;</span>
+<span class="fc" id="L50">        return epicrisis;</span>
     }
 
     public void setEpicrisis(String epicrisis) {
-<span class="nc" id="L43">        this.epicrisis = epicrisis;</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L54">        this.epicrisis = epicrisis;</span>
+<span class="fc" id="L55">    }</span>
 
     public Timestamp getCreationDate() {
-<span class="nc" id="L47">        return creationDate;</span>
+<span class="nc" id="L58">        return creationDate;</span>
     }
 
     public void setCreationDate(Timestamp creationDate) {
-<span class="nc" id="L51">        this.creationDate = creationDate;</span>
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L62">        this.creationDate = creationDate;</span>
+<span class="fc" id="L63">    }</span>
 
     public Timestamp getResolutionDate() {
-<span class="nc" id="L55">        return resolutionDate;</span>
+<span class="nc" id="L66">        return resolutionDate;</span>
     }
 
     public void setResolutionDate(Timestamp resolutionDate) {
-<span class="nc" id="L59">        this.resolutionDate = resolutionDate;</span>
-<span class="nc" id="L60">    }</span>
+<span class="fc" id="L70">        this.resolutionDate = resolutionDate;</span>
+<span class="fc" id="L71">    }</span>
 
     public Patient getPatient() {
-<span class="nc" id="L63">        return patient;</span>
+<span class="nc" id="L74">        return patient;</span>
     }
 
     public void setPatient(Patient patient) {
-<span class="nc" id="L67">        this.patient = patient;</span>
-<span class="nc" id="L68">    }</span>
+<span class="fc" id="L78">        this.patient = patient;</span>
+<span class="fc" id="L79">    }</span>
 
     public Doctor getDoctor() {
-<span class="nc" id="L71">        return doctor;</span>
+<span class="nc" id="L82">        return doctor;</span>
     }
 
     public void setDoctor(Doctor doctor) {
-<span class="nc" id="L75">        this.doctor = doctor;</span>
-<span class="nc" id="L76">    }</span>
+<span class="fc" id="L86">        this.doctor = doctor;</span>
+<span class="fc" id="L87">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

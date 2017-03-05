@@ -43,8 +43,8 @@ public class Drug {
     }
 
     public void setSN(int SN) {
-<span class="nc" id="L46">        this.SN = SN;</span>
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L46">        this.SN = SN;</span>
+<span class="fc" id="L47">    }</span>
 
     public String getName() {
 <span class="fc" id="L50">        return name;</span>
@@ -109,5 +109,10 @@ public class Drug {
     public void setRareAdverseEffects(List&lt;AdverseEffect&gt; rareAdverseEffects) {
 <span class="nc" id="L110">        this.rareAdverseEffects = rareAdverseEffects;</span>
 <span class="nc" id="L111">    }</span>
+    
+    @Override
+    public String toString() {
+<span class="nc" id="L115">        return this.name + &quot;, &quot; + this.activeAgents.get(0).getName();</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
