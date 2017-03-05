@@ -102,6 +102,11 @@ public class Controller implements Controller_IF {
     public void getPrescriptionDetails() {
         this.gui.setPrescriptionDetails(this.clientRes.getPrescriptionDetails(this.gui.getSelectedPrescription()));
     }
+    
+    @Override
+    public void getDiagnoseDetails() {
+        this.gui.setDiagnoseDetails(this.clientRes.getDiagnoseDetails(this.gui.getSelectedDiagnose()));
+    }
 
     @Override
     public List<User> getUsers() {

@@ -35,6 +35,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<Prescription> prescriptionListView;
     private ListTabGUI_IF<String> prescriptionTab;
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
+    private ListTabGUI_IF<String> diagnoseTab;
+    private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
     private SideBarListView_IF<String> messageListView;
     private SideBarListView_IF<User> userListView;
     private SideBarListView_IF<String> employeeListView;
@@ -207,9 +209,12 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setPatientDiagnoses(List<Diagnose> list) {
         ObservableList<Diagnose> diagnoses = FXCollections.observableArrayList(list);
-        ListTabGUI listTab = new ListTabGUI("Potilaan diagnoosit");
-        listTab.getListView().setItems(diagnoses);
-        this.tabPane.getTabs().add(listTab);
+        this.patientDiagnoseTab = new ListTabGUI("Potilaan diagnoosit");
+        this.patientDiagnoseTab.getListView().setOnMouseClicked(e -> {
+            this.controller.getDiagnoseDetails();
+        });
+        this.patientDiagnoseTab.getListView().setItems(diagnoses);
+        this.tabPane.getTabs().add((ListTabGUI)this.patientDiagnoseTab);
     }
 
     @Override
@@ -232,10 +237,25 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.tabPane.getTabs().add((ListTabGUI)this.prescriptionTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.prescriptionTab);
     }
+    
+    @Override
+    public void setDiagnoseDetails(List<String> list) {
+        ObservableList<String> details = FXCollections.observableArrayList(list);
+        this.tabPane.getTabs().remove(this.diagnoseTab);
+        this.diagnoseTab = new ListTabGUI("Diagnoosin tiedot");
+        this.diagnoseTab.getListView().setItems(details);
+        this.tabPane.getTabs().add((ListTabGUI)this.diagnoseTab);
+        this.tabPane.getSelectionModel().select((ListTabGUI)this.diagnoseTab);
+    }
 
     @Override
     public Prescription getSelectedPrescription() {
         return this.patientPrescriptionTab.getSelection();
+    }
+    
+    @Override
+    public Diagnose getSelectedDiagnose() {
+        return this.patientDiagnoseTab.getSelection();
     }
     
     

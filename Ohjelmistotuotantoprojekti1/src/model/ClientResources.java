@@ -88,4 +88,23 @@ public class ClientResources implements ClientResources_IF {
         list.add("Päättyen: " + prescription.getEndDate());
         return list;
     }
+
+    @Override
+    public List<String> getDiagnoseDetails(Diagnose diagnose) {
+        List<String> list = new ArrayList();
+        list.add("Tunnus: " + diagnose.getId());
+        list.add("Luontipäivä: " + diagnose.getCreationDate());
+        list.add("Potilas: " + diagnose.getPatient().getLastName() + ", " + diagnose.getPatient().getFirstName() + ", " + diagnose.getPatient().getSSN());
+        list.add("Lääkäri: " + diagnose.getDoctor().getLastName() + ", " + diagnose.getDoctor().getFirstName());
+        list.add("Sairaus: " + diagnose.getDisease());
+        list.add("Epikriisi: " + diagnose.getEpicrisis());
+        if (diagnose.getResolutionDate() != null) {
+            list.add("Diagnoosin tila: hoidettu, " + diagnose.getResolutionDate());
+        }
+        else {
+            list.add("Diagnoosin tila: ei hoidettu" );
+        }
+        return list;
+    }
+    
 }

@@ -21,6 +21,7 @@ public interface Controller_IF {
     public abstract List<String> getDrugDetails();
     public abstract List<Prescription> getPrescriptions();
     public abstract void getPrescriptionDetails();
+    public abstract void getDiagnoseDetails();
     public abstract List<String> getMessages();
     public abstract List<String> getMessageDetails();
     public abstract List<User> getUsers();
