@@ -63,4 +63,9 @@ public class ListTabGUI<E> extends Tab implements ListTabGUI_IF<E> {
         this.list = FXCollections.observableArrayList(list);
         this.listView.setItems(this.list);
     }
+
+    @Override
+    public E getSelection() {
+        return this.listView.getSelectionModel().getSelectedItem();
+    }
 }

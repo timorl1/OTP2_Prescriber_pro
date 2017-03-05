@@ -20,6 +20,7 @@ public interface Controller_IF {
     public abstract List<Drug> getDrugs();
     public abstract List<String> getDrugDetails();
     public abstract List<Prescription> getPrescriptions();
+    public abstract void getPrescriptionDetails();
     public abstract List<String> getMessages();
     public abstract List<String> getMessageDetails();
     public abstract List<User> getUsers();

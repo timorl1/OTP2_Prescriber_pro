@@ -25,5 +25,7 @@ public interface MainGUI_IF {
     public abstract void setPatientDetails(List<String> list);
     public abstract void setPatientDiagnoses(List<Diagnose> list);
     public abstract void setPatientPrescriptions(List<Prescription> list);
+    public abstract void setPrescriptionDetails(List<String> list);
     public abstract Patient getSelectedPatient();
+    public abstract Prescription getSelectedPrescription();
 }

@@ -18,4 +18,5 @@ public interface ListTabGUI_IF<E> {
     public abstract Tab getTab();
     public abstract ListView getListView();
     public abstract void setList(List<E> list);
+    public abstract E getSelection();
 }

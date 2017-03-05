@@ -72,4 +72,20 @@ public class ClientResources implements ClientResources_IF {
     public String getEmployeeDetails(String SSN) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<String> getPrescriptionDetails(Prescription prescription) {
+        List<String> list = new ArrayList();
+        list.add("Tunnus: " + prescription.getId());
+        list.add("Luontipäivä: " + prescription.getCreationDate());
+        list.add("Potilas: " + prescription.getPatient().getLastName() + ", " + prescription.getPatient().getFirstName() + ", " + prescription.getPatient().getSSN());
+        list.add("Lääkäri: " + prescription.getDoctor().getLastName() + ", " + prescription.getDoctor().getFirstName());
+        list.add("Diagnoosi: " + prescription.getDiagnose().getId() + ": " + prescription.getDiagnose().getDisease());
+        list.add("Lääke: " + prescription.getDrug().getName());
+        list.add("Annostus: " + prescription.getDose() + "" + prescription.getDrug().getUnit() + ", " + prescription.getTimesADay() + " kertaa päivässä.");
+        list.add("Ohjeet: " + prescription.getInfo());
+        list.add("Alkaen: " + prescription.getStartDate());
+        list.add("Päättyen: " + prescription.getEndDate());
+        return list;
+    }
 }

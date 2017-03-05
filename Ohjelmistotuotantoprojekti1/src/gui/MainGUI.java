@@ -33,6 +33,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<Patient> patientListView;
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
+    private ListTabGUI_IF<String> prescriptionTab;
+    private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private SideBarListView_IF<String> messageListView;
     private SideBarListView_IF<User> userListView;
     private SideBarListView_IF<String> employeeListView;
@@ -116,76 +118,76 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setDrugList() {
-        SideBarListViewGUI<Drug> drugListView = new SideBarListViewGUI("Lääkkeet");
-        drugListView.getTitledPane().setOnMouseClicked(e -> {
-            if (drugListView.isExpanded()) {
-                drugListView.setList(this.controller.getDrugs());
+        this.drugListView = new SideBarListViewGUI("Lääkkeet");
+        this.drugListView.getTitledPane().setOnMouseClicked(e -> {
+            if (this.drugListView.isExpanded()) {
+                this. drugListView.setList(this.controller.getDrugs());
             }
         });
-        drugListView.getListView().setOnMouseClicked(e -> {
-            if (drugListView.getSelection() != null) {
+        this.drugListView.getListView().setOnMouseClicked(e -> {
+            if (this.drugListView.getSelection() != null) {
                 //this.loadTabPane(drugListView.getSelection());
             }
             else {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView(drugListView);
+        this.sideBar.addView((SideBarListViewGUI)this.drugListView);
     }
 
     @Override
     public void setPrescriptionList() {
-        SideBarListViewGUI<Prescription> prescriptionListView = new SideBarListViewGUI("Omat Reseptit");
-        prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (prescriptionListView.isExpanded()) {
-                prescriptionListView.setList(this.controller.getPrescriptions());
+        this.prescriptionListView = new SideBarListViewGUI("Omat Reseptit");
+        this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.prescriptionListView.isExpanded()) {
+                this.prescriptionListView.setList(this.controller.getPrescriptions());
             }
         });
-        this.sideBar.addView(prescriptionListView);
+        this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);
     }
 
     @Override
     public void setMessageList() {
-        SideBarListViewGUI<String> messageListView = new SideBarListViewGUI("Viestit");
-        messageListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (messageListView.isExpanded()) {
-                messageListView.setList(this.controller.getMessages());
+        this.messageListView = new SideBarListViewGUI("Viestit");
+        this.messageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.messageListView.isExpanded()) {
+                this.messageListView.setList(this.controller.getMessages());
             }
         });
-        this.sideBar.addView(messageListView);
+        this.sideBar.addView((SideBarListViewGUI)this.messageListView);
     }
 
     @Override
     public void setUserList() {
-        SideBarListViewGUI<User> userListView = new SideBarListViewGUI("Käyttäjät");
-        userListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (userListView.isExpanded()) {
-                userListView.setList(this.controller.getUsers());
+        this.userListView = new SideBarListViewGUI("Käyttäjät");
+        this.userListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.userListView.isExpanded()) {
+                this.userListView.setList(this.controller.getUsers());
             }
         });
-        this.sideBar.addView(userListView);
+        this.sideBar.addView((SideBarListViewGUI)this.userListView);
     }
 
     @Override
     public void setEmployeeList() {
-        SideBarListViewGUI<String> employeeListView = new SideBarListViewGUI("Työntekijät");
-        employeeListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (employeeListView.isExpanded()) {
-                employeeListView.setList(this.controller.getEmployees());
+        this.employeeListView = new SideBarListViewGUI("Työntekijät");
+        this.employeeListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.employeeListView.isExpanded()) {
+                this.employeeListView.setList(this.controller.getEmployees());
             }
         });
-        this.sideBar.addView(employeeListView);
+        this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
     }
 
     @Override
     public void setDatabaseList() {
-        SideBarListViewGUI<String> databaseListView = new SideBarListViewGUI("Tietokannat");
-        databaseListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (databaseListView.isExpanded()) {
-                databaseListView.setList(this.controller.getEmployees());
+        this.databaseListView = new SideBarListViewGUI("Tietokannat");
+        this.databaseListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.databaseListView.isExpanded()) {
+                this.databaseListView.setList(this.controller.getEmployees());
             }
         });
-        this.sideBar.addView(databaseListView);
+        this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
     }
 
     @Override
@@ -213,9 +215,28 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setPatientPrescriptions(List<Prescription> list) {
         ObservableList<Prescription> prescriptions = FXCollections.observableArrayList(list);
-        ListTabGUI listTab = new ListTabGUI("Potilaan reseptit");
-        listTab.getListView().setItems(prescriptions);
-        this.tabPane.getTabs().add(listTab);
+        this.patientPrescriptionTab = new ListTabGUI("Potilaan reseptit");
+        this.patientPrescriptionTab.getListView().setOnMouseClicked(e -> {
+            this.controller.getPrescriptionDetails();
+        });
+        this.patientPrescriptionTab.getListView().setItems(prescriptions);
+        this.tabPane.getTabs().add((ListTabGUI)this.patientPrescriptionTab);
     }
+
+    @Override
+    public void setPrescriptionDetails(List<String> list) {
+        ObservableList<String> details = FXCollections.observableArrayList(list);
+        this.tabPane.getTabs().remove(this.prescriptionTab);
+        this.prescriptionTab = new ListTabGUI("Reseptin tiedot");
+        this.prescriptionTab.getListView().setItems(details);
+        this.tabPane.getTabs().add((ListTabGUI)this.prescriptionTab);
+        this.tabPane.getSelectionModel().select((ListTabGUI)this.prescriptionTab);
+    }
+
+    @Override
+    public Prescription getSelectedPrescription() {
+        return this.patientPrescriptionTab.getSelection();
+    }
+    
     
 }
