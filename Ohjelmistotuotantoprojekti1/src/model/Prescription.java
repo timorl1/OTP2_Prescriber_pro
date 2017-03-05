@@ -63,7 +63,6 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
-        this.patientID = patient.getSSN();
     }
 
     public Doctor getDoc() {
@@ -72,7 +71,46 @@ public class Prescription {
 
     public void setDoc(Doctor doc) {
         this.doctor = doc;
-        this.doctorID = doc.getId();
+    }
+
+    public String getPatientID() {
+        return patientID;
+    }
+
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
+    }
+
+    public int getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(int doctorID) {
+        this.doctorID = doctorID;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public int getDrugID() {
+        return drugID;
+    }
+
+    public void setDrugID(int drugID) {
+        this.drugID = drugID;
+    }
+
+    public int getDiagnoseID() {
+        return diagnoseID;
+    }
+
+    public void setDiagnoseID(int diagnoseID) {
+        this.diagnoseID = diagnoseID;
     }
 
     public Drug getDrug() {
@@ -147,6 +185,11 @@ public class Prescription {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    @Override
+    public String toString() {
+        return this.id + ", " + this.patient + ", " + this.diagnose + ", " + this.creationDate;
     }
 
 }

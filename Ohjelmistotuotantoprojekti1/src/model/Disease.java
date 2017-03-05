@@ -55,6 +55,10 @@ public class Disease {
     public void setAllergenList(List<Disease_Allergen> allergenList) {
         this.allergens = allergenList;
     }
-   
+    
+    @Override
+    public String toString() {
+        return this.diseaseName;
+    }
     
 }

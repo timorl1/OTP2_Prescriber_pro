@@ -16,5 +16,6 @@ import model.Patient;
 public interface PatientDAO_IF {
     public abstract Patient readPatient(String SSN);
     public abstract List<Patient> readPatients();
+    public abstract Diagnose readDiagnose(int diagnoseID);
     public abstract List<Diagnose> readPatientDiagnoses(Patient pat);
 }

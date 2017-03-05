@@ -57,5 +57,10 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     public Button getButton() {
         return this.loginButton;
     }
+
+    @Override
+    public void addMessage(String message) {
+        this.getChildren().add(new Label(message));
+    }
     
 }

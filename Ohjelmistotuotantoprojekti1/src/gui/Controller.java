@@ -5,15 +5,10 @@
  */
 package gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import model.Authenticator;
+import javafx.util.converter.DoubleStringConverter;
+import model.AppUser;
 import model.ClientResources;
 import model.Drug;
 import model.DrugResources;
@@ -25,43 +20,45 @@ import model.User;
 
 public class Controller implements Controller_IF {
     private MainGUI_IF gui;
-    private Authenticator auth;
+    private AppUser auth;
     private ClientResources clientRes;
     private DrugResources drugRes;
-    private PatientBuilder pBuilder;
-    
-    private User user;
     
     public Controller(MainGUI_IF gui) {
         this.gui = gui;
-        this.auth = new Authenticator();
+        this.auth = new AppUser();
         this.clientRes = new ClientResources();
         this.drugRes = new DrugResources();
-        this.pBuilder = new PatientBuilder();
     }
 
     @Override
     public void login(String username, String password) {
-        this.user = this.auth.authenticateUser(username, password);
-        if (this.user != null) {
-            this.gui.loadSideBar();
-            switch(this.user.getPriviledges()) {
+        this.auth.setUser(username);
+        this.auth.authenticate(password);
+        if (this.auth.isAuthenticated()) {
+            this.gui.setSideBar();
+            switch(this.auth.getUserPriviledges()) {
+                case 0:
+                    this.gui.setAccessDenied();
                 case 1:
-                    this.gui.loadPatientList();
-                    this.gui.loadDrugList();
-                    this.gui.loadMessageList();
+                    this.gui.setPatientList();
+                    this.gui.setDrugList();
+                    this.gui.setMessageList();
                     break;
                 case 2:
-                    this.gui.loadPatientList();
-                    this.gui.loadDrugList();
-                    this.gui.loadPrescriptionList();
-                    this.gui.loadMessageList();
+                    this.gui.setPatientList();
+                    this.gui.setDrugList();
+                    this.gui.setPrescriptionList();
+                    this.gui.setMessageList();
                     break;
                 case 3:
-                    this.gui.loadUserList();
-                    this.gui.loadEmployeeList();
-                    this.gui.loadMessageList();
+                    this.gui.setUserList();
+                    this.gui.setEmployeeList();
+                    this.gui.setMessageList();
             }
+        }
+        else {
+            this.gui.setLoginFailed();
         }
     }
 
@@ -77,18 +74,18 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public Patient getBuiltPatient(Patient patient) {
-        return this.pBuilder.buildPatient(patient);
+    public void getPatientDetails() {
+        this.gui.setPatientDetails(this.clientRes.getPatientDetails(this.gui.getSelectedPatient()));
     }
 
     @Override
-    public List<String> getPatientDiagnoses() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void getPatientDiagnoses() {
+        this.gui.setPatientDiagnoses(this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient()));
     }
 
     @Override
-    public List<String> getPatientPrescriptions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void getPatientPrescriptions() {
+        this.gui.setPatientPrescriptions(this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient()));
     }
 
     @Override

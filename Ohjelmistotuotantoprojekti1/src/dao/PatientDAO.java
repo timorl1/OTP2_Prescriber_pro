@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import model.Diagnose;
-import model.Doctor;
 import model.Patient;
 
 /**
@@ -22,7 +21,6 @@ public class PatientDAO implements PatientDAO_IF {
     private Properties properties = new Properties();
     private DatabaseDAO parameters = new DatabaseDAO(properties, "db.properties");
     Connection connection = null;
-    private Doctor placeholder = new Doctor();
 
     //Set database parameters, what to get
     public PatientDAO() {
@@ -170,6 +168,72 @@ public class PatientDAO implements PatientDAO_IF {
         }
         return lista;
     }
+    
+    //Get single patient from database identified by Social security number
+    @Override
+    public Diagnose readDiagnose(int diagnoseID) {
+        properties = parameters.readDBProperties();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://" + properties.getProperty("url") + "/" + properties.getProperty("db"), properties.getProperty("username"), properties.getProperty("password"));
+        }catch (SQLException e) {
+            System.out.println("Yhteyden muodostaminen epäonnistui");
+            try {
+                System.out.println("Yritetään muodostaa yhteys Jenkinsillä");
+                connection = DriverManager.getConnection("jdbc:mysql://10.114.32.151:3306/sairaaladb", "jenkins",
+                "jenkins");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("JDBC-ajurin lataus epäonnistui");
+        }
+        
+        Diagnose dia = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlSelect = "SELECT * FROM diagnoosi where diagnoosiID = ?";
+        try {
+            statement = connection.prepareStatement(sqlSelect);
+            statement.setInt(1, diagnoseID);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("diagnoosiID");
+                int diseaseID = rs.getInt("sairaustunniste");
+                String epicrisis = rs.getString("epikriisi");
+                Timestamp creationDate = rs.getTimestamp("luontipäivä");
+                Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
+                String patientID = rs.getString("hetu");
+                String doctorID = rs.getString("työntekijänumero");
+                dia = new Diagnose();
+                dia.setId(id);
+                dia.setPatientId(patientID);
+                dia.setDoctorId(doctorID);
+                dia.setDiseaseID(diseaseID);
+                dia.setEpicrisis(epicrisis);
+                dia.setCreationDate(creationDate);
+                dia.setResolutionDate(resolutionDate);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch(Exception e) {
+                
+            }
+        }
+        return dia;
+    }
 
     // Reads patients diagnoses from database
     @Override
@@ -206,10 +270,12 @@ public class PatientDAO implements PatientDAO_IF {
                 String epicrisis = rs.getString("epikriisi");
                 Timestamp creationDate = rs.getTimestamp("luontipäivä");
                 Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
+                String patientID = rs.getString("hetu");
+                String doctorID = rs.getString("työntekijänumero");
                 dia = new Diagnose();
                 dia.setId(id);
-                dia.setPatient(pat);
-                dia.setDoctor(placeholder);
+                dia.setPatientId(patientID);
+                dia.setDoctorId(doctorID);
                 dia.setDiseaseID(diseaseID);
                 dia.setEpicrisis(epicrisis);
                 dia.setCreationDate(creationDate);

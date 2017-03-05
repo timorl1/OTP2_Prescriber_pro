@@ -10,8 +10,9 @@ import javafx.scene.control.TitledPane;
  * @param <E>
  */
 public interface SideBarListView_IF<E> {
-    public TitledPane getTitledPane();
-    public ListView getListView();
-    public void setList(List<E> list);
-    public E getSelection();
+    public abstract TitledPane getTitledPane();
+    public abstract ListView getListView();
+    public abstract void setList(List<E> list);
+    public abstract E getSelection();
+    public abstract boolean isExpanded();
 }

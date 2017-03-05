@@ -1,6 +1,5 @@
 package model;
 
-import model.Patient;
 import java.sql.Timestamp;
 
 /**
@@ -14,10 +13,11 @@ public class Diagnose {
     private String epicrisis;
     private Timestamp creationDate;
     private Timestamp resolutionDate;
+    private String patientId;
     private Patient patient;
+    private String doctorId;
     private Doctor doctor;
     
-
     public Diagnose() {
     }
 
@@ -70,12 +70,28 @@ public class Diagnose {
         this.resolutionDate = resolutionDate;
     }
 
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
     public Patient getPatient() {
         return patient;
     }
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+    
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public Doctor getDoctor() {
@@ -84,6 +100,11 @@ public class Diagnose {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+    
+    @Override
+    public String toString() {
+        return this.id + ", " + this.disease + ", " + this.creationDate;
     }
     
 }

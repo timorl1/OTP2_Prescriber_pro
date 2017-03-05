@@ -1,20 +1,29 @@
 package gui;
 
-import model.User;
+import java.util.List;
+import model.Diagnose;
+import model.Patient;
+import model.Prescription;
 
 /**
  *
  * @author joosiika
  */
 public interface MainGUI_IF {
-    public abstract void loadLogin();
-    public abstract void loadSideBar();
-    public abstract <T> void loadTabPane(T selection);
-    public abstract void loadPatientList();
-    public abstract void loadDrugList();
-    public abstract void loadPrescriptionList();
-    public abstract void loadMessageList();
-    public abstract void loadUserList();
-    public abstract void loadEmployeeList();
-    public abstract void loadDatabaseList();
+    public abstract void setLogin();
+    public abstract void setLoginFailed();
+    public abstract void setAccessDenied();
+    public abstract void setSideBar();
+    public abstract <T> void loadTabPane(List<T> data);
+    public abstract void setPatientList();
+    public abstract void setDrugList();
+    public abstract void setPrescriptionList();
+    public abstract void setMessageList();
+    public abstract void setUserList();
+    public abstract void setEmployeeList();
+    public abstract void setDatabaseList();
+    public abstract void setPatientDetails(List<String> list);
+    public abstract void setPatientDiagnoses(List<Diagnose> list);
+    public abstract void setPatientPrescriptions(List<Prescription> list);
+    public abstract Patient getSelectedPatient();
 }
