@@ -149,6 +149,7 @@ public class PrescriptionDAOTest {
         PrescriptionDAO instance = new PrescriptionDAO();
         Prescription test = new Prescription();
         test.setId(2);
+        test.setPatientID(pat.getSSN());
         test.setPatient(pat);
         test.setDoc(doc);
         test.setDiagnose(dia);
@@ -185,6 +186,7 @@ public class PrescriptionDAOTest {
         
         test.setId(2);
         test.setPatient(pat);
+        test.setPatientID(pat.getSSN());
         test.setDoc(doc);
         test.setDiagnose(dia);
         test.setDose("800mg");
