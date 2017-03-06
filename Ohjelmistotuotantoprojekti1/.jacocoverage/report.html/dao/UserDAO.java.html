@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UserDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">UserDAO.java</span></div><h1>UserDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import java.util.ArrayList;
+import java.util.List;
+import model.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+/**
+ *
+ * @author Timo
+ */
+public class UserDAO implements UserDAO_IF {
+    
+    SessionFactory sf;
+    final StandardServiceRegistry reg;
+
+    private Session session;
+    private Transaction transaction;
+    
+    // Builds session factory
+<span class="nc" id="L31">    public UserDAO(){</span>
+<span class="nc" id="L32">        sf = null;</span>
+<span class="nc" id="L33">        reg = new StandardServiceRegistryBuilder().configure(&quot;applicationdb.cfg.xml&quot;).build();</span>
+
+        try {
+<span class="nc" id="L36">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
+        }
+<span class="nc" id="L38">        catch (Exception e) {</span>
+<span class="nc" id="L39">            System.err.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L40">            e.printStackTrace();</span>
+<span class="nc" id="L41">            StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="nc" id="L42">            System.exit(-1);</span>
+<span class="nc" id="L43">        }</span>
+<span class="nc" id="L44">    }</span>
+    
+    public void finalize() {
+<span class="nc" id="L47">        boolean success = false;</span>
+        do {
+            try {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (reg != null) {</span>
+<span class="nc" id="L51">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+                }
+<span class="nc" id="L53">                success = true;</span>
+<span class="nc" id="L54">            } catch (Exception e) {</span>
+<span class="nc" id="L55">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
+                try {
+<span class="nc" id="L57">                    Thread.sleep(1000);</span>
+<span class="nc" id="L58">                } catch (InterruptedException e1) {</span>
+<span class="nc" id="L59">                    e1.printStackTrace();</span>
+<span class="nc" id="L60">                }</span>
+<span class="nc" id="L61">            }</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        } while (!success);</span>
+<span class="nc" id="L63">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="nc" id="L64">    }</span>
+    
+    //Used for updating user information to database
+    @Override
+    public boolean updateUser(User user) {
+<span class="nc" id="L69">        session = sf.openSession();</span>
+<span class="nc" id="L70">        transaction = null;</span>
+        
+        try {
+<span class="nc" id="L73">            transaction = session.beginTransaction();</span>
+<span class="nc" id="L74">            session.update(user);</span>
+<span class="nc" id="L75">            transaction.commit();</span>
+<span class="nc" id="L76">            return true;</span>
+<span class="nc" id="L77">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (transaction != null) {</span>
+<span class="nc" id="L79">                transaction.rollback();</span>
+            }
+<span class="nc" id="L81">            System.out.println(&quot;Updating an entry in DB failed.&quot;);</span>
+        } finally {
+<span class="nc" id="L83">            session.close();</span>
+<span class="nc" id="L84">        }</span>
+<span class="nc" id="L85">        return false;</span>
+    }
+
+    // Gets all users from database and returns them as array
+    @Override
+    public List&lt;User&gt; getUsers() {
+<span class="nc" id="L91">        List&lt;User&gt; users = null;</span>
+<span class="nc" id="L92">        session = sf.openSession();</span>
+        try {
+<span class="nc" id="L94">            session.beginTransaction();</span>
+<span class="nc" id="L95">            users = session.createQuery(&quot;from user&quot;).getResultList();</span>
+<span class="nc" id="L96">            session.getTransaction().commit();</span>
+<span class="nc" id="L97">        } catch (Exception e) {</span>
+<span class="nc" id="L98">            System.out.println(&quot;Lukeminen ei onnistunut&quot;);</span>
+        } finally {
+<span class="nc" id="L100">            session.close();</span>
+<span class="nc" id="L101">        }</span>
+<span class="nc" id="L102">        return users;</span>
+    }
+    
+    // Gets user from database identified by username
+    @Override
+    public User getUser(String username) {
+<span class="nc" id="L108">        User user = null;</span>
+<span class="nc" id="L109">        session = sf.openSession();</span>
+<span class="nc" id="L110">	transaction = session.beginTransaction();</span>
+            try{
+<span class="nc" id="L112">                user = new User();</span>
+<span class="nc" id="L113">                session.load(user, username);</span>
+<span class="nc" id="L114">                session.getTransaction().commit();</span>
+			
+<span class="nc" id="L116">		}catch(Exception e){</span>
+<span class="nc" id="L117">			System.out.println(&quot;Lukeminen ei onnistunut&quot;);</span>
+		}finally{
+<span class="nc" id="L119">			session.close();</span>
+<span class="nc" id="L120">		}</span>
+<span class="nc" id="L121">        return user;</span>
+    }
+    
+    //Deletes user from database identified by username 
+    @Override
+    public boolean deleteUser(User user) {
+        
+<span class="nc" id="L128">        session = sf.openSession();</span>
+<span class="nc" id="L129">        boolean success = false;</span>
+        try {
+<span class="nc" id="L131">            transaction = session.beginTransaction();</span>
+<span class="nc" id="L132">            session.delete(user);</span>
+<span class="nc" id="L133">            transaction.commit();</span>
+<span class="nc" id="L134">            success = true;</span>
+<span class="nc" id="L135">        } catch (Exception e){</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (transaction != null) {</span>
+<span class="nc" id="L137">                transaction.rollback();</span>
+            }
+<span class="nc" id="L139">            System.out.println(&quot;Deleting an entry from DB failed.&quot;);</span>
+<span class="nc" id="L140">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L142">            session.close();</span>
+<span class="nc" id="L143">        }</span>
+        
+<span class="nc" id="L145">        return success;</span>
+    }
+
+    @Override
+    public boolean createUser(User user) {
+<span class="nc" id="L150">        return false;</span>
+    }
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

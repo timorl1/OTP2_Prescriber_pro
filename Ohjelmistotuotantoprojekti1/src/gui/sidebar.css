@@ -1,0 +1,39 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass .label{
+    -fx-font-size: 24px;
+    -fx-padding: 0 0 0 47;
+}
+
+.mainFxmlClass .titled-pane *.content{
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
+    -fx-border-color: transparent;
+}
+
+.mainFxmlClass .titled-pane .title {
+    -fx-background-color: transparent;
+    -fx-font-size: 24px;
+}
+
+.mainFxmlClass .titled-pane .list-view {
+    -fx-background-color: transparent ;
+}
+
+.mainFxmlClass .titled-pane .list-view .list-cell{
+    -fx-background-color: transparent ;
+    -fx-padding: 20;
+}
+
+.mainFxmlClass .titled-pane .list-view .list-cell:filled:selected{
+    -fx-text-fill: #00ccff;
+}
+
+.mainFxmlClass .text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
+    -fx-border-color: black;
+    -fx-border-radius: 20;
+}

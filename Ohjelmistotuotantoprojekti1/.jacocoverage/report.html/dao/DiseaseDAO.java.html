@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DiseaseDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">DiseaseDAO.java</span></div><h1>DiseaseDAO.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.util.List;
+import model.Diagnose;
+import model.Disease;
+import model.Drug;
+import model.Patient;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+/**
+ *
+ * @author Timo
+ */
+public class DiseaseDAO implements DiseaseDAO_IF {
+    SessionFactory sf;
+    final StandardServiceRegistry reg;
+
+    private Session session;
+    private Transaction transaction;
+
+<span class="nc" id="L27">    public DiseaseDAO(){</span>
+<span class="nc" id="L28">        sf = null;</span>
+<span class="nc" id="L29">        reg = new StandardServiceRegistryBuilder().configure(&quot;diseasedb.cfg.xml&quot;).build();</span>
+
+        try {
+<span class="nc" id="L32">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
+        }
+<span class="nc" id="L34">        catch (Exception e) {</span>
+<span class="nc" id="L35">            System.err.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L37">            StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="nc" id="L38">            System.exit(-1);</span>
+<span class="nc" id="L39">        }</span>
+<span class="nc" id="L40">    }</span>
+    
+    @Override
+    public void finalize() {
+<span class="nc" id="L44">        boolean success = false;</span>
+        do {
+            try {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                if (reg != null) {</span>
+<span class="nc" id="L48">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+                }
+<span class="nc" id="L50">                success = true;</span>
+<span class="nc" id="L51">            } catch (Exception e) {</span>
+<span class="nc" id="L52">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
+                try {
+<span class="nc" id="L54">                    Thread.sleep(1000);</span>
+<span class="nc" id="L55">                } catch (InterruptedException e1) {</span>
+<span class="nc" id="L56">                    e1.printStackTrace();</span>
+<span class="nc" id="L57">                }</span>
+<span class="nc" id="L58">            }</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        } while (!success);</span>
+<span class="nc" id="L60">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="nc" id="L61">    }</span>
+
+    @Override
+    public Disease getDisease(int diseaseId) {
+<span class="nc" id="L65">        Disease disease=null;</span>
+<span class="nc" id="L66">        session = sf.openSession();</span>
+        try {
+<span class="nc" id="L68">            session.beginTransaction();</span>
+<span class="nc" id="L69">            session.load(disease = new Disease(), diseaseId);</span>
+<span class="nc" id="L70">            session.getTransaction().commit();</span>
+<span class="nc" id="L71">            Hibernate.initialize(disease.getId());</span>
+<span class="nc" id="L72">            Hibernate.initialize(disease.getDiseaseName());</span>
+<span class="nc" id="L73">            Hibernate.initialize(disease.getDiseaseDesc());</span>
+<span class="nc" id="L74">            Hibernate.initialize(disease.getAllergenList());</span>
+<span class="nc" id="L75">        } catch (Exception e) {</span>
+<span class="nc" id="L76">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+        } finally {
+<span class="nc" id="L78">            session.close();</span>
+<span class="nc" id="L79">        }</span>
+<span class="nc" id="L80">        return disease;</span>
+    }
+
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
