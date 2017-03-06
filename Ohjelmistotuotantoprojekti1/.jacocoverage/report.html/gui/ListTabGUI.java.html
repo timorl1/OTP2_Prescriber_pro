@@ -11,8 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -28,44 +30,43 @@ public class ListTabGUI&lt;E&gt; extends Tab implements ListTabGUI_IF&lt;E&gt; {
     @FXML
     private Tab tab;
     
-    private E e;
-    private E data;
     private final String title;
-    private final MainGUI_IF root;
     private FXMLLoader loader;
     
     private ObservableList&lt;E&gt; list;
     
-<span class="nc" id="L39">    public ListTabGUI(E data, String title, MainGUI_IF root) {</span>
-<span class="nc" id="L40">        this.data = data;</span>
-<span class="nc" id="L41">        this.root = root;</span>
-<span class="nc" id="L42">        this.title = title;</span>
+<span class="nc" id="L38">    public ListTabGUI(String title) {</span>
+<span class="nc" id="L39">        this.title = title;</span>
         try {
-<span class="nc" id="L44">            loader = new FXMLLoader(getClass().getResource(&quot;ListTab.fxml&quot;));</span>
-<span class="nc" id="L45">            loader.setController(this);</span>
-<span class="nc" id="L46">            loader.setRoot(this);</span>
-<span class="nc" id="L47">            loader.load();</span>
-<span class="nc" id="L48">            this.tab.setText(this.title);</span>
-<span class="nc" id="L49">        } catch (IOException ex) {</span>
+<span class="nc" id="L41">            loader = new FXMLLoader(getClass().getResource(&quot;ListTab.fxml&quot;));</span>
+<span class="nc" id="L42">            loader.setController(this);</span>
+<span class="nc" id="L43">            loader.setRoot(this);</span>
+<span class="nc" id="L44">            loader.load();</span>
+<span class="nc" id="L45">            this.tab.setText(this.title);</span>
+<span class="nc" id="L46">        } catch (IOException ex) {</span>
             // handle exception
-<span class="nc" id="L51">        }</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">    }</span>
     
     @Override
-    public void setList(List&lt;E&gt; list) {
-<span class="nc" id="L56">        this.list = FXCollections.observableArrayList(list);</span>
-<span class="nc" id="L57">        this.listView.setItems(this.list);</span>
-<span class="nc" id="L58">    }</span>
-
-    @Override
-    public E getElement() {
-<span class="nc" id="L62">        return e;</span>
+    public Tab getTab() {
+<span class="nc" id="L53">        return this.tab;</span>
     }
 
     @Override
-    public void setElement(E e) {
-<span class="nc" id="L67">        this.e = e;</span>
-<span class="nc" id="L68">    }</span>
+    public ListView getListView() {
+<span class="nc" id="L58">        return this.listView;</span>
+    }
     
+    @Override
+    public void setList(List&lt;E&gt; list) {
+<span class="nc" id="L63">        this.list = FXCollections.observableArrayList(list);</span>
+<span class="nc" id="L64">        this.listView.setItems(this.list);</span>
+<span class="nc" id="L65">    }</span>
+
+    @Override
+    public E getSelection() {
+<span class="nc" id="L69">        return this.listView.getSelectionModel().getSelectedItem();</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

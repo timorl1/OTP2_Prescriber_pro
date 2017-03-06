@@ -44,7 +44,7 @@ public class Controller implements Controller_IF {
     @Override
     public void setPriviledges() {
 <span class="nc" id="L46">        User user = userdao.getUser(&quot;USERNAME; TÄMÄ TULEE GUISTA&quot;);</span>
-<span class="nc" id="L47">        user.setPriviledges(0); // TÄHÄN TULEE KANSSA GUISTA ARVO</span>
+<span class="nc" id="L47">        user.setPrivileges(0); // TÄHÄN TULEE KANSSA GUISTA ARVO</span>
 <span class="nc bnc" id="L48" title="All 2 branches missed.">        if(userdao.updateUser(user)){</span>
          //TRUE, MENEE VARMAAN JOKU VIESTI GUI   
         }else{

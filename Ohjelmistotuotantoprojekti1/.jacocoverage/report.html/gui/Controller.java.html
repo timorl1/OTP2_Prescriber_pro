@@ -6,14 +6,12 @@
 package gui;
 
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import model.Authenticator;
+import model.AppUser;
 import model.ClientResources;
 import model.Drug;
 import model.DrugResources;
+import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -21,108 +19,142 @@ import model.User;
 
 public class Controller implements Controller_IF {
     private MainGUI_IF gui;
-    private Authenticator auth;
+    private AppUser auth;
     private ClientResources clientRes;
     private DrugResources drugRes;
     
-    private User user;
-    
-<span class="nc" id="L30">    public Controller(MainGUI_IF gui) {</span>
-<span class="nc" id="L31">        this.gui = gui;</span>
-<span class="nc" id="L32">        this.auth = new Authenticator();</span>
-<span class="nc" id="L33">        this.clientRes = new ClientResources();</span>
-<span class="nc" id="L34">        this.drugRes = new DrugResources();</span>
-<span class="nc" id="L35">    }</span>
+<span class="nc" id="L26">    public Controller(MainGUI_IF gui) {</span>
+<span class="nc" id="L27">        this.gui = gui;</span>
+<span class="nc" id="L28">        this.auth = new AppUser();</span>
+<span class="nc" id="L29">        this.clientRes = new ClientResources();</span>
+<span class="nc" id="L30">        this.drugRes = new DrugResources();</span>
+<span class="nc" id="L31">    }</span>
 
     @Override
     public void login(String username, String password) {
-<span class="nc" id="L39">        this.user = this.auth.authenticateUser(username, password);</span>
-<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (this.user != null) {</span>
-<span class="nc" id="L41">            this.gui.loadSideBar();</span>
-<span class="nc bnc" id="L42" title="All 4 branches missed.">            switch(this.user.getPriviledges()) {</span>
+<span class="nc" id="L35">        this.auth.setUser(username);</span>
+<span class="nc" id="L36">        this.auth.authenticate(password);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (this.auth.isAuthenticated()) {</span>
+<span class="nc" id="L38">            this.gui.setSideBar();</span>
+<span class="nc bnc" id="L39" title="All 5 branches missed.">            switch(this.auth.getUserPrivileges()) {</span>
+                case 0:
+<span class="nc" id="L41">                    this.gui.setAccessDenied();</span>
                 case 1:
-<span class="nc" id="L44">                    this.gui.loadPatientList();</span>
-<span class="nc" id="L45">                    this.gui.loadDrugList();</span>
-<span class="nc" id="L46">                    this.gui.loadMessageList();</span>
-<span class="nc" id="L47">                    break;</span>
+<span class="nc" id="L43">                    this.gui.setPatientList();</span>
+<span class="nc" id="L44">                    this.gui.setDrugList();</span>
+<span class="nc" id="L45">                    this.gui.setMessageList();</span>
+<span class="nc" id="L46">                    break;</span>
                 case 2:
-<span class="nc" id="L49">                    this.gui.loadPatientList();</span>
-<span class="nc" id="L50">                    this.gui.loadDrugList();</span>
-<span class="nc" id="L51">                    this.gui.loadPrescriptionList();</span>
-<span class="nc" id="L52">                    this.gui.loadMessageList();</span>
-<span class="nc" id="L53">                    break;</span>
+<span class="nc" id="L48">                    this.gui.setPatientList();</span>
+<span class="nc" id="L49">                    this.gui.setDrugList();</span>
+<span class="nc" id="L50">                    this.gui.setPrescriptionList();</span>
+<span class="nc" id="L51">                    this.gui.setMessageList();</span>
+<span class="nc" id="L52">                    break;</span>
                 case 3:
-<span class="nc" id="L55">                    this.gui.loadUserList();</span>
-<span class="nc" id="L56">                    this.gui.loadEmployeeList();</span>
-<span class="nc" id="L57">                    this.gui.loadMessageList();</span>
+<span class="nc" id="L54">                    this.gui.setUserList();</span>
+<span class="nc" id="L55">                    this.gui.setEmployeeList();</span>
+<span class="nc" id="L56">                    this.gui.setMessageList();</span>
             }
         }
-<span class="nc" id="L60">    }</span>
+        else {
+<span class="nc" id="L60">            this.gui.setLoginFailed();</span>
+        }
+<span class="nc" id="L62">    }</span>
 
     @Override
     public List&lt;Patient&gt; getPatients() {
-<span class="nc" id="L64">        return this.clientRes.getPatients();</span>
+<span class="nc" id="L66">        return this.clientRes.getPatients();</span>
     }
     
     @FXML
     @Override
     public void filterPatients() {
-<span class="nc" id="L70">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L72">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
     }
 
     @Override
-    public List&lt;String&gt; getPatientDetails() {
-<span class="nc" id="L75">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
-    }
+    public void getPatientDetails() {
+<span class="nc" id="L77">        this.gui.setPatientDetails(this.clientRes.getPatientDetails(this.gui.getSelectedPatient()));</span>
+<span class="nc" id="L78">    }</span>
 
     @Override
-    public List&lt;String&gt; getPatientDiagnoses() {
-<span class="nc" id="L80">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
-    }
+    public void getPatientDiagnoses() {
+<span class="nc" id="L82">        this.gui.setPatientDiagnoses(this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient()));</span>
+<span class="nc" id="L83">    }</span>
 
     @Override
-    public List&lt;String&gt; getPatientPrescriptions() {
-<span class="nc" id="L85">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
-    }
+    public void getPatientPrescriptions() {
+<span class="nc" id="L87">        this.gui.setPatientPrescriptions(this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient()));</span>
+<span class="nc" id="L88">    }</span>
 
     @Override
     public List&lt;Drug&gt; getDrugs() {
-<span class="nc" id="L90">        return drugRes.getDrugs();</span>
+<span class="nc" id="L92">        return drugRes.getDrugs();</span>
     }
 
     @Override
     public List&lt;Prescription&gt; getPrescriptions() {
-<span class="nc" id="L95">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L97">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
     }
+    
+    @Override
+    public void getPrescriptionDetails() {
+<span class="nc" id="L102">        this.gui.setPrescriptionDetails(this.clientRes.getPrescriptionDetails(this.gui.getSelectedPrescription()));</span>
+<span class="nc" id="L103">    }</span>
+    
+    @Override
+    public void getDiagnoseDetails() {
+<span class="nc" id="L107">        this.gui.setDiagnoseDetails(this.clientRes.getDiagnoseDetails(this.gui.getSelectedDiagnose()));</span>
+<span class="nc" id="L108">    }</span>
 
     @Override
     public List&lt;User&gt; getUsers() {
-<span class="nc" id="L100">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L112">        return this.clientRes.getUsers();</span>
     }
+    
+    @Override
+    public void getUserDetails() {
+<span class="nc" id="L117">        this.gui.setUserDetails(this.clientRes.getUserDetails(this.gui.getSelectedUser()));</span>
+<span class="nc" id="L118">    }</span>
 
     @Override
     public List&lt;String&gt; getDatabases() {
-<span class="nc" id="L105">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L122">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
     }
 
     @Override
     public List&lt;String&gt; getDrugDetails() {
-<span class="nc" id="L110">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L127">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
     }
 
     @Override
     public List&lt;String&gt; getMessages() {
-<span class="nc" id="L115">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L132">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
     }
 
     @Override
     public List&lt;String&gt; getMessageDetails() {
-<span class="nc" id="L120">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L137">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
     }
     
     @Override
-    public List&lt;String&gt; getEmployees() {
-<span class="nc" id="L125">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    public List&lt;Employee&gt; getEmployees() {
+<span class="nc" id="L142">        return this.clientRes.getEmployees();</span>
     }
+    
+    @Override
+    public void getEmployeeDetails() {
+<span class="nc" id="L147">        this.gui.setEmployeeDetails(this.clientRes.getEmployeeDetails(this.gui.getSelectedEmployee()));</span>
+<span class="nc" id="L148">    }</span>
+
+    @Override
+    public void lockUser(User user) {
+<span class="nc" id="L152">        this.clientRes.lockUser(user);</span>
+<span class="nc" id="L153">    }</span>
+
+    @Override
+    public void setUserPriviledges(User user) {
+<span class="nc" id="L157">        this.clientRes.setUserPriviledges(user);</span>
+<span class="nc" id="L158">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

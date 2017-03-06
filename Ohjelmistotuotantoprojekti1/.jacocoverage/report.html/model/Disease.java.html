@@ -55,7 +55,11 @@ public class Disease {
     public void setAllergenList(List&lt;Disease_Allergen&gt; allergenList) {
 <span class="nc" id="L56">        this.allergens = allergenList;</span>
 <span class="nc" id="L57">    }</span>
-   
+    
+    @Override
+    public String toString() {
+<span class="nc" id="L61">        return this.diseaseName;</span>
+    }
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

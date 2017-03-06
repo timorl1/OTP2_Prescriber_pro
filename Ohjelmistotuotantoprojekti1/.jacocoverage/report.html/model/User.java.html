@@ -23,8 +23,8 @@ public class User {
     private String username;
     @Column(name=&quot;password&quot;)
     private String password;
-    @Column(name=&quot;priviledges&quot;)
-    private int priviledges;
+    @Column(name=&quot;privileges&quot;)
+    private int privileges;
     @Column(name=&quot;email&quot;)
     private String email;
     
@@ -35,7 +35,7 @@ public class User {
 <span class="nc" id="L35">        this.id = id;</span>
 <span class="nc" id="L36">        this.username = username;</span>
 <span class="nc" id="L37">        this.password = passw;</span>
-<span class="nc" id="L38">        this.priviledges = priv;</span>
+<span class="nc" id="L38">        this.privileges = priv;</span>
 <span class="nc" id="L39">        this.email = email;</span>
 <span class="nc" id="L40">    }</span>
 
@@ -56,19 +56,19 @@ public class User {
 <span class="fc" id="L56">    }</span>
 
     public String getPassword() {
-<span class="nc" id="L59">        return password;</span>
+<span class="fc" id="L59">        return password;</span>
     }
 
     public void setPassword(String password) {
 <span class="nc" id="L63">        this.password = password;</span>
 <span class="nc" id="L64">    }</span>
 
-    public int getPriviledges() {
-<span class="nc" id="L67">        return priviledges;</span>
+    public int getPrivileges() {
+<span class="fc" id="L67">        return privileges;</span>
     }
 
-    public void setPriviledges(int priviledges) {
-<span class="nc" id="L71">        this.priviledges = priviledges;</span>
+    public void setPrivileges(int privileges) {
+<span class="nc" id="L71">        this.privileges = privileges;</span>
 <span class="nc" id="L72">    }</span>
 
     public String getEmail() {
@@ -79,6 +79,10 @@ public class User {
 <span class="nc" id="L79">        this.email = email;</span>
 <span class="nc" id="L80">    }</span>
     
+    @Override
+    public String toString() {
+<span class="nc" id="L84">        return this.id + &quot;: &quot; + this.username;</span>
+    }
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

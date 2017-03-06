@@ -28,83 +28,84 @@ public class DrugDAO implements DrugDAO_IF{
 <span class="fc" id="L28">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
 <span class="nc" id="L29">        }catch (Exception e){</span>
 <span class="nc" id="L30">            System.out.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L31">            StandardServiceRegistryBuilder.destroy(reg);</span>
                     try{
-<span class="nc" id="L32">                        System.out.println(&quot;Trying with jenkins&quot;);</span>
+<span class="nc" id="L33">                        System.out.println(&quot;Trying with jenkins&quot;);</span>
                         
-<span class="nc" id="L34">                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();</span>
-<span class="nc" id="L35">                    }catch (Exception e3){</span>
-<span class="nc" id="L36">                        System.err.println(&quot;Session failed to initialize.&quot;);</span>
-<span class="nc" id="L37">                        e3.printStackTrace();</span>
-<span class="nc" id="L38">                        StandardServiceRegistryBuilder.destroy(reg);</span>
-<span class="nc" id="L39">                        System.exit(-1);</span>
-<span class="nc" id="L40">                    }</span>
-<span class="fc" id="L41">        }</span>
-<span class="fc" id="L42">    }</span>
+<span class="nc" id="L35">                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();</span>
+<span class="nc" id="L36">                    }catch (Exception e3){</span>
+<span class="nc" id="L37">                        System.err.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L38">                        e3.printStackTrace();</span>
+<span class="nc" id="L39">                        StandardServiceRegistryBuilder.destroy(reg2);</span>
+<span class="nc" id="L40">                        System.exit(-1);</span>
+<span class="nc" id="L41">                    }</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">    }</span>
     
     @Override
     public void finalize() {
-<span class="fc" id="L46">        boolean success = false;</span>
+<span class="fc" id="L47">        boolean success = false;</span>
         do {
             try {
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">                if (reg != null) {</span>
-<span class="fc" id="L50">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">                if (reg != null) {</span>
+<span class="fc" id="L51">                    StandardServiceRegistryBuilder.destroy(reg);</span>
                 }
-<span class="fc" id="L52">                success = true;</span>
-<span class="nc" id="L53">            } catch (Exception e) {</span>
-<span class="nc" id="L54">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
+<span class="fc" id="L53">                success = true;</span>
+<span class="nc" id="L54">            } catch (Exception e) {</span>
+<span class="nc" id="L55">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
                 try {
-<span class="nc" id="L56">                    Thread.sleep(1000);</span>
-<span class="nc" id="L57">                } catch (InterruptedException e1) {</span>
-<span class="nc" id="L58">                    e1.printStackTrace();</span>
-<span class="nc" id="L59">                }</span>
-<span class="fc" id="L60">            }</span>
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        } while (!success);</span>
-<span class="fc" id="L62">        System.out.println(&quot;DB connection shut down.&quot;);</span>
-<span class="fc" id="L63">    }</span>
+<span class="nc" id="L57">                    Thread.sleep(1000);</span>
+<span class="nc" id="L58">                } catch (InterruptedException e1) {</span>
+<span class="nc" id="L59">                    e1.printStackTrace();</span>
+<span class="nc" id="L60">                }</span>
+<span class="fc" id="L61">            }</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        } while (!success);</span>
+<span class="fc" id="L63">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="fc" id="L64">    }</span>
     
     //Get a single drug from database identified by serial number
     @Override
     public Drug readDrug(int SN) {
-<span class="fc" id="L68">        Drug drug = null;</span>
-<span class="fc" id="L69">        session = sf.openSession();</span>
+<span class="fc" id="L69">        Drug drug = null;</span>
+<span class="fc" id="L70">        session = sf.openSession();</span>
         try {
-<span class="fc" id="L71">            session.beginTransaction();</span>
-<span class="fc" id="L72">            session.load(drug = new Drug(), SN);</span>
-<span class="fc" id="L73">            session.getTransaction().commit();</span>
-<span class="fc" id="L74">            Hibernate.initialize(drug.getActiveAgents());</span>
-<span class="fc" id="L75">            Hibernate.initialize(drug.getAllergens());</span>
-<span class="fc" id="L76">            Hibernate.initialize(drug.getCommonAdverseEffects());</span>
-<span class="fc" id="L77">            Hibernate.initialize(drug.getRareAdverseEffects());</span>
-<span class="nc" id="L78">        } catch (Exception e) {</span>
-<span class="nc" id="L79">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="fc" id="L72">            session.beginTransaction();</span>
+<span class="fc" id="L73">            session.load(drug = new Drug(), SN);</span>
+<span class="fc" id="L74">            session.getTransaction().commit();</span>
+<span class="fc" id="L75">            Hibernate.initialize(drug.getActiveAgents());</span>
+<span class="fc" id="L76">            Hibernate.initialize(drug.getAllergens());</span>
+<span class="fc" id="L77">            Hibernate.initialize(drug.getCommonAdverseEffects());</span>
+<span class="fc" id="L78">            Hibernate.initialize(drug.getRareAdverseEffects());</span>
+<span class="nc" id="L79">        } catch (Exception e) {</span>
+<span class="nc" id="L80">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
         } finally {
-<span class="pc" id="L81">            session.close();</span>
-<span class="pc" id="L82">        }</span>
-<span class="fc" id="L83">        return drug;</span>
+<span class="pc" id="L82">            session.close();</span>
+<span class="pc" id="L83">        }</span>
+<span class="fc" id="L84">        return drug;</span>
     }
     
     //Gets all drugs in database and returns them as a List
     @Override
     public List&lt;Drug&gt; readDrugs() {
-<span class="fc" id="L89">        List&lt;Drug&gt; drugs = null;</span>
-<span class="fc" id="L90">        session = sf.openSession();</span>
+<span class="fc" id="L90">        List&lt;Drug&gt; drugs = null;</span>
+<span class="fc" id="L91">        session = sf.openSession();</span>
         try {
-<span class="fc" id="L92">            session.beginTransaction();</span>
-<span class="fc" id="L93">            drugs = session.createQuery(&quot;from lääke&quot;).getResultList();</span>
-<span class="fc" id="L94">            session.getTransaction().commit();</span>
-<span class="fc bfc" id="L95" title="All 2 branches covered.">            for (Drug drug : drugs) {</span>
-<span class="fc" id="L96">                Hibernate.initialize(drug.getActiveAgents());</span>
-<span class="fc" id="L97">                Hibernate.initialize(drug.getAllergens());</span>
-<span class="fc" id="L98">                Hibernate.initialize(drug.getCommonAdverseEffects());</span>
-<span class="fc" id="L99">                Hibernate.initialize(drug.getRareAdverseEffects());</span>
-<span class="fc" id="L100">            }</span>
-<span class="nc" id="L101">        } catch (Exception e) {</span>
-<span class="nc" id="L102">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
-<span class="nc" id="L103">            e.printStackTrace();</span>
+<span class="fc" id="L93">            session.beginTransaction();</span>
+<span class="fc" id="L94">            drugs = session.createQuery(&quot;from lääke&quot;).getResultList();</span>
+<span class="fc" id="L95">            session.getTransaction().commit();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            for (Drug drug : drugs) {</span>
+<span class="fc" id="L97">                Hibernate.initialize(drug.getActiveAgents());</span>
+<span class="fc" id="L98">                Hibernate.initialize(drug.getAllergens());</span>
+<span class="fc" id="L99">                Hibernate.initialize(drug.getCommonAdverseEffects());</span>
+<span class="fc" id="L100">                Hibernate.initialize(drug.getRareAdverseEffects());</span>
+<span class="fc" id="L101">            }</span>
+<span class="nc" id="L102">        } catch (Exception e) {</span>
+<span class="nc" id="L103">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="nc" id="L104">            e.printStackTrace();</span>
         } finally {
-<span class="pc" id="L105">            session.close();</span>
-<span class="pc" id="L106">        }</span>
-<span class="fc" id="L107">        return drugs;</span>
+<span class="pc" id="L106">            session.close();</span>
+<span class="pc" id="L107">        }</span>
+<span class="fc" id="L108">        return drugs;</span>
     }
     
 }
