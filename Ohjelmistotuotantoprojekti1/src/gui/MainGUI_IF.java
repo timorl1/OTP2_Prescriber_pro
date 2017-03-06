@@ -2,8 +2,10 @@ package gui;
 
 import java.util.List;
 import model.Diagnose;
+import model.Employee;
 import model.Patient;
 import model.Prescription;
+import model.User;
 
 /**
  *
@@ -22,12 +24,16 @@ public interface MainGUI_IF {
     public abstract void setUserList();
     public abstract void setEmployeeList();
     public abstract void setDatabaseList();
-    public abstract void setPatientDetails(List<String> list);
+    public abstract void setPatientDetails(Patient patient);
     public abstract void setPatientDiagnoses(List<Diagnose> list);
     public abstract void setPatientPrescriptions(List<Prescription> list);
-    public abstract void setPrescriptionDetails(List<String> list);
-    public abstract void setDiagnoseDetails(List<String> list);
+    public abstract void setPrescriptionDetails(Prescription prescription);
+    public abstract void setDiagnoseDetails(Diagnose diagnose);
+    public abstract void setUserDetails(User user);
+    public abstract void setEmployeeDetails(Employee employee);
     public abstract Patient getSelectedPatient();
     public abstract Prescription getSelectedPrescription();
     public abstract Diagnose getSelectedDiagnose();
+    public abstract User getSelectedUser();
+    public abstract Employee getSelectedEmployee();
 }

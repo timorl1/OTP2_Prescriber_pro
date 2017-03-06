@@ -2,6 +2,7 @@ package gui;
 
 import java.util.List;
 import model.Drug;
+import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -25,6 +26,10 @@ public interface Controller_IF {
     public abstract List<String> getMessages();
     public abstract List<String> getMessageDetails();
     public abstract List<User> getUsers();
-    public abstract List<String> getEmployees();
+    public abstract void getUserDetails();
+    public abstract List<Employee> getEmployees();
+    public abstract void getEmployeeDetails();
     public abstract List<String> getDatabases();
+    public abstract void lockUser(User user);
+    public abstract void setUserPriviledges(User user);
 }

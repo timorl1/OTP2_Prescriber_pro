@@ -1,18 +1,28 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
+import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 import model.Diagnose;
 import model.Drug;
+import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -39,7 +49,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
     private SideBarListView_IF<String> messageListView;
     private SideBarListView_IF<User> userListView;
-    private SideBarListView_IF<String> employeeListView;
+    private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
     
     private Controller controller;
@@ -162,9 +172,52 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setUserList() {
         this.userListView = new SideBarListViewGUI("Käyttäjät");
-        this.userListView.getTitledPane().setOnMouseClicked((event) -> {
+        this.userListView.getListView().setCellFactory(p -> {
+            ListCell<User> cell = new ListCell<User>(){
+                @Override
+                protected void updateItem(User u, boolean bln) {
+                    super.updateItem(u, bln);
+                    if (u != null) {
+                        setText(u.toString());
+                        Button button = new Button();
+                        if (u.getPriviledges() != 0) {
+                            button.setText("-");
+                        }
+                        else {
+                            button.setText("+");
+                        }
+                        button.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                if (u.getPriviledges() != 0) {
+                                    controller.lockUser(u);
+                                    button.setText("+");
+                                }
+                                else {
+                                    controller.setUserPriviledges(u);
+                                    button.setText("-");
+                                }
+                            }
+                        });
+                        setGraphic(button);
+                    }
+                }
+            };
+            //cell.setContentDisplay(ContentDisplay.RIGHT);
+            return cell;
+        });
+        this.userListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.userListView.isExpanded()) {
                 this.userListView.setList(this.controller.getUsers());
+            }
+        });
+        this.userListView.getListView().setOnMouseClicked(e -> {
+            if (this.userListView.getSelection() != null) {
+                this.tabPane.getTabs().clear();
+                this.controller.getUserDetails();
+            }
+            else {
+                this.tabPane.getTabs().clear();
             }
         });
         this.sideBar.addView((SideBarListViewGUI)this.userListView);
@@ -178,6 +231,15 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.employeeListView.setList(this.controller.getEmployees());
             }
         });
+        this.employeeListView.getListView().setOnMouseClicked(e -> {
+            if (this.employeeListView.getSelection() != null) {
+                this.tabPane.getTabs().clear();
+                this.controller.getEmployeeDetails();
+            }
+            else {
+                this.tabPane.getTabs().clear();
+            }
+        });
         this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
     }
 
@@ -186,22 +248,23 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.databaseListView = new SideBarListViewGUI("Tietokannat");
         this.databaseListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.databaseListView.isExpanded()) {
-                this.databaseListView.setList(this.controller.getEmployees());
+                this.databaseListView.setList(this.controller.getDatabases());
             }
         });
         this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
     }
 
     @Override
-    public Patient getSelectedPatient() {
-        return this.patientListView.getSelection();
-    }
-
-    @Override
-    public void setPatientDetails(List<String> list) {
-        ObservableList<String> details = FXCollections.observableArrayList(list);
+    public void setPatientDetails(Patient patient) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Sosiaaliturvatunnus: " + patient.getSSN());
+        list.add("Etunimi: " + patient.getFirstName());
+        list.add("Sukunimi: " + patient.getLastName());
+        list.add("Sukupuoli: " + patient.getGender());
+        list.add("Pituus: " + dsc.toString(patient.getHeight()) + " cm");
+        list.add("Paino: " + dsc.toString(patient.getWeight()) + " kg");
         ListTabGUI listTab = new ListTabGUI("Potilaan tiedot");
-        listTab.getListView().setItems(details);
+        listTab.getListView().setItems(list);
         this.tabPane.getTabs().add(listTab);
         
     }
@@ -229,23 +292,92 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
 
     @Override
-    public void setPrescriptionDetails(List<String> list) {
-        ObservableList<String> details = FXCollections.observableArrayList(list);
+    public void setPrescriptionDetails(Prescription prescription) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Tunnus: " + prescription.getId());
+        list.add("Luontipäivä: " + prescription.getCreationDate());
+        list.add("Potilas: " + prescription.getPatient().getLastName() + ", " + prescription.getPatient().getFirstName() + ", " + prescription.getPatient().getSSN());
+        list.add("Lääkäri: " + prescription.getDoctor().getLastName() + ", " + prescription.getDoctor().getFirstName());
+        list.add("Diagnoosi: " + prescription.getDiagnose().getId() + ": " + prescription.getDiagnose().getDisease());
+        list.add("Lääke: " + prescription.getDrug().getName());
+        list.add("Annostus: " + prescription.getDose() + "" + prescription.getDrug().getUnit() + ", " + prescription.getTimesADay() + " kertaa päivässä.");
+        list.add("Ohjeet: " + prescription.getInfo());
+        list.add("Alkaen: " + prescription.getStartDate());
+        list.add("Päättyen: " + prescription.getEndDate());
         this.tabPane.getTabs().remove(this.prescriptionTab);
         this.prescriptionTab = new ListTabGUI("Reseptin tiedot");
-        this.prescriptionTab.getListView().setItems(details);
+        this.prescriptionTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.prescriptionTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.prescriptionTab);
     }
     
     @Override
-    public void setDiagnoseDetails(List<String> list) {
-        ObservableList<String> details = FXCollections.observableArrayList(list);
+    public void setDiagnoseDetails(Diagnose diagnose) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Tunnus: " + diagnose.getId());
+        list.add("Luontipäivä: " + diagnose.getCreationDate());
+        list.add("Potilas: " + diagnose.getPatient().getLastName() + ", " + diagnose.getPatient().getFirstName() + ", " + diagnose.getPatient().getSSN());
+        list.add("Lääkäri: " + diagnose.getDoctor().getLastName() + ", " + diagnose.getDoctor().getFirstName());
+        list.add("Sairaus: " + diagnose.getDisease());
+        list.add("Epikriisi: " + diagnose.getEpicrisis());
+        if (diagnose.getResolutionDate() != null) {
+            list.add("Diagnoosin tila: hoidettu, " + diagnose.getResolutionDate());
+        }
+        else {
+            list.add("Diagnoosin tila: ei hoidettu" );
+        }
         this.tabPane.getTabs().remove(this.diagnoseTab);
         this.diagnoseTab = new ListTabGUI("Diagnoosin tiedot");
-        this.diagnoseTab.getListView().setItems(details);
+        this.diagnoseTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.diagnoseTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.diagnoseTab);
+    }
+    
+    @Override
+    public void setUserDetails(User user) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Työntekijänumero: " + user.getId());
+        list.add("Käyttäjätunnus: " + user.getUsername());
+        list.add("Sähköposti: " + user.getEmail());
+        switch (user.getPriviledges()) {
+            case 0:
+                list.add("Käyttöoikeudet: lukittu");
+                break;
+            case 1:
+                list.add("Käyttöoikeudet: hoitaja");
+                break;
+            case 2:
+                list.add("Käyttöoikeudet: lääkäri");
+                break;
+            case 3:
+                list.add("Käyttöoikeudet: ylläpitäjä");
+                break;
+            default:
+                break;
+        }
+        this.tabPane.getTabs().clear();
+        ListTabGUI_IF listTab = new ListTabGUI("Käyttäjän tiedot");
+        listTab.getListView().setItems(list);
+        this.tabPane.getTabs().add((ListTabGUI)listTab);
+    }
+    
+    @Override
+    public void setEmployeeDetails(Employee employee) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Työntekijänumero: " + employee.getUserID());
+        list.add("Etunimi: " + employee.getFirstName());
+        list.add("Sukunimi: " + employee.getLastName());
+        list.add("Titteli: " + employee.getTitle());
+        list.add("Sähköposti: " + employee.getEmail());
+        this.tabPane.getTabs().clear();
+        ListTabGUI_IF listTab = new ListTabGUI("Työntekijän tiedot");
+        listTab.getListView().setItems(list);
+        this.tabPane.getTabs().add((ListTabGUI)listTab);
+    }
+    
+    @Override
+    public Patient getSelectedPatient() {
+        return this.patientListView.getSelection();
     }
 
     @Override
@@ -258,5 +390,14 @@ public class MainGUI implements Initializable, MainGUI_IF {
         return this.patientDiagnoseTab.getSelection();
     }
     
+    @Override
+    public User getSelectedUser() {
+        return this.userListView.getSelection();
+    }
+    
+    @Override
+    public Employee getSelectedEmployee() {
+        return this.employeeListView.getSelection();
+    }
     
 }

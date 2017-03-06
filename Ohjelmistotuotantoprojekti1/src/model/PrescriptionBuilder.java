@@ -11,6 +11,7 @@ import dao.DrugDAO;
 import dao.DrugDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
+import java.util.List;
 
 
 public class PrescriptionBuilder implements PrescriptionBuilder_IF {
@@ -62,5 +63,4 @@ public class PrescriptionBuilder implements PrescriptionBuilder_IF {
         this.prescription.setDrug(this.getPrescriptionDrug(this.prescription));
         return this.prescription;
     }
-    
 }

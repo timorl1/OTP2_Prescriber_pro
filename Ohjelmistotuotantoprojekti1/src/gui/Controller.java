@@ -7,13 +7,12 @@ package gui;
 
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.util.converter.DoubleStringConverter;
 import model.AppUser;
 import model.ClientResources;
 import model.Drug;
 import model.DrugResources;
+import model.Employee;
 import model.Patient;
-import model.PatientBuilder;
 import model.Prescription;
 import model.User;
 
@@ -110,7 +109,12 @@ public class Controller implements Controller_IF {
 
     @Override
     public List<User> getUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.clientRes.getUsers();
+    }
+    
+    @Override
+    public void getUserDetails() {
+        this.gui.setUserDetails(this.clientRes.getUserDetails(this.gui.getSelectedUser()));
     }
 
     @Override
@@ -134,7 +138,22 @@ public class Controller implements Controller_IF {
     }
     
     @Override
-    public List<String> getEmployees() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Employee> getEmployees() {
+        return this.clientRes.getEmployees();
+    }
+    
+    @Override
+    public void getEmployeeDetails() {
+        this.gui.setEmployeeDetails(this.clientRes.getEmployeeDetails(this.gui.getSelectedEmployee()));
+    }
+
+    @Override
+    public void lockUser(User user) {
+        this.clientRes.lockUser(user);
+    }
+
+    @Override
+    public void setUserPriviledges(User user) {
+        this.clientRes.setUserPriviledges(user);
     }
 }

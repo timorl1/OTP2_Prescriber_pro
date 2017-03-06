@@ -87,7 +87,7 @@ public class Patient {
     
     @Override
     public String toString() {
-        return this.lastName + ", " + this.firstName;
+        return this.SSN + ": " + this.lastName + ", " + this.firstName;
     }
     
 }

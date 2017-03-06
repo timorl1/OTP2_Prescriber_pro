@@ -8,11 +8,15 @@ import java.util.List;
  */
 public interface ClientResources_IF {
     public abstract List<Patient> getPatients();
-    public abstract List<String> getPatientDetails(Patient patient);
+    public abstract Patient getPatientDetails(Patient patient);
     public abstract List<Diagnose> getPatientDiagnoses(Patient patient);
-    public abstract List<String> getDiagnoseDetails(Diagnose diagnose);
+    public abstract Diagnose getDiagnoseDetails(Diagnose diagnose);
     public abstract List<Prescription> getPatientPrescriptions(Patient patient);
-    public abstract List<String> getPrescriptionDetails(Prescription prescription);
-    public abstract List<String> getEmployees();
-    public abstract String getEmployeeDetails(String SSN);
+    public abstract Prescription getPrescriptionDetails(Prescription prescription);
+    public abstract List<Employee> getEmployees();
+    public abstract Employee getEmployeeDetails(Employee employee);
+    public abstract List<User> getUsers();
+    public abstract User getUserDetails(User user);
+    public abstract void setUserPriviledges(User user);
+    public abstract void lockUser(User user);
 }

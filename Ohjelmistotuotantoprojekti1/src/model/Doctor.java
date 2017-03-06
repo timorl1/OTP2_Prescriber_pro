@@ -11,7 +11,7 @@ package model;
  */
 public class Doctor extends User{
     
-    private String SNN;
+    private int id;
     private String firstName;
     private String lastName;
     

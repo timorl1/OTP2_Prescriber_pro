@@ -60,5 +60,10 @@ public class Employee {
         this.title = title;
     }
     
+    @Override
+    public String toString() {
+        return this.userID + ": " + this.lastName + ", " + this.firstName;
+    }
+    
     
 }

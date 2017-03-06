@@ -1,7 +1,11 @@
 package model;
 
+import dao.EmployeeDAO;
+import dao.EmployeeDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
+import dao.UserDAO;
+import dao.UserDAO_IF;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,98 +17,110 @@ import javafx.util.converter.DoubleStringConverter;
  * @author joosiika
  */
 public class ClientResources implements ClientResources_IF {
-    private PatientDAO_IF db;
-    private PatientBuilder_IF pBuilder;
-    private DiagnoseBuilder_IF dBuilder;
-    private PrescriptionBuilder_IF presBuilder;
+    private PatientDAO_IF patientDAO;
+    private EmployeeDAO_IF employeeDAO;
+    private UserDAO_IF userDAO;
+    private PatientBuilder_IF patientBuilder;
+    private DiagnoseBuilder_IF diagnoseBuilder;
+    private PrescriptionBuilder_IF prescriptionBuilder;
     private DoubleStringConverter dsc;
     
     private Map<String, Patient> patients;
+    private Map<Integer, Employee> employees;
+    private Map<Integer, User> users;
     
     public ClientResources() {
-        this.db = new PatientDAO();
-        this.pBuilder = new PatientBuilder();
-        this.dBuilder = new DiagnoseBuilder();
-        this.presBuilder = new PrescriptionBuilder();
+        this.patientDAO = new PatientDAO();
+        this.employeeDAO = new EmployeeDAO();
+        this.userDAO = new UserDAO();
+        this.patientBuilder = new PatientBuilder();
+        this.diagnoseBuilder = new DiagnoseBuilder();
+        this.prescriptionBuilder = new PrescriptionBuilder();
         this.dsc = new DoubleStringConverter();
         this.patients = new HashMap();
-        this.db.readPatients().forEach((patient) -> {
+        this.patientDAO.readPatients().forEach((patient) -> {
             this.patients.put(patient.getSSN(), patient);
+        });
+        this.employees = new HashMap();
+        this.employeeDAO.readEmployees().forEach((employee) -> {
+            this.employees.put(employee.getUserID(), employee);
+        });
+        this.users = new HashMap();
+        this.userDAO.getUsers().forEach((user) -> {
+            this.users.put(user.getId(), user);
         });
     }
 
+    @Override
     public List<Patient> getPatients() {
-        return db.readPatients();
+        return patientDAO.readPatients();
     }
     
     @Override
-    public List<String> getPatientDetails(Patient patient) {
-        List<String> list = new ArrayList();
-        list.add("Sosiaaliturvatunnus: " + patient.getSSN());
-        list.add("Etunimi: " + patient.getFirstName());
-        list.add("Sukunimi: " + patient.getLastName());
-        list.add("Sukupuoli: " + patient.getGender());
-        list.add("Pituus: " + dsc.toString(patient.getHeight()) + " cm");
-        list.add("Paino: " + dsc.toString(patient.getWeight()) + " kg");
-        return list;
+    public Patient getPatientDetails(Patient patient) {
+        return this.patientBuilder.buildPatient(patient);
     }
     
     @Override
     public List<Diagnose> getPatientDiagnoses(Patient patient) {
-        List<Diagnose> diagnoses = this.pBuilder.getPatientDiagnoses(patient);
-        diagnoses.forEach(this.dBuilder::buildDiagnose);
+        List<Diagnose> diagnoses = this.patientBuilder.getPatientDiagnoses(patient);
+        diagnoses.forEach(this.diagnoseBuilder::buildDiagnose);
         return diagnoses;
     }
 
     @Override
     public List<Prescription> getPatientPrescriptions(Patient patient) {
-        List<Prescription> prescriptions = this.pBuilder.getPatientPrescriptions(patient);
-        prescriptions.forEach(this.presBuilder::buildPrescription);
+        List<Prescription> prescriptions = this.patientBuilder.getPatientPrescriptions(patient);
+        prescriptions.forEach(this.prescriptionBuilder::buildPrescription);
         return prescriptions;
     }
 
     @Override
-    public List<String> getEmployees() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Employee> getEmployees() {
+        return this.employeeDAO.readEmployees();
     }
 
     @Override
-    public String getEmployeeDetails(String SSN) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Employee getEmployeeDetails(Employee employee) {
+        return employee;
+    }
+    
+    @Override
+    public List<User> getUsers() {
+        return this.userDAO.getUsers();
     }
 
     @Override
-    public List<String> getPrescriptionDetails(Prescription prescription) {
-        List<String> list = new ArrayList();
-        list.add("Tunnus: " + prescription.getId());
-        list.add("Luontipäivä: " + prescription.getCreationDate());
-        list.add("Potilas: " + prescription.getPatient().getLastName() + ", " + prescription.getPatient().getFirstName() + ", " + prescription.getPatient().getSSN());
-        list.add("Lääkäri: " + prescription.getDoctor().getLastName() + ", " + prescription.getDoctor().getFirstName());
-        list.add("Diagnoosi: " + prescription.getDiagnose().getId() + ": " + prescription.getDiagnose().getDisease());
-        list.add("Lääke: " + prescription.getDrug().getName());
-        list.add("Annostus: " + prescription.getDose() + "" + prescription.getDrug().getUnit() + ", " + prescription.getTimesADay() + " kertaa päivässä.");
-        list.add("Ohjeet: " + prescription.getInfo());
-        list.add("Alkaen: " + prescription.getStartDate());
-        list.add("Päättyen: " + prescription.getEndDate());
-        return list;
+    public User getUserDetails(User user) {
+        return user;
     }
 
     @Override
-    public List<String> getDiagnoseDetails(Diagnose diagnose) {
-        List<String> list = new ArrayList();
-        list.add("Tunnus: " + diagnose.getId());
-        list.add("Luontipäivä: " + diagnose.getCreationDate());
-        list.add("Potilas: " + diagnose.getPatient().getLastName() + ", " + diagnose.getPatient().getFirstName() + ", " + diagnose.getPatient().getSSN());
-        list.add("Lääkäri: " + diagnose.getDoctor().getLastName() + ", " + diagnose.getDoctor().getFirstName());
-        list.add("Sairaus: " + diagnose.getDisease());
-        list.add("Epikriisi: " + diagnose.getEpicrisis());
-        if (diagnose.getResolutionDate() != null) {
-            list.add("Diagnoosin tila: hoidettu, " + diagnose.getResolutionDate());
+    public Prescription getPrescriptionDetails(Prescription prescription) {
+        return this.prescriptionBuilder.buildPrescription(prescription);
+    }
+
+    @Override
+    public Diagnose getDiagnoseDetails(Diagnose diagnose) {
+        return this.diagnoseBuilder.buildDiagnose(diagnose);
+    }
+
+    @Override
+    public void setUserPriviledges(User user) {
+        if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Hoitaja")) {
+            user.setPriviledges(1);
+        } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Lääkäri")) {
+            user.setPriviledges(2);
+        } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Ylläpitäjä")) {
+            user.setPriviledges(3);
         }
-        else {
-            list.add("Diagnoosin tila: ei hoidettu" );
-        }
-        return list;
+        this.userDAO.updateUser(user);
+    }
+
+    @Override
+    public void lockUser(User user) {
+        user.setPriviledges(0);
+        this.userDAO.updateUser(user);
     }
     
 }
