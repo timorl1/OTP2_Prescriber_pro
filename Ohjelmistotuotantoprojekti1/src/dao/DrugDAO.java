@@ -28,6 +28,7 @@ public class DrugDAO implements DrugDAO_IF{
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
         }catch (Exception e){
             System.out.println("Session failed to initialize.");
+            StandardServiceRegistryBuilder.destroy(reg);
                     try{
                         System.out.println("Trying with jenkins");
                         
@@ -35,7 +36,7 @@ public class DrugDAO implements DrugDAO_IF{
                     }catch (Exception e3){
                         System.err.println("Session failed to initialize.");
                         e3.printStackTrace();
-                        StandardServiceRegistryBuilder.destroy(reg);
+                        StandardServiceRegistryBuilder.destroy(reg2);
                         System.exit(-1);
                     }
         }
