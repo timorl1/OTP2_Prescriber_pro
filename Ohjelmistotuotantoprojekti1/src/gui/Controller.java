@@ -36,7 +36,7 @@ public class Controller implements Controller_IF {
         this.auth.authenticate(password);
         if (this.auth.isAuthenticated()) {
             this.gui.setSideBar();
-            switch(this.auth.getUserPriviledges()) {
+            switch(this.auth.getUserPrivileges()) {
                 case 0:
                     this.gui.setAccessDenied();
                 case 1:

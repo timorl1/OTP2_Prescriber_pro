@@ -31,7 +31,7 @@ public class AppUser implements AppUser_IF{
     }
 
     @Override
-    public int getUserPriviledges() {
+    public int getUserPrivileges() {
         return this.user.getPrivileges();
     }
 

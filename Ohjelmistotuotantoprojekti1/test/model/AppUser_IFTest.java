@@ -46,7 +46,7 @@ public class AppUser_IFTest {
         String username = "admin";
         AppUser_IF instance = new AppUser();
         instance.setUser(username);
-        assertEquals(3, instance.getUserPriviledges());
+        assertEquals(3, instance.getUserPrivileges());
     }
 
     /**
@@ -91,7 +91,7 @@ public class AppUser_IFTest {
         instance.setUser(username);
         instance.authenticate(password);
         int expResult = 3;
-        int result = instance.getUserPriviledges();
+        int result = instance.getUserPrivileges();
         assertEquals(expResult, result);
     }
     
