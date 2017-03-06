@@ -23,6 +23,7 @@ public class UserDAO implements UserDAO_IF {
     
     SessionFactory sf;
     final StandardServiceRegistry reg;
+    final StandardServiceRegistry reg2;
     
     private Session session;
     private Transaction transaction;
@@ -32,14 +33,22 @@ public class UserDAO implements UserDAO_IF {
         sf = null;
         reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
 
+        reg2 = new StandardServiceRegistryBuilder().configure("applicationdbjenkins.cfg.xml").build();
         try {
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
-        }
-        catch (Exception e) {
-            System.err.println("Session failed to initialize.");
-            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println("Session failed to initialize.");
             StandardServiceRegistryBuilder.destroy(reg);
-            System.exit(-1);
+                    try{
+                        System.out.println("Trying with jenkins");
+                        
+                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();
+                    }catch (Exception e3){
+                        System.err.println("Session failed to initialize.");
+                        e3.printStackTrace();
+                        StandardServiceRegistryBuilder.destroy(reg2);
+                        System.exit(-1);
+                    }
         }
     }
        

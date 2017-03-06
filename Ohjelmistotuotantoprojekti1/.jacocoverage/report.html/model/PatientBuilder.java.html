@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PatientBuilder.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">PatientBuilder.java</span></div><h1>PatientBuilder.java</h1><pre class="source lang-java linenums">package model;
 
+import dao.DiseaseDAO;
+import dao.DiseaseDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
 import dao.PrescriptionDAO;
@@ -13,30 +15,41 @@ import java.util.List;
 public class PatientBuilder implements PatientBuilder_IF{
     private final PatientDAO_IF patientdb;
     private final PrescriptionDAO_IF prescriptiondb;
+    private final DiseaseDAO_IF diseasedb;
     
     private Patient patient;
 
-<span class="nc" id="L19">    public PatientBuilder() {</span>
-<span class="nc" id="L20">        this.patientdb = new PatientDAO();</span>
-<span class="nc" id="L21">        this.prescriptiondb = new PrescriptionDAO();</span>
-<span class="nc" id="L22">    }</span>
+<span class="nc" id="L22">    public PatientBuilder() {</span>
+<span class="nc" id="L23">        this.patientdb = new PatientDAO();</span>
+<span class="nc" id="L24">        this.prescriptiondb = new PrescriptionDAO();</span>
+<span class="nc" id="L25">        this.diseasedb = new DiseaseDAO();</span>
+<span class="nc" id="L26">    }</span>
 
     @Override
     public List&lt;Diagnose&gt; getPatientDiagnoses(Patient patient) {
-<span class="nc" id="L26">        return this.patientdb.readPatientDiagnoses(patient);</span>
+<span class="nc" id="L30">        List&lt;Diagnose&gt; diagnoses = this.patientdb.readPatientDiagnoses(patient);</span>
+<span class="nc" id="L31">        diagnoses.forEach((diagnose) -&gt; {</span>
+<span class="nc" id="L32">            diagnose.setPatient(this.patient);</span>
+<span class="nc" id="L33">            diagnose.setDisease(this.diseasedb.getDisease(diagnose.getDiseaseID()));</span>
+<span class="nc" id="L34">        });</span>
+<span class="nc" id="L35">        return diagnoses;</span>
     }
 
     @Override
     public List&lt;Prescription&gt; getPatientPrescriptions(Patient patient) {
-<span class="nc" id="L31">        return this.prescriptiondb.getPrescriptionsByPatient(patient);</span>
+<span class="nc" id="L40">        List&lt;Prescription&gt; prescriptions = this.prescriptiondb.getPrescriptionsByPatient(patient);</span>
+<span class="nc" id="L41">        prescriptions.forEach((prescription) -&gt; {</span>
+<span class="nc" id="L42">            prescription.setPatient(this.patient);</span>
+<span class="nc" id="L43">        });</span>
+<span class="nc" id="L44">        return prescriptions;</span>
     }
 
     @Override
     public Patient buildPatient(Patient patient) {
-<span class="nc" id="L36">        this.patient = patient;</span>
-<span class="nc" id="L37">        this.patient.setDiagnoses(this.getPatientDiagnoses(this.patient));</span>
-<span class="nc" id="L38">        this.patient.setPrescriptions(this.getPatientPrescriptions(this.patient));</span>
-<span class="nc" id="L39">        return this.patient;</span>
+<span class="nc" id="L49">        this.patient = patient;</span>
+<span class="nc" id="L50">        this.patient.setDiagnoses(this.getPatientDiagnoses(this.patient));</span>
+<span class="nc" id="L51">        this.patient.setPrescriptions(this.getPatientPrescriptions(this.patient));</span>
+<span class="nc" id="L52">        return this.patient;</span>
     }
     
 }

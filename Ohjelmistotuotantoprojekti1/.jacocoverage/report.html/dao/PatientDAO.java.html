@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import model.Diagnose;
-import model.Doctor;
 import model.Patient;
 
 /**
@@ -19,225 +18,292 @@ import model.Patient;
  */
 public class PatientDAO implements PatientDAO_IF {
 
-<span class="fc" id="L22">    private Properties properties = new Properties();</span>
-<span class="fc" id="L23">    private DatabaseDAO parameters = new DatabaseDAO(properties, &quot;db.properties&quot;);</span>
-<span class="fc" id="L24">    Connection connection = null;</span>
-<span class="fc" id="L25">    private Doctor placeholder = new Doctor();</span>
+<span class="fc" id="L21">    private Properties properties = new Properties();</span>
+<span class="fc" id="L22">    private DatabaseDAO parameters = new DatabaseDAO(properties, &quot;db.properties&quot;);</span>
+<span class="fc" id="L23">    Connection connection = null;</span>
 
-    //Set database parameters, what to get
-<span class="fc" id="L28">    public PatientDAO() {</span>
-<span class="fc" id="L29">    }</span>
+    
+<span class="fc" id="L26">    public PatientDAO() {</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     protected void finalize() {
         try {
-<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (connection != null) {</span>
-<span class="nc" id="L35">                connection.close();</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            if (connection != null) {</span>
+<span class="nc" id="L33">                connection.close();</span>
             }
-<span class="nc" id="L37">        } catch (Exception e) {</span>
-<span class="nc" id="L38">            e.printStackTrace();</span>
-<span class="nc" id="L39">        }</span>
-<span class="nc" id="L40">    }</span>
+<span class="nc" id="L35">        } catch (Exception e) {</span>
+<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc" id="L38">    }</span>
 
     //Get single patient from database identified by Social security number
     @Override
     public Patient readPatient(String SSN) {
-<span class="fc" id="L45">        properties = parameters.readDBProperties();</span>
+<span class="fc" id="L43">        properties = parameters.readDBProperties();</span>
         try {
-<span class="fc" id="L47">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
-<span class="fc" id="L48">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
-<span class="nc" id="L49">        }catch (SQLException e) {</span>
-<span class="nc" id="L50">            System.out.println(&quot;Yhteyden muodostaminen epäonnistui&quot;);</span>
+<span class="fc" id="L45">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L46">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L47">        }catch (SQLException e) {</span>
+<span class="nc" id="L48">            System.out.println(&quot;Connection failed.&quot;);</span>
             try {
-<span class="nc" id="L52">                System.out.println(&quot;Yritetään muodostaa yhteys Jenkinsillä&quot;);</span>
-<span class="nc" id="L53">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
+<span class="nc" id="L50">                System.out.println(&quot;Trying to connect with Jenkins&quot;);</span>
+<span class="nc" id="L51">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
                 &quot;jenkins&quot;);
-<span class="nc" id="L55">            } catch (SQLException e1) {</span>
-<span class="nc" id="L56">                e1.printStackTrace();</span>
-<span class="nc" id="L57">            }</span>
-<span class="nc" id="L58">        } catch (ClassNotFoundException e) {</span>
-<span class="nc" id="L59">            System.out.println(&quot;JDBC-ajurin lataus epäonnistui&quot;);</span>
-<span class="pc" id="L60">        }</span>
+<span class="nc" id="L53">            } catch (SQLException e1) {</span>
+<span class="nc" id="L54">                e1.printStackTrace();</span>
+<span class="nc" id="L55">            }</span>
+<span class="nc" id="L56">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L57">            System.out.println(&quot;JDBC-driver failed.&quot;);</span>
+<span class="pc" id="L58">        }</span>
         
-<span class="fc" id="L62">        Patient pat = null;</span>
-<span class="fc" id="L63">        Diagnose dia = null;</span>
-<span class="fc" id="L64">        PreparedStatement statement = null;</span>
-<span class="fc" id="L65">        ResultSet rs = null;</span>
+<span class="fc" id="L60">        Patient pat = null;</span>
+<span class="fc" id="L61">        Diagnose dia = null;</span>
+<span class="fc" id="L62">        PreparedStatement statement = null;</span>
+<span class="fc" id="L63">        ResultSet rs = null;</span>
         try {
-<span class="fc" id="L67">            String sqlSelect = &quot;SELECT * FROM &quot; + properties.getProperty(&quot;table&quot;) + &quot; where &quot; + properties.getProperty(&quot;SSN&quot;) + &quot; = ?&quot;;</span>
-<span class="fc" id="L68">            statement = connection.prepareStatement(sqlSelect);</span>
-<span class="fc" id="L69">            statement.setString(1, SSN);</span>
-<span class="fc" id="L70">            rs = statement.executeQuery();</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">            while (rs.next()) {</span>
-<span class="fc" id="L72">                String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
-<span class="fc" id="L73">                String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
-<span class="fc" id="L74">                String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
-<span class="fc" id="L75">                String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
-<span class="fc" id="L76">                double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
-<span class="fc" id="L77">                double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
-<span class="fc" id="L78">                pat = new Patient();</span>
-<span class="fc" id="L79">                pat.setSSN(ssn);</span>
-<span class="fc" id="L80">                pat.setFirstName(firstName);</span>
-<span class="fc" id="L81">                pat.setLastName(lastName);</span>
-<span class="fc" id="L82">                pat.setGender(gender);</span>
-<span class="fc" id="L83">                pat.setWeight(weight);</span>
-<span class="fc" id="L84">                pat.setHeight(height);</span>
-<span class="fc" id="L85">            }</span>
+<span class="fc" id="L65">            String sqlSelect = &quot;SELECT * FROM &quot; + properties.getProperty(&quot;table&quot;) + &quot; where &quot; + properties.getProperty(&quot;SSN&quot;) + &quot; = ?&quot;;</span>
+<span class="fc" id="L66">            statement = connection.prepareStatement(sqlSelect);</span>
+<span class="fc" id="L67">            statement.setString(1, SSN);</span>
+<span class="fc" id="L68">            rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L70">                String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
+<span class="fc" id="L71">                String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
+<span class="fc" id="L72">                String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
+<span class="fc" id="L73">                String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
+<span class="fc" id="L74">                double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
+<span class="fc" id="L75">                double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
+<span class="fc" id="L76">                pat = new Patient();</span>
+<span class="fc" id="L77">                pat.setSSN(ssn);</span>
+<span class="fc" id="L78">                pat.setFirstName(firstName);</span>
+<span class="fc" id="L79">                pat.setLastName(lastName);</span>
+<span class="fc" id="L80">                pat.setGender(gender);</span>
+<span class="fc" id="L81">                pat.setWeight(weight);</span>
+<span class="fc" id="L82">                pat.setHeight(height);</span>
+<span class="fc" id="L83">            }</span>
 
-<span class="nc" id="L87">        } catch (SQLException e) {</span>
-<span class="nc" id="L88">            System.err.println(&quot;viesti: &quot; + e.getMessage());</span>
-<span class="nc" id="L89">            System.err.println(&quot;virhekoodi: &quot; + e.getErrorCode());</span>
-<span class="nc" id="L90">            System.err.println(&quot;sql-tilakoodi : &quot; + e.getSQLState());</span>
+<span class="nc" id="L85">        } catch (SQLException e) {</span>
+<span class="nc" id="L86">            System.err.println(&quot;viesti: &quot; + e.getMessage());</span>
+<span class="nc" id="L87">            System.err.println(&quot;virhekoodi: &quot; + e.getErrorCode());</span>
+<span class="nc" id="L88">            System.err.println(&quot;sql-tilakoodi : &quot; + e.getSQLState());</span>
         } finally {
-<span class="nc" id="L92">            try {</span>
-<span class="pc bpc" id="L93" title="5 of 6 branches missed.">                if (rs != null) {</span>
-<span class="pc" id="L94">                    rs.close();</span>
+<span class="nc" id="L90">            try {</span>
+<span class="pc bpc" id="L91" title="5 of 6 branches missed.">                if (rs != null) {</span>
+<span class="pc" id="L92">                    rs.close();</span>
                 }
-<span class="pc bpc" id="L96" title="5 of 6 branches missed.">                if (statement != null) {</span>
-<span class="pc" id="L97">                    statement.close();</span>
+<span class="pc bpc" id="L94" title="5 of 6 branches missed.">                if (statement != null) {</span>
+<span class="pc" id="L95">                    statement.close();</span>
                 }
-<span class="pc bpc" id="L99" title="5 of 6 branches missed.">                if (connection != null) {</span>
-<span class="pc" id="L100">                    connection.close();</span>
+<span class="pc bpc" id="L97" title="5 of 6 branches missed.">                if (connection != null) {</span>
+<span class="pc" id="L98">                    connection.close();</span>
                 }
-<span class="nc" id="L102">            } catch(Exception e) {</span>
+<span class="nc" id="L100">            } catch(Exception e) {</span>
                 
-<span class="pc" id="L104">            }</span>
-<span class="nc" id="L105">        }</span>
-<span class="fc" id="L106">        return pat;</span>
+<span class="pc" id="L102">            }</span>
+<span class="nc" id="L103">        }</span>
+<span class="fc" id="L104">        return pat;</span>
     }
 
     //Gets all patients from database and return it as Patient array
     @Override
     public List&lt;Patient&gt; readPatients() {
-<span class="fc" id="L112">        properties = parameters.readDBProperties();</span>
+<span class="fc" id="L110">        properties = parameters.readDBProperties();</span>
         try {
-<span class="fc" id="L114">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
-<span class="fc" id="L115">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
-<span class="nc" id="L116">        }catch (SQLException e) {</span>
-<span class="nc" id="L117">            System.out.println(&quot;Yhteyden muodostaminen epäonnistui&quot;);</span>
+<span class="fc" id="L112">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L113">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L114">        }catch (SQLException e) {</span>
+<span class="nc" id="L115">            System.out.println(&quot;Connection failed&quot;);</span>
             try {
-<span class="nc" id="L119">                System.out.println(&quot;Yritetään muodostaa yhteys Jenkinsillä&quot;);</span>
-<span class="nc" id="L120">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
+<span class="nc" id="L117">                System.out.println(&quot;Trying to connect with Jenkins&quot;);</span>
+<span class="nc" id="L118">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
                 &quot;jenkins&quot;);
-<span class="nc" id="L122">            } catch (SQLException e1) {</span>
-<span class="nc" id="L123">                e1.printStackTrace();</span>
-<span class="nc" id="L124">            }</span>
-<span class="nc" id="L125">        } catch (ClassNotFoundException e) {</span>
-<span class="nc" id="L126">            System.out.println(&quot;JDBC-ajurin lataus epäonnistui&quot;);</span>
-<span class="pc" id="L127">        }</span>
-<span class="fc" id="L128">        List&lt;Patient&gt; lista = new ArrayList();</span>
-<span class="fc" id="L129">        Statement statement = null;</span>
-<span class="fc" id="L130">        ResultSet rs = null;</span>
+<span class="nc" id="L120">            } catch (SQLException e1) {</span>
+<span class="nc" id="L121">                e1.printStackTrace();</span>
+<span class="nc" id="L122">            }</span>
+<span class="nc" id="L123">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L124">            System.out.println(&quot;JDBC-driver failed&quot;);</span>
+<span class="pc" id="L125">        }</span>
+<span class="fc" id="L126">        List&lt;Patient&gt; lista = new ArrayList();</span>
+<span class="fc" id="L127">        Statement statement = null;</span>
+<span class="fc" id="L128">        ResultSet rs = null;</span>
         try {
-<span class="fc" id="L132">            String sqlSelect = &quot;SELECT * FROM &quot; + properties.getProperty(&quot;table&quot;);</span>
-<span class="fc" id="L133">            statement = connection.createStatement();</span>
-<span class="fc" id="L134">            rs = statement.executeQuery(sqlSelect);</span>
-<span class="fc bfc" id="L135" title="All 2 branches covered.">            while (rs.next()) {</span>
-<span class="fc" id="L136">                String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
-<span class="fc" id="L137">                String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
-<span class="fc" id="L138">                String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
-<span class="fc" id="L139">                String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
-<span class="fc" id="L140">                double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
-<span class="fc" id="L141">                double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
-<span class="fc" id="L142">                Patient p = new Patient();</span>
-<span class="fc" id="L143">                p.setSSN(ssn);</span>
-<span class="fc" id="L144">                p.setFirstName(firstName);</span>
-<span class="fc" id="L145">                p.setLastName(lastName);</span>
-<span class="fc" id="L146">                p.setGender(gender);</span>
-<span class="fc" id="L147">                p.setWeight(weight);</span>
-<span class="fc" id="L148">                p.setHeight(height);</span>
-<span class="fc" id="L149">                lista.add(p);</span>
+<span class="fc" id="L130">            String sqlSelect = &quot;SELECT * FROM &quot; + properties.getProperty(&quot;table&quot;);</span>
+<span class="fc" id="L131">            statement = connection.createStatement();</span>
+<span class="fc" id="L132">            rs = statement.executeQuery(sqlSelect);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L134">                String ssn = rs.getString(properties.getProperty(&quot;SSN&quot;));</span>
+<span class="fc" id="L135">                String firstName = rs.getString(properties.getProperty(&quot;firstName&quot;));</span>
+<span class="fc" id="L136">                String lastName = rs.getString(properties.getProperty(&quot;lastName&quot;));</span>
+<span class="fc" id="L137">                String gender = rs.getString(properties.getProperty(&quot;gender&quot;));</span>
+<span class="fc" id="L138">                double weight = rs.getDouble(properties.getProperty(&quot;weight&quot;));</span>
+<span class="fc" id="L139">                double height = rs.getDouble(properties.getProperty(&quot;height&quot;));</span>
+<span class="fc" id="L140">                Patient p = new Patient();</span>
+<span class="fc" id="L141">                p.setSSN(ssn);</span>
+<span class="fc" id="L142">                p.setFirstName(firstName);</span>
+<span class="fc" id="L143">                p.setLastName(lastName);</span>
+<span class="fc" id="L144">                p.setGender(gender);</span>
+<span class="fc" id="L145">                p.setWeight(weight);</span>
+<span class="fc" id="L146">                p.setHeight(height);</span>
+<span class="fc" id="L147">                lista.add(p);</span>
 
-<span class="fc" id="L151">            }</span>
-<span class="nc" id="L152">        } catch (SQLException e) {</span>
-<span class="nc" id="L153">            System.err.println(&quot;viesti: &quot; + e.getMessage());</span>
-<span class="nc" id="L154">            System.err.println(&quot;virhekoodi: &quot; + e.getErrorCode());</span>
-<span class="nc" id="L155">            System.err.println(&quot;sql-tilakoodi : &quot; + e.getSQLState());</span>
+<span class="fc" id="L149">            }</span>
+<span class="nc" id="L150">        } catch (SQLException e) {</span>
+<span class="nc" id="L151">            System.err.println(&quot;viesti: &quot; + e.getMessage());</span>
+<span class="nc" id="L152">            System.err.println(&quot;virhekoodi: &quot; + e.getErrorCode());</span>
+<span class="nc" id="L153">            System.err.println(&quot;sql-tilakoodi : &quot; + e.getSQLState());</span>
         } finally {
-<span class="nc" id="L157">            try {</span>
-<span class="pc bpc" id="L158" title="5 of 6 branches missed.">                if (rs != null) {</span>
-<span class="pc" id="L159">                    rs.close();</span>
+<span class="nc" id="L155">            try {</span>
+<span class="pc bpc" id="L156" title="5 of 6 branches missed.">                if (rs != null) {</span>
+<span class="pc" id="L157">                    rs.close();</span>
                 }
-<span class="pc bpc" id="L161" title="5 of 6 branches missed.">                if (statement != null) {</span>
-<span class="pc" id="L162">                    statement.close();</span>
+<span class="pc bpc" id="L159" title="5 of 6 branches missed.">                if (statement != null) {</span>
+<span class="pc" id="L160">                    statement.close();</span>
                 }
-<span class="pc bpc" id="L164" title="5 of 6 branches missed.">                if (connection != null) {</span>
-<span class="pc" id="L165">                    connection.close();</span>
+<span class="pc bpc" id="L162" title="5 of 6 branches missed.">                if (connection != null) {</span>
+<span class="pc" id="L163">                    connection.close();</span>
                 }
-<span class="nc" id="L167">            } catch(Exception e) {</span>
+<span class="nc" id="L165">            } catch(Exception e) {</span>
                 
-<span class="pc" id="L169">            }</span>
-<span class="nc" id="L170">        }</span>
-<span class="fc" id="L171">        return lista;</span>
+<span class="pc" id="L167">            }</span>
+<span class="nc" id="L168">        }</span>
+<span class="fc" id="L169">        return lista;</span>
+    }
+    
+    //Get single patient from database identified by Social security number
+    @Override
+    public Diagnose readDiagnose(int diagnoseID) {
+<span class="nc" id="L175">        properties = parameters.readDBProperties();</span>
+        try {
+<span class="nc" id="L177">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="nc" id="L178">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L179">        }catch (SQLException e) {</span>
+<span class="nc" id="L180">            System.out.println(&quot;Yhteyden muodostaminen epäonnistui&quot;);</span>
+            try {
+<span class="nc" id="L182">                System.out.println(&quot;Yritetään muodostaa yhteys Jenkinsillä&quot;);</span>
+<span class="nc" id="L183">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
+                &quot;jenkins&quot;);
+<span class="nc" id="L185">            } catch (SQLException e1) {</span>
+<span class="nc" id="L186">                e1.printStackTrace();</span>
+<span class="nc" id="L187">            }</span>
+<span class="nc" id="L188">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L189">            System.out.println(&quot;JDBC-ajurin lataus epäonnistui&quot;);</span>
+<span class="nc" id="L190">        }</span>
+        
+<span class="nc" id="L192">        Diagnose dia = null;</span>
+<span class="nc" id="L193">        PreparedStatement statement = null;</span>
+<span class="nc" id="L194">        ResultSet rs = null;</span>
+<span class="nc" id="L195">        String sqlSelect = &quot;SELECT * FROM diagnoosi where diagnoosiID = ?&quot;;</span>
+        try {
+<span class="nc" id="L197">            statement = connection.prepareStatement(sqlSelect);</span>
+<span class="nc" id="L198">            statement.setInt(1, diagnoseID);</span>
+<span class="nc" id="L199">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L201">                int id = rs.getInt(&quot;diagnoosiID&quot;);</span>
+<span class="nc" id="L202">                int diseaseID = rs.getInt(&quot;sairaustunniste&quot;);</span>
+<span class="nc" id="L203">                String epicrisis = rs.getString(&quot;epikriisi&quot;);</span>
+<span class="nc" id="L204">                Timestamp creationDate = rs.getTimestamp(&quot;luontipäivä&quot;);</span>
+<span class="nc" id="L205">                Timestamp resolutionDate = rs.getTimestamp(&quot;päättymispäivä&quot;);</span>
+<span class="nc" id="L206">                String patientID = rs.getString(&quot;hetu&quot;);</span>
+<span class="nc" id="L207">                String doctorID = rs.getString(&quot;työntekijänumero&quot;);</span>
+<span class="nc" id="L208">                dia = new Diagnose();</span>
+<span class="nc" id="L209">                dia.setId(id);</span>
+<span class="nc" id="L210">                dia.setPatientId(patientID);</span>
+<span class="nc" id="L211">                dia.setDoctorId(doctorID);</span>
+<span class="nc" id="L212">                dia.setDiseaseID(diseaseID);</span>
+<span class="nc" id="L213">                dia.setEpicrisis(epicrisis);</span>
+<span class="nc" id="L214">                dia.setCreationDate(creationDate);</span>
+<span class="nc" id="L215">                dia.setResolutionDate(resolutionDate);</span>
+<span class="nc" id="L216">            }</span>
+<span class="nc" id="L217">        } catch (Exception e) {</span>
+<span class="nc" id="L218">            e.printStackTrace();</span>
+<span class="nc" id="L219">            return null;</span>
+        } finally {
+<span class="nc" id="L221">            try {</span>
+<span class="nc bnc" id="L222" title="All 6 branches missed.">                if (rs != null) {</span>
+<span class="nc" id="L223">                    rs.close();</span>
+                }
+<span class="nc bnc" id="L225" title="All 6 branches missed.">                if (statement != null) {</span>
+<span class="nc" id="L226">                    statement.close();</span>
+                }
+<span class="nc bnc" id="L228" title="All 6 branches missed.">                if (connection != null) {</span>
+<span class="nc" id="L229">                    connection.close();</span>
+                }
+<span class="nc" id="L231">            } catch(Exception e) {</span>
+                
+<span class="nc" id="L233">            }</span>
+<span class="nc" id="L234">        }</span>
+<span class="nc" id="L235">        return dia;</span>
     }
 
     // Reads patients diagnoses from database
     @Override
     public List&lt;Diagnose&gt; readPatientDiagnoses(Patient pat) {
-<span class="fc" id="L177">        properties = parameters.readDBProperties();</span>
+<span class="fc" id="L241">        properties = parameters.readDBProperties();</span>
         try {
-<span class="fc" id="L179">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
-<span class="fc" id="L180">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
-<span class="nc" id="L181">        }catch (SQLException e) {</span>
-<span class="nc" id="L182">            System.out.println(&quot;Yhteyden muodostaminen epäonnistui&quot;);</span>
+<span class="fc" id="L243">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L244">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="nc" id="L245">        }catch (SQLException e) {</span>
+<span class="nc" id="L246">            System.out.println(&quot;Connection failed&quot;);</span>
             try {
-<span class="nc" id="L184">                System.out.println(&quot;Yritetään muodostaa yhteys Jenkinsillä&quot;);</span>
-<span class="nc" id="L185">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
+<span class="nc" id="L248">                System.out.println(&quot;Trying to connect with Jenkins&quot;);</span>
+<span class="nc" id="L249">                connection = DriverManager.getConnection(&quot;jdbc:mysql://10.114.32.151:3306/sairaaladb&quot;, &quot;jenkins&quot;,</span>
                 &quot;jenkins&quot;);
-<span class="nc" id="L187">            } catch (SQLException e1) {</span>
-<span class="nc" id="L188">                e1.printStackTrace();</span>
-<span class="nc" id="L189">            }</span>
-<span class="nc" id="L190">        } catch (ClassNotFoundException e) {</span>
-<span class="nc" id="L191">            System.out.println(&quot;JDBC-ajurin lataus epäonnistui&quot;);</span>
-<span class="pc" id="L192">        }</span>
+<span class="nc" id="L251">            } catch (SQLException e1) {</span>
+<span class="nc" id="L252">                e1.printStackTrace();</span>
+<span class="nc" id="L253">            }</span>
+<span class="nc" id="L254">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L255">            System.out.println(&quot;JDBC-driver failed&quot;);</span>
+<span class="pc" id="L256">        }</span>
         
-<span class="fc" id="L194">        Diagnose dia = null;</span>
-<span class="fc" id="L195">        PreparedStatement statement = null;</span>
-<span class="fc" id="L196">        ResultSet rs = null;</span>
-<span class="fc" id="L197">        List&lt;Diagnose&gt; diagnoses = new ArrayList();</span>
-<span class="fc" id="L198">        String sqlSelect = &quot;SELECT * FROM diagnoosi where &quot; + properties.getProperty(&quot;SSN&quot;) + &quot; = ?&quot;;</span>
+<span class="fc" id="L258">        Diagnose dia = null;</span>
+<span class="fc" id="L259">        PreparedStatement statement = null;</span>
+<span class="fc" id="L260">        ResultSet rs = null;</span>
+<span class="fc" id="L261">        List&lt;Diagnose&gt; diagnoses = new ArrayList();</span>
+<span class="fc" id="L262">        String sqlSelect = &quot;SELECT * FROM diagnoosi where &quot; + properties.getProperty(&quot;SSN&quot;) + &quot; = ?&quot;;</span>
         try {
-<span class="fc" id="L200">            statement = connection.prepareStatement(sqlSelect);</span>
-<span class="fc" id="L201">            statement.setString(1, pat.getSSN());</span>
-<span class="fc" id="L202">            rs = statement.executeQuery();</span>
-<span class="fc bfc" id="L203" title="All 2 branches covered.">            while (rs.next()) {</span>
-<span class="fc" id="L204">                int id = rs.getInt(&quot;diagnoosiID&quot;);</span>
-<span class="fc" id="L205">                int diseaseID = rs.getInt(&quot;sairaustunniste&quot;);</span>
-<span class="fc" id="L206">                String epicrisis = rs.getString(&quot;epikriisi&quot;);</span>
-<span class="fc" id="L207">                Timestamp creationDate = rs.getTimestamp(&quot;luontipäivä&quot;);</span>
-<span class="fc" id="L208">                Timestamp resolutionDate = rs.getTimestamp(&quot;päättymispäivä&quot;);</span>
-<span class="fc" id="L209">                dia = new Diagnose();</span>
-<span class="fc" id="L210">                dia.setId(id);</span>
-<span class="fc" id="L211">                dia.setPatient(pat);</span>
-<span class="fc" id="L212">                dia.setDoctor(placeholder);</span>
-<span class="fc" id="L213">                dia.setDiseaseID(diseaseID);</span>
-<span class="fc" id="L214">                dia.setEpicrisis(epicrisis);</span>
-<span class="fc" id="L215">                dia.setCreationDate(creationDate);</span>
-<span class="fc" id="L216">                dia.setResolutionDate(resolutionDate);</span>
-<span class="fc" id="L217">                diagnoses.add(dia);</span>
-<span class="fc" id="L218">            }</span>
-<span class="pc bpc" id="L219" title="1 of 2 branches missed.">            if (!diagnoses.isEmpty()) {</span>
-<span class="fc" id="L220">                pat.setDiagnoses(diagnoses);</span>
+<span class="fc" id="L264">            statement = connection.prepareStatement(sqlSelect);</span>
+<span class="fc" id="L265">            statement.setString(1, pat.getSSN());</span>
+<span class="fc" id="L266">            rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L268">                int id = rs.getInt(&quot;diagnoosiID&quot;);</span>
+<span class="fc" id="L269">                int diseaseID = rs.getInt(&quot;sairaustunniste&quot;);</span>
+<span class="fc" id="L270">                String epicrisis = rs.getString(&quot;epikriisi&quot;);</span>
+<span class="fc" id="L271">                Timestamp creationDate = rs.getTimestamp(&quot;luontipäivä&quot;);</span>
+<span class="fc" id="L272">                Timestamp resolutionDate = rs.getTimestamp(&quot;päättymispäivä&quot;);</span>
+<span class="fc" id="L273">                String patientID = rs.getString(&quot;hetu&quot;);</span>
+<span class="fc" id="L274">                String doctorID = rs.getString(&quot;työntekijänumero&quot;);</span>
+<span class="fc" id="L275">                dia = new Diagnose();</span>
+<span class="fc" id="L276">                dia.setId(id);</span>
+<span class="fc" id="L277">                dia.setPatientId(patientID);</span>
+<span class="fc" id="L278">                dia.setDoctorId(doctorID);</span>
+<span class="fc" id="L279">                dia.setDiseaseID(diseaseID);</span>
+<span class="fc" id="L280">                dia.setEpicrisis(epicrisis);</span>
+<span class="fc" id="L281">                dia.setCreationDate(creationDate);</span>
+<span class="fc" id="L282">                dia.setResolutionDate(resolutionDate);</span>
+<span class="fc" id="L283">                diagnoses.add(dia);</span>
+<span class="fc" id="L284">            }</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">            if (!diagnoses.isEmpty()) {</span>
+<span class="fc" id="L286">                pat.setDiagnoses(diagnoses);</span>
             }
-<span class="nc" id="L222">        } catch (Exception e) {</span>
-<span class="nc" id="L223">            e.printStackTrace();</span>
-<span class="nc" id="L224">            return null;</span>
+<span class="nc" id="L288">        } catch (Exception e) {</span>
+<span class="nc" id="L289">            e.printStackTrace();</span>
+<span class="nc" id="L290">            return null;</span>
         } finally {
-<span class="nc" id="L226">            try {</span>
-<span class="pc bpc" id="L227" title="5 of 6 branches missed.">                if (rs != null) {</span>
-<span class="pc" id="L228">                    rs.close();</span>
+<span class="nc" id="L292">            try {</span>
+<span class="pc bpc" id="L293" title="5 of 6 branches missed.">                if (rs != null) {</span>
+<span class="pc" id="L294">                    rs.close();</span>
                 }
-<span class="pc bpc" id="L230" title="5 of 6 branches missed.">                if (statement != null) {</span>
-<span class="pc" id="L231">                    statement.close();</span>
+<span class="pc bpc" id="L296" title="5 of 6 branches missed.">                if (statement != null) {</span>
+<span class="pc" id="L297">                    statement.close();</span>
                 }
-<span class="pc bpc" id="L233" title="5 of 6 branches missed.">                if (connection != null) {</span>
-<span class="pc" id="L234">                    connection.close();</span>
+<span class="pc bpc" id="L299" title="5 of 6 branches missed.">                if (connection != null) {</span>
+<span class="pc" id="L300">                    connection.close();</span>
                 }
-<span class="nc" id="L236">            } catch(Exception e) {</span>
+<span class="nc" id="L302">            } catch(Exception e) {</span>
                 
-<span class="pc" id="L238">            }</span>
-<span class="nc" id="L239">        }</span>
-<span class="fc" id="L240">        return diagnoses;</span>
+<span class="pc" id="L304">            }</span>
+<span class="nc" id="L305">        }</span>
+<span class="fc" id="L306">        return diagnoses;</span>
     }
 
 }

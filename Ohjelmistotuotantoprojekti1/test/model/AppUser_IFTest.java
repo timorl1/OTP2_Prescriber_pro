@@ -83,8 +83,8 @@ public class AppUser_IFTest {
      * Test of getUserPriviledges method, of class AppUser_IF.
      */
     @Test
-    public void testGetUserPriviledges() {
-        System.out.println("getUserPriviledges");
+    public void testGetUserPrivileges() {
+        System.out.println("getUserPrivileges");
         String username = "admin";
         String password = "admin";
         AppUser_IF instance = new AppUser();

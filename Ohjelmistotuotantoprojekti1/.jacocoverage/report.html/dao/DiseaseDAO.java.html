@@ -20,64 +20,73 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 public class DiseaseDAO implements DiseaseDAO_IF {
     SessionFactory sf;
     final StandardServiceRegistry reg;
+    final StandardServiceRegistry reg2;
 
     private Session session;
     private Transaction transaction;
 
-<span class="nc" id="L27">    public DiseaseDAO(){</span>
-<span class="nc" id="L28">        sf = null;</span>
-<span class="nc" id="L29">        reg = new StandardServiceRegistryBuilder().configure(&quot;diseasedb.cfg.xml&quot;).build();</span>
+<span class="nc" id="L28">    public DiseaseDAO(){</span>
+<span class="nc" id="L29">        sf = null;</span>
+<span class="nc" id="L30">        reg = new StandardServiceRegistryBuilder().configure(&quot;diseasedb.cfg.xml&quot;).build();</span>
 
+<span class="nc" id="L32">        reg2 = new StandardServiceRegistryBuilder().configure(&quot;diseasedbjenkins.cfg.xml&quot;).build();</span>
         try {
-<span class="nc" id="L32">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
-        }
-<span class="nc" id="L34">        catch (Exception e) {</span>
-<span class="nc" id="L35">            System.err.println(&quot;Session failed to initialize.&quot;);</span>
-<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L34">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
+<span class="nc" id="L35">        }catch (Exception e){</span>
+<span class="nc" id="L36">            System.out.println(&quot;Session failed to initialize.&quot;);</span>
 <span class="nc" id="L37">            StandardServiceRegistryBuilder.destroy(reg);</span>
-<span class="nc" id="L38">            System.exit(-1);</span>
-<span class="nc" id="L39">        }</span>
-<span class="nc" id="L40">    }</span>
+                    try{
+<span class="nc" id="L39">                        System.out.println(&quot;Trying with jenkins&quot;);</span>
+                        
+<span class="nc" id="L41">                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();</span>
+<span class="nc" id="L42">                    }catch (Exception e3){</span>
+<span class="nc" id="L43">                        System.err.println(&quot;Session failed to initialize.&quot;);</span>
+<span class="nc" id="L44">                        e3.printStackTrace();</span>
+<span class="nc" id="L45">                        StandardServiceRegistryBuilder.destroy(reg2);</span>
+<span class="nc" id="L46">                        System.exit(-1);</span>
+<span class="nc" id="L47">                    }</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">    }</span>
     
     @Override
     public void finalize() {
-<span class="nc" id="L44">        boolean success = false;</span>
+<span class="nc" id="L53">        boolean success = false;</span>
         do {
             try {
-<span class="nc bnc" id="L47" title="All 2 branches missed.">                if (reg != null) {</span>
-<span class="nc" id="L48">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                if (reg != null) {</span>
+<span class="nc" id="L57">                    StandardServiceRegistryBuilder.destroy(reg);</span>
                 }
-<span class="nc" id="L50">                success = true;</span>
-<span class="nc" id="L51">            } catch (Exception e) {</span>
-<span class="nc" id="L52">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
+<span class="nc" id="L59">                success = true;</span>
+<span class="nc" id="L60">            } catch (Exception e) {</span>
+<span class="nc" id="L61">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
                 try {
-<span class="nc" id="L54">                    Thread.sleep(1000);</span>
-<span class="nc" id="L55">                } catch (InterruptedException e1) {</span>
-<span class="nc" id="L56">                    e1.printStackTrace();</span>
-<span class="nc" id="L57">                }</span>
-<span class="nc" id="L58">            }</span>
-<span class="nc bnc" id="L59" title="All 2 branches missed.">        } while (!success);</span>
-<span class="nc" id="L60">        System.out.println(&quot;DB connection shut down.&quot;);</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L63">                    Thread.sleep(1000);</span>
+<span class="nc" id="L64">                } catch (InterruptedException e1) {</span>
+<span class="nc" id="L65">                    e1.printStackTrace();</span>
+<span class="nc" id="L66">                }</span>
+<span class="nc" id="L67">            }</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        } while (!success);</span>
+<span class="nc" id="L69">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="nc" id="L70">    }</span>
 
     @Override
     public Disease getDisease(int diseaseId) {
-<span class="nc" id="L65">        Disease disease=null;</span>
-<span class="nc" id="L66">        session = sf.openSession();</span>
+<span class="nc" id="L74">        Disease disease=null;</span>
+<span class="nc" id="L75">        session = sf.openSession();</span>
         try {
-<span class="nc" id="L68">            session.beginTransaction();</span>
-<span class="nc" id="L69">            session.load(disease = new Disease(), diseaseId);</span>
-<span class="nc" id="L70">            session.getTransaction().commit();</span>
-<span class="nc" id="L71">            Hibernate.initialize(disease.getId());</span>
-<span class="nc" id="L72">            Hibernate.initialize(disease.getDiseaseName());</span>
-<span class="nc" id="L73">            Hibernate.initialize(disease.getDiseaseDesc());</span>
-<span class="nc" id="L74">            Hibernate.initialize(disease.getAllergenList());</span>
-<span class="nc" id="L75">        } catch (Exception e) {</span>
-<span class="nc" id="L76">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="nc" id="L77">            session.beginTransaction();</span>
+<span class="nc" id="L78">            session.load(disease = new Disease(), diseaseId);</span>
+<span class="nc" id="L79">            session.getTransaction().commit();</span>
+<span class="nc" id="L80">            Hibernate.initialize(disease.getId());</span>
+<span class="nc" id="L81">            Hibernate.initialize(disease.getDiseaseName());</span>
+<span class="nc" id="L82">            Hibernate.initialize(disease.getDiseaseDesc());</span>
+<span class="nc" id="L83">            Hibernate.initialize(disease.getAllergenList());</span>
+<span class="nc" id="L84">        } catch (Exception e) {</span>
+<span class="nc" id="L85">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
         } finally {
-<span class="nc" id="L78">            session.close();</span>
-<span class="nc" id="L79">        }</span>
-<span class="nc" id="L80">        return disease;</span>
+<span class="nc" id="L87">            session.close();</span>
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">        return disease;</span>
     }
 
     
