@@ -32,7 +32,7 @@ public class AppUser implements AppUser_IF{
 
     @Override
     public int getUserPriviledges() {
-        return this.user.getPriviledges();
+        return this.user.getPrivileges();
     }
 
     @Override

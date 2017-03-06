@@ -1,24 +1,18 @@
 package gui;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
-import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 import model.Diagnose;
 import model.Drug;
@@ -74,11 +68,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.root.getChildren().add((LoginGUI)this.login);
     }
     
+    //Set login failed message
     @Override
     public void setLoginFailed() {
         this.login.addMessage("Kirjautuminen epäonnistui. Väärä käyttäjätunnus tai salasana!");
     }
     
+    //Set access denied message
     @Override
     public void setAccessDenied() {
         this.root.getChildren().clear();
@@ -101,7 +97,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     //Loads the tab pane component depending of the side bar content selection
     @Override
     public <T> void loadTabPane(List<T> list) {
-        ListTabGUI_IF<T> tab = new ListTabGUI("Potilaan tieddot");
+        ListTabGUI_IF<T> tab = new ListTabGUI("Potilaan tiedot");
         tab.setList(list);
         this.tabPane.getTabs().add((ListTabGUI)tab);
     }
@@ -169,9 +165,11 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.sideBar.addView((SideBarListViewGUI)this.messageListView);
     }
 
+    //List all users
     @Override
     public void setUserList() {
         this.userListView = new SideBarListViewGUI("Käyttäjät");
+        //Create custom cells with buttons to be able to easily set users accounts in locked state
         this.userListView.getListView().setCellFactory(p -> {
             ListCell<User> cell = new ListCell<User>(){
                 @Override
@@ -180,23 +178,20 @@ public class MainGUI implements Initializable, MainGUI_IF {
                     if (u != null) {
                         setText(u.toString());
                         Button button = new Button();
-                        if (u.getPriviledges() != 0) {
+                        if (u.getPrivileges() != 0) {
                             button.setText("-");
                         }
                         else {
                             button.setText("+");
                         }
-                        button.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                if (u.getPriviledges() != 0) {
-                                    controller.lockUser(u);
-                                    button.setText("+");
-                                }
-                                else {
-                                    controller.setUserPriviledges(u);
-                                    button.setText("-");
-                                }
+                        button.setOnAction((ActionEvent event) -> {
+                            if (u.getPrivileges() != 0) {
+                                controller.lockUser(u);
+                                button.setText("+");
+                            }
+                            else {
+                                controller.setUserPriviledges(u);
+                                button.setText("-");
                             }
                         });
                         setGraphic(button);
@@ -339,7 +334,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         list.add("Työntekijänumero: " + user.getId());
         list.add("Käyttäjätunnus: " + user.getUsername());
         list.add("Sähköposti: " + user.getEmail());
-        switch (user.getPriviledges()) {
+        switch (user.getPrivileges()) {
             case 0:
                 list.add("Käyttöoikeudet: lukittu");
                 break;

@@ -23,8 +23,8 @@ public class User {
     private String username;
     @Column(name="password")
     private String password;
-    @Column(name="priviledges")
-    private int priviledges;
+    @Column(name="privileges")
+    private int privileges;
     @Column(name="email")
     private String email;
     
@@ -35,7 +35,7 @@ public class User {
         this.id = id;
         this.username = username;
         this.password = passw;
-        this.priviledges = priv;
+        this.privileges = priv;
         this.email = email;
     }
 
@@ -63,12 +63,12 @@ public class User {
         this.password = password;
     }
 
-    public int getPriviledges() {
-        return priviledges;
+    public int getPrivileges() {
+        return privileges;
     }
 
-    public void setPriviledges(int priviledges) {
-        this.priviledges = priviledges;
+    public void setPrivileges(int privileges) {
+        this.privileges = privileges;
     }
 
     public String getEmail() {

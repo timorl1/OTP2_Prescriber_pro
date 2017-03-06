@@ -108,18 +108,18 @@ public class ClientResources implements ClientResources_IF {
     @Override
     public void setUserPriviledges(User user) {
         if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Hoitaja")) {
-            user.setPriviledges(1);
+            user.setPrivileges(1);
         } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Lääkäri")) {
-            user.setPriviledges(2);
+            user.setPrivileges(2);
         } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Ylläpitäjä")) {
-            user.setPriviledges(3);
+            user.setPrivileges(3);
         }
         this.userDAO.updateUser(user);
     }
 
     @Override
     public void lockUser(User user) {
-        user.setPriviledges(0);
+        user.setPrivileges(0);
         this.userDAO.updateUser(user);
     }
     
