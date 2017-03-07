@@ -20,6 +20,7 @@ import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
+import model.User_IF;
 
 /**
  * FXML Controller class
@@ -42,7 +43,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
     private SideBarListView_IF<String> messageListView;
-    private SideBarListView_IF<User> userListView;
+    private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
     
@@ -329,9 +330,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
-    public void setUserDetails(User user) {
+    public void setUserDetails(User_IF user) {
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Työntekijänumero: " + user.getId());
+        list.add("Työntekijänumero: " + user.getUserID());
         list.add("Käyttäjätunnus: " + user.getUsername());
         list.add("Sähköposti: " + user.getEmail());
         switch (user.getPrivileges()) {
@@ -386,7 +387,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
-    public User getSelectedUser() {
+    public User_IF getSelectedUser() {
         return this.userListView.getSelection();
     }
     

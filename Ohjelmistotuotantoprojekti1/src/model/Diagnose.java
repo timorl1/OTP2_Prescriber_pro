@@ -16,7 +16,8 @@ public class Diagnose {
     private String patientId;
     private Patient patient;
     private String doctorId;
-    private Doctor doctor;
+    private User_IF doctor;
+    
     
     public Diagnose() {
     }
@@ -94,11 +95,11 @@ public class Diagnose {
         this.doctorId = doctorId;
     }
 
-    public Doctor getDoctor() {
+    public User_IF getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(Doctor doctor) {
+    public void setDoctor(User_IF doctor) {
         this.doctor = doctor;
     }
     

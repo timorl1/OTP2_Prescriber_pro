@@ -15,6 +15,7 @@ import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
+import model.User_IF;
 
 
 public class Controller implements Controller_IF {
@@ -94,7 +95,8 @@ public class Controller implements Controller_IF {
 
     @Override
     public List<Prescription> getPrescriptions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return clientRes.getPrescriptionByDoctor(auth.getUser());
+        
     }
     
     @Override
@@ -108,13 +110,13 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User_IF> getUsers() {
         return this.clientRes.getUsers();
     }
     
     @Override
     public void getUserDetails() {
-        this.gui.setUserDetails(this.clientRes.getUserDetails(this.gui.getSelectedUser()));
+        this.gui.setUserDetails((User) this.clientRes.getUserDetails(this.gui.getSelectedUser()));
     }
 
     @Override
@@ -148,12 +150,12 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public void lockUser(User user) {
+    public void lockUser(User_IF user) {
         this.clientRes.lockUser(user);
     }
 
     @Override
-    public void setUserPriviledges(User user) {
+    public void setUserPriviledges(User_IF user) {
         this.clientRes.setUserPriviledges(user);
     }
 }

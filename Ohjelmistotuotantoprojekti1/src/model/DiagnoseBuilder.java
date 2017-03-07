@@ -28,8 +28,8 @@ public class DiagnoseBuilder implements DiagnoseBuilder_IF {
     }
 
     @Override
-    public Doctor getDiagnoseDoctor(Diagnose diagnose) {
-        Doctor doctor = new Doctor();
+    public User_IF getDiagnoseDoctor(Diagnose diagnose) {
+        User_IF doctor = new User();
         doctor.setFirstName("Place");
         doctor.setLastName("Holder");
         return doctor;

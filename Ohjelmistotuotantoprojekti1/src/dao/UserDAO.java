@@ -8,6 +8,7 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 import model.User;
+import model.User_IF;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -74,7 +75,7 @@ public class UserDAO implements UserDAO_IF {
     
     //Used for updating user information to database
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(User_IF user) {
         session = sf.openSession();
         transaction = null;
         
@@ -96,8 +97,8 @@ public class UserDAO implements UserDAO_IF {
 
     // Gets all users from database and returns them as array
     @Override
-    public List<User> getUsers() {
-        List<User> users = null;
+    public List<User_IF> getUsers() {
+        List<User_IF> users = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
@@ -113,8 +114,8 @@ public class UserDAO implements UserDAO_IF {
     
     // Gets user from database identified by username
     @Override
-    public User getUser(String username) {
-        User user = null;
+    public User_IF getUser(String username) {
+        User_IF user = null;
         session = sf.openSession();
 	transaction = session.beginTransaction();
             try{
@@ -132,7 +133,7 @@ public class UserDAO implements UserDAO_IF {
     
     //Deletes user from database identified by username 
     @Override
-    public boolean deleteUser(User user) {
+    public boolean deleteUser(User_IF user) {
         
         session = sf.openSession();
         boolean success = false;
@@ -155,7 +156,7 @@ public class UserDAO implements UserDAO_IF {
     }
     
      @Override
-    public boolean createUser(User user) {
+    public boolean createUser(User_IF user) {
             
         session = sf.openSession();
         transaction = null;

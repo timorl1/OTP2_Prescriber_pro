@@ -14,8 +14,9 @@ import dao.UserDAO_IF;
  */
 public class AppUser implements AppUser_IF{
     private final UserDAO_IF userdb;
-    private User user;
-    private Doctor doctor;
+    private User_IF user;
+    //private User user;
+    
     private boolean authenticated;
 
     public AppUser() {
@@ -47,5 +48,10 @@ public class AppUser implements AppUser_IF{
                 this.authenticated = true;
             }
         }
+    }
+
+    @Override
+    public User_IF getUser() {
+        return this.user;
     }
 }

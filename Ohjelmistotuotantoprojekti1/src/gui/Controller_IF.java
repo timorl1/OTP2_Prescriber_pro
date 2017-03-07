@@ -6,6 +6,7 @@ import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
+import model.User_IF;
 
 /**
  *
@@ -25,11 +26,11 @@ public interface Controller_IF {
     public abstract void getDiagnoseDetails();
     public abstract List<String> getMessages();
     public abstract List<String> getMessageDetails();
-    public abstract List<User> getUsers();
+    public abstract List<User_IF> getUsers();
     public abstract void getUserDetails();
     public abstract List<Employee> getEmployees();
     public abstract void getEmployeeDetails();
     public abstract List<String> getDatabases();
-    public abstract void lockUser(User user);
-    public abstract void setUserPriviledges(User user);
+    public abstract void lockUser(User_IF user);
+    public abstract void setUserPriviledges(User_IF user);
 }

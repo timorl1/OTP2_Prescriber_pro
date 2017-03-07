@@ -21,7 +21,7 @@ public class Prescription {
     @Column(name="doctorID")
     private int doctorID;
     @Transient
-    private Doctor doctor;
+    private User_IF user;
     @Column(name="drugID")
     private int drugID;
     @Transient
@@ -65,12 +65,12 @@ public class Prescription {
         this.patient = patient;
     }
 
-    public Doctor getDoc() {
-        return doctor;
+    public User_IF getDoctor() {
+        return user;
     }
 
-    public void setDoc(Doctor doc) {
-        this.doctor = doc;
+    public void setDoctor(User_IF user) {
+        this.user = user;
     }
 
     public String getPatientID() {
@@ -89,13 +89,6 @@ public class Prescription {
         this.doctorID = doctorID;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
 
     public int getDrugID() {
         return drugID;

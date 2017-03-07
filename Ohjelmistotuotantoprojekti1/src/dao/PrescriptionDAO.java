@@ -2,9 +2,9 @@ package dao;
 
 import java.util.List;
 import model.Diagnose;
-import model.Doctor;
 import model.Patient;
 import model.Prescription;
+import model.User_IF;
 import org.hibernate.*;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.*;
@@ -139,12 +139,12 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
     }
 
     @Override
-    public List<Prescription> getPrescriptionsByDoctor(Doctor doctor) {
+    public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
         List<Prescription> prescriptions = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
-            prescriptions = session.createQuery("from prescription where doctorID = " + doctor.getId()).getResultList();
+            prescriptions = session.createQuery("from prescription where doctorID = " + user.getUserID()).getResultList();
             session.getTransaction().commit();
             /*for (Prescription prescription : result) {
                 Hibernate.initialize(drug.getActiveAgents());

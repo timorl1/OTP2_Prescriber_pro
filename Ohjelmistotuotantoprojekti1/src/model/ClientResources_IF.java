@@ -15,8 +15,9 @@ public interface ClientResources_IF {
     public abstract Prescription getPrescriptionDetails(Prescription prescription);
     public abstract List<Employee> getEmployees();
     public abstract Employee getEmployeeDetails(Employee employee);
-    public abstract List<User> getUsers();
-    public abstract User getUserDetails(User user);
-    public abstract void setUserPriviledges(User user);
-    public abstract void lockUser(User user);
+    public abstract List<User_IF> getUsers();
+    public abstract User_IF getUserDetails(User_IF user);
+    public abstract void setUserPriviledges(User_IF user);
+    public abstract void lockUser(User_IF user);
+    public abstract List<Prescription> getPrescriptionByDoctor(User_IF user);
 }

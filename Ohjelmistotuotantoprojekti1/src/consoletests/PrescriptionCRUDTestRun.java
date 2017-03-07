@@ -107,7 +107,7 @@ public class PrescriptionCRUDTestRun {
                     for (Prescription p : prescriptions) {
                         System.out.println(i + ". " + p.getId());
                         System.out.println("  " + p.getPatient());
-                        System.out.println("  " + p.getDoc());
+                        System.out.println("  " + p.getDoctor());
                         System.out.println("  " + p.getDiagnose());
                         System.out.println("  " + p.getDose());
                         System.out.println("  " + p.getTimesADay());
@@ -123,7 +123,7 @@ public class PrescriptionCRUDTestRun {
                     for (Prescription p : prescriptions) {
                         System.out.println(i + ". " + p.getId());
                         System.out.println("  " + p.getPatient());
-                        System.out.println("  " + p.getDoc());
+                        System.out.println("  " + p.getDoctor());
                         System.out.println("  " + p.getDiagnose());
                         System.out.println("  " + p.getDose());
                         System.out.println("  " + p.getTimesADay());
@@ -166,7 +166,7 @@ public class PrescriptionCRUDTestRun {
                     for (Prescription p : prescriptions) {
                         System.out.println(i + ". " + p.getId());
                         System.out.println("  " + p.getPatient());
-                        System.out.println("  " + p.getDoc());
+                        System.out.println("  " + p.getDoctor());
                         System.out.println("  " + p.getDiagnose());
                         System.out.println("  " + p.getDose());
                         System.out.println("  " + p.getTimesADay());

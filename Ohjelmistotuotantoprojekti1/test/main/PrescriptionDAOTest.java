@@ -8,10 +8,11 @@ import dao.PrescriptionDAO;
 import java.util.Date;
 import java.util.List;
 import model.Diagnose;
-import model.Doctor;
 import model.Drug;
 import model.Patient;
 import model.Prescription;
+import model.User;
+import model.User_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -106,13 +107,13 @@ public class PrescriptionDAOTest {
     public void testGetPrescriptionsByDoctor() throws Exception{
         System.out.println("getPrescriptionsByDoctor");
         PrescriptionDAO instance = new PrescriptionDAO();
-        Doctor doc = new Doctor();
-        doc.setId(0);
+        User_IF doc = new User();
+        doc.setUserID(0);
         List<Prescription> pres = instance.getPrescriptionsByDoctor(doc);
        
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals("600mg", pres.get(0).getDose());
+        assertEquals(4, pres.get(0).getTimesADay());
+        assertEquals("Älä yliannosta", pres.get(0).getInfo());
     }
     /**
      * Test of getPrescriptionByDiagnose method, of class PrescriptionDAO.
@@ -137,8 +138,8 @@ public class PrescriptionDAOTest {
     public void testCreatePrescription() throws Exception {
         Patient pat = new Patient();
         pat.setSSN("123456-789a");
-        Doctor doc = new Doctor();
-        doc.setId(0);
+        User_IF doc = new User();
+        doc.setUserID(0);
         Diagnose dia = new Diagnose();
         dia.setId(1);
         Drug drug = new Drug();
@@ -151,7 +152,7 @@ public class PrescriptionDAOTest {
         test.setId(2);
         test.setPatientID(pat.getSSN());
         test.setPatient(pat);
-        test.setDoc(doc);
+        test.setDoctor(doc);
         test.setDiagnose(dia);
         test.setDose("600mg");
         test.setTimesADay(4);
@@ -172,8 +173,8 @@ public class PrescriptionDAOTest {
     public void testUpdatePrescription() throws Exception {
         Patient pat = new Patient();
         pat.setSSN("123456-789a");
-        Doctor doc = new Doctor();
-        doc.setId(0);
+        User_IF doc = new User();
+        doc.setUserID(0);
         Diagnose dia = new Diagnose();
         dia.setId(1);
         Drug drug = new Drug();
@@ -187,7 +188,7 @@ public class PrescriptionDAOTest {
         test.setId(2);
         test.setPatient(pat);
         test.setPatientID(pat.getSSN());
-        test.setDoc(doc);
+        test.setDoctor(doc);
         test.setDiagnose(dia);
         test.setDose("800mg");
         test.setTimesADay(4);

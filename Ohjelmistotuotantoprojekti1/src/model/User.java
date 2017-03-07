@@ -9,79 +9,98 @@ import javax.persistence.*;
 
 /**
  *
- * @author Johanna
+ * @author Johanna, Timo
  */
-
 @Entity(name="user")
 @Table(name="user")
-public class User {
+public class User implements User_IF{
     
-    @Column(name="userID")
-    private int id;
     @Id
     @Column(name="username")
     private String username;
-    @Column(name="password")
-    private String password;
-    @Column(name="privileges")
-    private int privileges;
+    @Column(name="userID")
+    private int userID;
+    @Transient
+    private String firstName;
+    @Transient
+    private String lastName;
     @Column(name="email")
     private String email;
+    @Column(name="privileges")
+    private int privileges;
+    @Column(name="password")
+    private String password;
     
     
     public User(){}
     
-    public User(int id, String username, String passw, int priv, String email){
-        this.id = id;
-        this.username = username;
-        this.password = passw;
-        this.privileges = priv;
-        this.email = email;
+    @Override
+    public int getUserID() {
+        return userID;
     }
-
+    
+    @Override
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+    
+    @Override
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+    
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    @Override
     public String getUsername() {
         return username;
     }
-
+    
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(int privileges) {
-        this.privileges = privileges;
-    }
-
+    
+    @Override
     public String getEmail() {
         return email;
     }
-
+    
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
     
     @Override
-    public String toString() {
-        return this.id + ": " + this.username;
+    public int getPrivileges() {
+        return privileges;
     }
     
+    @Override
+    public void setPrivileges(int privileges) {
+        this.privileges = privileges;
+    }
+    
+    @Override
+    public String getPassword() {
+        return password;
+    }
+    
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }    
 }
