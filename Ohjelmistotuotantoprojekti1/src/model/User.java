@@ -102,5 +102,8 @@ public class User implements User_IF{
     @Override
     public void setPassword(String password) {
         this.password = password;
-    }    
+    }
+    public String toString(){
+        return this.userID+": "+this.username;
+    }
 }
