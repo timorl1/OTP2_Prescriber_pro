@@ -34,6 +34,7 @@ public class ClientResources implements ClientResources_IF {
     private Map<Integer, User> users;
     
     public ClientResources() {
+        this.prescriptionDAO = new PrescriptionDAO();
         this.patientDAO = new PatientDAO();
         this.employeeDAO = new EmployeeDAO();
         this.userDAO = new UserDAO();
@@ -128,10 +129,10 @@ public class ClientResources implements ClientResources_IF {
     }
 
     @Override
-    public List<Prescription> getPrescriptionByDoctor(User_IF user) {
-        
-        
-        return prescriptionDAO.getPrescriptionsByDoctor(user);
+    public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
+        List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
+        prescriptions.forEach(this.prescriptionBuilder::buildPrescription);
+        return prescriptions;    
     }
     
 }

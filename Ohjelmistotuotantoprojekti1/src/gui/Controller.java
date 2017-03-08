@@ -95,7 +95,7 @@ public class Controller implements Controller_IF {
 
     @Override
     public List<Prescription> getPrescriptions() {
-        return clientRes.getPrescriptionByDoctor(auth.getUser());
+        return clientRes.getPrescriptionsByDoctor(auth.getUser());
         
     }
     

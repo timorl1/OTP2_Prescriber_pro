@@ -19,5 +19,5 @@ public interface ClientResources_IF {
     public abstract User_IF getUserDetails(User_IF user);
     public abstract void setUserPriviledges(User_IF user);
     public abstract void lockUser(User_IF user);
-    public abstract List<Prescription> getPrescriptionByDoctor(User_IF user);
+    public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
 }

@@ -144,14 +144,8 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
         session = sf.openSession();
         try {
             session.beginTransaction();
-            prescriptions = session.createQuery("from prescription where doctorID = " + user.getUserID()).getResultList();
+            prescriptions = session.createQuery("from prescription where username = " + "'"+user.getUsername()+"'").getResultList();
             session.getTransaction().commit();
-            /*for (Prescription prescription : result) {
-                Hibernate.initialize(drug.getActiveAgents());
-                Hibernate.initialize(drug.getAllergens());
-                Hibernate.initialize(drug.getCommonAdverseEffects());
-                Hibernate.initialize(drug.getRareAdverseEffects());
-            }*/
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
             e.printStackTrace();
