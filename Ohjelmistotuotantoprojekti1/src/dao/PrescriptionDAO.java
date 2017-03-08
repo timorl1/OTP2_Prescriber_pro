@@ -2,9 +2,9 @@ package dao;
 
 import java.util.List;
 import model.Diagnose;
-import model.Doctor;
 import model.Patient;
 import model.Prescription;
+import model.User_IF;
 import org.hibernate.*;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.*;
@@ -32,6 +32,7 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
         }catch (Exception e){
             System.out.println("Session failed to initialize.");
+            StandardServiceRegistryBuilder.destroy(reg);
                     try{
                         System.out.println("Trying to connect with Jenkins");
                         
@@ -39,7 +40,7 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
                     }catch (Exception e3){
                         System.err.println("Session failed to initialize.");
                         e3.printStackTrace();
-                        StandardServiceRegistryBuilder.destroy(reg);
+                        StandardServiceRegistryBuilder.destroy(reg2);
                         System.exit(-1);
                     }
         }
@@ -138,19 +139,13 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
     }
 
     @Override
-    public List<Prescription> getPrescriptionsByDoctor(Doctor doctor) {
+    public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
         List<Prescription> prescriptions = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
-            prescriptions = session.createQuery("from prescription where doctorID = " + doctor.getId()).getResultList();
+            prescriptions = session.createQuery("from prescription where username = " + "'"+user.getUsername()+"'").getResultList();
             session.getTransaction().commit();
-            /*for (Prescription prescription : result) {
-                Hibernate.initialize(drug.getActiveAgents());
-                Hibernate.initialize(drug.getAllergens());
-                Hibernate.initialize(drug.getCommonAdverseEffects());
-                Hibernate.initialize(drug.getRareAdverseEffects());
-            }*/
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
             e.printStackTrace();

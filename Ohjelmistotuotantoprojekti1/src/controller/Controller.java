@@ -4,6 +4,7 @@ import dao.UserDAO_IF;
 import gui.MainGUI_IF;
 import java.util.List;
 import model.User;
+import model.User_IF;
 
 
 /**
@@ -21,13 +22,13 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User_IF> getUsers() {
         return userdao.getUsers();
     }
 
     @Override
-    public User getUser() {
-        User user = userdao.getUser("HAKEE OLION USERNAMELLA, SE TULEE GUISTA");
+    public User_IF getUser() {
+        User_IF user = userdao.getUser("HAKEE OLION USERNAMELLA, SE TULEE GUISTA");
         return user;
     }
 
@@ -43,7 +44,7 @@ public class Controller implements Controller_IF {
 
     @Override
     public void setPriviledges() {
-        User user = userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
+        User_IF user = userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
         user.setPrivileges(0); // TÄHÄN TULEE KANSSA GUISTA ARVO
         if(userdao.updateUser(user)){
          //TRUE, MENEE VARMAAN JOKU VIESTI GUI   
@@ -60,7 +61,7 @@ public class Controller implements Controller_IF {
 
     @Override
     public void deleteUser() {
-        User user =userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
+        User_IF user =userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
         if(userdao.deleteUser(user)){
             //TRUE, VIESTI GUILLE POISTOSTA
         }else{

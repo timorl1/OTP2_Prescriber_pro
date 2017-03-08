@@ -8,7 +8,6 @@ import dao.PrescriptionDAO;
 import dao.PrescriptionDAO_IF;
 import dao.UserDAO;
 import dao.UserDAO_IF;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,8 @@ import javafx.util.converter.DoubleStringConverter;
 
 /**
  *
- * @author joosiika
+ * @author joosiika, Timo
+ * This class collects all the data for application
  */
 public class ClientResources implements ClientResources_IF {
     private PatientDAO_IF patientDAO;
@@ -53,7 +53,7 @@ public class ClientResources implements ClientResources_IF {
         });
         this.users = new HashMap();
         this.userDAO.getUsers().forEach((user) -> {
-            this.users.put(user.getId(), user);
+            this.users.put(user.getUserID(), (User) user);
         });
     }
 
@@ -92,12 +92,12 @@ public class ClientResources implements ClientResources_IF {
     }
     
     @Override
-    public List<User> getUsers() {
+    public List<User_IF> getUsers() {
         return this.userDAO.getUsers();
     }
 
     @Override
-    public User getUserDetails(User user) {
+    public User_IF getUserDetails(User_IF user) {
         return user;
     }
 
@@ -112,19 +112,19 @@ public class ClientResources implements ClientResources_IF {
     }
 
     @Override
-    public void setUserPriviledges(User user) {
-        if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Hoitaja")) {
+    public void setUserPriviledges(User_IF user) {
+        if (this.employees.get(user.getUserID()).getTitle().equalsIgnoreCase("Hoitaja")) {
             user.setPrivileges(1);
-        } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Lääkäri")) {
+        } else if (this.employees.get(user.getUserID()).getTitle().equalsIgnoreCase("Lääkäri")) {
             user.setPrivileges(2);
-        } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Ylläpitäjä")) {
+        } else if (this.employees.get(user.getUserID()).getTitle().equalsIgnoreCase("Ylläpitäjä")) {
             user.setPrivileges(3);
         }
         this.userDAO.updateUser(user);
     }
 
     @Override
-    public void lockUser(User user) {
+    public void lockUser(User_IF user) {
         user.setPrivileges(0);
         this.userDAO.updateUser(user);
     }
@@ -158,6 +158,13 @@ public class ClientResources implements ClientResources_IF {
     @Override
     public void savePrescription(Prescription prescription) {
         this.prescriptionDAO.createPrescription(prescription);
+    }
+        
+    @Override
+    public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
+        List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
+        prescriptions.forEach(this.prescriptionBuilder::buildPrescription);
+        return prescriptions;
     }
     
 }

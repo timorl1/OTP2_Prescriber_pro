@@ -37,8 +37,8 @@ public class PrescriptionBuilder implements PrescriptionBuilder_IF {
     }
 
     @Override
-    public Doctor getPrescriptionDoctor(Prescription prescription) {
-        Doctor doctor = new Doctor();
+    public User_IF getPrescriptionDoctor(Prescription prescription) {
+        User_IF doctor = new User();
         doctor.setFirstName("Place");
         doctor.setLastName("Holder");
         return doctor;

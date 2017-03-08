@@ -11,7 +11,7 @@ package model;
  */
 public interface DiagnoseBuilder_IF {
     public abstract Patient getDiagnosePatient(Diagnose diagnose);
-    public abstract Doctor getDiagnoseDoctor(Diagnose diagnose);
+    public abstract User_IF getDiagnoseDoctor(Diagnose diagnose);
     public abstract Disease getDiagnoseDisease(Diagnose diagnose);
     public abstract Diagnose buildDiagnose(Diagnose diagnose);
 }

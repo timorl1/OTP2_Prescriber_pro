@@ -10,7 +10,7 @@ public interface PrescriberPro_IF {
     public abstract List<Patient> getPatients();
     public abstract List<Diagnose> getPatientDiagnoses(Patient patient);
     public abstract List<Prescription> getPatientPrescriptions(Patient patient);
-    public abstract List<Prescription> getDoctorPrescriptions(Doctor doctor);
+    public abstract List<Prescription> getDoctorPrescriptions(User_IF doctor);
     public abstract List<String> getPatientDetails(Patient patient);
     public abstract List<String> getDiagnoseDetails(Diagnose diagnose);
     public abstract List<String> getPrescriptionDetails(Prescription prescription);

@@ -45,7 +45,7 @@ public class PrescriberPro implements PrescriberPro_IF {
             this.patients.put(p.getSSN(), p);
         });
         this.userDAO.getUsers().forEach(u -> {
-            this.users.put(u.getUsername(), u);
+            this.users.put(u.getUsername(), (User) u);
         });
         this.employeeDAO.readEmployees().forEach(e -> {
             this.employees.put(e.getUserID(), e);
@@ -65,7 +65,7 @@ public class PrescriberPro implements PrescriberPro_IF {
             List<Diagnose> diagnoses = this.patientDAO.readPatientDiagnoses(patient);
             diagnoses.forEach(d -> {
                 d.setPatient(this.patients.get(d.getPatientId()));
-                Doctor doctor = new Doctor();
+                User_IF doctor = new User();
                 Employee employee = this.employees.get(d.getDoctorId());
             });
             return diagnoses;
@@ -79,7 +79,7 @@ public class PrescriberPro implements PrescriberPro_IF {
     }
 
     @Override
-    public List<Prescription> getDoctorPrescriptions(Doctor doctor) {
+    public List<Prescription> getDoctorPrescriptions(User_IF doctor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

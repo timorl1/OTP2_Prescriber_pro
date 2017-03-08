@@ -6,6 +6,7 @@ import model.Employee;
 import model.Patient;
 import model.Prescription;
 import model.User;
+import model.User_IF;
 
 /**
  *
@@ -31,7 +32,7 @@ public interface MainGUI_IF {
     public abstract void setPatientPrescriptions(List<Prescription> list);
     public abstract void setPrescriptionDetails(Prescription prescription);
     public abstract void setDiagnoseDetails(Diagnose diagnose);
-    public abstract void setUserDetails(User user);
+    public abstract void setUserDetails(User_IF user);
     public abstract void setEmployeeDetails(Employee employee);
     public abstract void setInsuffucientDoseMessage();
     public abstract void setOptimalDoseMessage();
@@ -41,7 +42,7 @@ public interface MainGUI_IF {
     public abstract Patient getSelectedPatient();
     public abstract Prescription getSelectedPrescription();
     public abstract Diagnose getSelectedDiagnose();
-    public abstract User getSelectedUser();
+    public abstract User_IF getSelectedUser();
     public abstract Employee getSelectedEmployee();
     public abstract Prescription getPrescriptionForm();
 }
