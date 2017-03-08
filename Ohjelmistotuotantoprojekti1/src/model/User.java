@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -31,6 +33,14 @@ public class User implements User_IF{
     @Column(name="password")
     private String password;
     
+    
+    
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="sender", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    private List<Message> sentMessages = new ArrayList();
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="receiver", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    private List<Message> receivedMessages = new ArrayList();
     
     public User(){}
     
