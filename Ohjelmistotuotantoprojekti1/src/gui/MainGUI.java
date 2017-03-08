@@ -152,6 +152,16 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.prescriptionListView.setList(this.controller.getPrescriptions());
             }
         });
+        this.prescriptionListView.getListView().setOnMouseClicked(e -> {
+            if (this.prescriptionListView.getSelection() != null) {
+                this.tabPane.getTabs().clear();
+                
+                this.controller.getPrescriptionDetails();
+            }
+            else {
+                this.tabPane.getTabs().clear();
+            }
+        });
         this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);
     }
 
@@ -378,7 +388,12 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public Prescription getSelectedPrescription() {
-        return this.patientPrescriptionTab.getSelection();
+        if(this.patientPrescriptionTab != null){
+            return this.patientPrescriptionTab.getSelection();
+        }else{
+            return this.prescriptionListView.getSelection();
+        }
+        
     }
     
     @Override

@@ -22,9 +22,9 @@ public class User implements User_IF{
     private String username;
     @Column(name="userID")
     private int userID;
-    @Transient
+    @Column(name="firstname")
     private String firstName;
-    @Transient
+    @Column(name="lastname")
     private String lastName;
     @Column(name="email")
     private String email;
@@ -112,5 +112,10 @@ public class User implements User_IF{
     @Override
     public void setPassword(String password) {
         this.password = password;
-    }    
+    }
+    
+    @Override
+    public String toString(){
+        return this.userID+": "+this.username;
+    }
 }

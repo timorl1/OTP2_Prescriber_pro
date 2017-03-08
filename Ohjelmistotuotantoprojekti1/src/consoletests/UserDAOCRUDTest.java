@@ -57,7 +57,8 @@ public class UserDAOCRUDTest {
                     employee = employeedao.readEmployee(id);
                     System.out.println("\n Valittu käyttäjä: "+employee.getFirstName()+" "+employee.getLastName());
                     user.setUserID(id);
-                    
+                    user.setFirstName(employee.getFirstName());
+                    user.setLastName(employee.getLastName());
                     System.out.println("Valitse käyttäjätunnus: ");
                     user.setUsername(Reader.readLine());
                     

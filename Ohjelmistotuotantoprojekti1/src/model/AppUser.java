@@ -15,7 +15,6 @@ import dao.UserDAO_IF;
 public class AppUser implements AppUser_IF{
     private final UserDAO_IF userdb;
     private User_IF user;
-    //private User user;
     
     private boolean authenticated;
 
@@ -28,7 +27,7 @@ public class AppUser implements AppUser_IF{
     //If authentication fails, returns null
     @Override
     public void setUser(String username) {
-        this.user = this.userdb.getUser(username);
+        this.user = (User)this.userdb.getUser(username);
     }
 
     @Override

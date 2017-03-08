@@ -108,12 +108,12 @@ public class PrescriptionDAOTest {
         System.out.println("getPrescriptionsByDoctor");
         PrescriptionDAO instance = new PrescriptionDAO();
         User_IF doc = new User();
-        doc.setUserID(0);
+        doc.setUsername("irvik");
         List<Prescription> pres = instance.getPrescriptionsByDoctor(doc);
        
-        assertEquals("600mg", pres.get(0).getDose());
-        assertEquals(4, pres.get(0).getTimesADay());
-        assertEquals("Älä yliannosta", pres.get(0).getInfo());
+        assertEquals("400mg", pres.get(0).getDose());
+        assertEquals(3, pres.get(0).getTimesADay());
+        assertEquals("Tarvittaessa", pres.get(0).getInfo());
     }
     /**
      * Test of getPrescriptionByDiagnose method, of class PrescriptionDAO.
