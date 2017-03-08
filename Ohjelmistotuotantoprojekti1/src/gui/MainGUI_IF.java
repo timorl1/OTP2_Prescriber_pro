@@ -24,6 +24,8 @@ public interface MainGUI_IF {
     public abstract void setUserList();
     public abstract void setEmployeeList();
     public abstract void setDatabaseList();
+    public abstract void setPrescriptionForm(Prescription prescription);
+    public abstract void setPrescriptionTools();
     public abstract void setPatientDetails(Patient patient);
     public abstract void setPatientDiagnoses(List<Diagnose> list);
     public abstract void setPatientPrescriptions(List<Prescription> list);
@@ -31,9 +33,15 @@ public interface MainGUI_IF {
     public abstract void setDiagnoseDetails(Diagnose diagnose);
     public abstract void setUserDetails(User user);
     public abstract void setEmployeeDetails(Employee employee);
+    public abstract void setInsuffucientDoseMessage();
+    public abstract void setOptimalDoseMessage();
+    public abstract void setOverOptimalDoseMessage();
+    public abstract void setRiskLimitDoseMessage();
+    public abstract void setOverdoseMessage();
     public abstract Patient getSelectedPatient();
     public abstract Prescription getSelectedPrescription();
     public abstract Diagnose getSelectedDiagnose();
     public abstract User getSelectedUser();
     public abstract Employee getSelectedEmployee();
+    public abstract Prescription getPrescriptionForm();
 }

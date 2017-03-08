@@ -4,6 +4,8 @@ import dao.EmployeeDAO;
 import dao.EmployeeDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
+import dao.PrescriptionDAO;
+import dao.PrescriptionDAO_IF;
 import dao.UserDAO;
 import dao.UserDAO_IF;
 import java.util.ArrayList;
@@ -20,9 +22,11 @@ public class ClientResources implements ClientResources_IF {
     private PatientDAO_IF patientDAO;
     private EmployeeDAO_IF employeeDAO;
     private UserDAO_IF userDAO;
+    private PrescriptionDAO_IF prescriptionDAO;
     private PatientBuilder_IF patientBuilder;
     private DiagnoseBuilder_IF diagnoseBuilder;
     private PrescriptionBuilder_IF prescriptionBuilder;
+    private DoseCalculator_IF doseCalculator;
     private DoubleStringConverter dsc;
     
     private Map<String, Patient> patients;
@@ -33,9 +37,11 @@ public class ClientResources implements ClientResources_IF {
         this.patientDAO = new PatientDAO();
         this.employeeDAO = new EmployeeDAO();
         this.userDAO = new UserDAO();
+        this.prescriptionDAO = new PrescriptionDAO();
         this.patientBuilder = new PatientBuilder();
         this.diagnoseBuilder = new DiagnoseBuilder();
         this.prescriptionBuilder = new PrescriptionBuilder();
+        this.doseCalculator = new DoseCalculator();
         this.dsc = new DoubleStringConverter();
         this.patients = new HashMap();
         this.patientDAO.readPatients().forEach((patient) -> {
@@ -121,6 +127,37 @@ public class ClientResources implements ClientResources_IF {
     public void lockUser(User user) {
         user.setPrivileges(0);
         this.userDAO.updateUser(user);
+    }
+
+    @Override
+    public DoseStatus evaluateDose(Patient patient, Drug drug, double dose) {
+        if (dose < this.doseCalculator.getOptimalDose(patient, drug)/2) {
+            return DoseStatus.INSUFFICIENT;
+        }
+        else if (dose >= this.doseCalculator.getOptimalDose(patient, drug)/2 && dose < this.doseCalculator.getMaxDose(patient, drug)/2) {
+            return DoseStatus.OPTIMAL;
+        }
+        else if (dose >= this.doseCalculator.getMaxDose(patient, drug)/2 && dose < this.doseCalculator.getMaxDose(patient, drug)*0.75) {
+            return DoseStatus.OVER_OPTIMAL;
+        }
+        else if (dose >= this.doseCalculator.getMaxDose(patient, drug)*0.75 && dose <= this.doseCalculator.getMaxDose(patient, drug)) {
+            return DoseStatus.RISK_LIMIT;
+        }
+        else {
+            return DoseStatus.OVERDOSE;
+        }
+        
+    }
+
+    @Override
+    public Prescription addNewPrescription() {
+        Prescription prescription = new Prescription();
+        return this.prescriptionBuilder.buildPrescription(prescription);
+    }
+
+    @Override
+    public void savePrescription(Prescription prescription) {
+        this.prescriptionDAO.createPrescription(prescription);
     }
     
 }

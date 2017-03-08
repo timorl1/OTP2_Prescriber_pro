@@ -11,14 +11,15 @@ import org.hibernate.boot.MetadataSources;
  *
  * @author joosiika
  */
-public class DrugDAO implements DrugDAO_IF{
+public class DrugDAO implements DrugDAO_IF {
+
     SessionFactory sf;
     final StandardServiceRegistry reg;
     final StandardServiceRegistry reg2;
 
     private Session session;
     private Transaction transaction;
-    
+
     //Builds session factory
     public DrugDAO() {
         sf = null;
@@ -26,21 +27,21 @@ public class DrugDAO implements DrugDAO_IF{
         reg2 = new StandardServiceRegistryBuilder().configure("drugdbjenkins.cfg.xml").build();
         try {
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Session failed to initialize.");
-                    try{
-                        System.out.println("Trying with jenkins");
-                        
-                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();
-                    }catch (Exception e3){
-                        System.err.println("Session failed to initialize.");
-                        e3.printStackTrace();
-                        StandardServiceRegistryBuilder.destroy(reg);
-                        System.exit(-1);
-                    }
+            try {
+                System.out.println("Trying with jenkins");
+
+                sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();
+            } catch (Exception e3) {
+                System.err.println("Session failed to initialize.");
+                e3.printStackTrace();
+                StandardServiceRegistryBuilder.destroy(reg);
+                System.exit(-1);
+            }
         }
     }
-    
+
     @Override
     public void finalize() {
         boolean success = false;
@@ -61,7 +62,7 @@ public class DrugDAO implements DrugDAO_IF{
         } while (!success);
         System.out.println("DB connection shut down.");
     }
-    
+
     //Get a single drug from database identified by serial number
     @Override
     public Drug readDrug(int SN) {
@@ -71,7 +72,7 @@ public class DrugDAO implements DrugDAO_IF{
             session.beginTransaction();
             session.load(drug = new Drug(), SN);
             session.getTransaction().commit();
-            Hibernate.initialize(drug.getActiveAgents());
+            Hibernate.initialize(drug.getDrugActiveAgents());
             Hibernate.initialize(drug.getAllergens());
             Hibernate.initialize(drug.getCommonAdverseEffects());
             Hibernate.initialize(drug.getRareAdverseEffects());
@@ -82,7 +83,7 @@ public class DrugDAO implements DrugDAO_IF{
         }
         return drug;
     }
-    
+
     //Gets all drugs in database and returns them as a List
     @Override
     public List<Drug> readDrugs() {
@@ -93,7 +94,7 @@ public class DrugDAO implements DrugDAO_IF{
             drugs = session.createQuery("from lääke").getResultList();
             session.getTransaction().commit();
             for (Drug drug : drugs) {
-                Hibernate.initialize(drug.getActiveAgents());
+                Hibernate.initialize(drug.getDrugActiveAgents());
                 Hibernate.initialize(drug.getAllergens());
                 Hibernate.initialize(drug.getCommonAdverseEffects());
                 Hibernate.initialize(drug.getRareAdverseEffects());
@@ -106,5 +107,5 @@ public class DrugDAO implements DrugDAO_IF{
         }
         return drugs;
     }
-    
+
 }

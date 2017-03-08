@@ -153,9 +153,9 @@ public class DemoViewController implements Initializable {
             tabPane2.setVisible(true);
             list.add("Tuotenumero: " + drug.getSN());
             list.add("Nimi: " + drug.getName());
-            list.add("Vaikuttavat aineet: " + drug.getActiveAgents().get(0).getName());
-            list.add("Suositeltu annos: " + drug.getRecommendedDose() + drug.getUnit());
-            list.add("Maksimiannos: " + drug.getMaxDose() + drug.getUnit());
+            list.add("Vaikuttavat aineet: " + drug.getDrugActiveAgents());
+            list.add("Suositeltu annos: " + drug.getDrugActiveAgents() + drug.getUnit());
+            list.add("Maksimiannos: " + drug.getDrugActiveAgents() + drug.getUnit());
             list2 = FXCollections.observableArrayList(drug.getAllergens());
         }
         this.tab1List2.setItems(list);

@@ -1,7 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -11,18 +14,29 @@ import javax.persistence.*;
 @Entity (name="vaikuttava_aine")
 @Table (name="vaikuttava_aine")
 public class ActiveAgent {
-    
-    @Id
-    @Column(name="id")
     private int id;
-    @Column(name="nimi")
     private String name;
-    @ManyToMany (mappedBy="activeAgents")
-    private List<Drug> drugs = new ArrayList();
+    private double maxDose;
+    private double recommendedDose;
+    //@ManyToMany (mappedBy="activeAgents")
+    private List<DrugActiveAgent> drugActiveAgents = new ArrayList();
 
     public ActiveAgent() {
     }
 
+    public ActiveAgent(int id, String name, double maxDose, double recommendedDose) {
+        this.id = id;
+        this.name = name;
+        this.maxDose = maxDose;
+        this.recommendedDose = recommendedDose;
+    }
+    
+    public void addDrug(DrugActiveAgent drugActiveAgent) {
+        this.drugActiveAgents.add(drugActiveAgent);
+    }
+
+    @Id
+    @Column(name="id")
     public int getId() {
         return id;
     }
@@ -31,6 +45,7 @@ public class ActiveAgent {
         this.id = id;
     }
 
+    @Column(name="nimi")
     public String getName() {
         return name;
     }
@@ -39,11 +54,30 @@ public class ActiveAgent {
         this.name = name;
     }
 
-    public List<Drug> getDrugs() {
-        return drugs;
+    @Column(name="maxannos")
+    public double getMaxDose() {
+        return maxDose;
     }
 
-    public void setDrugs(List<Drug> drugs) {
-        this.drugs = drugs;
+    public void setMaxDose(double maxDose) {
+        this.maxDose = maxDose;
+    }
+
+    @Column(name="suositeltuannos")
+    public double getRecommendedDose() {
+        return recommendedDose;
+    }
+
+    public void setRecommendedDose(double recommendedDose) {
+        this.recommendedDose = recommendedDose;
+    }
+
+    @OneToMany(mappedBy="activeAgent")
+    public List<DrugActiveAgent> getDrugActiveAgents() {
+        return drugActiveAgents;
+    }
+
+    public void setDrugActiveAgents(List<DrugActiveAgent> drugActiveAgents) {
+        this.drugActiveAgents = drugActiveAgents;
     }
 }

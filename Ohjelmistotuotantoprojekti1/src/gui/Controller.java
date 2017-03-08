@@ -9,6 +9,7 @@ import java.util.List;
 import javafx.fxml.FXML;
 import model.AppUser;
 import model.ClientResources;
+import model.DoseStatus;
 import model.Drug;
 import model.DrugResources;
 import model.Employee;
@@ -39,6 +40,7 @@ public class Controller implements Controller_IF {
             switch(this.auth.getUserPrivileges()) {
                 case 0:
                     this.gui.setAccessDenied();
+                    break;
                 case 1:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
@@ -49,11 +51,13 @@ public class Controller implements Controller_IF {
                     this.gui.setDrugList();
                     this.gui.setPrescriptionList();
                     this.gui.setMessageList();
+                    this.gui.setPrescriptionTools();
                     break;
                 case 3:
                     this.gui.setUserList();
                     this.gui.setEmployeeList();
                     this.gui.setMessageList();
+                    break;
             }
         }
         else {
@@ -155,5 +159,37 @@ public class Controller implements Controller_IF {
     @Override
     public void setUserPriviledges(User user) {
         this.clientRes.setUserPriviledges(user);
+    }
+
+    @Override
+    public void checkDose() {
+        DoseStatus status = this.clientRes.evaluateDose(this.gui.getPrescriptionForm().getPatient(), this.gui.getPrescriptionForm().getDrug(), this.gui.getPrescriptionForm().getDose()*this.gui.getPrescriptionForm().getTimesADay());
+        switch (status) {
+            case INSUFFICIENT:
+                this.gui.setInsuffucientDoseMessage();
+                break;
+            case OPTIMAL:
+                this.gui.setOptimalDoseMessage();
+                break;
+            case OVER_OPTIMAL:
+                this.gui.setOverOptimalDoseMessage();
+                break;
+            case RISK_LIMIT:
+                this.gui.setRiskLimitDoseMessage();
+                break;
+            case OVERDOSE:
+                this.gui.setOverdoseMessage();
+                break;
+        }
+    }
+
+    @Override
+    public void createNewPrescription() {
+        this.gui.setPrescriptionForm(this.clientRes.addNewPrescription());
+    }
+
+    @Override
+    public void savePrescription() {
+        this.clientRes.savePrescription(this.gui.getPrescriptionForm());
     }
 }

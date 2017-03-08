@@ -19,4 +19,7 @@ public interface ClientResources_IF {
     public abstract User getUserDetails(User user);
     public abstract void setUserPriviledges(User user);
     public abstract void lockUser(User user);
+    public abstract DoseStatus evaluateDose(Patient patient, Drug drug, double dose);
+    public abstract Prescription addNewPrescription();
+    public abstract void savePrescription(Prescription prescription);
 }

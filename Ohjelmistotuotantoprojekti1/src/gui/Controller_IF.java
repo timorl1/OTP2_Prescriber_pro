@@ -32,4 +32,7 @@ public interface Controller_IF {
     public abstract List<String> getDatabases();
     public abstract void lockUser(User user);
     public abstract void setUserPriviledges(User user);
+    public abstract void checkDose();
+    public abstract void createNewPrescription();
+    public abstract void savePrescription();
 }
