@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
--- Host: localhost    Database: patient
+-- Host: localhost    Database: applicationdb
 -- ------------------------------------------------------
 -- Server version	5.7.9
 
@@ -14,83 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Current Database: `patient`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `patient` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `patient`;
-
---
--- Table structure for table `patient`
---
-
-DROP TABLE IF EXISTS `patient`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patient` (
-  `ssn` varchar(11) CHARACTER SET latin1 NOT NULL,
-  `firstname` varchar(40) CHARACTER SET latin1 NOT NULL,
-  `lastname` varchar(40) CHARACTER SET latin1 NOT NULL,
-  `height` double NOT NULL,
-  `weight` double NOT NULL,
-  `gender` varchar(10) COLLATE utf8_bin NOT NULL,
-  `address` varchar(70) CHARACTER SET latin1 NOT NULL,
-  `postalcode` varchar(70) CHARACTER SET latin1 NOT NULL,
-  `city` varchar(70) CHARACTER SET latin1 NOT NULL,
-  `country` varchar(70) CHARACTER SET latin1 NOT NULL,
-  `phone` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `diagnosis` varchar(160) CHARACTER SET latin1 DEFAULT NULL,
-  `allergies` varchar(160) CHARACTER SET latin1 DEFAULT NULL,
-  `status` varchar(160) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`ssn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `patient`
---
-
-LOCK TABLES `patient` WRITE;
-/*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES ('120635-124s','Maija','Meikäläinen',165,55,'Female','Bulevardi 31','00180','Helsinki','Finland','050-1234567',NULL,NULL,NULL);
-/*!40000 ALTER TABLE `patient` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `patientdbparameter`
---
-
-DROP TABLE IF EXISTS `patientdbparameter`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patientdbparameter` (
-  `url` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `user` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `password` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `tableName` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `SSN` varchar(11) CHARACTER SET latin1 NOT NULL,
-  `firstName` varchar(40) CHARACTER SET latin1 NOT NULL,
-  `lastName` varchar(40) CHARACTER SET latin1 NOT NULL,
-  `gender` varchar(6) CHARACTER SET latin1 NOT NULL,
-  `weight` varchar(40) COLLATE utf8_bin NOT NULL,
-  `height` varchar(40) COLLATE utf8_bin NOT NULL,
-  `allergies` varchar(45) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`url`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `patientdbparameter`
---
-
-LOCK TABLES `patientdbparameter` WRITE;
-/*!40000 ALTER TABLE `patientdbparameter` DISABLE KEYS */;
-INSERT INTO `patientdbparameter` VALUES ('localhost/patient','root','66067251isojoo','patient','ssn','firstname','lastname','gender','weight','height','allergies');
-/*!40000 ALTER TABLE `patientdbparameter` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Current Database: `applicationdb`
@@ -688,4 +611,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-09 12:17:02
+-- Dump completed on 2017-03-09 12:24:08
