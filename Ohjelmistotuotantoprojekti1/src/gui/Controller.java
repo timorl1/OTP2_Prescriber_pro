@@ -165,8 +165,11 @@ public class Controller implements Controller_IF {
 
     @Override
     public void checkDose() {
-        DoseStatus status = this.clientRes.evaluateDose(this.gui.getPrescriptionForm().getPatient(), this.gui.getPrescriptionForm().getDrug(), this.gui.getPrescriptionForm().getDose()*this.gui.getPrescriptionForm().getTimesADay());
+        DoseStatus status = this.clientRes.evaluateDose(this.gui.getSelectedPatient(), this.gui.getSelectedDrug(), this.gui.getPrescriptionForm().getDose() * this.gui.getPrescriptionForm().getTimesADay());
         switch (status) {
+            case NULL:
+                this.gui.setNullDoseMessage();
+                break;
             case INSUFFICIENT:
                 this.gui.setInsuffucientDoseMessage();
                 break;
@@ -187,11 +190,12 @@ public class Controller implements Controller_IF {
 
     @Override
     public void createNewPrescription() {
-        this.gui.setPrescriptionForm(this.clientRes.addNewPrescription());
+        this.gui.setPrescriptionForm(this.clientRes.addNewPrescription(this.auth.getUser()));
     }
 
     @Override
     public void savePrescription() {
         this.clientRes.savePrescription(this.gui.getPrescriptionForm());
     }
+    
 }

@@ -10,5 +10,5 @@ package model;
  * @author joosiika
  */
 public enum DoseStatus {
-    INSUFFICIENT, OPTIMAL, OVER_OPTIMAL, RISK_LIMIT, OVERDOSE
+    NULL, INSUFFICIENT, OPTIMAL, OVER_OPTIMAL, RISK_LIMIT, OVERDOSE
 }

@@ -15,7 +15,7 @@ public class Diagnose {
     private Timestamp resolutionDate;
     private String patientId;
     private Patient patient;
-    private String doctorId;
+    private int doctorId;
     private User_IF doctor;
     
     
@@ -87,11 +87,11 @@ public class Diagnose {
         this.patient = patient;
     }
     
-    public String getDoctorId() {
+    public int getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(String doctorId) {
+    public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
     }
 

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -18,7 +19,7 @@ public class PrescriptionFormGUI extends Tab {
     @FXML
     private Label patientLabel;
     @FXML
-    private TextField patientField;
+    private Text patientField;
     @FXML
     private Label diagnoseLabel;
     @FXML
@@ -26,7 +27,7 @@ public class PrescriptionFormGUI extends Tab {
     @FXML
     private Label drugLabel;
     @FXML
-    private TextField drugField;
+    private Text drugField;
     @FXML
     private Label doseLabel;
     @FXML
@@ -86,7 +87,7 @@ public class PrescriptionFormGUI extends Tab {
         return patientLabel;
     }
 
-    public TextField getPatientField() {
+    public Text getPatientField() {
         return patientField;
     }
 
@@ -102,7 +103,7 @@ public class PrescriptionFormGUI extends Tab {
         return drugLabel;
     }
 
-    public TextField getDrugField() {
+    public Text getDrugField() {
         return drugField;
     }
 

@@ -65,7 +65,6 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
-        this.setPatientID(this.patient.getSSN());
     }
 
     public User_IF getDoctor() {

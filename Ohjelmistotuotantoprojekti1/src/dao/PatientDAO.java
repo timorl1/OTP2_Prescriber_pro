@@ -204,7 +204,7 @@ public class PatientDAO implements PatientDAO_IF {
                 Timestamp creationDate = rs.getTimestamp("luontipäivä");
                 Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
                 String patientID = rs.getString("hetu");
-                String doctorID = rs.getString("työntekijänumero");
+                int doctorID = rs.getInt("työntekijänumero");
                 dia = new Diagnose();
                 dia.setId(id);
                 dia.setPatientId(patientID);
@@ -271,7 +271,7 @@ public class PatientDAO implements PatientDAO_IF {
                 Timestamp creationDate = rs.getTimestamp("luontipäivä");
                 Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
                 String patientID = rs.getString("hetu");
-                String doctorID = rs.getString("työntekijänumero");
+                int doctorID = rs.getInt("työntekijänumero");
                 dia = new Diagnose();
                 dia.setId(id);
                 dia.setPatientId(patientID);

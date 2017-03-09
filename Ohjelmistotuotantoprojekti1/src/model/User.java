@@ -26,8 +26,8 @@ public class User implements User_IF{
     private String lastName;
     @Column(name="email")
     private String email;
-    @Column(name="privileges")
-    private int privileges;
+    @Column(name="usertype")
+    private int usertype;
     @Column(name="password")
     private String password;
     
@@ -85,13 +85,13 @@ public class User implements User_IF{
     }
     
     @Override
-    public int getPrivileges() {
-        return privileges;
+    public int getUsertype() {
+        return usertype;
     }
     
     @Override
-    public void setPrivileges(int privileges) {
-        this.privileges = privileges;
+    public void setUsertype(int usertype) {
+        this.usertype = usertype;
     }
     
     @Override
