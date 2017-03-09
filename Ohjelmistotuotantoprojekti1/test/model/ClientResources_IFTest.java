@@ -159,8 +159,8 @@ public class ClientResources_IFTest {
         System.out.println("getUsers");
         ClientResources_IF instance = new ClientResources();
         List<User> expResult = null;
-        List<User> result = instance.getUsers();
-        assertEquals(expResult, result);
+        //List<User> result = instance.getUsers();
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -174,8 +174,8 @@ public class ClientResources_IFTest {
         User user = null;
         ClientResources_IF instance = new ClientResources();
         User expResult = null;
-        User result = instance.getUserDetails(user);
-        assertEquals(expResult, result);
+        //User result = instance.getUserDetails(user);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
