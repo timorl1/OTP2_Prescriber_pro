@@ -21,6 +21,8 @@ import model.Patient;
 import model.Prescription;
 import model.User;
 import model.User_IF;
+import javafx.collections.transformation.FilteredList;
+
 
 /**
  * FXML Controller class
@@ -264,7 +266,30 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.tabPane.getTabs().add(listTab);
         
     }
-
+    
+     @Override
+    public void filterPatients(){
+        FilteredList<Patient> filteredPatients = new FilteredList(patients, p -> true);
+        filteredPatients.setPredicate(patient -> {
+            if (event.getText() == null) {
+                return true;
+            }
+            String filter = event.getText();
+            if (patient.getFirstName().toLowerCase().contains(filter)) {
+                return true;
+            }
+            else if (patient.getLastName().toLowerCase().contains(filter)) {
+                return true;
+            }
+            else if (patient.getSSN().toLowerCase().contains(filter)) {
+                return true;
+            }
+            return false;
+        });
+        
+        
+    }
+    
     @Override
     public void setPatientDiagnoses(List<Diagnose> list) {
         ObservableList<Diagnose> diagnoses = FXCollections.observableArrayList(list);
@@ -370,7 +395,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         listTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)listTab);
     }
-    
+      
     @Override
     public Patient getSelectedPatient() {
         return this.patientListView.getSelection();

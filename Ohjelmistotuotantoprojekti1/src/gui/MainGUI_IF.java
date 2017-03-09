@@ -37,4 +37,6 @@ public interface MainGUI_IF {
     public abstract Diagnose getSelectedDiagnose();
     public abstract User_IF getSelectedUser();
     public abstract Employee getSelectedEmployee();
+    
+    public abstract void filterPatients();
 }
