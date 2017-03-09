@@ -116,6 +116,16 @@ public class User implements User_IF{
     
     @Override
     public String toString(){
-        return this.userID+": "+this.username;
+        return this.userID+": "+this.username + " sent: " + sentMessages + " received: " + receivedMessages;
+    }
+
+    @Override
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    @Override
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
     }
 }

@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -27,5 +28,7 @@ public interface User_IF {
     public abstract String getFirstName();
     public abstract void setLastName(String lastName);
     public abstract String getLastName();
+    public abstract List<Message> getSentMessages();
+    public abstract List<Message> getReceivedMessages();
     
 }

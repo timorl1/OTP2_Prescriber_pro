@@ -7,6 +7,7 @@ package dao;
 
 import java.util.List;
 import model.Message;
+import model.User;
 
 /**
  *
@@ -15,7 +16,7 @@ import model.Message;
 public interface MessageDAO_IF {
     
     public abstract Message readMessage(int id);
-    public abstract List<Message> readMessages(String username);
+    public abstract List<User> readMessages(String username);
     public abstract boolean createMessage(Message message);
     
     

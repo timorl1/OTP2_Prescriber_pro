@@ -7,6 +7,7 @@ package dao;
 
 import java.util.List;
 import model.Message;
+import model.User;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -94,15 +95,15 @@ public class MessageDAO implements MessageDAO_IF{
     }
 
     @Override
-    public List<Message> readMessages(String username) {   
-        List<Message> result = null;
+    public List<User> readMessages(String username) {   
+        List<User> result = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
             
-            result = session.createQuery("from message ").getResultList();
+            result = session.createQuery("from user where username = "+"'"+username+"'").getResultList();
             session.getTransaction().commit();
-            for(Message mes : result){
+            for(User mes : result){
                 Hibernate.initialize(mes.getSentMessages());
                 Hibernate.initialize(mes.getReceivedMessages());
             }    
