@@ -17,5 +17,5 @@ public class DrugResources {
     
     public List<Drug> getDrugs() {
         return db.readDrugs();
-    }
+    }   
 }
