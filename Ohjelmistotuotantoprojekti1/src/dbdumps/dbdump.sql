@@ -63,15 +63,15 @@ CREATE TABLE `prescription` (
   `dose` double NOT NULL,
   `timesADay` int(11) NOT NULL,
   `info` varchar(1000) NOT NULL,
-  `startDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `startDate` timestamp NULL DEFAULT NULL,
   `endDate` timestamp NULL DEFAULT NULL,
-  `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `drugID` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   PRIMARY KEY (`prescriptionID`),
   KEY `username` (`username`),
   CONSTRAINT `prescription_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `prescription` (
 
 LOCK TABLES `prescription` WRITE;
 /*!40000 ALTER TABLE `prescription` DISABLE KEYS */;
-INSERT INTO `prescription` VALUES (1,'123456-789a',3,1,2,2,'Syö yksinäs','2017-03-08 16:11:51','2017-02-13 08:46:50','2017-02-13 10:46:50',123456,'doctor1');
+INSERT INTO `prescription` VALUES (1,'123456-789a',3,1,2,2,'Syö yksinäs','2017-03-08 16:11:51','2017-02-13 08:46:50','2017-02-13 08:46:50',123456,'doctor1');
 /*!40000 ALTER TABLE `prescription` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -611,4 +611,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-09 12:24:08
+-- Dump completed on 2017-03-09 12:59:12
