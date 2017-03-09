@@ -139,7 +139,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
             else if (this.status == AppStatus.CREATE) {
+                ObservableList<Diagnose> list = FXCollections.observableArrayList(this.getSelectedPatient().getDiagnoses());
                 this.prescriptionForm.getPatientField().setText(this.getSelectedPatient().toString());
+                this.prescriptionForm.getDiagnoseSelector().setItems(list);
             }
         });
         this.sideBar.addView((SideBarListViewGUI)this.patientListView);
@@ -159,6 +161,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
+            }
+            else if (this.status == AppStatus.CREATE) {
+                this.prescriptionForm.getDrugField().setText(this.getSelectedDrug().toString());
             }
         });
         this.sideBar.addView((SideBarListViewGUI)this.drugListView);
