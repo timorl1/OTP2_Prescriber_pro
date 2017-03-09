@@ -5,6 +5,8 @@
  */
 package main;
 import dao.PrescriptionDAO;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import model.Diagnose;
@@ -61,9 +63,9 @@ public class PrescriptionDAOTest {
         assertEquals("123456-789a", result.getPatient());
         assertEquals(0, result.getDoc());
         assertEquals(1, result.getDiagnose()); */
-        assertEquals("400mg", result.getDose());
-        assertEquals(3, result.getTimesADay());
-        assertEquals("Tarvittaessa", result.getInfo());
+        assertEquals(2.0, result.getDose(), 0.01);
+        assertEquals(2, result.getTimesADay());
+        assertEquals("Syö yksinäs", result.getInfo());
     //    assertEquals(123456, result.getDrug());
     //    assertEquals("admin", result.getUsername());
         
@@ -77,9 +79,9 @@ public class PrescriptionDAOTest {
         PrescriptionDAO instance = new PrescriptionDAO();
         List<Prescription> pres = instance.readPrescriptions();
         
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals(2.0, pres.get(0).getDose(), 0.01);
+        assertEquals(2, pres.get(0).getTimesADay());
+        assertEquals("Syö yksinäs", pres.get(0).getInfo());
     }
     
     /**
@@ -93,9 +95,9 @@ public class PrescriptionDAOTest {
         pat.setSSN("123456-789a");
         List<Prescription> pres = instance.getPrescriptionsByPatient(pat);
         
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals(2.0, pres.get(0).getDose(), 0.01);
+        assertEquals(2, pres.get(0).getTimesADay());
+        assertEquals("Syö yksinäs", pres.get(0).getInfo());
         
         
     }
@@ -108,12 +110,12 @@ public class PrescriptionDAOTest {
         System.out.println("getPrescriptionsByDoctor");
         PrescriptionDAO instance = new PrescriptionDAO();
         User_IF doc = new User();
-        doc.setUsername("irvik");
+        doc.setUsername("doctor1");
         List<Prescription> pres = instance.getPrescriptionsByDoctor(doc);
        
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals(2.0, pres.get(0).getDose(), 0.01);
+        assertEquals(2, pres.get(0).getTimesADay());
+        assertEquals("Syö yksinäs", pres.get(0).getInfo());
     }
     /**
      * Test of getPrescriptionByDiagnose method, of class PrescriptionDAO.
@@ -126,9 +128,9 @@ public class PrescriptionDAOTest {
         dia.setId(1);
         Prescription pres = instance.getPrescriptionByDiagnose(dia);
         
-        assertEquals("400mg", pres.getDose());
-        assertEquals(3, pres.getTimesADay());
-        assertEquals("Tarvittaessa", pres.getInfo()); 
+        assertEquals(2.0, pres.getDose(), 0.01);
+        assertEquals(2, pres.getTimesADay());
+        assertEquals("Syö yksinäs", pres.getInfo()); 
     }
     
     /**
@@ -154,11 +156,12 @@ public class PrescriptionDAOTest {
         test.setPatient(pat);
         test.setDoctor(doc);
         test.setDiagnose(dia);
-        test.setDose("600mg");
+        test.setDose(600);
         test.setTimesADay(4);
         test.setInfo("Älä yliannosta");
-        test.setStartDate("3.5.2005");
-        test.setEndDate("20.12.2020");
+        Date date = Date.from(Instant.now());
+        test.setStartDate(date);
+        test.setEndDate(date);
         test.setCreationDate(x);
         test.setDrug(drug);
         test.setUsername("admin");
@@ -190,11 +193,12 @@ public class PrescriptionDAOTest {
         test.setPatientID(pat.getSSN());
         test.setDoctor(doc);
         test.setDiagnose(dia);
-        test.setDose("800mg");
+        test.setDose(800);
         test.setTimesADay(4);
         test.setInfo("Älä yliannosta");
-        test.setStartDate("3.5.2005");
-        test.setEndDate("20.12.2020");
+        Date date = Date.from(Instant.now());
+        test.setStartDate(date);
+        test.setEndDate(date);
       
         test.setDrug(drug);
         test.setUsername("admin");
@@ -217,11 +221,12 @@ public class PrescriptionDAOTest {
      //   test.setPatient(pat);
        // test.setDoc(doc);
         //test.setDiagnose(dia);
-        test.setDose("600mg");
+        test.setDose(600);
         test.setTimesADay(4);
         test.setInfo("Älä yliannosta");
-        test.setStartDate("3.5.2005");
-        test.setEndDate("20.12.2020");
+        Date date = Date.from(Instant.now());
+        test.setStartDate(date);
+        test.setEndDate(date);
         //test.setCreationDate(x);
         //test.setDrug(drug);
         test.setUsername("admin");
