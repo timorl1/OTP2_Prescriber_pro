@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -20,17 +22,25 @@ public class User implements User_IF{
     private String username;
     @Column(name="userID")
     private int userID;
-    @Transient
+    @Column(name="firstname")
     private String firstName;
-    @Transient
+    @Column(name="lastname")
     private String lastName;
     @Column(name="email")
     private String email;
-    @Column(name="privileges")
-    private int privileges;
+    @Column(name="usertype")
+    private int usertype;
     @Column(name="password")
     private String password;
     
+    
+    
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="sender", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    private List<Message> sentMessages = new ArrayList();
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="receiver", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    private List<Message> receivedMessages = new ArrayList();
     
     public User(){}
     
@@ -85,13 +95,13 @@ public class User implements User_IF{
     }
     
     @Override
-    public int getPrivileges() {
-        return privileges;
+    public int getUsertype() {
+        return usertype;
     }
     
     @Override
-    public void setPrivileges(int privileges) {
-        this.privileges = privileges;
+    public void setUsertype(int usertype) {
+        this.usertype = usertype;
     }
     
     @Override
@@ -102,5 +112,10 @@ public class User implements User_IF{
     @Override
     public void setPassword(String password) {
         this.password = password;
-    }    
+    }
+    
+    @Override
+    public String toString(){
+        return this.userID+": "+this.username;
+    }
 }

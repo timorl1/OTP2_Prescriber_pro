@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -21,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
 
+    @FXML
+    private VBox vBox;
     @FXML
     private TextField searchField;
     @FXML
@@ -65,6 +68,11 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     @Override
     public void addView(TitledPane pane) {
         this.accordion.getPanes().add(pane);
+    }
+
+    @Override
+    public VBox getVbox() {
+        return this.vBox;
     }
     
 }

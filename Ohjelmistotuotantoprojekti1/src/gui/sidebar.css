@@ -7,6 +7,13 @@
     -fx-padding: 0 0 0 47;
 }
 
+.mainFxmlClass .button {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
+    -fx-border-color: black;
+    -fx-border-radius: 20;
+}
+
 .mainFxmlClass .titled-pane *.content{
     -fx-background-color: rgba(255, 255, 255, 0.7);
     -fx-background-radius: 20;

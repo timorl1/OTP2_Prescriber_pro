@@ -31,6 +31,9 @@ public interface Controller_IF {
     public abstract List<Employee> getEmployees();
     public abstract void getEmployeeDetails();
     public abstract List<String> getDatabases();
+    public abstract void checkDose();
+    public abstract void createNewPrescription();
+    public abstract void savePrescription();
     public abstract void lockUser(User_IF user);
     public abstract void setUserPriviledges(User_IF user);
 }

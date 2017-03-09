@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -8,4 +9,5 @@ import javafx.scene.control.TitledPane;
  */
 public interface SideBarGUI_IF {
     public abstract void addView(TitledPane pane);
+    public abstract VBox getVbox();
 }

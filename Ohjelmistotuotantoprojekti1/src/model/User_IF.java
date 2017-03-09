@@ -21,8 +21,8 @@ public interface User_IF {
     public abstract String getPassword();
     public abstract void setEmail(String email);
     public abstract String getEmail();
-    public abstract void setPrivileges(int privileges);
-    public abstract int getPrivileges();
+    public abstract void setUsertype(int privileges);
+    public abstract int getUsertype();
     public abstract void setFirstName(String firstName);
     public abstract String getFirstName();
     public abstract void setLastName(String lastName);

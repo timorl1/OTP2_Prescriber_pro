@@ -70,7 +70,7 @@ public class PrescriptionCRUDTestRun {
                         prescription.setDrug(drugs.get(Reader.readInt() - 1));
 
                         System.out.println("Anna annostus: ");
-                        prescription.setDose(Reader.readLine());
+                        prescription.setDose(Reader.readDouble());
 
                         System.out.println("Montako kertaa päivässä: ");
                         prescription.setTimesADay(Reader.readInt());
@@ -79,10 +79,10 @@ public class PrescriptionCRUDTestRun {
                         prescription.setInfo(Reader.readLine());
 
                         System.out.println("Anna aloituspäivämäärä: ");
-                        prescription.setStartDate(Reader.readLine());
+                        //prescription.setStartDate(Reader.readLine());
 
                         System.out.println("Anna lopetuspäivämäärä: ");
-                        prescription.setEndDate(Reader.readLine());
+                        //prescription.setEndDate(Reader.readLine());
 
                         prescription.setUsername("admin");
 
@@ -142,7 +142,7 @@ public class PrescriptionCRUDTestRun {
                     prescription.setDrug(drugs.get(Reader.readInt() - 1));
 
                     System.out.println("Anna annostus: ");
-                    prescription.setDose(Reader.readLine());
+                    prescription.setDose(Reader.readDouble());
 
                     System.out.println("Montako kertaa päivässä: ");
                     prescription.setTimesADay(Reader.readInt());
@@ -151,10 +151,10 @@ public class PrescriptionCRUDTestRun {
                     prescription.setInfo(Reader.readLine());
 
                     System.out.println("Anna aloituspäivämäärä: ");
-                    prescription.setStartDate(Reader.readLine());
+                    //prescription.setStartDate(Reader.readLine());
 
                     System.out.println("Anna lopetuspäivämäärä: ");
-                    prescription.setEndDate(Reader.readLine());
+                    //prescription.setEndDate(Reader.readLine());
 
                     prescription.setUsername("admin");
 

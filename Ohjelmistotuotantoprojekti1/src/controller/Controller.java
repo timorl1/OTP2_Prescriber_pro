@@ -45,7 +45,7 @@ public class Controller implements Controller_IF {
     @Override
     public void setPriviledges() {
         User_IF user = userdao.getUser("USERNAME; TÄMÄ TULEE GUISTA");
-        user.setPrivileges(0); // TÄHÄN TULEE KANSSA GUISTA ARVO
+        user.setUsertype(0); // TÄHÄN TULEE KANSSA GUISTA ARVO
         if(userdao.updateUser(user)){
          //TRUE, MENEE VARMAAN JOKU VIESTI GUI   
         }else{

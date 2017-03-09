@@ -31,15 +31,17 @@ public class Prescription {
     @Transient
     private Diagnose diagnose;
     @Column(name="dose")
-    private String dose;
+    private double dose;
     @Column(name="timesADay")
     private int timesADay;
     @Column(name="info")
     private String info;
     @Column(name="startDate")
-    private String startDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
     @Column(name="endDate")
-    private String endDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
     @Column(name="creationDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -124,11 +126,11 @@ public class Prescription {
         this.diagnoseID = diagnose.getId();
     }
 
-    public String getDose() {
+    public double getDose() {
         return dose;
     }
 
-    public void setDose(String dose) {
+    public void setDose(double dose) {
         this.dose = dose;
     }
 
@@ -148,19 +150,19 @@ public class Prescription {
         this.info = info;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
     
