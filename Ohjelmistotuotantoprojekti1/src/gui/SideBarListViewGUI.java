@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
+import model.Patient;
 
 /**
  * FXML Controller class
@@ -63,7 +65,25 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     
     @Override
     public void filter(String filter){
-        
+        FilteredList<E> filteredList = new FilteredList( p -> true);
+        filteredList.setPredicate(generic -> {
+            if (filter == null) {
+                return true;
+            }
+            if(generic instanceof Patient){
+            if (((Patient) generic).getFirstName().toLowerCase().contains(filter)) {
+                return true;
+            }
+            else if (((Patient) generic).getLastName().toLowerCase().contains(filter)) {
+                return true;
+            }
+            else if (((Patient) generic).getSSN().toLowerCase().contains(filter)) {
+                return true;
+            }
+            return false;
+            }
+            return false;
+        });
     }
     
 }
