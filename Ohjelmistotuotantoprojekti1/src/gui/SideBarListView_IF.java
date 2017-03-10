@@ -14,5 +14,6 @@ public interface SideBarListView_IF<E> {
     public abstract ListView getListView();
     public abstract void setList(List<E> list);
     public abstract E getSelection();
+    public abstract void filter(String filter);
     public abstract boolean isExpanded();
 }

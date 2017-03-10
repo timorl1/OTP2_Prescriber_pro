@@ -114,11 +114,17 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setSideBar() {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
+        this.sideBar.getSearchField().setOnKeyReleased(e -> {
+        this.patientListView.filter(this.sideBar.getSearchField().getText());
+        this.drugListView.filter(this.sideBar.getSearchField().getText());
+        this.employeeListView.filter(this.sideBar.getSearchField().getText());
+        this.userListView.filter(this.sideBar.getSearchField().getText());
+        });
         this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
     //Loads the tab pane component depending of the side bar content selection
-    @Override
+    @Override;
     public <T> void loadTabPane(List<T> list) {
         ListTabGUI_IF<T> tab = new ListTabGUI("Potilaan tiedot");
         tab.setList(list);

@@ -25,6 +25,7 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     private final String title;
     private FXMLLoader loader;
     private ObservableList<E> list;
+    private SideBarGUI_IF sideBar;
     
     public SideBarListViewGUI(String title) {
         this.title = title;
@@ -58,6 +59,11 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     @Override
     public E getSelection() {
         return this.listView.getSelectionModel().getSelectedItem();
+    }
+    
+    @Override
+    public void filter(String filter){
+        
     }
     
 }
