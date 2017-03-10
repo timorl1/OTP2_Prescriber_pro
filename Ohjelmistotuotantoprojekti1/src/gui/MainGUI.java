@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -22,6 +23,7 @@ import javafx.util.converter.DoubleStringConverter;
 import model.ActiveAgent;
 import model.Diagnose;
 import model.Drug;
+import model.DrugActiveAgent;
 import model.Employee;
 import model.Patient;
 import model.Prescription;
@@ -417,19 +419,22 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setDrugDetails(Drug drug) {
-        String s = null;
-        ActiveAgent aa = new ActiveAgent();
-        //ObservableList<String> activeAgents = FXCollections.observableArrayList();
-        //drug.getDrugActiveAgents().forEach(a -> activeAgents.add(a.getActiveAgent().getName()));
+        String activeAgents = "";
+        String allergens = "";
+        String commonAdverseEffects = "";
+        String rareAdverseEffects = "";
+        
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Tuotenumero: " + drug.getSN());
         list.add("Lääke: " + drug.getName());
-        //ListView<String> lView = new ListView();
-        for(int i = 0; i < drug.getDrugActiveAgents().size(); i++){
-            aa = drug.getDrugActiveAgents().get(i).getActiveAgent();
-            s += aa.getName() ;
-        }
-        list.add("Vaikuttavat aineet: "+ s);
+        list.add("Vaikuttavat aineet:\n\n\t"+drug.getDrugActiveAgents().stream().
+                map((a) -> a.getActiveAgent().getName()+" "+a.getConcentration()+"mg\n\t").reduce(activeAgents, String::concat));
+        list.add("Lääkkeen allergeenit:\n\n\t"+drug.getAllergens().stream().
+                map((a) -> a.getName()+"\n\t").reduce(allergens, String::concat));
+        list.add("Yleiset haittavaikutukset:\n\n\t"+drug.getCommonAdverseEffects().stream().
+                map((a) -> a.getName()+"\n\t").reduce(commonAdverseEffects, String::concat));
+        list.add("Harvinaiset haittavaikutukset:\n\n\t"+drug.getRareAdverseEffects().stream().
+                map((a) -> a.getName()+"\n\t").reduce(rareAdverseEffects, String::concat));
         
         this.tabPane.getTabs().remove(this.drugTab);
         this.drugTab = new ListTabGUI("Lääkkeen tiedot");
