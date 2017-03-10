@@ -124,7 +124,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
 
     //Loads the tab pane component depending of the side bar content selection
-    @Override;
+    @Override
     public <T> void loadTabPane(List<T> list) {
         ListTabGUI_IF<T> tab = new ListTabGUI("Potilaan tiedot");
         tab.setList(list);
