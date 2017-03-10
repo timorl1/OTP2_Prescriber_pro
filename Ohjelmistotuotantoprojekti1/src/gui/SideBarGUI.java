@@ -66,6 +66,11 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     }
     
     @Override
+    public TextField getSearchField() {
+        return searchField;
+    }
+    
+    @Override
     public void addView(TitledPane pane) {
         this.accordion.getPanes().add(pane);
     }
