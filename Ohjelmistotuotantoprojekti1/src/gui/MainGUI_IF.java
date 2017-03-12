@@ -18,7 +18,6 @@ public interface MainGUI_IF {
     public abstract void setLoginFailed();
     public abstract void setAccessDenied();
     public abstract void setSideBar();
-    public abstract <T> void loadTabPane(List<T> data);
     public abstract void setPatientList();
     public abstract void setDrugList();
     public abstract void setPrescriptionList();
@@ -35,12 +34,6 @@ public interface MainGUI_IF {
     public abstract void setDiagnoseDetails(Diagnose diagnose);
     public abstract void setUserDetails(User_IF user);
     public abstract void setEmployeeDetails(Employee employee);
-    public abstract void setNullDoseMessage();
-    public abstract void setInsuffucientDoseMessage();
-    public abstract void setOptimalDoseMessage();
-    public abstract void setOverOptimalDoseMessage();
-    public abstract void setRiskLimitDoseMessage();
-    public abstract void setOverdoseMessage();
     public abstract Patient getSelectedPatient();
     public abstract Prescription getSelectedPrescription();
     public abstract Diagnose getSelectedDiagnose();

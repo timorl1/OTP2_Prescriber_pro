@@ -38,67 +38,39 @@ public class DependencyBuilder implements DependencyBuilder_IF {
         this.patients = patients;
         this.users = users;
     }
-
-    /*@Override
-    public Patient buildPatient(Patient patient) {
-        this.patient = patient;
-        this.patient.setDiagnoses(this.patientDAO.readPatientDiagnoses(this.patient));
-        this.patient.getDiagnoses().forEach(d -> {
-            d.setPatient(this.patient);
-            d.setDisease(this.diseaseDAO.getDisease(d.getDiseaseID()));
-            d.setDoctor(this.users.get(d.getDoctorId()));
-            System.out.println(d.getDoctor());
-        });
-        this.patient.setPrescriptions(this.prescriptionDAO.getPrescriptionsByPatient(this.patient));
-        this.patient.getPrescriptions().forEach(p -> {
-            p.setPatient(this.patient);
-            p.setDoctor(this.users.get(p.getDoctorID()));
-            p.setUsername(this.users.get(p.getDoctorID()).getUsername());
-            p.setDrug(this.drugDAO.readDrug(p.getDrugID()));
-            Map<Integer, Diagnose> diagnoses = new HashMap();
-            this.patient.getDiagnoses().forEach(d -> diagnoses.put(d.getId(), d));
-            p.setDiagnose(diagnoses.get(p.getDiagnoseID()));
-        });
-        return this.patient;
-    }
-    
-    @Override
-    public List<Prescription> buildDoctorPrescriptions(User_IF doctor) {
-        this.doctor = doctor;
-        List<Prescription> list = this.prescriptionDAO.getPrescriptionsByDoctor(doctor);
-        list.forEach(p -> {
-            p.setPatient(this.patients.get(p.getPatientID()));
-            p.setDoctor(this.users.get(p.getDoctorID()));
-        });
-        return list;
-    }*/
     
     @Override
     public Patient buildPatient(Patient patient) {
         this.patient = patient;
-        this.patient.setDiagnoses(this.patientDAO.readPatientDiagnoses(this.patient));
-        this.patient.setPrescriptions(this.prescriptionDAO.getPrescriptionsByPatient(this.patient));
+        List<Diagnose> diagnoses = this.patientDAO.readPatientDiagnoses(this.patient);
+        diagnoses.forEach(d -> this.buildDiagnose(d));
+        this.patient.setDiagnoses(diagnoses);
+        List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByPatient(this.patient);
+        prescriptions.forEach(pres -> this.buildPrescription(pres));
+        this.patient.setPrescriptions(prescriptions);
         return this.patient;
     }
     
     @Override
     public Diagnose buildDiagnose(Diagnose diagnose) {
         this.diagnose = diagnose;
-        this.diagnose.setPatient(this.buildPatient(this.patients.get(this.diagnose.getPatientId())));
-        this.diagnose.setDoctor(this.users.get(this.diagnose.getDoctorId()));
-        this.diagnose.setDisease(this.diseaseDAO.getDisease(this.diagnose.getDiseaseID()));
+        if (this.diagnose.getPatient() == null) {
+            this.diagnose.setPatient(this.patients.get(this.diagnose.getPatientId()));
+            this.diagnose.setDoctor(this.users.get(this.diagnose.getDoctorId()));
+            this.diagnose.setDisease(this.diseaseDAO.getDisease(this.diagnose.getDiseaseID()));
+        }
         return this.diagnose;
     }
     
     @Override
     public Prescription buildPrescription(Prescription prescription) {
         this.prescription = prescription;
-        this.prescription.setPatient(this.buildPatient(this.patients.get(this.prescription.getPatientID())));
-        this.prescription.setDoctor(this.users.get(this.prescription.getDoctorID()));
-        this.prescription.setDrug(this.drugDAO.readDrug(this.prescription.getDrugID()));
-        Map<Integer, Diagnose> diagnoses = new HashMap();
-        this.prescription.getPatient().getDiagnoses().forEach(d -> diagnoses.put(d.getId(), d));
-        this.prescription.setDiagnose(this.buildDiagnose(diagnoses.get(this.prescription.getDiagnoseID())));
+        if (this.prescription.getPatient() == null) {
+            this.prescription.setPatient(this.patients.get(this.prescription.getPatientID()));
+            this.prescription.setDoctor(this.users.get(this.prescription.getDoctorID()));
+            this.prescription.setDrug(this.drugDAO.readDrug(this.prescription.getDrugID()));
+            this.prescription.setDiagnose(this.buildDiagnose(this.patientDAO.readDiagnose(this.prescription.getDiagnoseID())));
+        }
         return this.prescription;
     }
 

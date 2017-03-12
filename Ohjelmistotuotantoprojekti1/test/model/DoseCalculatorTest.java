@@ -7,6 +7,8 @@ package model;
 
 import dao.DrugDAO;
 import dao.DrugDAO_IF;
+import dao.PatientDAO;
+import dao.PatientDAO_IF;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -22,9 +24,17 @@ import static org.junit.Assert.*;
  */
 public class DoseCalculatorTest {
     DrugDAO_IF db;
+    PatientDAO_IF pb;
+    DoseCalculator dc;
+    Patient patient;
+    Drug drug;
+    double dose;
+    int timesADay;
+    int duration;
     
     public DoseCalculatorTest() {
         this.db = new DrugDAO();
+        this.pb = new PatientDAO();
     }
     
     @BeforeClass
@@ -37,6 +47,9 @@ public class DoseCalculatorTest {
     
     @Before
     public void setUp() {
+        this.patient = pb.readPatient("123456-789a");
+        this.drug = db.readDrug(123456);
+        this.dc = new DoseCalculator();
     }
     
     @After
@@ -49,17 +62,8 @@ public class DoseCalculatorTest {
     @Test
     public void testGetOptimalDose() {
         System.out.println("getOptimalDose");
-        Patient patient = new Patient();
-        patient.setSSN("123456-789a");
-        patient.setFirstName("Potilas");
-        patient.setLastName("Saarinen");
-        patient.setGender("Mies");
-        patient.setHeight(180.5);
-        patient.setWeight(85.2);
-        Drug drug = db.readDrug(123456);
-        DoseCalculator_IF instance = new DoseCalculator();
-        double expResult = 0.639;
-        double result = instance.getOptimalDose(patient, drug);
+        double expResult = 0.4875;
+        double result = dc.getOptimalDose(this.patient, this.drug);
         assertEquals(expResult, result, 0.1);
     }
 
@@ -68,19 +72,23 @@ public class DoseCalculatorTest {
      */
     @Test
     public void testGetMaxDose() {
-        System.out.println("getOptimalDose");
-        Patient patient = new Patient();
-        patient.setSSN("123456-789a");
-        patient.setFirstName("Potilas");
-        patient.setLastName("Saarinen");
-        patient.setGender("Mies");
-        patient.setHeight(180.5);
-        patient.setWeight(85.2);
-        Drug drug = db.readDrug(123456);
-        DoseCalculator_IF instance = new DoseCalculator();
-        double expResult = 1.491;
-        double result = instance.getMaxDose(patient, drug);
+        System.out.println("getMaxDose");
+        double expResult = 1.1375;
+        double result = dc.getMaxDose(this.patient, this.drug);
         assertEquals(expResult, result, 0.1);
     }
     
+    /**
+     * Test of getCumulativeDose method, of class DoseCalculator_IF.
+     */
+    @Test
+    public void testGetCumulativeDose() {
+        System.out.println("getCumulativeDose");
+        this.timesADay = 4;
+        this.dose = 0.4875;
+        this.duration = 10;
+        double expResult = 1.4625;
+        double result = dc.getCumulativeDose(this.patient, this.drug, this.dose, this.timesADay, this.duration);
+        assertEquals(expResult, result, 0.1);
+    }
 }

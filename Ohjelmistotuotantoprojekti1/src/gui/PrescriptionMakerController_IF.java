@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package gui;
 
 /**
  *
  * @author joosiika
  */
-public enum DoseStatus {
-    NULL, INSUFFICIENT, OPTIMAL, OVER_OPTIMAL, RISK_LIMIT, OVERDOSE, CUMULATIVE_OVERDOSE
+public interface PrescriptionMakerController_IF {
+    public abstract double getOptimalDose();
+    public abstract void checkDose();
 }

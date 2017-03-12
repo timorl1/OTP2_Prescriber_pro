@@ -52,3 +52,29 @@
     -fx-background-radius: 20;
     -fx-border-radius: 20;
 }
+
+.dialog-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
+    -fx-graphic: null;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: transparent;
+}
+
+.dialog-pane .header-panel .graphic-container {
+    -fx-background-image: url('img/061323-blue-metallic-orb-icon-people-things-pill.png');
+    -fx-background-size: 60;
+    -fx-min-width: 80;
+    -fx-min-height: 80;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.dialog-pane .button {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 20;
+    -fx-border-color: black;
+    -fx-border-radius: 20;
+}

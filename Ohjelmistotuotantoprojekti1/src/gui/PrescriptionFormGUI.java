@@ -1,18 +1,31 @@
 package gui;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
+import model.Diagnose;
+import model.Drug;
+import model.Patient;
+import model.Prescription;
+import model.User_IF;
 
 /**
  * FXML Controller class
  *
  * @author joosiika
  */
-public class PrescriptionFormGUI extends Tab {
+public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
 
     @FXML
     private GridPane gridPane;
@@ -23,7 +36,7 @@ public class PrescriptionFormGUI extends Tab {
     @FXML
     private Label diagnoseLabel;
     @FXML
-    private ChoiceBox diagnoseSelector;
+    private ChoiceBox<Diagnose> diagnoseSelector;
     @FXML
     private Label drugLabel;
     @FXML
@@ -63,115 +76,250 @@ public class PrescriptionFormGUI extends Tab {
     @FXML
     private Label creationDateLabel;
     
+    private PrescriptionMakerController_IF controller;
+    private ObservableList<Diagnose> diagnoses;
+    private final SideBarListView_IF<Patient> patientSelector;
+    private final SideBarListView_IF<Drug> drugSelector;
+    private Prescription prescription;
     private final String title;
     private FXMLLoader loader;
     
-    public PrescriptionFormGUI(String title) {
+    private int id;
+    private Patient patient;
+    private User_IF doctor;
+    private Drug drug;
+    private Diagnose diagnose;
+    private double dose;
+    private int timesADay;
+    private Date startDate;
+    private Date endDate;
+    private Date creationDate;
+    private String info;
+    
+    public PrescriptionFormGUI(SideBarListView_IF<Patient> patientSelector, SideBarListView_IF<Drug> drugSelector, String title, Prescription prescription) {
+        this.patientSelector = patientSelector;
+        this.drugSelector = drugSelector;
         this.title = title;
+        this.prescription = prescription;
+        this.controller = new PrescriptionMakerController(this);
+        this.id = this.prescription.getId();
+        this.patient = this.prescription.getPatient();
+        this.doctor = this.prescription.getDoctor();
+        this.drug = this.prescription.getDrug();
+        this.dose = this.prescription.getDose();
+        this.timesADay = this.prescription.getTimesADay();
+        this.startDate = this.prescription.getStartDate();
+        this.endDate = this.prescription.getEndDate();
+        this.creationDate = this.prescription.getCreationDate();
+        this.info = this.prescription.getInfo();
+        this.diagnoses = FXCollections.observableArrayList();
+        this.diagnose = this.prescription.getDiagnose();
+        this.diagnoses.add(this.diagnose);
         try {
             loader = new FXMLLoader(getClass().getResource("PrescriptionForm.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
-            this.setText(title);
+            this.initializeFields();
+            this.initializeBasicListeners();
+            if (this.patient == null) {
+                this.initializeNewPrescriptionListeners();
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-
-    public GridPane getGridPane() {
-        return gridPane;
+    
+    private void initializeFields() {
+        this.setText(title);
+        this.creationDateLabel.setText(this.creationDate.toString());
+        this.doctorNameLabel.setText(this.doctor.getFirstName() + " " + this.doctor.getLastName());
+        if (this.id != 0) {
+            this.prescriptionIdLabel.setText("#" + Integer.toString(this.id));
+        }
+        if (this.patient != null) {
+            this.patientField.setText(this.patient.toString());
+        }
+        if (this.patient == null && this.patientSelector.getSelection() != null) {
+            this.prescription.setPatient(this.patientSelector.getSelection());
+            this.patientField.setText(this.patientSelector.getSelection().toString());
+        }
+        if (this.drug != null) {
+            this.drugField.setText(this.drug.toString());
+        }
+        if (this.drug == null && this.drugSelector.getSelection() != null) {
+            this.prescription.setDrug(this.drugSelector.getSelection());
+            this.drugField.setText(this.drugSelector.getSelection().toString());
+        }
+        this.diagnoseSelector.setItems(diagnoses);
+        this.diagnoseSelector.getSelectionModel().clearAndSelect(0);
+        this.doseField.setText(Double.toString(this.dose));
+        this.timesADayField.setText(Integer.toString(this.timesADay));
+        this.infoField.setText(this.info);
+        if (this.startDate != null) {
+            this.startDatePicker.setValue(this.startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        if (this.endDate != null) {
+            this.endDatePicker.setValue(this.endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
     }
-
-    public Label getPatientLabel() {
-        return patientLabel;
+    
+    private void initializeBasicListeners() {
+        this.drugSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Drug>() {
+            @Override
+            public void changed(ObservableValue<? extends Drug> ov, Drug oldValue, Drug newValue) {
+                if (newValue != null) {
+                    drug = newValue;
+                    prescription.setDrug(drug);
+                    drugField.setText(drug.toString());
+                }
+                if (prescription.getPatient() != null) {
+                    dose = controller.getOptimalDose();
+                    prescription.setDose(dose);
+                    doseField.setText(Double.toString(dose));
+                    controller.checkDose();
+                }
+            }
+        });
+        this.doseField.setOnKeyReleased(e -> {
+            try {
+                this.dose = Double.parseDouble(this.doseField.getText().replace(',', '.'));
+            } catch (NumberFormatException ex) {
+            }
+            this.prescription.setDose(this.dose);
+            this.controller.checkDose();
+        });
+        this.timesADayField.setOnKeyReleased(e -> {
+            try {
+                this.timesADay = Integer.parseInt(this.timesADayField.getText());
+            } catch (NumberFormatException ex) {
+            }
+            this.prescription.setTimesADay(this.timesADay);
+            this.controller.checkDose();
+        });
+        this.infoField.setOnKeyReleased(e -> {
+            this.info = this.infoField.getText();
+            this.prescription.setInfo(this.info);
+        });
     }
-
+    
+    private void initializeNewPrescriptionListeners() {
+        this.patientSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
+            @Override
+            public void changed(ObservableValue<? extends Patient> ov, Patient oldValue, Patient newValue) {
+                if (newValue != null) {
+                    patient = newValue;
+                    prescription.setPatient(patient);
+                    patientField.setText(patient.toString());
+                }
+                if (prescription.getDrug() != null) {
+                    dose = controller.getOptimalDose();
+                    doseField.setText(Double.toString(dose));
+                    prescription.setDose(dose);
+                    controller.checkDose();
+                }
+            }
+        });
+        this.diagnoseSelector.setOnAction(e -> {
+            if (!this.diagnoses.isEmpty()) {
+                this.diagnose = this.diagnoseSelector.getSelectionModel().getSelectedItem();
+                this.prescription.setDiagnose(this.diagnose);
+            }
+        });
+        this.startDatePicker.setOnAction(e -> {
+            this.startDate = Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            this.prescription.setStartDate(this.startDate);
+            this.controller.checkDose();
+        });
+        this.endDatePicker.setOnAction(e -> {
+            this.endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            this.prescription.setEndDate(this.endDate);
+            this.controller.checkDose();
+        });
+    }
+    
+    @Override
+    public void setDiagnose(Diagnose diagnose) {
+        this.diagnose = diagnose;
+        this.prescription.setDiagnose(this.diagnose);
+    }
+    
+    @Override
     public Text getPatientField() {
-        return patientField;
+        return this.patientField;
     }
 
-    public Label getDiagnoseLabel() {
-        return diagnoseLabel;
-    }
-
-    public ChoiceBox getDiagnoseSelector() {
+    @Override
+    public ChoiceBox<Diagnose> getDiagnoseSelector() {
         return diagnoseSelector;
     }
 
-    public Label getDrugLabel() {
-        return drugLabel;
-    }
-
-    public Text getDrugField() {
-        return drugField;
-    }
-
-    public Label getDoseLabel() {
-        return doseLabel;
-    }
-
-    public TextField getDoseField() {
-        return doseField;
-    }
-
-    public Label getTimesADayLabel() {
-        return timesADayLabel;
-    }
-
-    public TextField getTimesADayField() {
-        return timesADayField;
-    }
-
-    public Label getInfoLabel() {
-        return infoLabel;
-    }
-
-    public TextArea getInfoField() {
-        return infoField;
-    }
-
-    public Label getStartDateLabel() {
-        return startDateLabel;
-    }
-
-    public DatePicker getStartDatePicker() {
-        return startDatePicker;
-    }
-
-    public Label getEndDateLabel() {
-        return endDateLabel;
-    }
-
-    public DatePicker getEndDatePicker() {
-        return endDatePicker;
-    }
-
-    public ButtonBar getButtonBar() {
-        return buttonBar;
-    }
-
+    @Override
     public Button getCancelButton() {
         return cancelButton;
     }
 
+    @Override
     public Button getSaveButton() {
         return saveButton;
     }
-
-    public Label getMainTitle() {
-        return mainTitle;
+    
+    @Override
+    public Prescription getPrescription() {
+        return this.prescription;
+    }
+    
+    @Override
+    public void setNullDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);");
+    }
+    
+    @Override
+    public void setInsuffucientDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(0, 0, 255, 0.5);");
     }
 
-    public Label getPrescriptionIdLabel() {
-        return prescriptionIdLabel;
+    @Override
+    public void setOptimalDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(0, 255, 0, 0.5);");
     }
 
-    public Label getDoctorNameLabel() {
-        return doctorNameLabel;
+    @Override
+    public void setOverOptimalDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);");
     }
 
-    public Label getCreationDateLabel() {
-        return creationDateLabel;
+    @Override
+    public void setRiskLimitDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+    }
+
+    @Override
+    public void setOverdoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Olet määräämässä vaarallista annostusta!\nKerta-annos on vaarallisen suuri.\nPienennä annostusta.");
+        alert.setTitle("Lääkelaskuri");
+        alert.setHeaderText("Varoitus:");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+        alert.showAndWait();
+    }
+    
+    @Override
+    public void setCumulativeOverdoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Olet määräämässä vaarallista annostusta!\nKumulatiivinen vaikutus nostaa lääkeaineen pitoisuuden liian korkeaksi.\nPienennä annostusta tai lyhennä kuurin kestoa.");
+        alert.setTitle("Lääkelaskuri");
+        alert.setHeaderText("Varoitus:");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+        alert.showAndWait();
+    }
+
+    @Override
+    public void markUpdate() {
+        this.infoField.appendText("\nMuokattu: " + LocalDate.now(ZoneId.systemDefault()).toString());
+        this.info = this.infoField.getText();
+        this.prescription.setInfo(this.info);
     }
 }

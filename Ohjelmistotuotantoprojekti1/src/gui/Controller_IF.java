@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.List;
+import model.Diagnose;
 import model.Drug;
 import model.Employee;
 import model.Patient;
@@ -15,9 +16,9 @@ import model.User_IF;
 public interface Controller_IF {
     public abstract void login(String username, String password);
     public abstract List<Patient> getPatients();
-    public abstract void filterPatients();
     public abstract void getPatientDetails();
     public abstract void getPatientDiagnoses();
+    public abstract List<Diagnose> listPatientDiagnoses();
     public abstract void getPatientPrescriptions();
     public abstract List<Drug> getDrugs();
     public abstract List<String> getDrugDetails();
@@ -31,9 +32,8 @@ public interface Controller_IF {
     public abstract List<Employee> getEmployees();
     public abstract void getEmployeeDetails();
     public abstract List<String> getDatabases();
-    public abstract void checkDose();
     public abstract void createNewPrescription();
-    public abstract void savePrescription();
+    public abstract boolean savePrescription();
     public abstract void lockUser(User_IF user);
     public abstract void setUserPriviledges(User_IF user);
 }

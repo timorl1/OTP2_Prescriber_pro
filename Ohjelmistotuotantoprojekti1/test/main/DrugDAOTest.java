@@ -52,6 +52,7 @@ public class DrugDAOTest {
         assertEquals("Burana", result.getName());
         assertEquals(3.0, result.getDrugActiveAgents().get(0).getActiveAgent().getRecommendedDose(),0.1);
         assertEquals(7.0, result.getDrugActiveAgents().get(0).getActiveAgent().getMaxDose(),0.1);
+        assertEquals(4.0, result.getDrugActiveAgents().get(0).getActiveAgent().getHalfTime(),0.1);
         assertEquals("kpl", result.getUnit());
     } 
     
@@ -67,6 +68,7 @@ public class DrugDAOTest {
         assertEquals("Burana", result.get(0).getName());
         assertEquals(3.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getRecommendedDose(),0.1);
         assertEquals(7.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getMaxDose(),0.1);
+        assertEquals(4.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getHalfTime(),0.1);
         assertEquals("kpl", result.get(0).getUnit());
         
        

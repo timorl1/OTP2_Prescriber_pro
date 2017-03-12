@@ -65,6 +65,12 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+        if (this.patient != null) {
+            this.patientID = this.patient.getSSN();
+        }
+        else {
+            this.patientID = null;
+        }
     }
 
     public User_IF getDoctor() {
@@ -73,6 +79,14 @@ public class Prescription {
 
     public void setDoctor(User_IF user) {
         this.user = user;
+        if (this.user != null) {
+            this.doctorID = this.user.getUserID();
+            this.username = this.user.getUsername();
+        }
+        else {
+            this.doctorID = 0;
+            this.username = null;
+        }
     }
 
     public String getPatientID() {
@@ -114,7 +128,12 @@ public class Prescription {
 
     public void setDrug(Drug drug) {
         this.drug = drug;
-        this.drugID = drug.getSN();
+        if (this.drug != null) {
+            this.drugID = drug.getSN();
+        }
+        else {
+            this.drugID = 0;
+        }
     }
 
     public Diagnose getDiagnose() {
@@ -123,7 +142,12 @@ public class Prescription {
 
     public void setDiagnose(Diagnose diagnose) {
         this.diagnose = diagnose;
-        this.diagnoseID = diagnose.getId();
+        if (this.diagnose != null) {
+            this.diagnoseID = diagnose.getId();
+        }
+        else {
+            this.diagnoseID = 0;
+        }
     }
 
     public double getDose() {
@@ -184,7 +208,7 @@ public class Prescription {
     
     @Override
     public String toString() {
-        return this.id + ", " + this.patient + ", " + this.diagnose + ", " + this.creationDate;
+        return this.id + ": " + this.patient + ", " + this.diagnose + ", " + this.creationDate;
     }
 
 }

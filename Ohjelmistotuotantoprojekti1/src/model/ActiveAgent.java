@@ -18,17 +18,19 @@ public class ActiveAgent {
     private String name;
     private double maxDose;
     private double recommendedDose;
-    //@ManyToMany (mappedBy="activeAgents")
+    private double halfTime;
+
     private List<DrugActiveAgent> drugActiveAgents = new ArrayList();
 
     public ActiveAgent() {
     }
 
-    public ActiveAgent(int id, String name, double maxDose, double recommendedDose) {
+    public ActiveAgent(int id, String name, double maxDose, double recommendedDose, double halfTime) {
         this.id = id;
         this.name = name;
         this.maxDose = maxDose;
         this.recommendedDose = recommendedDose;
+        this.halfTime = halfTime;
     }
     
     public void addDrug(DrugActiveAgent drugActiveAgent) {
@@ -70,6 +72,15 @@ public class ActiveAgent {
 
     public void setRecommendedDose(double recommendedDose) {
         this.recommendedDose = recommendedDose;
+    }
+    
+    @Column(name="puoliintumisaika")
+    public double getHalfTime() {
+        return halfTime;
+    }
+
+    public void setHalfTime(double halfTime) {
+        this.halfTime = halfTime;
     }
 
     @OneToMany(mappedBy="activeAgent")

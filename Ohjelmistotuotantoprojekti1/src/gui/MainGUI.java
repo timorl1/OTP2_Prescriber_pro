@@ -1,22 +1,24 @@
 package gui;
 
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
+import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
 import model.Diagnose;
 import model.Drug;
@@ -39,7 +41,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private TabPane tabPane;
     private SideBarGUI_IF sideBar;
     private LoginGUI_IF login;
-    private PrescriptionFormGUI prescriptionForm;
+    private PrescriptionFormGUI_IF prescriptionForm;
     private SideBarListView_IF<Patient> patientListView;
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
@@ -52,7 +54,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
     
-    private Controller controller;
+    private Controller_IF controller;
     
     private AppStatus status;
     
@@ -112,14 +114,6 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
-    //Loads the tab pane component depending of the side bar content selection
-    @Override
-    public <T> void loadTabPane(List<T> list) {
-        ListTabGUI_IF<T> tab = new ListTabGUI("Potilaan tiedot");
-        tab.setList(list);
-        this.tabPane.getTabs().add((ListTabGUI)tab);
-    }
-
     @Override
     public void setPatientList() {
         this.patientListView = new SideBarListViewGUI("Potilas");
@@ -138,11 +132,6 @@ public class MainGUI implements Initializable, MainGUI_IF {
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
             }
-            else if (this.status == AppStatus.CREATE) {
-                ObservableList<Diagnose> list = FXCollections.observableArrayList(this.getSelectedPatient().getDiagnoses());
-                this.prescriptionForm.getPatientField().setText(this.getSelectedPatient().toString());
-                this.prescriptionForm.getDiagnoseSelector().setItems(list);
-            }
         });
         this.sideBar.addView((SideBarListViewGUI)this.patientListView);
     }
@@ -152,7 +141,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.drugListView = new SideBarListViewGUI("Lääkkeet");
         this.drugListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.drugListView.isExpanded()) {
-                this. drugListView.setList(this.controller.getDrugs());
+                this.drugListView.setList(this.controller.getDrugs());
             }
         });
         this.drugListView.getListView().setOnMouseClicked(e -> {
@@ -162,16 +151,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
             }
-            else if (this.status == AppStatus.CREATE) {
-                this.prescriptionForm.getDrugField().setText(this.getSelectedDrug().toString());
-            }
         });
         this.sideBar.addView((SideBarListViewGUI)this.drugListView);
     }
 
     @Override
     public void setPrescriptionList() {
-        this.prescriptionListView = new SideBarListViewGUI("Omat Reseptit");
+        this.prescriptionListView = new SideBarListViewGUI("Omat Lääkemääräykset");
         this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.prescriptionListView.isExpanded()) {
                 this.prescriptionListView.setList(this.controller.getPrescriptions());
@@ -234,7 +220,6 @@ public class MainGUI implements Initializable, MainGUI_IF {
                     }
                 }
             };
-            //cell.setContentDisplay(ContentDisplay.RIGHT);
             return cell;
         });
         this.userListView.getTitledPane().setOnMouseClicked(e -> {
@@ -287,39 +272,37 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setPrescriptionForm(Prescription prescription) {
-        this.setStatus(AppStatus.CREATE);
-        this.prescriptionForm = new PrescriptionFormGUI("Lääkemääräys");
-        this.prescriptionForm.getCreationDateLabel().setText(prescription.getCreationDate().toString());
-        this.prescriptionForm.getDoctorNameLabel().setText(prescription.getDoctor().getFirstName() + " " + prescription.getDoctor().getLastName());
-        //this.prescriptionForm.getPrescriptionIdLabel().setText(String.valueOf(prescription.getId()));
+        this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, "Lääkemääräys", prescription);
         this.prescriptionForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.prescriptionForm);
             this.setStatus(AppStatus.IDLE);
         });
         this.prescriptionForm.getSaveButton().setOnAction(e -> {
-            this.controller.savePrescription();
-            this.tabPane.getTabs().remove(this.prescriptionForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.prescriptionForm.getDoseField().setOnKeyReleased(e -> {
-            if (!this.prescriptionForm.getDoseField().getText().isEmpty() && !this.prescriptionForm.getTimesADayField().getText().isEmpty()) {
-                this.controller.checkDose();
+            if (this.status == AppStatus.EDIT) {
+                this.prescriptionForm.markUpdate();
+            }
+            if (this.controller.savePrescription()) {
+                this.tabPane.getTabs().remove(this.prescriptionForm);
+                this.setStatus(AppStatus.IDLE);
+            }
+            else {
+                //Some kind of alert message should be thrown
             }
         });
-        this.prescriptionForm.getTimesADayField().setOnKeyReleased(e -> {
-            if (!this.prescriptionForm.getDoseField().getText().isEmpty() && !this.prescriptionForm.getTimesADayField().getText().isEmpty()) {
-                this.controller.checkDose();
+        this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
+            if (this.getPrescriptionForm().getPatient() != null) {
+                ObservableList<Diagnose> list = FXCollections.observableList(this.controller.listPatientDiagnoses());
+                this.prescriptionForm.getDiagnoseSelector().setItems(list);
+                this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
+                this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
             }
         });
         if (this.getSelectedPatient() != null) {
-            this.prescriptionForm.getPatientField().setText(this.patientListView.getSelection().toString());
-            ObservableList<Diagnose> list = FXCollections.observableList(this.getSelectedPatient().getDiagnoses());
+            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.listPatientDiagnoses());
             this.prescriptionForm.getDiagnoseSelector().setItems(list);
+            this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
         }
-        if (this.getSelectedDrug() != null) {
-            this.prescriptionForm.getDrugField().setText(this.drugListView.getSelection().toString());
-        }
-        this.tabPane.getTabs().add(this.prescriptionForm);
+        this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);
     }
     
     @Override
@@ -327,8 +310,17 @@ public class MainGUI implements Initializable, MainGUI_IF {
         Button createPrescription = new Button("Uusi lääkemääräys");
         createPrescription.setOnMouseClicked((event) -> {
             this.controller.createNewPrescription();
+            this.setStatus(AppStatus.CREATE);
         });
         this.sideBar.getVbox().getChildren().add(createPrescription);
+        Button updatePrescription = new Button("Muokkaa lääkemääräystä");
+        BooleanBinding booleanBind = Bindings.isNull(this.prescriptionListView.getListView().getSelectionModel().selectedItemProperty());
+        updatePrescription.disableProperty().bind(booleanBind);
+        updatePrescription.setOnMouseClicked((event) -> {
+            this.setPrescriptionForm(this.prescriptionListView.getSelection());
+            this.setStatus(AppStatus.EDIT);
+        });
+        this.sideBar.getVbox().getChildren().add(updatePrescription);
     }
 
     @Override
@@ -453,48 +445,19 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
-    public void setNullDoseMessage() {
-        this.prescriptionForm.getDoseField().setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
-    }
-    
-    @Override
-    public void setInsuffucientDoseMessage() {
-        this.prescriptionForm.getDoseField().setStyle("-fx-background-color: rgba(0, 0, 255, 0.5);");
-    }
-
-    @Override
-    public void setOptimalDoseMessage() {
-        this.prescriptionForm.getDoseField().setStyle("-fx-background-color: rgba(0, 255, 0, 0.5);");
-    }
-
-    @Override
-    public void setOverOptimalDoseMessage() {
-        this.prescriptionForm.getDoseField().setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);");
-    }
-
-    @Override
-    public void setRiskLimitDoseMessage() {
-        this.prescriptionForm.getDoseField().setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-    }
-
-    @Override
-    public void setOverdoseMessage() {
-        this.prescriptionForm.getDoseField().setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-    }
-    
-    @Override
     public Patient getSelectedPatient() {
         return this.patientListView.getSelection();
     }
 
     @Override
     public Prescription getSelectedPrescription() {
+        //Fix this! If patient tab was selected and then trying to view doctor's
+        //prescription, this method returns null.
         if(this.patientPrescriptionTab != null){
             return this.patientPrescriptionTab.getSelection();
         }else{
             return this.prescriptionListView.getSelection();
         }
-        
     }
     
     @Override
@@ -519,10 +482,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public Prescription getPrescriptionForm() {
-        Prescription prescription = new Prescription();
-        prescription.setDose(this.dsc.fromString(this.prescriptionForm.getDoseField().getText()));
-        prescription.setTimesADay(Integer.parseInt(this.prescriptionForm.getTimesADayField().getText()));
-        return prescription;
+        return this.prescriptionForm.getPrescription();
     }
     
 }

@@ -45,7 +45,6 @@ public class Diagnose {
     public void setDisease(Disease disease) {
         this.disease = disease;
     }
-
     
     public String getEpicrisis() {
         return epicrisis;

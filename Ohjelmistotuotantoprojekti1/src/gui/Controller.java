@@ -6,12 +6,13 @@
 package gui;
 
 import java.util.List;
-import javafx.fxml.FXML;
 import model.AppUser;
 import model.ClientResources;
-import model.DoseStatus;
+import model.ClientResources_IF;
+import model.Diagnose;
 import model.Drug;
 import model.DrugResources;
+import model.DrugResources_IF;
 import model.Employee;
 import model.Patient;
 import model.Prescription;
@@ -22,8 +23,8 @@ import model.User_IF;
 public class Controller implements Controller_IF {
     private MainGUI_IF gui;
     private AppUser auth;
-    private ClientResources clientRes;
-    private DrugResources drugRes;
+    private ClientResources_IF clientRes;
+    private DrugResources_IF drugRes;
     
     public Controller(MainGUI_IF gui) {
         this.gui = gui;
@@ -70,12 +71,6 @@ public class Controller implements Controller_IF {
     public List<Patient> getPatients() {
         return this.clientRes.getPatients();
     }
-    
-    @FXML
-    @Override
-    public void filterPatients() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void getPatientDetails() {
@@ -85,6 +80,11 @@ public class Controller implements Controller_IF {
     @Override
     public void getPatientDiagnoses() {
         this.gui.setPatientDiagnoses(this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient()));
+    }
+    
+    @Override
+    public List<Diagnose> listPatientDiagnoses() {
+        return this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient());
     }
 
     @Override
@@ -162,40 +162,14 @@ public class Controller implements Controller_IF {
     public void setUserPriviledges(User_IF user) {
         this.clientRes.setUserPriviledges(user);
     }
-
-    @Override
-    public void checkDose() {
-        DoseStatus status = this.clientRes.evaluateDose(this.gui.getSelectedPatient(), this.gui.getSelectedDrug(), this.gui.getPrescriptionForm().getDose() * this.gui.getPrescriptionForm().getTimesADay());
-        switch (status) {
-            case NULL:
-                this.gui.setNullDoseMessage();
-                break;
-            case INSUFFICIENT:
-                this.gui.setInsuffucientDoseMessage();
-                break;
-            case OPTIMAL:
-                this.gui.setOptimalDoseMessage();
-                break;
-            case OVER_OPTIMAL:
-                this.gui.setOverOptimalDoseMessage();
-                break;
-            case RISK_LIMIT:
-                this.gui.setRiskLimitDoseMessage();
-                break;
-            case OVERDOSE:
-                this.gui.setOverdoseMessage();
-                break;
-        }
-    }
-
+    
     @Override
     public void createNewPrescription() {
         this.gui.setPrescriptionForm(this.clientRes.addNewPrescription(this.auth.getUser()));
     }
-
-    @Override
-    public void savePrescription() {
-        this.clientRes.savePrescription(this.gui.getPrescriptionForm());
-    }
     
+    @Override
+    public boolean savePrescription() {
+        return this.clientRes.savePrescription(this.gui.getPrescriptionForm());
+    }  
 }

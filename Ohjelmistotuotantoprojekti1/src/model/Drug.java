@@ -1,10 +1,7 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -16,14 +13,8 @@ import javax.persistence.*;
 public class Drug {
     private int SN;
     private String name;
-    //@ManyToMany (cascade = {CascadeType.ALL})
-    //@JoinTable(name="lääkeaine", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "lääkeaine_id", referencedColumnName = "id"))
     private List<DrugActiveAgent> drugActiveAgents = new ArrayList();
     private List<Allergen> allergens = new ArrayList();
-    /*@Column (name="suositeltuannos")
-    private double recommendedDose;
-    @Column (name="maxannos")
-    private double maxDose;*/
     private String unit;
     private List<AdverseEffect> commonAdverseEffects = new ArrayList();
     private List<AdverseEffect> rareAdverseEffects = new ArrayList();
@@ -78,22 +69,6 @@ public class Drug {
     public void setAllergens(List<Allergen> allergens) {
         this.allergens = allergens;
     }
-
-    /*public double getRecommendedDose() {
-        return recommendedDose;
-    }
-
-    public void setRecommendedDose(double recommendedDose) {
-        this.recommendedDose = recommendedDose;
-    }
-
-    public double getMaxDose() {
-        return maxDose;
-    }
-
-    public void setMaxDose(double maxDose) {
-        this.maxDose = maxDose;
-    }*/
     
     @Column (name="yksikkö")
     public String getUnit() {
