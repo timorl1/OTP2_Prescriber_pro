@@ -129,8 +129,8 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<String> getDrugDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void getDrugDetails() {
+        this.gui.setDrugDetails(this.gui.getSelectedDrug());
     }
 
     @Override

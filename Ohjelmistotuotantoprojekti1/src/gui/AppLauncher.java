@@ -17,7 +17,7 @@ public class AppLauncher {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LauncherImpl.launchApplication(DemoMain.class, DemoPreloader.class, args);
+        LauncherImpl.launchApplication(ApplicationMain.class, DemoPreloader.class, args);
     }
     
 }

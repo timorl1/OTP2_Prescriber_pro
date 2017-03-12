@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
+import model.Patient;
 
 /**
  * FXML Controller class
@@ -25,6 +27,7 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     private final String title;
     private FXMLLoader loader;
     private ObservableList<E> list;
+    private SideBarGUI_IF sideBar;
     
     public SideBarListViewGUI(String title) {
         this.title = title;
@@ -58,6 +61,16 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     @Override
     public E getSelection() {
         return this.listView.getSelectionModel().getSelectedItem();
+    }
+    
+    @Override
+    public void filter(String filter){
+        if(!filter.isEmpty() && !this.list.isEmpty()){
+        ObservableList<E> filteredList = FXCollections.observableArrayList(this.list);
+        this.listView.setItems(filteredList.filtered(p -> p.toString().toLowerCase().contains(filter.toLowerCase())));
+        }else {
+            this.listView.setItems(this.list);
+        }
     }
     
 }

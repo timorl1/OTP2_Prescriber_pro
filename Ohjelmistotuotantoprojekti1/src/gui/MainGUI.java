@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -15,11 +16,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.util.converter.DoubleStringConverter;
+import model.ActiveAgent;
 import model.Diagnose;
 import model.Drug;
+import model.DrugActiveAgent;
 import model.Employee;
 import model.Patient;
 import model.Prescription;
@@ -46,6 +50,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
     private ListTabGUI_IF<String> prescriptionTab;
+    private ListTabGUI_IF<String> drugTab;
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
@@ -111,6 +116,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setSideBar() {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
+        this.sideBar.getSearchField().setOnKeyReleased(e -> {
+        this.patientListView.filter(this.sideBar.getSearchField().getText());
+        this.drugListView.filter(this.sideBar.getSearchField().getText());
+        this.employeeListView.filter(this.sideBar.getSearchField().getText());
+        this.userListView.filter(this.sideBar.getSearchField().getText());
+        
+        });
         this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
@@ -141,7 +153,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
             else if (this.status == AppStatus.CREATE) {
+                ObservableList<Diagnose> list = FXCollections.observableArrayList(this.getSelectedPatient().getDiagnoses());
                 this.prescriptionForm.getPatientField().setText(this.getSelectedPatient().toString());
+                this.prescriptionForm.getDiagnoseSelector().setItems(list);
             }
         });
         this.sideBar.addView((SideBarListViewGUI)this.patientListView);
@@ -157,11 +171,17 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.drugListView.getListView().setOnMouseClicked(e -> {
             if (this.drugListView.getSelection() != null && this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+                this.controller.getDrugDetails();
                 //this.loadTabPane(drugListView.getSelection());
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
             }
+            else if (this.status == AppStatus.CREATE) {
+                this.prescriptionForm.getDrugField().setText(this.getSelectedDrug().toString());
+            }
+            
         });
         this.sideBar.addView((SideBarListViewGUI)this.drugListView);
     }
@@ -177,7 +197,6 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.prescriptionListView.getListView().setOnMouseClicked(e -> {
             if (this.prescriptionListView.getSelection() != null) {
                 this.tabPane.getTabs().clear();
-                
                 this.controller.getPrescriptionDetails();
             }
             else {
@@ -405,6 +424,32 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.diagnoseTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.diagnoseTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.diagnoseTab);
+    }
+    
+    @Override
+    public void setDrugDetails(Drug drug) {
+        String activeAgents = "";
+        String allergens = "";
+        String commonAdverseEffects = "";
+        String rareAdverseEffects = "";
+        
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Tuotenumero: " + drug.getSN());
+        list.add("Lääke: " + drug.getName());
+        list.add("Vaikuttavat aineet:\n\n\t"+drug.getDrugActiveAgents().stream().
+                map((a) -> a.getActiveAgent().getName()+" "+a.getConcentration()+"mg\n\t").reduce(activeAgents, String::concat));
+        list.add("Lääkkeen allergeenit:\n\n\t"+drug.getAllergens().stream().
+                map((a) -> a.getName()+"\n\t").reduce(allergens, String::concat));
+        list.add("Yleiset haittavaikutukset:\n\n\t"+drug.getCommonAdverseEffects().stream().
+                map((a) -> a.getName()+"\n\t").reduce(commonAdverseEffects, String::concat));
+        list.add("Harvinaiset haittavaikutukset:\n\n\t"+drug.getRareAdverseEffects().stream().
+                map((a) -> a.getName()+"\n\t").reduce(rareAdverseEffects, String::concat));
+        
+        this.tabPane.getTabs().remove(this.drugTab);
+        this.drugTab = new ListTabGUI("Lääkkeen tiedot");
+        this.drugTab.getListView().setItems(list);
+        this.tabPane.getTabs().add((ListTabGUI)this.drugTab);
+        this.tabPane.getSelectionModel().select((ListTabGUI)this.drugTab);
     }
     
     @Override

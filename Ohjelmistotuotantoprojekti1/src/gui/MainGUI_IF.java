@@ -48,4 +48,5 @@ public interface MainGUI_IF {
     public abstract User_IF getSelectedUser();
     public abstract Employee getSelectedEmployee();
     public abstract Prescription getPrescriptionForm();
+    public abstract void setDrugDetails(Drug drug);
 }
