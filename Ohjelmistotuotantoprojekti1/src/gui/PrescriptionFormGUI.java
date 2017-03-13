@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import model.Diagnose;
@@ -168,16 +170,19 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         this.drugSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Drug>() {
             @Override
             public void changed(ObservableValue<? extends Drug> ov, Drug oldValue, Drug newValue) {
-                if (newValue != null) {
+                if (newValue != null && !newValue.equals(oldValue)) {
                     drug = newValue;
                     prescription.setDrug(drug);
                     drugField.setText(drug.toString());
-                }
-                if (prescription.getPatient() != null) {
-                    dose = controller.getOptimalDose();
-                    prescription.setDose(dose);
-                    doseField.setText(Double.toString(dose));
-                    controller.checkDose();
+                    drugField.setFill(Color.BLACK);
+                    if (prescription.getPatient() != null) {
+                        dose = controller.getOptimalDose();
+                        prescription.setDose(dose);
+                        doseField.setText(Double.toString(dose));
+                        drugField.setFill(Color.BLACK);
+                        controller.checkDose();
+                        controller.checkAllergens();
+                    }
                 }
             }
         });
@@ -207,16 +212,19 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         this.patientSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
             @Override
             public void changed(ObservableValue<? extends Patient> ov, Patient oldValue, Patient newValue) {
-                if (newValue != null) {
+                if (newValue != null && !newValue.equals(oldValue)) {
                     patient = newValue;
                     prescription.setPatient(patient);
                     patientField.setText(patient.toString());
-                }
-                if (prescription.getDrug() != null) {
-                    dose = controller.getOptimalDose();
-                    doseField.setText(Double.toString(dose));
-                    prescription.setDose(dose);
-                    controller.checkDose();
+                    drugField.setFill(Color.BLACK);
+                    if (prescription.getDrug() != null) {
+                        dose = controller.getOptimalDose();
+                        doseField.setText(Double.toString(dose));
+                        drugField.setFill(Color.BLACK);
+                        prescription.setDose(dose);
+                        controller.checkDose();
+                        controller.checkAllergens();
+                    }
                 }
             }
         });
@@ -310,6 +318,21 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
         Alert alert = new Alert(Alert.AlertType.WARNING, "Olet määräämässä vaarallista annostusta!\nKumulatiivinen vaikutus nostaa lääkeaineen pitoisuuden liian korkeaksi.\nPienennä annostusta tai lyhennä kuurin kestoa.");
         alert.setTitle("Lääkelaskuri");
+        alert.setHeaderText("Varoitus:");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+        alert.showAndWait();
+    }
+    
+    @Override
+    public void setIsAllergicMessage(List<String> allergens) {
+        this.drugField.setFill(Color.RED);
+        String s = "";
+        for (String a : allergens) {
+            s += a + "\n";
+        }
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Allergia varoitus!\nValitsemasi lääke sisältää ainesosia, joille potilas on allerginen:\n\n" + s);
+        alert.setTitle("Allergeenitarkistus");
         alert.setHeaderText("Varoitus:");
         alert.initStyle(StageStyle.UNDECORATED);
         alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());

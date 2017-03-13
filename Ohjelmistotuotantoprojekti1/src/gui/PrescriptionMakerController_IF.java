@@ -12,4 +12,5 @@ package gui;
 public interface PrescriptionMakerController_IF {
     public abstract double getOptimalDose();
     public abstract void checkDose();
+    public abstract void checkAllergens();
 }

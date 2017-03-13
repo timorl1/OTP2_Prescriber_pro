@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author joosiika
@@ -14,4 +16,5 @@ public interface PrescriptionMaker_IF {
     //public abstract boolean savePrescription(Prescription prescription);
     public abstract DoseStatus evaluateDose(Prescription prescription);
     public abstract double getOptimalDose(Prescription prescription);
+    public abstract List<String> isAllergic(Prescription prescription);
 }
