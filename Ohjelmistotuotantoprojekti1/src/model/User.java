@@ -116,7 +116,7 @@ public class User implements User_IF{
     
     @Override
     public String toString(){
-        return this.userID+": "+this.username + " sent: " + sentMessages + " received: " + receivedMessages;
+        return this.userID+": "+this.username;
     }
 
     @Override
