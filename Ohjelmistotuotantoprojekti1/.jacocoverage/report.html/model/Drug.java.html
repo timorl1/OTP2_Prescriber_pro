@@ -11,108 +11,97 @@ import javax.persistence.*;
 @Entity (name=&quot;lääke&quot;)
 @Table (name=&quot;lääke&quot;)
 public class Drug {
+    private int SN;
+    private String name;
+<span class="pc" id="L16">    private List&lt;DrugActiveAgent&gt; drugActiveAgents = new ArrayList();</span>
+<span class="pc" id="L17">    private List&lt;Allergen&gt; allergens = new ArrayList();</span>
+    private String unit;
+<span class="pc" id="L19">    private List&lt;AdverseEffect&gt; commonAdverseEffects = new ArrayList();</span>
+<span class="pc" id="L20">    private List&lt;AdverseEffect&gt; rareAdverseEffects = new ArrayList();</span>
+
+<span class="fc" id="L22">    public Drug() {</span>
+<span class="fc" id="L23">    }</span>
+
+<span class="nc" id="L25">    public Drug(int SN, String name, String unit) {</span>
+<span class="nc" id="L26">        this.SN = SN;</span>
+<span class="nc" id="L27">        this.name = name;</span>
+<span class="nc" id="L28">        this.unit = unit;</span>
+<span class="nc" id="L29">    }</span>
+    
+    public void addActiveAgent(DrugActiveAgent drugActiveAgent) {
+<span class="nc" id="L32">        this.drugActiveAgents.add(drugActiveAgent);</span>
+<span class="nc" id="L33">    }</span>
+
     @Id
     @Column (name=&quot;tuotenumero&quot;)
-    private int SN;
-    @Column (name=&quot;nimi&quot;)
-    private String name;
-<span class="fc" id="L19">    @ManyToMany (cascade = {CascadeType.ALL})</span>
-    @JoinTable(name=&quot;lääkeaine&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;lääkeaine_id&quot;, referencedColumnName = &quot;id&quot;))
-    private List&lt;ActiveAgent&gt; activeAgents = new ArrayList();
-<span class="fc" id="L22">    @ManyToMany (cascade = {CascadeType.ALL})</span>
-    @JoinTable(name=&quot;lääkkeen_allergeeni&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;allergeeni_id&quot;, referencedColumnName = &quot;id&quot;))
-    private List&lt;Allergen&gt; allergens = new ArrayList();
-    @Column (name=&quot;suositeltuannos&quot;)
-    private double recommendedDose;
-    @Column (name=&quot;maxannos&quot;)
-    private double maxDose;
-    @Column (name=&quot;yksikkö&quot;)
-    private String unit;
-<span class="fc" id="L31">    @ManyToMany (cascade = {CascadeType.ALL})</span>
-    @JoinTable(name=&quot;yleinen&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;haittavaikutus_id&quot;, referencedColumnName = &quot;id&quot;))
-    private List&lt;AdverseEffect&gt; commonAdverseEffects = new ArrayList();
-<span class="fc" id="L34">    @ManyToMany (cascade = {CascadeType.ALL})</span>
-    @JoinTable(name=&quot;harvinainen&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;haittavaikutus_id&quot;, referencedColumnName = &quot;id&quot;))
-    private List&lt;AdverseEffect&gt; rareAdverseEffects = new ArrayList();
-
-<span class="fc" id="L38">    public Drug() {</span>
-<span class="fc" id="L39">    }</span>
-
     public int getSN() {
-<span class="fc" id="L42">        return SN;</span>
+<span class="fc" id="L38">        return SN;</span>
     }
 
     public void setSN(int SN) {
-<span class="nc" id="L46">        this.SN = SN;</span>
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L42">        this.SN = SN;</span>
+<span class="fc" id="L43">    }</span>
 
+    @Column (name=&quot;nimi&quot;)
     public String getName() {
-<span class="fc" id="L50">        return name;</span>
+<span class="fc" id="L47">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L54">        this.name = name;</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L51">        this.name = name;</span>
+<span class="fc" id="L52">    }</span>
     
-    public List&lt;ActiveAgent&gt; getActiveAgents() {
-<span class="fc" id="L58">        return activeAgents;</span>
+    @OneToMany(mappedBy=&quot;drug&quot;)
+    public List&lt;DrugActiveAgent&gt; getDrugActiveAgents() {
+<span class="fc" id="L56">        return drugActiveAgents;</span>
     }
 
-    public void setActiveAgents(List&lt;ActiveAgent&gt; activeAgents) {
-<span class="nc" id="L62">        this.activeAgents = activeAgents;</span>
-<span class="nc" id="L63">    }</span>
+    public void setDrugActiveAgents(List&lt;DrugActiveAgent&gt; drugActiveAgents) {
+<span class="fc" id="L60">        this.drugActiveAgents = drugActiveAgents;</span>
+<span class="fc" id="L61">    }</span>
 
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name=&quot;lääkkeen_allergeeni&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;allergeeni_id&quot;, referencedColumnName = &quot;id&quot;))
     public List&lt;Allergen&gt; getAllergens() {
 <span class="fc" id="L66">        return allergens;</span>
     }
 
     public void setAllergens(List&lt;Allergen&gt; allergens) {
-<span class="nc" id="L70">        this.allergens = allergens;</span>
-<span class="nc" id="L71">    }</span>
-
-    public double getRecommendedDose() {
-<span class="fc" id="L74">        return recommendedDose;</span>
-    }
-
-    public void setRecommendedDose(double recommendedDose) {
-<span class="nc" id="L78">        this.recommendedDose = recommendedDose;</span>
-<span class="nc" id="L79">    }</span>
-
-    public double getMaxDose() {
-<span class="fc" id="L82">        return maxDose;</span>
-    }
-
-    public void setMaxDose(double maxDose) {
-<span class="nc" id="L86">        this.maxDose = maxDose;</span>
-<span class="nc" id="L87">    }</span>
+<span class="fc" id="L70">        this.allergens = allergens;</span>
+<span class="fc" id="L71">    }</span>
     
+    @Column (name=&quot;yksikkö&quot;)
     public String getUnit() {
-<span class="fc" id="L90">        return unit;</span>
+<span class="fc" id="L75">        return unit;</span>
     }
 
     public void setUnit(String unit) {
-<span class="nc" id="L94">        this.unit = unit;</span>
-<span class="nc" id="L95">    }</span>
+<span class="fc" id="L79">        this.unit = unit;</span>
+<span class="fc" id="L80">    }</span>
 
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name=&quot;yleinen&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;haittavaikutus_id&quot;, referencedColumnName = &quot;id&quot;))
     public List&lt;AdverseEffect&gt; getCommonAdverseEffects() {
-<span class="fc" id="L98">        return commonAdverseEffects;</span>
+<span class="fc" id="L85">        return commonAdverseEffects;</span>
     }
 
     public void setCommonAdverseEffects(List&lt;AdverseEffect&gt; commonAdverseEffects) {
-<span class="nc" id="L102">        this.commonAdverseEffects = commonAdverseEffects;</span>
-<span class="nc" id="L103">    }</span>
+<span class="fc" id="L89">        this.commonAdverseEffects = commonAdverseEffects;</span>
+<span class="fc" id="L90">    }</span>
 
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name=&quot;harvinainen&quot;, joinColumns = @JoinColumn(name = &quot;lääke_tuotenumero&quot;), inverseJoinColumns = @JoinColumn(name = &quot;haittavaikutus_id&quot;, referencedColumnName = &quot;id&quot;))
     public List&lt;AdverseEffect&gt; getRareAdverseEffects() {
-<span class="fc" id="L106">        return rareAdverseEffects;</span>
+<span class="fc" id="L95">        return rareAdverseEffects;</span>
     }
 
     public void setRareAdverseEffects(List&lt;AdverseEffect&gt; rareAdverseEffects) {
-<span class="nc" id="L110">        this.rareAdverseEffects = rareAdverseEffects;</span>
-<span class="nc" id="L111">    }</span>
+<span class="fc" id="L99">        this.rareAdverseEffects = rareAdverseEffects;</span>
+<span class="fc" id="L100">    }</span>
     
     @Override
     public String toString() {
-<span class="nc" id="L115">        return this.name + &quot;, &quot; + this.activeAgents.get(0).getName();</span>
+<span class="nc" id="L104">        return this.name + &quot; &quot; + this.drugActiveAgents.get(0).getConcentration() + &quot;mg&quot; + &quot;, &quot; + this.drugActiveAgents.get(0).getActiveAgent().getName();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

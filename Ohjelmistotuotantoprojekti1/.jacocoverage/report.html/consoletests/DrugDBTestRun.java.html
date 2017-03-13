@@ -15,9 +15,9 @@ import dao.DrugDAO;
 <span class="nc" id="L15">        DrugDAO drugdb = new DrugDAO();</span>
 <span class="nc" id="L16">        List&lt;Drug&gt; drugs = drugdb.readDrugs();</span>
 <span class="nc" id="L17">        drugdb.finalize();</span>
-<span class="nc" id="L18">        System.out.println(drugs.get(0).getName() + &quot;, &quot; + drugs.get(0).getActiveAgents().get(0).getName());</span>
+<span class="nc" id="L18">        System.out.println(drugs.get(0).getName() + &quot;, &quot; + drugs.get(0).getDrugActiveAgents().get(0).getActiveAgent().getName());</span>
 <span class="nc" id="L19">        System.out.println(&quot;that's all folks!&quot;);</span>
 <span class="nc" id="L20">    }</span>
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

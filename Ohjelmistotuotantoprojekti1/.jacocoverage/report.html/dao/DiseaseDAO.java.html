@@ -25,13 +25,13 @@ public class DiseaseDAO implements DiseaseDAO_IF {
     private Session session;
     private Transaction transaction;
 
-<span class="nc" id="L28">    public DiseaseDAO(){</span>
-<span class="nc" id="L29">        sf = null;</span>
-<span class="nc" id="L30">        reg = new StandardServiceRegistryBuilder().configure(&quot;diseasedb.cfg.xml&quot;).build();</span>
+<span class="fc" id="L28">    public DiseaseDAO(){</span>
+<span class="fc" id="L29">        sf = null;</span>
+<span class="fc" id="L30">        reg = new StandardServiceRegistryBuilder().configure(&quot;diseasedb.cfg.xml&quot;).build();</span>
 
-<span class="nc" id="L32">        reg2 = new StandardServiceRegistryBuilder().configure(&quot;diseasedbjenkins.cfg.xml&quot;).build();</span>
+<span class="fc" id="L32">        reg2 = new StandardServiceRegistryBuilder().configure(&quot;diseasedbjenkins.cfg.xml&quot;).build();</span>
         try {
-<span class="nc" id="L34">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
+<span class="fc" id="L34">            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();</span>
 <span class="nc" id="L35">        }catch (Exception e){</span>
 <span class="nc" id="L36">            System.out.println(&quot;Session failed to initialize.&quot;);</span>
 <span class="nc" id="L37">            StandardServiceRegistryBuilder.destroy(reg);</span>
@@ -45,8 +45,8 @@ public class DiseaseDAO implements DiseaseDAO_IF {
 <span class="nc" id="L45">                        StandardServiceRegistryBuilder.destroy(reg2);</span>
 <span class="nc" id="L46">                        System.exit(-1);</span>
 <span class="nc" id="L47">                    }</span>
-<span class="nc" id="L48">        }</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">    }</span>
     
     @Override
     public void finalize() {
@@ -71,22 +71,22 @@ public class DiseaseDAO implements DiseaseDAO_IF {
 
     @Override
     public Disease getDisease(int diseaseId) {
-<span class="nc" id="L74">        Disease disease=null;</span>
-<span class="nc" id="L75">        session = sf.openSession();</span>
+<span class="fc" id="L74">        Disease disease=null;</span>
+<span class="fc" id="L75">        session = sf.openSession();</span>
         try {
-<span class="nc" id="L77">            session.beginTransaction();</span>
-<span class="nc" id="L78">            session.load(disease = new Disease(), diseaseId);</span>
-<span class="nc" id="L79">            session.getTransaction().commit();</span>
-<span class="nc" id="L80">            Hibernate.initialize(disease.getId());</span>
-<span class="nc" id="L81">            Hibernate.initialize(disease.getDiseaseName());</span>
-<span class="nc" id="L82">            Hibernate.initialize(disease.getDiseaseDesc());</span>
-<span class="nc" id="L83">            Hibernate.initialize(disease.getAllergenList());</span>
+<span class="fc" id="L77">            session.beginTransaction();</span>
+<span class="fc" id="L78">            session.load(disease = new Disease(), diseaseId);</span>
+<span class="fc" id="L79">            session.getTransaction().commit();</span>
+<span class="fc" id="L80">            Hibernate.initialize(disease.getId());</span>
+<span class="fc" id="L81">            Hibernate.initialize(disease.getDiseaseName());</span>
+<span class="fc" id="L82">            Hibernate.initialize(disease.getDiseaseDesc());</span>
+<span class="fc" id="L83">            Hibernate.initialize(disease.getAllergenList());</span>
 <span class="nc" id="L84">        } catch (Exception e) {</span>
 <span class="nc" id="L85">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
         } finally {
-<span class="nc" id="L87">            session.close();</span>
-<span class="nc" id="L88">        }</span>
-<span class="nc" id="L89">        return disease;</span>
+<span class="pc" id="L87">            session.close();</span>
+<span class="pc" id="L88">        }</span>
+<span class="fc" id="L89">        return disease;</span>
     }
 
     

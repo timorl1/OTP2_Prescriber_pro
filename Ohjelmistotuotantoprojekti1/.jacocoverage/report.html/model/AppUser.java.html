@@ -14,8 +14,8 @@ import dao.UserDAO_IF;
  */
 public class AppUser implements AppUser_IF{
     private final UserDAO_IF userdb;
-    private User user;
-    private Doctor doctor;
+    private User_IF user;
+    
     private boolean authenticated;
 
 <span class="fc" id="L21">    public AppUser() {</span>
@@ -27,12 +27,12 @@ public class AppUser implements AppUser_IF{
     //If authentication fails, returns null
     @Override
     public void setUser(String username) {
-<span class="fc" id="L30">        this.user = this.userdb.getUser(username);</span>
+<span class="fc" id="L30">        this.user = (User)this.userdb.getUser(username);</span>
 <span class="fc" id="L31">    }</span>
 
     @Override
     public int getUserPrivileges() {
-<span class="fc" id="L35">        return this.user.getPrivileges();</span>
+<span class="fc" id="L35">        return this.user.getUsertype();</span>
     }
 
     @Override
@@ -48,5 +48,10 @@ public class AppUser implements AppUser_IF{
             }
         }
 <span class="fc" id="L50">    }</span>
+
+    @Override
+    public User_IF getUser() {
+<span class="nc" id="L54">        return this.user;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
