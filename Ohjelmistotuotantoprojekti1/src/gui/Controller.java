@@ -14,6 +14,7 @@ import model.Drug;
 import model.DrugResources;
 import model.DrugResources_IF;
 import model.Employee;
+import model.Message;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -134,8 +135,8 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<String> getMessages() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Message> getMessages() {
+        return this.auth.getUser().getReceivedMessages();
     }
 
     @Override

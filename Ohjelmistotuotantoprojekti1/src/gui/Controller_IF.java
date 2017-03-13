@@ -4,6 +4,7 @@ import java.util.List;
 import model.Diagnose;
 import model.Drug;
 import model.Employee;
+import model.Message;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -25,7 +26,7 @@ public interface Controller_IF {
     public abstract List<Prescription> getPrescriptions();
     public abstract void getPrescriptionDetails();
     public abstract void getDiagnoseDetails();
-    public abstract List<String> getMessages();
+    public abstract List<Message> getMessages();
     public abstract List<String> getMessageDetails();
     public abstract List<User_IF> getUsers();
     public abstract void getUserDetails();

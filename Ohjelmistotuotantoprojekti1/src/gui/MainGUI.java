@@ -19,6 +19,7 @@ import javafx.util.converter.DoubleStringConverter;
 import model.Diagnose;
 import model.Drug;
 import model.Employee;
+import model.Message;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -47,7 +48,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
-    private SideBarListView_IF<String> messageListView;
+    private SideBarListView_IF<Message> messageListView;
     private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
