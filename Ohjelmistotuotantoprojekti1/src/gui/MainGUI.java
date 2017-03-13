@@ -45,6 +45,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<Prescription> prescriptionListView;
     private ListTabGUI_IF<String> prescriptionTab;
     private ListTabGUI_IF<String> drugTab;
+    private ListTabGUI_IF<String> messageTab;
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
@@ -455,6 +456,22 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public void setMessageDetails(Message message) {
+        System.out.println("MAin gui");
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Lähettäjä: "+message.getSender());
+        list.add("Vastaanottaja: "+message.getReceiver());
+        list.add("Päiväys: "+message.getDate());
+        list.add("Viesti: "+message.getMessage() );
+        
+        this.tabPane.getTabs().remove(this.messageTab);
+        this.messageTab = new ListTabGUI("Viesti: "+message.getMessageID());
+        this.messageTab.getListView().setItems(list);
+        this.tabPane.getTabs().add((ListTabGUI)this.messageTab);
+        this.tabPane.getSelectionModel().select((ListTabGUI)this.messageTab);
+    }
+    
+    @Override
     public void setUserDetails(User_IF user) {
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Työntekijänumero: " + user.getUserID());
@@ -523,6 +540,11 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public Message getSelectedMessage() {
+        return this.receivedMessageListView.getSelection();
+    }
+    
+    @Override
     public User_IF getSelectedUser() {
         return this.userListView.getSelection();
     }
@@ -536,5 +558,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public Prescription getPrescriptionForm() {
         return this.prescriptionForm.getPrescription();
     }
+
+    
     
 }

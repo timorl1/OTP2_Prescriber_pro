@@ -148,8 +148,9 @@ public class Controller implements Controller_IF {
     }
     
     @Override
-    public List<String> getMessageDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void getMessageDetails() {
+        System.out.println("Controller");
+        this.gui.setMessageDetails(this.gui.getSelectedMessage());
     }
     
     @Override

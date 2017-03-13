@@ -28,7 +28,7 @@ public interface Controller_IF {
     public abstract void getDiagnoseDetails();
     public abstract List<Message> getReceivedMessages();
     public abstract List<Message> getSentMessages();
-    public abstract List<String> getMessageDetails();
+    public abstract void getMessageDetails();
     public abstract List<User_IF> getUsers();
     public abstract void getUserDetails();
     public abstract List<Employee> getEmployees();
