@@ -54,8 +54,8 @@ public class EmployeeDAOTest {
         assertEquals(1, result.getUserID());
         assertEquals("Irvi", result.getFirstName());
         assertEquals("Kaikkonen", result.getLastName());
-        assertEquals("testi@s.fi", result.getEmail());
-        assertEquals("Lääkäri", result.getTitle());
+        assertEquals("admin@sairaala.com", result.getEmail());
+        assertEquals("Ylläpitäjä", result.getTitle());
  
     }
     
@@ -71,8 +71,8 @@ public class EmployeeDAOTest {
         assertEquals(1, result.get(0).getUserID());
         assertEquals("Irvi", result.get(0).getFirstName());
         assertEquals("Kaikkonen", result.get(0).getLastName());
-        assertEquals("testi@s.fi", result.get(0).getEmail());
-        assertEquals("Lääkäri", result.get(0).getTitle());
+        assertEquals("admin@sairaala.com", result.get(0).getEmail());
+        assertEquals("Ylläpitäjä", result.get(0).getTitle());
         
     }
     
