@@ -48,7 +48,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
-    private SideBarListView_IF<Message> messageListView;
+    private SideBarListView_IF<Message> receivedMessageListView;
+    private SideBarListView_IF<Message> sentMessageListView;    
     private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
@@ -191,14 +192,25 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
 
     @Override
-    public void setMessageList() {
-        this.messageListView = new SideBarListViewGUI("Viestit");
-        this.messageListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (this.messageListView.isExpanded()) {
-                this.messageListView.setList(this.controller.getMessages());
+    public void setReceivedMessageList() {
+        this.receivedMessageListView = new SideBarListViewGUI("Vastaanotetut Viestit");
+        this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.receivedMessageListView.isExpanded()) {
+                this.receivedMessageListView.setList(this.controller.getReceivedMessages());
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.messageListView);
+        this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+    }
+    
+    @Override
+    public void setSentMessageList() {
+        this.sentMessageListView = new SideBarListViewGUI("Lähetetyt Viestit");
+        this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.sentMessageListView.isExpanded()) {
+                this.sentMessageListView.setList(this.controller.getSentMessages());
+            }
+        });
+        this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
     }
 
     //List all users

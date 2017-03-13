@@ -47,19 +47,22 @@ public class Controller implements Controller_IF {
                 case 1:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     break;
                 case 2:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
                     this.gui.setPrescriptionList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     this.gui.setPrescriptionTools();
                     break;
                 case 3:
                     this.gui.setUserList();
                     this.gui.setEmployeeList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     break;
             }
         }
@@ -135,10 +138,15 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<Message> getMessages() {
+    public List<Message> getReceivedMessages() {
         return this.auth.getUser().getReceivedMessages();
     }
-
+    
+    @Override
+    public List<Message> getSentMessages() {
+        return this.auth.getUser().getSentMessages();
+    }
+    
     @Override
     public List<String> getMessageDetails() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -96,18 +96,41 @@ public class MessageDAO implements MessageDAO_IF{
     }
 
     @Override
-    public List<User> readMessages(String username) {   
-        List<User> result = null;
+    public List<Message> readSentMessages(User user) {   
+        List<Message> result = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
             
-            result = session.createQuery("from user where username = "+"'"+username+"'").getResultList();
+            result = session.createQuery("from message where sender = "+"'"+user.getUsername()+"'").getResultList();
             session.getTransaction().commit();
-            for(User_IF mes : result){
-                Hibernate.initialize(mes.getSentMessages());
-                Hibernate.initialize(mes.getReceivedMessages());
-            }    
+            for(Message messages : result){
+                Hibernate.initialize(messages.getReceiver());
+                Hibernate.initialize(messages.getSender());
+                Hibernate.initialize(messages.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Caught an error while reading resources.");
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+    @Override
+    public List<Message> readReceivedMessages(User user) {   
+        List<Message> result = null;
+        session = sf.openSession();
+        try {
+            session.beginTransaction();
+            
+            result = session.createQuery("from message where receiver = "+"'"+user.getUsername()+"'").getResultList();
+            session.getTransaction().commit();
+            for(Message messages : result){
+                Hibernate.initialize(messages.getReceiver());
+                Hibernate.initialize(messages.getSender());
+                Hibernate.initialize(messages.getMessage());
+            }
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
             e.printStackTrace();

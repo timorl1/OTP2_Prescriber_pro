@@ -21,7 +21,8 @@ public interface MainGUI_IF {
     public abstract void setPatientList();
     public abstract void setDrugList();
     public abstract void setPrescriptionList();
-    public abstract void setMessageList();
+    public abstract void setReceivedMessageList();
+    public abstract void setSentMessageList();
     public abstract void setUserList();
     public abstract void setEmployeeList();
     public abstract void setDatabaseList();

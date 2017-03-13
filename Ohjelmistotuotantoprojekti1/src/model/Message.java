@@ -27,6 +27,8 @@ public class Message {
         this.messageID = id;
         this.message = message;
         this.date = d;
+        sender = new User();
+        receiver = new User();
         
     }
     
@@ -62,6 +64,7 @@ public class Message {
 
     @Column(name="message")
     public String getMessage() {
+        System.out.println("MESSAGE LUOKKA getMessage");
         return message;
     }
 
@@ -71,9 +74,9 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message: " + "messageID= " + messageID + ", message= " + message + ", date= " + date ;
+        return "Message: " + "messageID= " + messageID + ", message= " + message + ", date= " + date+", sender= "+sender.getUsername() ;
     }
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date")
     public Date getDate() {
         return date;
@@ -82,20 +85,4 @@ public class Message {
     public void setDate(Date date) {
         this.date = date;
     }
-    
-    /*public List<User_IF> getReceivedMessages(){
-        return receiver;
-    }
-    
-    public List<User> getSentMessages(){
-        return sentM;
-    }
-    
-    public void setSentMessages(List<User> sentM){
-        this.sentM = sentM;
-    }
-    public void setReceivedMessages(List<User> receivedM){
-        this.receivedM = receivedM;
-    }*/
-    
 }

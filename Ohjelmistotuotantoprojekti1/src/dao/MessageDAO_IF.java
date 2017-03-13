@@ -17,7 +17,8 @@ import model.User_IF;
 public interface MessageDAO_IF {
     
     public abstract Message readMessage(int id);
-    public abstract List<User> readMessages(String username);
+    public abstract List<Message> readSentMessages(User user);
+    public abstract List<Message> readReceivedMessages(User user);
     public abstract boolean createMessage(Message message);
     
     
