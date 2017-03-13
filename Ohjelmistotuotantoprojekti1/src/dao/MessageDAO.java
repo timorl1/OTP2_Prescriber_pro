@@ -8,6 +8,7 @@ package dao;
 import java.util.List;
 import model.Message;
 import model.User;
+import model.User_IF;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -84,8 +85,8 @@ public class MessageDAO implements MessageDAO_IF{
             session.beginTransaction();
             session.load(message = new Message(), id);
             session.getTransaction().commit();
-            Hibernate.initialize(message.getSentMessages());
-            Hibernate.initialize(message.getReceivedMessages());
+            Hibernate.initialize(message.getSender());
+            Hibernate.initialize(message.getReceiver());
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
         } finally {
@@ -103,7 +104,7 @@ public class MessageDAO implements MessageDAO_IF{
             
             result = session.createQuery("from user where username = "+"'"+username+"'").getResultList();
             session.getTransaction().commit();
-            for(User mes : result){
+            for(User_IF mes : result){
                 Hibernate.initialize(mes.getSentMessages());
                 Hibernate.initialize(mes.getReceivedMessages());
             }    

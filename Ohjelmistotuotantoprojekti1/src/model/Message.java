@@ -3,14 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -20,21 +13,13 @@ import javax.persistence.Table;
 @Table(name="message")
 public class Message {
     
-    @Id
-    @Column(name="MessageID")
     private int messageID;
-    @Column(name="message")
     private String message;
-    @Column(name="date")
     private Date date;
-    private String sender;
-    private String receiver;
     
-    @ManyToMany (mappedBy="sentMessages")
-    private List<User> sentM = new ArrayList();
-    @ManyToMany (mappedBy="receivedMessages")
-    private List<User> receivedM = new ArrayList();
-
+    private User sender;
+    private User receiver;
+    
     
     public Message(){}
     
@@ -42,24 +27,31 @@ public class Message {
         this.messageID = id;
         this.message = message;
         this.date = d;
+        
     }
-
-    public String getSender() {
+    
+    @ManyToOne
+    @JoinColumn(name="sender")
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
-    public String getReceiver() {
+    @ManyToOne
+    @JoinColumn(name="receiver")
+    public User getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
 
+    @Id
+    @Column(name="MessageID")
     public int getMessageID() {
         return messageID;
     }
@@ -68,6 +60,7 @@ public class Message {
         this.messageID = messageID;
     }
 
+    @Column(name="message")
     public String getMessage() {
         return message;
     }
@@ -81,6 +74,7 @@ public class Message {
         return "Message: " + "messageID= " + messageID + ", message= " + message + ", date= " + date ;
     }
 
+    @Column(name="date")
     public Date getDate() {
         return date;
     }
@@ -89,8 +83,8 @@ public class Message {
         this.date = date;
     }
     
-    public List<User> getReceivedMessages(){
-        return receivedM;
+    /*public List<User_IF> getReceivedMessages(){
+        return receiver;
     }
     
     public List<User> getSentMessages(){
@@ -102,6 +96,6 @@ public class Message {
     }
     public void setReceivedMessages(List<User> receivedM){
         this.receivedM = receivedM;
-    }
+    }*/
     
 }

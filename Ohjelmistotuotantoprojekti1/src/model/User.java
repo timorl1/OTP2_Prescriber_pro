@@ -35,11 +35,11 @@ public class User implements User_IF{
     
     
     
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="sender", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    @OneToMany (mappedBy="message")
+    //@JoinTable(name="sender", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
     private List<Message> sentMessages = new ArrayList();
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="receiver", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    @OneToMany (mappedBy="message")
+    //@JoinTable(name="receiver", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
     private List<Message> receivedMessages = new ArrayList();
     
     public User(){}

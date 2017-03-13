@@ -46,7 +46,7 @@ public class MessageDAOTest {
                     System.out.println("Message id : "+m.getMessageID());
                     System.out.println("Message: "+m.getMessage());
                     System.out.println("Meddage date: "+m.getDate());
-                    System.out.println("sent"+ m.getReceivedMessages());
+                    System.out.println("sent"+ m.getMessage());
 
                     break;
                   
@@ -65,16 +65,16 @@ public class MessageDAOTest {
                 case '3':
                     System.out.println("Anna käyttäjätunnuksesi: ");
                     String sName = Reader.readLine();
-                    User_IF userSender = userDAO.getUser(sName);
+                    User userSender = (User) userDAO.getUser(sName);
                     System.out.println("Anna vastaanottaja tunnus: ");
                     String rName = Reader.readLine();
-                    User_IF userReceiver = userDAO.getUser(rName);
+                    User userReceiver = (User) userDAO.getUser(rName);
                     System.out.println("Kirjoita viesti: ");
                     String message = Reader.readLine();
                     Message mes = new Message();
                     mes.setMessage(message);
-                    mes.setSender(userSender.getUsername());
-                    mes.setReceiver(userReceiver.getUsername());
+                    mes.setSender(userSender);
+                    mes.setReceiver(userReceiver);
                     messagedao.createMessage(mes);
                     break;
                     
