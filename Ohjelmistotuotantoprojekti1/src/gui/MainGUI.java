@@ -111,11 +111,18 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
         this.sideBar.getSearchField().setOnKeyReleased(e -> {
-        this.patientListView.filter(this.sideBar.getSearchField().getText());
-        this.drugListView.filter(this.sideBar.getSearchField().getText());
-        this.employeeListView.filter(this.sideBar.getSearchField().getText());
+        if(this.patientListView != null){
+            this.patientListView.filter(this.sideBar.getSearchField().getText());
+        }
+        if(this.drugListView != null){
+            this.drugListView.filter(this.sideBar.getSearchField().getText());
+        }
+        if (this.employeeListView != null){
+            this.employeeListView.filter(this.sideBar.getSearchField().getText());
+        }    
+        if (this.userListView != null){
         this.userListView.filter(this.sideBar.getSearchField().getText());
-        
+        }
         });
         this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
