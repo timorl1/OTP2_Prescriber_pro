@@ -27,6 +27,8 @@ public class Message {
     private String message;
     @Column(name="date")
     private Date date;
+    private String sender;
+    private String receiver;
     
     @ManyToMany (mappedBy="sentMessages")
     private List<User> sentM = new ArrayList();
@@ -40,6 +42,22 @@ public class Message {
         this.messageID = id;
         this.message = message;
         this.date = d;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     public int getMessageID() {

@@ -7,9 +7,12 @@ package consoletests;
 
 import dao.MessageDAO;
 import dao.MessageDAO_IF;
+import dao.UserDAO;
+import dao.UserDAO_IF;
 import java.util.List;
 import model.Message;
 import model.User;
+import model.User_IF;
 
 /**
  *
@@ -22,12 +25,12 @@ public class MessageDAOTest {
      */
     public static void main(String[] args) {
         MessageDAO_IF messagedao = new MessageDAO();
-            
+        UserDAO_IF userDAO = new UserDAO();
         char select;
          do {
             System.out.println("\n\t\t\t1. Lue viesti");
             System.out.println("\t\t\t2. Näytä viestit");
-            System.out.println("\t\t\t3. Muokkaa käyttäjää.");
+            System.out.println("\t\t\t3. Lisää viesti.");
             System.out.println("\t\t\t4. Poista käyttäjä.");
             System.out.println("\t\t\t5. Lopeta.");
             System.out.print("\n\n"); // tehdään tyhjiä rivejä
@@ -60,7 +63,19 @@ public class MessageDAOTest {
                     
                     break;
                 case '3':
-                           
+                    System.out.println("Anna käyttäjätunnuksesi: ");
+                    String sName = Reader.readLine();
+                    User_IF userSender = userDAO.getUser(sName);
+                    System.out.println("Anna vastaanottaja tunnus: ");
+                    String rName = Reader.readLine();
+                    User_IF userReceiver = userDAO.getUser(rName);
+                    System.out.println("Kirjoita viesti: ");
+                    String message = Reader.readLine();
+                    Message mes = new Message();
+                    mes.setMessage(message);
+                    mes.setSender(userSender.getUsername());
+                    mes.setReceiver(userReceiver.getUsername());
+                    messagedao.createMessage(mes);
                     break;
                     
                 case '4':
