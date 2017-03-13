@@ -8,6 +8,7 @@ package dao;
 import java.util.List;
 import model.User;
 import model.User_IF;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -121,6 +122,8 @@ public class UserDAO implements UserDAO_IF {
                 user = new User();
                 session.load(user, username);
                 session.getTransaction().commit();
+                Hibernate.initialize(user.getSentMessages());
+                Hibernate.initialize(user.getReceivedMessages());
 			
 		}catch(Exception e){
 			System.out.println("Caught an error while reading resources.");
