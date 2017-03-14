@@ -40,6 +40,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarGUI_IF sideBar;
     private LoginGUI_IF login;
     private PrescriptionFormGUI_IF prescriptionForm;
+    private MessageFormGUI messageForm;
     private SideBarListView_IF<Patient> patientListView;
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
@@ -112,6 +113,10 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setSideBar() {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
+        this.sideBar.getMessageButton().setOnMousePressed(m ->{
+            this.messageForm = new MessageFormGUI(this.controller.getUsers());
+            this.tabPane.getTabs().add(messageForm);
+        });
         this.sideBar.getSearchField().setOnKeyReleased(e -> {
         if(this.patientListView != null){
             this.patientListView.filter(this.sideBar.getSearchField().getText());
