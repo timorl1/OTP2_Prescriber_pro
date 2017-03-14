@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
@@ -28,6 +29,8 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     private TextField searchField;
     @FXML
     private Accordion accordion;
+    @FXML
+    private Button messageButton;
     
     MainGUI_IF root;
     FXMLLoader loader;
@@ -78,6 +81,11 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     @Override
     public VBox getVbox() {
         return this.vBox;
+    }
+
+    @Override
+    public Button getMessageButton() {
+        return this.messageButton;
     }
     
 }
