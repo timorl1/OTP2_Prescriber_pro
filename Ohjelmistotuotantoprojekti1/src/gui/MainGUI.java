@@ -200,6 +200,15 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.receivedMessageListView.setList(this.controller.getReceivedMessages());
             }
         });
+        this.receivedMessageListView.getListView().setOnMouseClicked(e -> {
+            if (this.receivedMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+                this.setMessageDetails(this.receivedMessageListView.getSelection());
+            }
+            else if (this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+            }
+        });
         this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
     }
     
@@ -209,6 +218,15 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.sentMessageListView.isExpanded()) {
                 this.sentMessageListView.setList(this.controller.getSentMessages());
+            }
+        });
+        this.sentMessageListView.getListView().setOnMouseClicked(e -> {
+            if (this.sentMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+                this.setMessageDetails(this.sentMessageListView.getSelection());
+            }
+            else if (this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
             }
         });
         this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
@@ -458,13 +476,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setMessageDetails(Message message) {
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Lähettäjä: "+message.getSender());
-        list.add("Vastaanottaja: "+message.getReceiver());
+        list.add("Lähettäjä: "+message.getSender().getFirstName()+" "+message.getSender().getLastName());
+        list.add("Vastaanottaja: "+message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
         list.add("Päiväys: "+message.getDate());
         list.add("Viesti: "+message.getMessage() );
         
         this.tabPane.getTabs().remove(this.messageTab);
-        this.messageTab = new ListTabGUI("Viesti: "+message.getMessageID());
+        this.messageTab = new ListTabGUI(message.getTitle());
         this.messageTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.messageTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.messageTab);

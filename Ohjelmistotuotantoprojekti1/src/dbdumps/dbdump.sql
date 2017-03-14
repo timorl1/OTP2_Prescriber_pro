@@ -20,6 +20,7 @@ USE `applicationdb`;
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `MessageID` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL,
   `message` varchar(1000) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `sender` varchar(50) NOT NULL,
@@ -29,12 +30,17 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `FK_message_receiver` (`receiver`),
   CONSTRAINT `FK_message_receiver` FOREIGN KEY (`receiver`) REFERENCES `user` (`username`),
   CONSTRAINT `FK_message_sender` FOREIGN KEY (`sender`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table applicationdb.message: ~1 rows (suunnilleen)
+-- Dumping data for table applicationdb.message: ~5 rows (suunnilleen)
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` (`MessageID`, `message`, `date`, `sender`, `receiver`) VALUES
-	(1, 'Joko toimii', '2017-03-13 13:30:23', 'doctor1', 'nurse1');
+INSERT INTO `message` (`MessageID`, `title`, `message`, `date`, `sender`, `receiver`) VALUES
+	(1, 'Moi', 'Joko toimii', '2017-03-13 13:30:23', 'doctor1', 'nurse1'),
+	(2, 'Testi', 'moro', '2017-03-13 14:41:13', 'doctor1', 'admin'),
+	(3, 'Potilaalla hätä', 'Tuleeko viestit läpi', '2017-03-13 15:11:25', 'admin', 'nurse1'),
+	(4, 'Ei toimi lääkkeet', 'moi', '2017-03-13 19:27:49', 'doctor1', 'nurse1'),
+	(5, 'Viestin testaus', 'doctor1 on vastaanottaja', '2017-03-13 19:28:36', 'nurse1', 'doctor1'),
+	(6, 'Palaveri', 'Muistahan osallistua palaveriin illemmalla klo 20.00', '2017-03-14 12:37:50', 'doctormad', 'doctor1');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 
 
@@ -56,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `prescription` (
   PRIMARY KEY (`prescriptionID`),
   KEY `username` (`username`),
   CONSTRAINT `prescription_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table applicationdb.prescription: ~2 rows (suunnilleen)
 /*!40000 ALTER TABLE `prescription` DISABLE KEYS */;

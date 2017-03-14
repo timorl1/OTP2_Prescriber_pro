@@ -80,10 +80,13 @@ public class MessageDAOTest {
                     System.out.println("Anna vastaanottaja tunnus: ");
                     String rName = Reader.readLine();
                     User userReceiver = (User) userDAO.getUser(rName);
+                    System.out.println("Anna aihe: ");
+                    String title = Reader.readLine();
                     System.out.println("Kirjoita viesti: ");
                     String message = Reader.readLine();
                     Message mes = new Message();
                     mes.setMessage(message);
+                    mes.setTitle(title);
                     mes.setSender(userSender);
                     mes.setReceiver(userReceiver);
                     messagedao.createMessage(mes);

@@ -16,6 +16,8 @@ public class Message {
     private int messageID;
     private String message;
     private Date date;
+    private String title;
+
     
     private User sender;
     private User receiver;
@@ -66,14 +68,23 @@ public class Message {
     public String getMessage() {
         return message;
     }
+    @Column(name="title")
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public void setMessage(String message) {
         this.message = message;
     }
 
     @Override
     public String toString() {
-        return "Message: " + "messageID= " + messageID + ", message= " + message + ", date= " + date+", sender= "+sender.getUsername() ;
+        return "Lähettäjä: "+sender.getFirstName()+" "+sender.getLastName()+", Vastaanottaja: "+receiver.getFirstName()+
+                " "+receiver.getLastName()+", Aihe: "+title+", pvm: "+date;
     }
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date")
