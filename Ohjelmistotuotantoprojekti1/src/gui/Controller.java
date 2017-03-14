@@ -149,7 +149,6 @@ public class Controller implements Controller_IF {
     
     @Override
     public void getMessageDetails() {
-        System.out.println("Controller");
         this.gui.setMessageDetails(this.gui.getSelectedMessage());
     }
     

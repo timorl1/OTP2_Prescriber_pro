@@ -64,7 +64,6 @@ public class Message {
 
     @Column(name="message")
     public String getMessage() {
-        System.out.println("MESSAGE LUOKKA getMessage");
         return message;
     }
 

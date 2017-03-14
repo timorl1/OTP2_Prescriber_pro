@@ -457,7 +457,6 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setMessageDetails(Message message) {
-        System.out.println("MAin gui");
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Lähettäjä: "+message.getSender());
         list.add("Vastaanottaja: "+message.getReceiver());
