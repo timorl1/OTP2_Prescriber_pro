@@ -3,6 +3,8 @@
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,16 +19,19 @@ import javafx.util.converter.DoubleStringConverter;
 import model.Diagnose;
 import model.Drug;
 import model.Employee;
+import model.Message;
 import model.Patient;
 import model.Prescription;
 import model.User;
+import model.User_IF;
+
 
 /**
  * FXML Controller class
  *
  * @author joosiika
  */
-<span class="nc" id="L29">public class MainGUI implements Initializable, MainGUI_IF {</span>
+<span class="nc" id="L34">public class MainGUI implements Initializable, MainGUI_IF {</span>
     
     @FXML
     private AnchorPane root;
@@ -34,52 +39,66 @@ import model.User;
     private TabPane tabPane;
     private SideBarGUI_IF sideBar;
     private LoginGUI_IF login;
+    private PrescriptionFormGUI_IF prescriptionForm;
     private SideBarListView_IF&lt;Patient&gt; patientListView;
     private SideBarListView_IF&lt;Drug&gt; drugListView;
     private SideBarListView_IF&lt;Prescription&gt; prescriptionListView;
     private ListTabGUI_IF&lt;String&gt; prescriptionTab;
+    private ListTabGUI_IF&lt;String&gt; drugTab;
     private ListTabGUI_IF&lt;Prescription&gt; patientPrescriptionTab;
     private ListTabGUI_IF&lt;String&gt; diagnoseTab;
     private ListTabGUI_IF&lt;Diagnose&gt; patientDiagnoseTab;
-    private SideBarListView_IF&lt;String&gt; messageListView;
-    private SideBarListView_IF&lt;User&gt; userListView;
+    private SideBarListView_IF&lt;Message&gt; messageListView;
+    private SideBarListView_IF&lt;User_IF&gt; userListView;
     private SideBarListView_IF&lt;Employee&gt; employeeListView;
     private SideBarListView_IF&lt;String&gt; databaseListView;
     
-    private Controller controller;
+    private Controller_IF controller;
     
-    private DoubleStringConverter dsc;
+    private AppStatus status;
+    
+    private DoubleStringConverter dsc;    
+    
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-<span class="nc" id="L55">        this.controller = new Controller(this);</span>
-<span class="nc" id="L56">        this.dsc = new DoubleStringConverter();</span>
-<span class="nc" id="L57">        setLogin();</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L65">        this.controller = new Controller(this);</span>
+<span class="nc" id="L66">        this.dsc = new DoubleStringConverter();</span>
+<span class="nc" id="L67">        setLogin();</span>
+<span class="nc" id="L68">        setStatus(AppStatus.IDLE);</span>
+<span class="nc" id="L69">    }</span>
+    
+    public AppStatus getStatus() {
+<span class="nc" id="L72">        return status;</span>
+    }
+
+    public void setStatus(AppStatus status) {
+<span class="nc" id="L76">        this.status = status;</span>
+<span class="nc" id="L77">    }</span>
     
     //Creates a new instance of the LoginGUI and passes itself as a parameter
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void setLogin() {
-<span class="nc" id="L64">        this.login = new LoginGUI();</span>
-<span class="nc" id="L65">        this.login.getButton().setOnAction(e -&gt; {</span>
-<span class="nc" id="L66">            this.controller.login(this.login.getUsername(), this.login.getPassword());</span>
-<span class="nc" id="L67">        });</span>
-<span class="nc" id="L68">        this.root.getChildren().add((LoginGUI)this.login);</span>
-<span class="nc" id="L69">    }</span>
+<span class="nc" id="L83">        this.login = new LoginGUI();</span>
+<span class="nc" id="L84">        this.login.getButton().setOnAction(e -&gt; {</span>
+<span class="nc" id="L85">            this.controller.login(this.login.getUsername(), this.login.getPassword());</span>
+<span class="nc" id="L86">        });</span>
+<span class="nc" id="L87">        this.root.getChildren().add((LoginGUI)this.login);</span>
+<span class="nc" id="L88">    }</span>
     
     //Set login failed message
     @Override
     public void setLoginFailed() {
-<span class="nc" id="L74">        this.login.addMessage(&quot;Kirjautuminen epäonnistui. Väärä käyttäjätunnus tai salasana!&quot;);</span>
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L93">        this.login.addMessage(&quot;Kirjautuminen epäonnistui. Väärä käyttäjätunnus tai salasana!&quot;);</span>
+<span class="nc" id="L94">    }</span>
     
     //Set access denied message
     @Override
     public void setAccessDenied() {
-<span class="nc" id="L80">        this.root.getChildren().clear();</span>
-<span class="nc" id="L81">        this.root.getChildren().add(new Label(&quot;Tunnuksesi on lukittu. Ota yhteys ylläpitäjään.&quot;));</span>
-<span class="nc" id="L82">    }</span>
+<span class="nc" id="L99">        this.root.getChildren().clear();</span>
+<span class="nc" id="L100">        this.root.getChildren().add(new Label(&quot;Tunnuksesi on lukittu. Ota yhteys ylläpitäjään.&quot;));</span>
+<span class="nc" id="L101">    }</span>
     
     //Removes the login component and loads the side bar component
     //Component type is defined by user's priviledges
@@ -89,310 +108,414 @@ import model.User;
     //0 - should print out &quot;access revoked&quot; and instructions to contact the administrator
     @Override
     public void setSideBar() {
-<span class="nc" id="L92">        this.root.getChildren().remove((LoginGUI) this.login);</span>
-<span class="nc" id="L93">        this.sideBar = new SideBarGUI(this);</span>
-<span class="nc" id="L94">        this.root.getChildren().add((SideBarGUI) this.sideBar);</span>
-<span class="nc" id="L95">    }</span>
-
-    //Loads the tab pane component depending of the side bar content selection
-    @Override
-    public &lt;T&gt; void loadTabPane(List&lt;T&gt; list) {
-<span class="nc" id="L100">        ListTabGUI_IF&lt;T&gt; tab = new ListTabGUI(&quot;Potilaan tiedot&quot;);</span>
-<span class="nc" id="L101">        tab.setList(list);</span>
-<span class="nc" id="L102">        this.tabPane.getTabs().add((ListTabGUI)tab);</span>
-<span class="nc" id="L103">    }</span>
+<span class="nc" id="L111">        this.root.getChildren().remove((LoginGUI) this.login);</span>
+<span class="nc" id="L112">        this.sideBar = new SideBarGUI(this);</span>
+<span class="nc" id="L113">        this.sideBar.getSearchField().setOnKeyReleased(e -&gt; {</span>
+<span class="nc" id="L114">        this.patientListView.filter(this.sideBar.getSearchField().getText());</span>
+<span class="nc" id="L115">        this.drugListView.filter(this.sideBar.getSearchField().getText());</span>
+<span class="nc" id="L116">        this.employeeListView.filter(this.sideBar.getSearchField().getText());</span>
+<span class="nc" id="L117">        this.userListView.filter(this.sideBar.getSearchField().getText());</span>
+        
+<span class="nc" id="L119">        });</span>
+<span class="nc" id="L120">        this.root.getChildren().add((SideBarGUI) this.sideBar);</span>
+<span class="nc" id="L121">    }</span>
 
     @Override
     public void setPatientList() {
-<span class="nc" id="L107">        this.patientListView = new SideBarListViewGUI(&quot;Potilas&quot;);</span>
-<span class="nc" id="L108">        this.patientListView.getTitledPane().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (this.patientListView.isExpanded()) {</span>
-<span class="nc" id="L110">                this.patientListView.setList(this.controller.getPatients());</span>
+<span class="nc" id="L125">        this.patientListView = new SideBarListViewGUI(&quot;Potilas&quot;);</span>
+<span class="nc" id="L126">        this.patientListView.getTitledPane().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (this.patientListView.isExpanded()) {</span>
+<span class="nc" id="L128">                this.patientListView.setList(this.controller.getPatients());</span>
             }
-<span class="nc" id="L112">        });</span>
-<span class="nc" id="L113">        this.patientListView.getListView().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (this.patientListView.getSelection() != null) {</span>
-<span class="nc" id="L115">                this.tabPane.getTabs().clear();</span>
-<span class="nc" id="L116">                this.controller.getPatientDetails();</span>
-<span class="nc" id="L117">                this.controller.getPatientDiagnoses();</span>
-<span class="nc" id="L118">                this.controller.getPatientPrescriptions();</span>
+<span class="nc" id="L130">        });</span>
+<span class="nc" id="L131">        this.patientListView.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L132" title="All 4 branches missed.">            if (this.patientListView.getSelection() != null &amp;&amp; this.status == AppStatus.IDLE) {</span>
+<span class="nc" id="L133">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L134">                this.controller.getPatientDetails();</span>
+<span class="nc" id="L135">                this.controller.getPatientDiagnoses();</span>
+<span class="nc" id="L136">                this.controller.getPatientPrescriptions();</span>
             }
-            else {
-<span class="nc" id="L121">                this.tabPane.getTabs().clear();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">            else if (this.status == AppStatus.IDLE) {</span>
+<span class="nc" id="L139">                this.tabPane.getTabs().clear();</span>
             }
-<span class="nc" id="L123">        });</span>
-<span class="nc" id="L124">        this.sideBar.addView((SideBarListViewGUI)this.patientListView);</span>
-<span class="nc" id="L125">    }</span>
+<span class="nc" id="L141">        });</span>
+<span class="nc" id="L142">        this.sideBar.addView((SideBarListViewGUI)this.patientListView);</span>
+<span class="nc" id="L143">    }</span>
 
     @Override
     public void setDrugList() {
-<span class="nc" id="L129">        this.drugListView = new SideBarListViewGUI(&quot;Lääkkeet&quot;);</span>
-<span class="nc" id="L130">        this.drugListView.getTitledPane().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L131" title="All 2 branches missed.">            if (this.drugListView.isExpanded()) {</span>
-<span class="nc" id="L132">                this. drugListView.setList(this.controller.getDrugs());</span>
+<span class="nc" id="L147">        this.drugListView = new SideBarListViewGUI(&quot;Lääkkeet&quot;);</span>
+<span class="nc" id="L148">        this.drugListView.getTitledPane().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            if (this.drugListView.isExpanded()) {</span>
+<span class="nc" id="L150">                this.drugListView.setList(this.controller.getDrugs());</span>
             }
-<span class="nc" id="L134">        });</span>
-<span class="nc" id="L135">        this.drugListView.getListView().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (this.drugListView.getSelection() != null) {</span>
+<span class="nc" id="L152">        });</span>
+<span class="nc" id="L153">        this.drugListView.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L154" title="All 4 branches missed.">            if (this.drugListView.getSelection() != null &amp;&amp; this.status == AppStatus.IDLE) {</span>
+<span class="nc" id="L155">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L156">                this.controller.getDrugDetails();</span>
                 //this.loadTabPane(drugListView.getSelection());
             }
-            else {
-<span class="nc" id="L140">                this.tabPane.getTabs().clear();</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">            else if (this.status == AppStatus.IDLE) {</span>
+<span class="nc" id="L160">                this.tabPane.getTabs().clear();</span>
             }
-<span class="nc" id="L142">        });</span>
-<span class="nc" id="L143">        this.sideBar.addView((SideBarListViewGUI)this.drugListView);</span>
-<span class="nc" id="L144">    }</span>
+<span class="nc" id="L162">        });</span>
+<span class="nc" id="L163">        this.sideBar.addView((SideBarListViewGUI)this.drugListView);</span>
+<span class="nc" id="L164">    }</span>
 
     @Override
     public void setPrescriptionList() {
-<span class="nc" id="L148">        this.prescriptionListView = new SideBarListViewGUI(&quot;Omat Reseptit&quot;);</span>
-<span class="nc" id="L149">        this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
-<span class="nc bnc" id="L150" title="All 2 branches missed.">            if (this.prescriptionListView.isExpanded()) {</span>
-<span class="nc" id="L151">                this.prescriptionListView.setList(this.controller.getPrescriptions());</span>
+<span class="nc" id="L168">        this.prescriptionListView = new SideBarListViewGUI(&quot;Omat Lääkemääräykset&quot;);</span>
+<span class="nc" id="L169">        this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            if (this.prescriptionListView.isExpanded()) {</span>
+<span class="nc" id="L171">                this.prescriptionListView.setList(this.controller.getPrescriptions());</span>
             }
-<span class="nc" id="L153">        });</span>
-<span class="nc" id="L154">        this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);</span>
-<span class="nc" id="L155">    }</span>
+<span class="nc" id="L173">        });</span>
+<span class="nc" id="L174">        this.prescriptionListView.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (this.prescriptionListView.getSelection() != null) {</span>
+<span class="nc" id="L176">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L177">                this.controller.getPrescriptionDetails();</span>
+            }
+            else {
+<span class="nc" id="L180">                this.tabPane.getTabs().clear();</span>
+            }
+<span class="nc" id="L182">        });</span>
+<span class="nc" id="L183">        this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);</span>
+<span class="nc" id="L184">    }</span>
 
     @Override
     public void setMessageList() {
-<span class="nc" id="L159">        this.messageListView = new SideBarListViewGUI(&quot;Viestit&quot;);</span>
-<span class="nc" id="L160">        this.messageListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">            if (this.messageListView.isExpanded()) {</span>
-<span class="nc" id="L162">                this.messageListView.setList(this.controller.getMessages());</span>
+<span class="nc" id="L188">        this.messageListView = new SideBarListViewGUI(&quot;Viestit&quot;);</span>
+<span class="nc" id="L189">        this.messageListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">            if (this.messageListView.isExpanded()) {</span>
+<span class="nc" id="L191">                this.messageListView.setList(this.controller.getMessages());</span>
             }
-<span class="nc" id="L164">        });</span>
-<span class="nc" id="L165">        this.sideBar.addView((SideBarListViewGUI)this.messageListView);</span>
-<span class="nc" id="L166">    }</span>
+<span class="nc" id="L193">        });</span>
+<span class="nc" id="L194">        this.sideBar.addView((SideBarListViewGUI)this.messageListView);</span>
+<span class="nc" id="L195">    }</span>
 
     //List all users
     @Override
     public void setUserList() {
-<span class="nc" id="L171">        this.userListView = new SideBarListViewGUI(&quot;Käyttäjät&quot;);</span>
+<span class="nc" id="L200">        this.userListView = new SideBarListViewGUI(&quot;Käyttäjät&quot;);</span>
         //Create custom cells with buttons to be able to easily set users accounts in locked state
-<span class="nc" id="L173">        this.userListView.getListView().setCellFactory(p -&gt; {</span>
-<span class="nc" id="L174">            ListCell&lt;User&gt; cell = new ListCell&lt;User&gt;(){</span>
+<span class="nc" id="L202">        this.userListView.getListView().setCellFactory(p -&gt; {</span>
+<span class="nc" id="L203">            ListCell&lt;User&gt; cell = new ListCell&lt;User&gt;(){</span>
                 @Override
                 protected void updateItem(User u, boolean bln) {
-<span class="nc" id="L177">                    super.updateItem(u, bln);</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">                    if (u != null) {</span>
-<span class="nc" id="L179">                        setText(u.toString());</span>
-<span class="nc" id="L180">                        Button button = new Button();</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">                        if (u.getPrivileges() != 0) {</span>
-<span class="nc" id="L182">                            button.setText(&quot;-&quot;);</span>
+<span class="nc" id="L206">                    super.updateItem(u, bln);</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">                    if (u != null) {</span>
+<span class="nc" id="L208">                        setText(u.toString());</span>
+<span class="nc" id="L209">                        Button button = new Button();</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                        if (u.getUsertype() != 0) {</span>
+<span class="nc" id="L211">                            button.setText(&quot;-&quot;);</span>
                         }
                         else {
-<span class="nc" id="L185">                            button.setText(&quot;+&quot;);</span>
+<span class="nc" id="L214">                            button.setText(&quot;+&quot;);</span>
                         }
-<span class="nc" id="L187">                        button.setOnAction((ActionEvent event) -&gt; {</span>
-<span class="nc bnc" id="L188" title="All 2 branches missed.">                            if (u.getPrivileges() != 0) {</span>
-<span class="nc" id="L189">                                controller.lockUser(u);</span>
-<span class="nc" id="L190">                                button.setText(&quot;+&quot;);</span>
+<span class="nc" id="L216">                        button.setOnAction((ActionEvent event) -&gt; {</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">                            if (u.getUsertype() != 0) {</span>
+<span class="nc" id="L218">                                controller.lockUser(u);</span>
+<span class="nc" id="L219">                                button.setText(&quot;+&quot;);</span>
                             }
                             else {
-<span class="nc" id="L193">                                controller.setUserPriviledges(u);</span>
-<span class="nc" id="L194">                                button.setText(&quot;-&quot;);</span>
+<span class="nc" id="L222">                                controller.setUserPriviledges(u);</span>
+<span class="nc" id="L223">                                button.setText(&quot;-&quot;);</span>
                             }
-<span class="nc" id="L196">                        });</span>
-<span class="nc" id="L197">                        setGraphic(button);</span>
+<span class="nc" id="L225">                        });</span>
+<span class="nc" id="L226">                        setGraphic(button);</span>
                     }
-<span class="nc" id="L199">                }</span>
+<span class="nc" id="L228">                }</span>
             };
-            //cell.setContentDisplay(ContentDisplay.RIGHT);
-<span class="nc" id="L202">            return cell;</span>
+<span class="nc" id="L230">            return cell;</span>
         });
-<span class="nc" id="L204">        this.userListView.getTitledPane().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (this.userListView.isExpanded()) {</span>
-<span class="nc" id="L206">                this.userListView.setList(this.controller.getUsers());</span>
+<span class="nc" id="L232">        this.userListView.getTitledPane().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">            if (this.userListView.isExpanded()) {</span>
+<span class="nc" id="L234">                this.userListView.setList(this.controller.getUsers());</span>
             }
-<span class="nc" id="L208">        });</span>
-<span class="nc" id="L209">        this.userListView.getListView().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L210" title="All 2 branches missed.">            if (this.userListView.getSelection() != null) {</span>
-<span class="nc" id="L211">                this.tabPane.getTabs().clear();</span>
-<span class="nc" id="L212">                this.controller.getUserDetails();</span>
+<span class="nc" id="L236">        });</span>
+<span class="nc" id="L237">        this.userListView.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">            if (this.userListView.getSelection() != null) {</span>
+<span class="nc" id="L239">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L240">                this.controller.getUserDetails();</span>
             }
             else {
-<span class="nc" id="L215">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L243">                this.tabPane.getTabs().clear();</span>
             }
-<span class="nc" id="L217">        });</span>
-<span class="nc" id="L218">        this.sideBar.addView((SideBarListViewGUI)this.userListView);</span>
-<span class="nc" id="L219">    }</span>
+<span class="nc" id="L245">        });</span>
+<span class="nc" id="L246">        this.sideBar.addView((SideBarListViewGUI)this.userListView);</span>
+<span class="nc" id="L247">    }</span>
 
     @Override
     public void setEmployeeList() {
-<span class="nc" id="L223">        this.employeeListView = new SideBarListViewGUI(&quot;Työntekijät&quot;);</span>
-<span class="nc" id="L224">        this.employeeListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
-<span class="nc bnc" id="L225" title="All 2 branches missed.">            if (this.employeeListView.isExpanded()) {</span>
-<span class="nc" id="L226">                this.employeeListView.setList(this.controller.getEmployees());</span>
+<span class="nc" id="L251">        this.employeeListView = new SideBarListViewGUI(&quot;Työntekijät&quot;);</span>
+<span class="nc" id="L252">        this.employeeListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">            if (this.employeeListView.isExpanded()) {</span>
+<span class="nc" id="L254">                this.employeeListView.setList(this.controller.getEmployees());</span>
             }
-<span class="nc" id="L228">        });</span>
-<span class="nc" id="L229">        this.employeeListView.getListView().setOnMouseClicked(e -&gt; {</span>
-<span class="nc bnc" id="L230" title="All 2 branches missed.">            if (this.employeeListView.getSelection() != null) {</span>
-<span class="nc" id="L231">                this.tabPane.getTabs().clear();</span>
-<span class="nc" id="L232">                this.controller.getEmployeeDetails();</span>
+<span class="nc" id="L256">        });</span>
+<span class="nc" id="L257">        this.employeeListView.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">            if (this.employeeListView.getSelection() != null) {</span>
+<span class="nc" id="L259">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L260">                this.controller.getEmployeeDetails();</span>
             }
             else {
-<span class="nc" id="L235">                this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L263">                this.tabPane.getTabs().clear();</span>
             }
-<span class="nc" id="L237">        });</span>
-<span class="nc" id="L238">        this.sideBar.addView((SideBarListViewGUI)this.employeeListView);</span>
-<span class="nc" id="L239">    }</span>
+<span class="nc" id="L265">        });</span>
+<span class="nc" id="L266">        this.sideBar.addView((SideBarListViewGUI)this.employeeListView);</span>
+<span class="nc" id="L267">    }</span>
 
     @Override
     public void setDatabaseList() {
-<span class="nc" id="L243">        this.databaseListView = new SideBarListViewGUI(&quot;Tietokannat&quot;);</span>
-<span class="nc" id="L244">        this.databaseListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
-<span class="nc bnc" id="L245" title="All 2 branches missed.">            if (this.databaseListView.isExpanded()) {</span>
-<span class="nc" id="L246">                this.databaseListView.setList(this.controller.getDatabases());</span>
+<span class="nc" id="L271">        this.databaseListView = new SideBarListViewGUI(&quot;Tietokannat&quot;);</span>
+<span class="nc" id="L272">        this.databaseListView.getTitledPane().setOnMouseClicked((event) -&gt; {</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">            if (this.databaseListView.isExpanded()) {</span>
+<span class="nc" id="L274">                this.databaseListView.setList(this.controller.getDatabases());</span>
             }
-<span class="nc" id="L248">        });</span>
-<span class="nc" id="L249">        this.sideBar.addView((SideBarListViewGUI)this.databaseListView);</span>
-<span class="nc" id="L250">    }</span>
+<span class="nc" id="L276">        });</span>
+<span class="nc" id="L277">        this.sideBar.addView((SideBarListViewGUI)this.databaseListView);</span>
+<span class="nc" id="L278">    }</span>
+    
+    @Override
+    public void setPrescriptionForm(Prescription prescription) {
+<span class="nc" id="L282">        this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, &quot;Lääkemääräys&quot;, prescription);</span>
+<span class="nc" id="L283">        this.prescriptionForm.getCancelButton().setOnAction(e -&gt; {</span>
+<span class="nc" id="L284">            this.tabPane.getTabs().remove(this.prescriptionForm);</span>
+<span class="nc" id="L285">            this.setStatus(AppStatus.IDLE);</span>
+<span class="nc" id="L286">        });</span>
+<span class="nc" id="L287">        this.prescriptionForm.getSaveButton().setOnAction(e -&gt; {</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">            if (this.status == AppStatus.EDIT) {</span>
+<span class="nc" id="L289">                this.prescriptionForm.markUpdate();</span>
+            }
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            if (this.controller.savePrescription()) {</span>
+<span class="nc" id="L292">                this.tabPane.getTabs().remove(this.prescriptionForm);</span>
+<span class="nc" id="L293">                this.setStatus(AppStatus.IDLE);</span>
+            }
+            else {
+                //Some kind of alert message should be thrown
+            }
+<span class="nc" id="L298">        });</span>
+<span class="nc" id="L299">        this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">            if (this.getPrescriptionForm().getPatient() != null) {</span>
+<span class="nc" id="L301">                ObservableList&lt;Diagnose&gt; list = FXCollections.observableList(this.controller.listPatientDiagnoses());</span>
+<span class="nc" id="L302">                this.prescriptionForm.getDiagnoseSelector().setItems(list);</span>
+<span class="nc" id="L303">                this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);</span>
+<span class="nc" id="L304">                this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());</span>
+            }
+<span class="nc" id="L306">        });</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">        if (this.getSelectedPatient() != null) {</span>
+<span class="nc" id="L308">            ObservableList&lt;Diagnose&gt; list = FXCollections.observableList(this.controller.listPatientDiagnoses());</span>
+<span class="nc" id="L309">            this.prescriptionForm.getDiagnoseSelector().setItems(list);</span>
+<span class="nc" id="L310">            this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);</span>
+        }
+<span class="nc" id="L312">        this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);</span>
+<span class="nc" id="L313">    }</span>
+    
+    @Override
+    public void setPrescriptionTools() {
+<span class="nc" id="L317">        Button createPrescription = new Button(&quot;Uusi lääkemääräys&quot;);</span>
+<span class="nc" id="L318">        createPrescription.setOnMouseClicked((event) -&gt; {</span>
+<span class="nc" id="L319">            this.controller.createNewPrescription();</span>
+<span class="nc" id="L320">            this.setStatus(AppStatus.CREATE);</span>
+<span class="nc" id="L321">        });</span>
+<span class="nc" id="L322">        this.sideBar.getVbox().getChildren().add(createPrescription);</span>
+<span class="nc" id="L323">        Button updatePrescription = new Button(&quot;Muokkaa lääkemääräystä&quot;);</span>
+<span class="nc" id="L324">        BooleanBinding booleanBind = Bindings.isNull(this.prescriptionListView.getListView().getSelectionModel().selectedItemProperty());</span>
+<span class="nc" id="L325">        updatePrescription.disableProperty().bind(booleanBind);</span>
+<span class="nc" id="L326">        updatePrescription.setOnMouseClicked((event) -&gt; {</span>
+<span class="nc" id="L327">            this.setPrescriptionForm(this.prescriptionListView.getSelection());</span>
+<span class="nc" id="L328">            this.setStatus(AppStatus.EDIT);</span>
+<span class="nc" id="L329">        });</span>
+<span class="nc" id="L330">        this.sideBar.getVbox().getChildren().add(updatePrescription);</span>
+<span class="nc" id="L331">    }</span>
 
     @Override
     public void setPatientDetails(Patient patient) {
-<span class="nc" id="L254">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
-<span class="nc" id="L255">        list.add(&quot;Sosiaaliturvatunnus: &quot; + patient.getSSN());</span>
-<span class="nc" id="L256">        list.add(&quot;Etunimi: &quot; + patient.getFirstName());</span>
-<span class="nc" id="L257">        list.add(&quot;Sukunimi: &quot; + patient.getLastName());</span>
-<span class="nc" id="L258">        list.add(&quot;Sukupuoli: &quot; + patient.getGender());</span>
-<span class="nc" id="L259">        list.add(&quot;Pituus: &quot; + dsc.toString(patient.getHeight()) + &quot; cm&quot;);</span>
-<span class="nc" id="L260">        list.add(&quot;Paino: &quot; + dsc.toString(patient.getWeight()) + &quot; kg&quot;);</span>
-<span class="nc" id="L261">        ListTabGUI listTab = new ListTabGUI(&quot;Potilaan tiedot&quot;);</span>
-<span class="nc" id="L262">        listTab.getListView().setItems(list);</span>
-<span class="nc" id="L263">        this.tabPane.getTabs().add(listTab);</span>
+<span class="nc" id="L335">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
+<span class="nc" id="L336">        list.add(&quot;Sosiaaliturvatunnus: &quot; + patient.getSSN());</span>
+<span class="nc" id="L337">        list.add(&quot;Etunimi: &quot; + patient.getFirstName());</span>
+<span class="nc" id="L338">        list.add(&quot;Sukunimi: &quot; + patient.getLastName());</span>
+<span class="nc" id="L339">        list.add(&quot;Sukupuoli: &quot; + patient.getGender());</span>
+<span class="nc" id="L340">        list.add(&quot;Pituus: &quot; + dsc.toString(patient.getHeight()) + &quot; cm&quot;);</span>
+<span class="nc" id="L341">        list.add(&quot;Paino: &quot; + dsc.toString(patient.getWeight()) + &quot; kg&quot;);</span>
+<span class="nc" id="L342">        ListTabGUI listTab = new ListTabGUI(&quot;Potilaan tiedot&quot;);</span>
+<span class="nc" id="L343">        listTab.getListView().setItems(list);</span>
+<span class="nc" id="L344">        this.tabPane.getTabs().add(listTab);</span>
         
-<span class="nc" id="L265">    }</span>
-
+<span class="nc" id="L346">    }</span>
+    
     @Override
     public void setPatientDiagnoses(List&lt;Diagnose&gt; list) {
-<span class="nc" id="L269">        ObservableList&lt;Diagnose&gt; diagnoses = FXCollections.observableArrayList(list);</span>
-<span class="nc" id="L270">        this.patientDiagnoseTab = new ListTabGUI(&quot;Potilaan diagnoosit&quot;);</span>
-<span class="nc" id="L271">        this.patientDiagnoseTab.getListView().setOnMouseClicked(e -&gt; {</span>
-<span class="nc" id="L272">            this.controller.getDiagnoseDetails();</span>
-<span class="nc" id="L273">        });</span>
-<span class="nc" id="L274">        this.patientDiagnoseTab.getListView().setItems(diagnoses);</span>
-<span class="nc" id="L275">        this.tabPane.getTabs().add((ListTabGUI)this.patientDiagnoseTab);</span>
-<span class="nc" id="L276">    }</span>
+<span class="nc" id="L350">        ObservableList&lt;Diagnose&gt; diagnoses = FXCollections.observableArrayList(list);</span>
+<span class="nc" id="L351">        this.patientDiagnoseTab = new ListTabGUI(&quot;Potilaan diagnoosit&quot;);</span>
+<span class="nc" id="L352">        this.patientDiagnoseTab.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc" id="L353">            this.controller.getDiagnoseDetails();</span>
+<span class="nc" id="L354">        });</span>
+<span class="nc" id="L355">        this.patientDiagnoseTab.getListView().setItems(diagnoses);</span>
+<span class="nc" id="L356">        this.tabPane.getTabs().add((ListTabGUI)this.patientDiagnoseTab);</span>
+<span class="nc" id="L357">    }</span>
 
     @Override
     public void setPatientPrescriptions(List&lt;Prescription&gt; list) {
-<span class="nc" id="L280">        ObservableList&lt;Prescription&gt; prescriptions = FXCollections.observableArrayList(list);</span>
-<span class="nc" id="L281">        this.patientPrescriptionTab = new ListTabGUI(&quot;Potilaan reseptit&quot;);</span>
-<span class="nc" id="L282">        this.patientPrescriptionTab.getListView().setOnMouseClicked(e -&gt; {</span>
-<span class="nc" id="L283">            this.controller.getPrescriptionDetails();</span>
-<span class="nc" id="L284">        });</span>
-<span class="nc" id="L285">        this.patientPrescriptionTab.getListView().setItems(prescriptions);</span>
-<span class="nc" id="L286">        this.tabPane.getTabs().add((ListTabGUI)this.patientPrescriptionTab);</span>
-<span class="nc" id="L287">    }</span>
+<span class="nc" id="L361">        ObservableList&lt;Prescription&gt; prescriptions = FXCollections.observableArrayList(list);</span>
+<span class="nc" id="L362">        this.patientPrescriptionTab = new ListTabGUI(&quot;Potilaan reseptit&quot;);</span>
+<span class="nc" id="L363">        this.patientPrescriptionTab.getListView().setOnMouseClicked(e -&gt; {</span>
+<span class="nc" id="L364">            this.controller.getPrescriptionDetails();</span>
+<span class="nc" id="L365">        });</span>
+<span class="nc" id="L366">        this.patientPrescriptionTab.getListView().setItems(prescriptions);</span>
+<span class="nc" id="L367">        this.tabPane.getTabs().add((ListTabGUI)this.patientPrescriptionTab);</span>
+<span class="nc" id="L368">    }</span>
 
     @Override
     public void setPrescriptionDetails(Prescription prescription) {
-<span class="nc" id="L291">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
-<span class="nc" id="L292">        list.add(&quot;Tunnus: &quot; + prescription.getId());</span>
-<span class="nc" id="L293">        list.add(&quot;Luontipäivä: &quot; + prescription.getCreationDate());</span>
-<span class="nc" id="L294">        list.add(&quot;Potilas: &quot; + prescription.getPatient().getLastName() + &quot;, &quot; + prescription.getPatient().getFirstName() + &quot;, &quot; + prescription.getPatient().getSSN());</span>
-<span class="nc" id="L295">        list.add(&quot;Lääkäri: &quot; + prescription.getDoctor().getLastName() + &quot;, &quot; + prescription.getDoctor().getFirstName());</span>
-<span class="nc" id="L296">        list.add(&quot;Diagnoosi: &quot; + prescription.getDiagnose().getId() + &quot;: &quot; + prescription.getDiagnose().getDisease());</span>
-<span class="nc" id="L297">        list.add(&quot;Lääke: &quot; + prescription.getDrug().getName());</span>
-<span class="nc" id="L298">        list.add(&quot;Annostus: &quot; + prescription.getDose() + &quot;&quot; + prescription.getDrug().getUnit() + &quot;, &quot; + prescription.getTimesADay() + &quot; kertaa päivässä.&quot;);</span>
-<span class="nc" id="L299">        list.add(&quot;Ohjeet: &quot; + prescription.getInfo());</span>
-<span class="nc" id="L300">        list.add(&quot;Alkaen: &quot; + prescription.getStartDate());</span>
-<span class="nc" id="L301">        list.add(&quot;Päättyen: &quot; + prescription.getEndDate());</span>
-<span class="nc" id="L302">        this.tabPane.getTabs().remove(this.prescriptionTab);</span>
-<span class="nc" id="L303">        this.prescriptionTab = new ListTabGUI(&quot;Reseptin tiedot&quot;);</span>
-<span class="nc" id="L304">        this.prescriptionTab.getListView().setItems(list);</span>
-<span class="nc" id="L305">        this.tabPane.getTabs().add((ListTabGUI)this.prescriptionTab);</span>
-<span class="nc" id="L306">        this.tabPane.getSelectionModel().select((ListTabGUI)this.prescriptionTab);</span>
-<span class="nc" id="L307">    }</span>
+<span class="nc" id="L372">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
+<span class="nc" id="L373">        list.add(&quot;Tunnus: &quot; + prescription.getId());</span>
+<span class="nc" id="L374">        list.add(&quot;Luontipäivä: &quot; + prescription.getCreationDate());</span>
+<span class="nc" id="L375">        list.add(&quot;Potilas: &quot; + prescription.getPatient().getLastName() + &quot;, &quot; + prescription.getPatient().getFirstName() + &quot;, &quot; + prescription.getPatient().getSSN());</span>
+<span class="nc" id="L376">        list.add(&quot;Lääkäri: &quot; + prescription.getDoctor().getLastName() + &quot;, &quot; + prescription.getDoctor().getFirstName());</span>
+<span class="nc" id="L377">        list.add(&quot;Diagnoosi: &quot; + prescription.getDiagnose().getId() + &quot;: &quot; + prescription.getDiagnose().getDisease());</span>
+<span class="nc" id="L378">        list.add(&quot;Lääke: &quot; + prescription.getDrug().getName());</span>
+<span class="nc" id="L379">        list.add(&quot;Annostus: &quot; + prescription.getDrug() + &quot;, &quot; + prescription.getDose() + &quot; &quot; + prescription.getDrug().getUnit() + &quot; &quot; + prescription.getTimesADay() + &quot; kertaa päivässä.&quot;);</span>
+<span class="nc" id="L380">        list.add(&quot;Ohjeet: &quot; + prescription.getInfo());</span>
+<span class="nc" id="L381">        list.add(&quot;Alkaen: &quot; + prescription.getStartDate());</span>
+<span class="nc" id="L382">        list.add(&quot;Päättyen: &quot; + prescription.getEndDate());</span>
+<span class="nc" id="L383">        this.tabPane.getTabs().remove(this.prescriptionTab);</span>
+<span class="nc" id="L384">        this.prescriptionTab = new ListTabGUI(&quot;Reseptin tiedot&quot;);</span>
+<span class="nc" id="L385">        this.prescriptionTab.getListView().setItems(list);</span>
+<span class="nc" id="L386">        this.tabPane.getTabs().add((ListTabGUI)this.prescriptionTab);</span>
+<span class="nc" id="L387">        this.tabPane.getSelectionModel().select((ListTabGUI)this.prescriptionTab);</span>
+<span class="nc" id="L388">    }</span>
     
     @Override
     public void setDiagnoseDetails(Diagnose diagnose) {
-<span class="nc" id="L311">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
-<span class="nc" id="L312">        list.add(&quot;Tunnus: &quot; + diagnose.getId());</span>
-<span class="nc" id="L313">        list.add(&quot;Luontipäivä: &quot; + diagnose.getCreationDate());</span>
-<span class="nc" id="L314">        list.add(&quot;Potilas: &quot; + diagnose.getPatient().getLastName() + &quot;, &quot; + diagnose.getPatient().getFirstName() + &quot;, &quot; + diagnose.getPatient().getSSN());</span>
-<span class="nc" id="L315">        list.add(&quot;Lääkäri: &quot; + diagnose.getDoctor().getLastName() + &quot;, &quot; + diagnose.getDoctor().getFirstName());</span>
-<span class="nc" id="L316">        list.add(&quot;Sairaus: &quot; + diagnose.getDisease());</span>
-<span class="nc" id="L317">        list.add(&quot;Epikriisi: &quot; + diagnose.getEpicrisis());</span>
-<span class="nc bnc" id="L318" title="All 2 branches missed.">        if (diagnose.getResolutionDate() != null) {</span>
-<span class="nc" id="L319">            list.add(&quot;Diagnoosin tila: hoidettu, &quot; + diagnose.getResolutionDate());</span>
+<span class="nc" id="L392">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
+<span class="nc" id="L393">        list.add(&quot;Tunnus: &quot; + diagnose.getId());</span>
+<span class="nc" id="L394">        list.add(&quot;Luontipäivä: &quot; + diagnose.getCreationDate());</span>
+<span class="nc" id="L395">        list.add(&quot;Potilas: &quot; + diagnose.getPatient().getLastName() + &quot;, &quot; + diagnose.getPatient().getFirstName() + &quot;, &quot; + diagnose.getPatient().getSSN());</span>
+<span class="nc" id="L396">        list.add(&quot;Lääkäri: &quot; + diagnose.getDoctor().getLastName() + &quot;, &quot; + diagnose.getDoctor().getFirstName());</span>
+<span class="nc" id="L397">        list.add(&quot;Sairaus: &quot; + diagnose.getDisease());</span>
+<span class="nc" id="L398">        list.add(&quot;Epikriisi: &quot; + diagnose.getEpicrisis());</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">        if (diagnose.getResolutionDate() != null) {</span>
+<span class="nc" id="L400">            list.add(&quot;Diagnoosin tila: hoidettu, &quot; + diagnose.getResolutionDate());</span>
         }
         else {
-<span class="nc" id="L322">            list.add(&quot;Diagnoosin tila: ei hoidettu&quot; );</span>
+<span class="nc" id="L403">            list.add(&quot;Diagnoosin tila: ei hoidettu&quot; );</span>
         }
-<span class="nc" id="L324">        this.tabPane.getTabs().remove(this.diagnoseTab);</span>
-<span class="nc" id="L325">        this.diagnoseTab = new ListTabGUI(&quot;Diagnoosin tiedot&quot;);</span>
-<span class="nc" id="L326">        this.diagnoseTab.getListView().setItems(list);</span>
-<span class="nc" id="L327">        this.tabPane.getTabs().add((ListTabGUI)this.diagnoseTab);</span>
-<span class="nc" id="L328">        this.tabPane.getSelectionModel().select((ListTabGUI)this.diagnoseTab);</span>
-<span class="nc" id="L329">    }</span>
+<span class="nc" id="L405">        this.tabPane.getTabs().remove(this.diagnoseTab);</span>
+<span class="nc" id="L406">        this.diagnoseTab = new ListTabGUI(&quot;Diagnoosin tiedot&quot;);</span>
+<span class="nc" id="L407">        this.diagnoseTab.getListView().setItems(list);</span>
+<span class="nc" id="L408">        this.tabPane.getTabs().add((ListTabGUI)this.diagnoseTab);</span>
+<span class="nc" id="L409">        this.tabPane.getSelectionModel().select((ListTabGUI)this.diagnoseTab);</span>
+<span class="nc" id="L410">    }</span>
     
     @Override
-    public void setUserDetails(User user) {
-<span class="nc" id="L333">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
-<span class="nc" id="L334">        list.add(&quot;Työntekijänumero: &quot; + user.getId());</span>
-<span class="nc" id="L335">        list.add(&quot;Käyttäjätunnus: &quot; + user.getUsername());</span>
-<span class="nc" id="L336">        list.add(&quot;Sähköposti: &quot; + user.getEmail());</span>
-<span class="nc bnc" id="L337" title="All 5 branches missed.">        switch (user.getPrivileges()) {</span>
+    public void setDrugDetails(Drug drug) {
+<span class="nc" id="L414">        String activeAgents = &quot;&quot;;</span>
+<span class="nc" id="L415">        String allergens = &quot;&quot;;</span>
+<span class="nc" id="L416">        String commonAdverseEffects = &quot;&quot;;</span>
+<span class="nc" id="L417">        String rareAdverseEffects = &quot;&quot;;</span>
+        
+<span class="nc" id="L419">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
+<span class="nc" id="L420">        list.add(&quot;Tuotenumero: &quot; + drug.getSN());</span>
+<span class="nc" id="L421">        list.add(&quot;Lääke: &quot; + drug.getName());</span>
+<span class="nc" id="L422">        list.add(&quot;Vaikuttavat aineet:\n\n\t&quot;+drug.getDrugActiveAgents().stream().</span>
+<span class="nc" id="L423">                map((a) -&gt; a.getActiveAgent().getName()+&quot; &quot;+a.getConcentration()+&quot;mg\n\t&quot;).reduce(activeAgents, String::concat));</span>
+<span class="nc" id="L424">        list.add(&quot;Lääkkeen allergeenit:\n\n\t&quot;+drug.getAllergens().stream().</span>
+<span class="nc" id="L425">                map((a) -&gt; a.getName()+&quot;\n\t&quot;).reduce(allergens, String::concat));</span>
+<span class="nc" id="L426">        list.add(&quot;Yleiset haittavaikutukset:\n\n\t&quot;+drug.getCommonAdverseEffects().stream().</span>
+<span class="nc" id="L427">                map((a) -&gt; a.getName()+&quot;\n\t&quot;).reduce(commonAdverseEffects, String::concat));</span>
+<span class="nc" id="L428">        list.add(&quot;Harvinaiset haittavaikutukset:\n\n\t&quot;+drug.getRareAdverseEffects().stream().</span>
+<span class="nc" id="L429">                map((a) -&gt; a.getName()+&quot;\n\t&quot;).reduce(rareAdverseEffects, String::concat));</span>
+        
+<span class="nc" id="L431">        this.tabPane.getTabs().remove(this.drugTab);</span>
+<span class="nc" id="L432">        this.drugTab = new ListTabGUI(&quot;Lääkkeen tiedot&quot;);</span>
+<span class="nc" id="L433">        this.drugTab.getListView().setItems(list);</span>
+<span class="nc" id="L434">        this.tabPane.getTabs().add((ListTabGUI)this.drugTab);</span>
+<span class="nc" id="L435">        this.tabPane.getSelectionModel().select((ListTabGUI)this.drugTab);</span>
+<span class="nc" id="L436">    }</span>
+    
+    @Override
+    public void setUserDetails(User_IF user) {
+<span class="nc" id="L440">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
+<span class="nc" id="L441">        list.add(&quot;Työntekijänumero: &quot; + user.getUserID());</span>
+<span class="nc" id="L442">        list.add(&quot;Käyttäjätunnus: &quot; + user.getUsername());</span>
+<span class="nc" id="L443">        list.add(&quot;Sähköposti: &quot; + user.getEmail());</span>
+<span class="nc bnc" id="L444" title="All 5 branches missed.">        switch (user.getUsertype()) {</span>
             case 0:
-<span class="nc" id="L339">                list.add(&quot;Käyttöoikeudet: lukittu&quot;);</span>
-<span class="nc" id="L340">                break;</span>
+<span class="nc" id="L446">                list.add(&quot;Käyttöoikeudet: lukittu&quot;);</span>
+<span class="nc" id="L447">                break;</span>
             case 1:
-<span class="nc" id="L342">                list.add(&quot;Käyttöoikeudet: hoitaja&quot;);</span>
-<span class="nc" id="L343">                break;</span>
+<span class="nc" id="L449">                list.add(&quot;Käyttöoikeudet: hoitaja&quot;);</span>
+<span class="nc" id="L450">                break;</span>
             case 2:
-<span class="nc" id="L345">                list.add(&quot;Käyttöoikeudet: lääkäri&quot;);</span>
-<span class="nc" id="L346">                break;</span>
+<span class="nc" id="L452">                list.add(&quot;Käyttöoikeudet: lääkäri&quot;);</span>
+<span class="nc" id="L453">                break;</span>
             case 3:
-<span class="nc" id="L348">                list.add(&quot;Käyttöoikeudet: ylläpitäjä&quot;);</span>
-<span class="nc" id="L349">                break;</span>
+<span class="nc" id="L455">                list.add(&quot;Käyttöoikeudet: ylläpitäjä&quot;);</span>
+<span class="nc" id="L456">                break;</span>
             default:
                 break;
         }
-<span class="nc" id="L353">        this.tabPane.getTabs().clear();</span>
-<span class="nc" id="L354">        ListTabGUI_IF listTab = new ListTabGUI(&quot;Käyttäjän tiedot&quot;);</span>
-<span class="nc" id="L355">        listTab.getListView().setItems(list);</span>
-<span class="nc" id="L356">        this.tabPane.getTabs().add((ListTabGUI)listTab);</span>
-<span class="nc" id="L357">    }</span>
+<span class="nc" id="L460">        this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L461">        ListTabGUI_IF listTab = new ListTabGUI(&quot;Käyttäjän tiedot&quot;);</span>
+<span class="nc" id="L462">        listTab.getListView().setItems(list);</span>
+<span class="nc" id="L463">        this.tabPane.getTabs().add((ListTabGUI)listTab);</span>
+<span class="nc" id="L464">    }</span>
     
     @Override
     public void setEmployeeDetails(Employee employee) {
-<span class="nc" id="L361">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
-<span class="nc" id="L362">        list.add(&quot;Työntekijänumero: &quot; + employee.getUserID());</span>
-<span class="nc" id="L363">        list.add(&quot;Etunimi: &quot; + employee.getFirstName());</span>
-<span class="nc" id="L364">        list.add(&quot;Sukunimi: &quot; + employee.getLastName());</span>
-<span class="nc" id="L365">        list.add(&quot;Titteli: &quot; + employee.getTitle());</span>
-<span class="nc" id="L366">        list.add(&quot;Sähköposti: &quot; + employee.getEmail());</span>
-<span class="nc" id="L367">        this.tabPane.getTabs().clear();</span>
-<span class="nc" id="L368">        ListTabGUI_IF listTab = new ListTabGUI(&quot;Työntekijän tiedot&quot;);</span>
-<span class="nc" id="L369">        listTab.getListView().setItems(list);</span>
-<span class="nc" id="L370">        this.tabPane.getTabs().add((ListTabGUI)listTab);</span>
-<span class="nc" id="L371">    }</span>
-    
+<span class="nc" id="L468">        ObservableList&lt;String&gt; list = FXCollections.observableArrayList();</span>
+<span class="nc" id="L469">        list.add(&quot;Työntekijänumero: &quot; + employee.getUserID());</span>
+<span class="nc" id="L470">        list.add(&quot;Etunimi: &quot; + employee.getFirstName());</span>
+<span class="nc" id="L471">        list.add(&quot;Sukunimi: &quot; + employee.getLastName());</span>
+<span class="nc" id="L472">        list.add(&quot;Titteli: &quot; + employee.getTitle());</span>
+<span class="nc" id="L473">        list.add(&quot;Sähköposti: &quot; + employee.getEmail());</span>
+<span class="nc" id="L474">        this.tabPane.getTabs().clear();</span>
+<span class="nc" id="L475">        ListTabGUI_IF listTab = new ListTabGUI(&quot;Työntekijän tiedot&quot;);</span>
+<span class="nc" id="L476">        listTab.getListView().setItems(list);</span>
+<span class="nc" id="L477">        this.tabPane.getTabs().add((ListTabGUI)listTab);</span>
+<span class="nc" id="L478">    }</span>
+      
     @Override
     public Patient getSelectedPatient() {
-<span class="nc" id="L375">        return this.patientListView.getSelection();</span>
+<span class="nc" id="L482">        return this.patientListView.getSelection();</span>
     }
 
     @Override
     public Prescription getSelectedPrescription() {
-<span class="nc" id="L380">        return this.patientPrescriptionTab.getSelection();</span>
+        //Fix this! If patient tab was selected and then trying to view doctor's
+        //prescription, this method returns null.
+<span class="nc bnc" id="L489" title="All 2 branches missed.">        if(this.patientPrescriptionTab != null){</span>
+<span class="nc" id="L490">            return this.patientPrescriptionTab.getSelection();</span>
+        }else{
+<span class="nc" id="L492">            return this.prescriptionListView.getSelection();</span>
+        }
     }
     
     @Override
     public Diagnose getSelectedDiagnose() {
-<span class="nc" id="L385">        return this.patientDiagnoseTab.getSelection();</span>
+<span class="nc" id="L498">        return this.patientDiagnoseTab.getSelection();</span>
     }
     
     @Override
-    public User getSelectedUser() {
-<span class="nc" id="L390">        return this.userListView.getSelection();</span>
+    public Drug getSelectedDrug() {
+<span class="nc" id="L503">        return this.drugListView.getSelection();</span>
+    }
+    
+    @Override
+    public User_IF getSelectedUser() {
+<span class="nc" id="L508">        return this.userListView.getSelection();</span>
     }
     
     @Override
     public Employee getSelectedEmployee() {
-<span class="nc" id="L395">        return this.employeeListView.getSelection();</span>
+<span class="nc" id="L513">        return this.employeeListView.getSelection();</span>
+    }
+
+    @Override
+    public Prescription getPrescriptionForm() {
+<span class="nc" id="L518">        return this.prescriptionForm.getPrescription();</span>
     }
     
 }

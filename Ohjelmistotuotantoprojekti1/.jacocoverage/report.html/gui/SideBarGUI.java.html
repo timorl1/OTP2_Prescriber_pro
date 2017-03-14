@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -22,6 +23,8 @@ import javafx.scene.layout.AnchorPane;
 public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
 
     @FXML
+    private VBox vBox;
+    @FXML
     private TextField searchField;
     @FXML
     private Accordion accordion;
@@ -29,17 +32,17 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     MainGUI_IF root;
     FXMLLoader loader;
     
-<span class="nc" id="L32">    public SideBarGUI(MainGUI_IF root) {</span>
-<span class="nc" id="L33">        this.root = root;</span>
+<span class="nc" id="L35">    public SideBarGUI(MainGUI_IF root) {</span>
+<span class="nc" id="L36">        this.root = root;</span>
         try {
-<span class="nc" id="L35">            loader = new FXMLLoader(getClass().getResource(&quot;SideBar.fxml&quot;));</span>
-<span class="nc" id="L36">            loader.setController(this);</span>
-<span class="nc" id="L37">            loader.setRoot(this);</span>
-<span class="nc" id="L38">            loader.load();</span>
-<span class="nc" id="L39">        } catch (IOException exc) {</span>
+<span class="nc" id="L38">            loader = new FXMLLoader(getClass().getResource(&quot;SideBar.fxml&quot;));</span>
+<span class="nc" id="L39">            loader.setController(this);</span>
+<span class="nc" id="L40">            loader.setRoot(this);</span>
+<span class="nc" id="L41">            loader.load();</span>
+<span class="nc" id="L42">        } catch (IOException exc) {</span>
             // handle exception
-<span class="nc" id="L41">        }</span>
-<span class="nc" id="L42">    }</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">    }</span>
     
     @FXML
     public void filterPatients(KeyEvent event) {
@@ -60,12 +63,22 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
             }
             return false;
         });*/
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L66">    }</span>
+    
+    @Override
+    public TextField getSearchField() {
+<span class="nc" id="L70">        return searchField;</span>
+    }
     
     @Override
     public void addView(TitledPane pane) {
-<span class="nc" id="L67">        this.accordion.getPanes().add(pane);</span>
-<span class="nc" id="L68">    }</span>
+<span class="nc" id="L75">        this.accordion.getPanes().add(pane);</span>
+<span class="nc" id="L76">    }</span>
+
+    @Override
+    public VBox getVbox() {
+<span class="nc" id="L80">        return this.vBox;</span>
+    }
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

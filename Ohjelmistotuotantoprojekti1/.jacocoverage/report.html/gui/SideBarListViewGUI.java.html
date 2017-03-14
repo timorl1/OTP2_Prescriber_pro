@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
+import model.Patient;
 
 /**
  * FXML Controller class
@@ -25,40 +27,52 @@ public class SideBarListViewGUI&lt;E&gt; extends TitledPane implements SideBarLi
     private final String title;
     private FXMLLoader loader;
     private ObservableList&lt;E&gt; list;
+    private SideBarGUI_IF sideBar;
     
-<span class="nc" id="L29">    public SideBarListViewGUI(String title) {</span>
-<span class="nc" id="L30">        this.title = title;</span>
+<span class="nc" id="L32">    public SideBarListViewGUI(String title) {</span>
+<span class="nc" id="L33">        this.title = title;</span>
         try {
-<span class="nc" id="L32">            loader = new FXMLLoader(getClass().getResource(&quot;SideBarListView.fxml&quot;));</span>
-<span class="nc" id="L33">            loader.setController(this);</span>
-<span class="nc" id="L34">            loader.setRoot(this);</span>
-<span class="nc" id="L35">            loader.load();</span>
-<span class="nc" id="L36">            this.pane.setText(this.title);</span>
-<span class="nc" id="L37">        } catch (IOException ex) {</span>
+<span class="nc" id="L35">            loader = new FXMLLoader(getClass().getResource(&quot;SideBarListView.fxml&quot;));</span>
+<span class="nc" id="L36">            loader.setController(this);</span>
+<span class="nc" id="L37">            loader.setRoot(this);</span>
+<span class="nc" id="L38">            loader.load();</span>
+<span class="nc" id="L39">            this.pane.setText(this.title);</span>
+<span class="nc" id="L40">        } catch (IOException ex) {</span>
             // handle exception
-<span class="nc" id="L39">        }</span>
-<span class="nc" id="L40">    }</span>
+<span class="nc" id="L42">        }</span>
+<span class="nc" id="L43">    }</span>
     
     @Override
     public void setList(List&lt;E&gt; list) {
-<span class="nc" id="L44">        this.list = FXCollections.observableArrayList(list);</span>
-<span class="nc" id="L45">        this.listView.setItems(this.list);</span>
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L47">        this.list = FXCollections.observableArrayList(list);</span>
+<span class="nc" id="L48">        this.listView.setItems(this.list);</span>
+<span class="nc" id="L49">    }</span>
 
     @Override
     public TitledPane getTitledPane() {
-<span class="nc" id="L50">        return this.pane;</span>
+<span class="nc" id="L53">        return this.pane;</span>
     }
 
     @Override
     public ListView getListView() {
-<span class="nc" id="L55">        return this.listView;</span>
+<span class="nc" id="L58">        return this.listView;</span>
     }
 
     @Override
     public E getSelection() {
-<span class="nc" id="L60">        return this.listView.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L63">        return this.listView.getSelectionModel().getSelectedItem();</span>
     }
     
+    @Override
+    public void filter(String filter){
+        // Nullpointer? Fix this!
+<span class="nc bnc" id="L69" title="All 4 branches missed.">        if(!filter.isEmpty() &amp;&amp; !this.list.isEmpty()){</span>
+<span class="nc" id="L70">        ObservableList&lt;E&gt; filteredList = FXCollections.observableArrayList(this.list);</span>
+<span class="nc" id="L71">        this.listView.setItems(filteredList.filtered(p -&gt; p.toString().toLowerCase().contains(filter.toLowerCase())));</span>
+<span class="nc" id="L72">        }else {</span>
+<span class="nc" id="L73">            this.listView.setItems(this.list);</span>
+        }
+<span class="nc" id="L75">    }</span>
+    
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

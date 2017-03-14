@@ -11,10 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
-import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -35,38 +33,38 @@ public class ListTabGUI&lt;E&gt; extends Tab implements ListTabGUI_IF&lt;E&gt; {
     
     private ObservableList&lt;E&gt; list;
     
-<span class="nc" id="L38">    public ListTabGUI(String title) {</span>
-<span class="nc" id="L39">        this.title = title;</span>
+<span class="nc" id="L36">    public ListTabGUI(String title) {</span>
+<span class="nc" id="L37">        this.title = title;</span>
         try {
-<span class="nc" id="L41">            loader = new FXMLLoader(getClass().getResource(&quot;ListTab.fxml&quot;));</span>
-<span class="nc" id="L42">            loader.setController(this);</span>
-<span class="nc" id="L43">            loader.setRoot(this);</span>
-<span class="nc" id="L44">            loader.load();</span>
-<span class="nc" id="L45">            this.tab.setText(this.title);</span>
-<span class="nc" id="L46">        } catch (IOException ex) {</span>
+<span class="nc" id="L39">            loader = new FXMLLoader(getClass().getResource(&quot;ListTab.fxml&quot;));</span>
+<span class="nc" id="L40">            loader.setController(this);</span>
+<span class="nc" id="L41">            loader.setRoot(this);</span>
+<span class="nc" id="L42">            loader.load();</span>
+<span class="nc" id="L43">            this.tab.setText(this.title);</span>
+<span class="nc" id="L44">        } catch (IOException ex) {</span>
             // handle exception
-<span class="nc" id="L48">        }</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
     
     @Override
     public Tab getTab() {
-<span class="nc" id="L53">        return this.tab;</span>
+<span class="nc" id="L51">        return this.tab;</span>
     }
 
     @Override
     public ListView getListView() {
-<span class="nc" id="L58">        return this.listView;</span>
+<span class="nc" id="L56">        return this.listView;</span>
     }
     
     @Override
     public void setList(List&lt;E&gt; list) {
-<span class="nc" id="L63">        this.list = FXCollections.observableArrayList(list);</span>
-<span class="nc" id="L64">        this.listView.setItems(this.list);</span>
-<span class="nc" id="L65">    }</span>
+<span class="nc" id="L61">        this.list = FXCollections.observableArrayList(list);</span>
+<span class="nc" id="L62">        this.listView.setItems(this.list);</span>
+<span class="nc" id="L63">    }</span>
 
     @Override
     public E getSelection() {
-<span class="nc" id="L69">        return this.listView.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L67">        return this.listView.getSelectionModel().getSelectedItem();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

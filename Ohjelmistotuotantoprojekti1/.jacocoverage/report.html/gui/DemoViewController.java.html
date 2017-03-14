@@ -153,9 +153,9 @@ import model.Prescription;
 <span class="nc" id="L153">            tabPane2.setVisible(true);</span>
 <span class="nc" id="L154">            list.add(&quot;Tuotenumero: &quot; + drug.getSN());</span>
 <span class="nc" id="L155">            list.add(&quot;Nimi: &quot; + drug.getName());</span>
-<span class="nc" id="L156">            list.add(&quot;Vaikuttavat aineet: &quot; + drug.getActiveAgents().get(0).getName());</span>
-<span class="nc" id="L157">            list.add(&quot;Suositeltu annos: &quot; + drug.getRecommendedDose() + drug.getUnit());</span>
-<span class="nc" id="L158">            list.add(&quot;Maksimiannos: &quot; + drug.getMaxDose() + drug.getUnit());</span>
+<span class="nc" id="L156">            list.add(&quot;Vaikuttavat aineet: &quot; + drug.getDrugActiveAgents());</span>
+<span class="nc" id="L157">            list.add(&quot;Suositeltu annos: &quot; + drug.getDrugActiveAgents() + drug.getUnit());</span>
+<span class="nc" id="L158">            list.add(&quot;Maksimiannos: &quot; + drug.getDrugActiveAgents() + drug.getUnit());</span>
 <span class="nc" id="L159">            list2 = FXCollections.observableArrayList(drug.getAllergens());</span>
         }
 <span class="nc" id="L161">        this.tab1List2.setItems(list);</span>
@@ -203,4 +203,4 @@ import model.Prescription;
 <span class="nc" id="L203">        list.setItems(this.messages);</span>
 <span class="nc" id="L204">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

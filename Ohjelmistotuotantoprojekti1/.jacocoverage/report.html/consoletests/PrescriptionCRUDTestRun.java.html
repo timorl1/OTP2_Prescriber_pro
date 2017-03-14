@@ -70,7 +70,7 @@ import model.Prescription;
 <span class="nc" id="L70">                        prescription.setDrug(drugs.get(Reader.readInt() - 1));</span>
 
 <span class="nc" id="L72">                        System.out.println(&quot;Anna annostus: &quot;);</span>
-<span class="nc" id="L73">                        prescription.setDose(Reader.readLine());</span>
+<span class="nc" id="L73">                        prescription.setDose(Reader.readDouble());</span>
 
 <span class="nc" id="L75">                        System.out.println(&quot;Montako kertaa päivässä: &quot;);</span>
 <span class="nc" id="L76">                        prescription.setTimesADay(Reader.readInt());</span>
@@ -79,10 +79,10 @@ import model.Prescription;
 <span class="nc" id="L79">                        prescription.setInfo(Reader.readLine());</span>
 
 <span class="nc" id="L81">                        System.out.println(&quot;Anna aloituspäivämäärä: &quot;);</span>
-<span class="nc" id="L82">                        prescription.setStartDate(Reader.readLine());</span>
+                        //prescription.setStartDate(Reader.readLine());
 
 <span class="nc" id="L84">                        System.out.println(&quot;Anna lopetuspäivämäärä: &quot;);</span>
-<span class="nc" id="L85">                        prescription.setEndDate(Reader.readLine());</span>
+                        //prescription.setEndDate(Reader.readLine());
 
 <span class="nc" id="L87">                        prescription.setUsername(&quot;admin&quot;);</span>
 
@@ -107,7 +107,7 @@ import model.Prescription;
 <span class="nc bnc" id="L107" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
 <span class="nc" id="L108">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
 <span class="nc" id="L109">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
-<span class="nc" id="L110">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
+<span class="nc" id="L110">                        System.out.println(&quot;  &quot; + p.getDoctor());</span>
 <span class="nc" id="L111">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
 <span class="nc" id="L112">                        System.out.println(&quot;  &quot; + p.getDose());</span>
 <span class="nc" id="L113">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
@@ -123,7 +123,7 @@ import model.Prescription;
 <span class="nc bnc" id="L123" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
 <span class="nc" id="L124">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
 <span class="nc" id="L125">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
-<span class="nc" id="L126">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
+<span class="nc" id="L126">                        System.out.println(&quot;  &quot; + p.getDoctor());</span>
 <span class="nc" id="L127">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
 <span class="nc" id="L128">                        System.out.println(&quot;  &quot; + p.getDose());</span>
 <span class="nc" id="L129">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
@@ -142,7 +142,7 @@ import model.Prescription;
 <span class="nc" id="L142">                    prescription.setDrug(drugs.get(Reader.readInt() - 1));</span>
 
 <span class="nc" id="L144">                    System.out.println(&quot;Anna annostus: &quot;);</span>
-<span class="nc" id="L145">                    prescription.setDose(Reader.readLine());</span>
+<span class="nc" id="L145">                    prescription.setDose(Reader.readDouble());</span>
 
 <span class="nc" id="L147">                    System.out.println(&quot;Montako kertaa päivässä: &quot;);</span>
 <span class="nc" id="L148">                    prescription.setTimesADay(Reader.readInt());</span>
@@ -151,10 +151,10 @@ import model.Prescription;
 <span class="nc" id="L151">                    prescription.setInfo(Reader.readLine());</span>
 
 <span class="nc" id="L153">                    System.out.println(&quot;Anna aloituspäivämäärä: &quot;);</span>
-<span class="nc" id="L154">                    prescription.setStartDate(Reader.readLine());</span>
+                    //prescription.setStartDate(Reader.readLine());
 
 <span class="nc" id="L156">                    System.out.println(&quot;Anna lopetuspäivämäärä: &quot;);</span>
-<span class="nc" id="L157">                    prescription.setEndDate(Reader.readLine());</span>
+                    //prescription.setEndDate(Reader.readLine());
 
 <span class="nc" id="L159">                    prescription.setUsername(&quot;admin&quot;);</span>
 
@@ -166,7 +166,7 @@ import model.Prescription;
 <span class="nc bnc" id="L166" title="All 2 branches missed.">                    for (Prescription p : prescriptions) {</span>
 <span class="nc" id="L167">                        System.out.println(i + &quot;. &quot; + p.getId());</span>
 <span class="nc" id="L168">                        System.out.println(&quot;  &quot; + p.getPatient());</span>
-<span class="nc" id="L169">                        System.out.println(&quot;  &quot; + p.getDoc());</span>
+<span class="nc" id="L169">                        System.out.println(&quot;  &quot; + p.getDoctor());</span>
 <span class="nc" id="L170">                        System.out.println(&quot;  &quot; + p.getDiagnose());</span>
 <span class="nc" id="L171">                        System.out.println(&quot;  &quot; + p.getDose());</span>
 <span class="nc" id="L172">                        System.out.println(&quot;  &quot; + p.getTimesADay());</span>
@@ -185,4 +185,4 @@ import model.Prescription;
 <span class="nc" id="L185">    }</span>
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -18,14 +18,14 @@ public class Disease {
     private String diseaseName;
     @Column(name=&quot;kuvaus&quot;)
     private String diseaseDesc;
-<span class="nc" id="L21">    @ManyToMany (cascade = {CascadeType.ALL})</span>
+<span class="fc" id="L21">    @ManyToMany (cascade = {CascadeType.ALL})</span>
     @JoinTable(name=&quot;rajoitteet&quot;, joinColumns = @JoinColumn(name = &quot;sairausid&quot;), inverseJoinColumns = @JoinColumn(name = &quot;allergeeniID&quot;, referencedColumnName = &quot;allergeeniID&quot;))
     private List&lt;Disease_Allergen&gt; allergens = new ArrayList();
     
-<span class="nc" id="L25">    public Disease(){};</span>
+<span class="fc" id="L25">    public Disease(){};</span>
 
     public int getId() {
-<span class="nc" id="L28">        return id;</span>
+<span class="fc" id="L28">        return id;</span>
     }
 
     public void setId(int id) {
@@ -33,7 +33,7 @@ public class Disease {
 <span class="nc" id="L33">    }</span>
 
     public String getDiseaseName() {
-<span class="nc" id="L36">        return diseaseName;</span>
+<span class="fc" id="L36">        return diseaseName;</span>
     }
 
     public void setDiseaseName(String diseaseName) {
@@ -41,7 +41,7 @@ public class Disease {
 <span class="nc" id="L41">    }</span>
 
     public String getDiseaseDesc() {
-<span class="nc" id="L44">        return diseaseDesc;</span>
+<span class="fc" id="L44">        return diseaseDesc;</span>
     }
 
     public void setDiseaseDesc(String diseaseDesc) {
@@ -49,7 +49,7 @@ public class Disease {
 <span class="nc" id="L49">    }</span>
 
     public List&lt;Disease_Allergen&gt; getAllergenList() {
-<span class="nc" id="L52">        return allergens;</span>
+<span class="fc" id="L52">        return allergens;</span>
     }
 
     public void setAllergenList(List&lt;Disease_Allergen&gt; allergenList) {

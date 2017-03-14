@@ -15,36 +15,36 @@ public class Diagnose {
     private Timestamp resolutionDate;
     private String patientId;
     private Patient patient;
-    private String doctorId;
-    private Doctor doctor;
+    private int doctorId;
+    private User_IF doctor;
     
-<span class="fc" id="L21">    public Diagnose() {</span>
-<span class="fc" id="L22">    }</span>
+    
+<span class="fc" id="L22">    public Diagnose() {</span>
+<span class="fc" id="L23">    }</span>
 
     public int getId() {
-<span class="fc" id="L25">        return id;</span>
+<span class="fc" id="L26">        return id;</span>
     }
 
     public void setId(int id) {
-<span class="fc" id="L29">        this.id = id;</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L30">        this.id = id;</span>
+<span class="fc" id="L31">    }</span>
 
     public int getDiseaseID() {
-<span class="fc" id="L33">        return diseaseID;</span>
+<span class="fc" id="L34">        return diseaseID;</span>
     }
 
     public void setDiseaseID(int diseaseID) {
-<span class="fc" id="L37">        this.diseaseID = diseaseID;</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L38">        this.diseaseID = diseaseID;</span>
+<span class="fc" id="L39">    }</span>
 
     public Disease getDisease() {
-<span class="nc" id="L41">        return disease;</span>
+<span class="fc" id="L42">        return disease;</span>
     }
 
     public void setDisease(Disease disease) {
-<span class="nc" id="L45">        this.disease = disease;</span>
-<span class="nc" id="L46">    }</span>
-
+<span class="fc" id="L46">        this.disease = disease;</span>
+<span class="fc" id="L47">    }</span>
     
     public String getEpicrisis() {
 <span class="fc" id="L50">        return epicrisis;</span>
@@ -86,19 +86,19 @@ public class Diagnose {
 <span class="nc" id="L86">        this.patient = patient;</span>
 <span class="nc" id="L87">    }</span>
     
-    public String getDoctorId() {
+    public int getDoctorId() {
 <span class="nc" id="L90">        return doctorId;</span>
     }
 
-    public void setDoctorId(String doctorId) {
+    public void setDoctorId(int doctorId) {
 <span class="fc" id="L94">        this.doctorId = doctorId;</span>
 <span class="fc" id="L95">    }</span>
 
-    public Doctor getDoctor() {
+    public User_IF getDoctor() {
 <span class="nc" id="L98">        return doctor;</span>
     }
 
-    public void setDoctor(Doctor doctor) {
+    public void setDoctor(User_IF doctor) {
 <span class="nc" id="L102">        this.doctor = doctor;</span>
 <span class="nc" id="L103">    }</span>
     
