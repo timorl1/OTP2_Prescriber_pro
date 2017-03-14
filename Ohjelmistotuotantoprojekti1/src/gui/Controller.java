@@ -181,4 +181,14 @@ public class Controller implements Controller_IF {
     public boolean savePrescription() {
         return this.clientRes.savePrescription(this.gui.getPrescriptionForm());
     }  
+    
+    @Override
+    public boolean saveMessage(){
+        return this.clientRes.saveMessage(this.gui.getMessageForm());
+    }
+
+    @Override
+    public void createNewMessage() {
+        this.gui.setMessageForm(this.clientRes.addNewMessage(this.auth.getUser()));
+    }
 }

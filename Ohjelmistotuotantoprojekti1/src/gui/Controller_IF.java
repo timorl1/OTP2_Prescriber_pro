@@ -38,4 +38,6 @@ public interface Controller_IF {
     public abstract boolean savePrescription();
     public abstract void lockUser(User_IF user);
     public abstract void setUserPriviledges(User_IF user);
+    public abstract boolean saveMessage();
+    public abstract void createNewMessage();
 }

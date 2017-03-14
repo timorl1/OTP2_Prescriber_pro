@@ -40,7 +40,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarGUI_IF sideBar;
     private LoginGUI_IF login;
     private PrescriptionFormGUI_IF prescriptionForm;
-    private MessageFormGUI messageForm;
+    private MessageFormGUI_IF messageForm;
     private SideBarListView_IF<Patient> patientListView;
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
@@ -114,8 +114,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
         this.sideBar.getMessageButton().setOnMousePressed(m ->{
-            this.messageForm = new MessageFormGUI(this.controller.getUsers());
-            this.tabPane.getTabs().add(messageForm);
+            this.controller.createNewMessage();
         });
         this.sideBar.getSearchField().setOnKeyReleased(e -> {
         if(this.patientListView != null){
@@ -356,6 +355,26 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public void setMessageForm(Message message){
+        this.status = AppStatus.CREATE;
+        this.messageForm = new MessageFormGUI(this.controller.getUsers(),message);
+        this.messageForm.getCancelButton().setOnAction(e -> {
+            this.tabPane.getTabs().remove(this.messageForm);
+            this.setStatus(AppStatus.IDLE);
+        });
+        this.messageForm.getSendButton().setOnAction(e -> {
+            if (this.controller.saveMessage()) {
+                this.tabPane.getTabs().remove(this.messageForm);
+                this.setStatus(AppStatus.IDLE);
+            }
+            else {
+                //Some kind of alert message should be thrown
+            }
+        });
+        this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
+    }
+    
+    @Override
     public void setPrescriptionTools() {
         Button createPrescription = new Button("Uusi lääkemääräys");
         createPrescription.setOnMouseClicked((event) -> {
@@ -579,6 +598,11 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public Prescription getPrescriptionForm() {
         return this.prescriptionForm.getPrescription();
+    }
+
+    @Override
+    public Message getMessageForm() {
+        return this.messageForm.getMessage();
     }
 
     

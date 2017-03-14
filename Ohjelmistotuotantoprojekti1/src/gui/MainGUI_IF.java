@@ -28,6 +28,7 @@ public interface MainGUI_IF {
     public abstract void setEmployeeList();
     public abstract void setDatabaseList();
     public abstract void setPrescriptionForm(Prescription prescription);
+    public abstract void setMessageForm(Message message);
     public abstract void setPrescriptionTools();
     public abstract void setPatientDetails(Patient patient);
     public abstract void setPatientDiagnoses(List<Diagnose> list);
@@ -45,5 +46,6 @@ public interface MainGUI_IF {
     public abstract Prescription getPrescriptionForm();
     public abstract void setDrugDetails(Drug drug);
     public abstract void setMessageDetails(Message message);
-    public Message getSelectedMessage();
+    public abstract Message getSelectedMessage();
+    public abstract Message getMessageForm();
 }

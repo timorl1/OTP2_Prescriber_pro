@@ -22,4 +22,6 @@ public interface ClientResources_IF {
     public abstract Prescription addNewPrescription(User_IF user);
     public abstract boolean savePrescription(Prescription prescription);
     public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
+    public abstract boolean saveMessage(Message message);
+    public abstract Message addNewMessage(User_IF user);
 }

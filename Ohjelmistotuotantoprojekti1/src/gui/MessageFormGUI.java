@@ -15,13 +15,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import model.Message;
+import model.User;
 import model.User_IF;
 
 /**
  *
  * @author Timo
  */
-public class MessageFormGUI extends Tab {
+public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     
     @FXML
     private GridPane gridPane;
@@ -30,7 +31,7 @@ public class MessageFormGUI extends Tab {
     @FXML
     private Label messageLabel;
     @FXML 
-    private ChoiceBox receiverSelector;
+    private ChoiceBox<User_IF> receiverSelector;
     @FXML
     private TextField titleField;
     @FXML
@@ -38,9 +39,9 @@ public class MessageFormGUI extends Tab {
     @FXML 
     private ButtonBar buttonBar;
     @FXML
-    private Button cancel;
+    private Button cancelButton;
     @FXML
-    private Button send;
+    private Button sendButton;
     @FXML
     private Label mainTitle;
     @FXML
@@ -48,49 +49,38 @@ public class MessageFormGUI extends Tab {
     
     FXMLLoader loader;
     private Message message;
-    private Controller controller;
+    private ObservableList<User_IF> list;
     
-    public MessageFormGUI(List<User_IF> users){
-        
+    public MessageFormGUI(List<User_IF> users, Message message){
+        this.message = message;
         try {
             loader = new FXMLLoader(getClass().getResource("MessageForm.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
-            ObservableList<User_IF> list = FXCollections.observableArrayList(users);
-            this.receiverSelector.setItems(list);
-            //this.initializeFields();
-            //this.initializeBasicListeners();
+            this.list = FXCollections.observableArrayList(users);
+            this.receiverSelector.setItems(this.list);
+            this.titleField.setOnKeyReleased(e -> this.message.setTitle(this.titleField.getText()));
+            this.messageField.setOnKeyReleased(e -> this.message.setMessage(this.messageField.getText()));
+            this.receiverSelector.setOnAction(e -> this.message.setReceiver((User) this.receiverSelector.getSelectionModel().getSelectedItem()));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
-    public ChoiceBox getReceiverSelector() {
-        return receiverSelector;
-    }
 
-    
-    public TextField getTitleField() {
-        return titleField;
-    }
-
-    
-    public TextArea getMessageField() {
-        return messageField;
-    }
-
-    
-    public Button getCancel() {
-        return cancel;
+    @Override
+    public Button getCancelButton() {
+        return cancelButton;
     }
 
 
-    public Button getSend() {
-        return send;
+    @Override
+    public Button getSendButton() {
+        return sendButton;
     }
 
 
+    @Override
     public Message getMessage() {
         return message;
     }
