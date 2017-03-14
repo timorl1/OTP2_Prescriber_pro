@@ -17,33 +17,24 @@ import javax.persistence.*;
 @Table(name="user")
 public class User implements User_IF{
     
-    @Id
-    @Column(name="username")
     private String username;
-    @Column(name="userID")
     private int userID;
-    @Column(name="firstname")
     private String firstName;
-    @Column(name="lastname")
     private String lastName;
-    @Column(name="email")
     private String email;
-    @Column(name="usertype")
     private int usertype;
-    @Column(name="password")
     private String password;
     
     
     
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="sender", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
     private List<Message> sentMessages = new ArrayList();
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="receiver", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
+    
+    //@JoinTable(name="receiver", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "MessageID",referencedColumnName = "MessageID"))
     private List<Message> receivedMessages = new ArrayList();
     
     public User(){}
     
+    @Column(name="userID")
     @Override
     public int getUserID() {
         return userID;
@@ -54,6 +45,7 @@ public class User implements User_IF{
         this.userID = userID;
     }
     
+    @Column(name="firstname")
     @Override
     public String getFirstName() {
         return firstName;
@@ -64,6 +56,7 @@ public class User implements User_IF{
         this.firstName = firstName;
     }
     
+    @Column(name="lastname")
     @Override
     public String getLastName() {
         return lastName;
@@ -74,6 +67,8 @@ public class User implements User_IF{
         this.lastName = lastName;
     }
     
+    @Id
+    @Column(name="username")
     @Override
     public String getUsername() {
         return username;
@@ -84,6 +79,7 @@ public class User implements User_IF{
         this.username = username;
     }
     
+    @Column(name="email")
     @Override
     public String getEmail() {
         return email;
@@ -94,6 +90,7 @@ public class User implements User_IF{
         this.email = email;
     }
     
+    @Column(name="usertype")
     @Override
     public int getUsertype() {
         return usertype;
@@ -104,6 +101,7 @@ public class User implements User_IF{
         this.usertype = usertype;
     }
     
+    @Column(name="password")
     @Override
     public String getPassword() {
         return password;
@@ -119,13 +117,24 @@ public class User implements User_IF{
         return this.userID+": "+this.username;
     }
 
+    @OneToMany
+    @JoinColumn(name="sender")
     @Override
     public List<Message> getSentMessages() {
         return sentMessages;
     }
-
+    @OneToMany
+    @JoinColumn(name="receiver")
     @Override
     public List<Message> getReceivedMessages() {
         return receivedMessages;
+    }
+
+    public void setSentMessages(List<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 }

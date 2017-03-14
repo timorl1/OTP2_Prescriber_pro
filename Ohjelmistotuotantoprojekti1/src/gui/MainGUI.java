@@ -45,10 +45,12 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<Prescription> prescriptionListView;
     private ListTabGUI_IF<String> prescriptionTab;
     private ListTabGUI_IF<String> drugTab;
+    private ListTabGUI_IF<String> messageTab;
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
-    private SideBarListView_IF<Message> messageListView;
+    private SideBarListView_IF<Message> receivedMessageListView;
+    private SideBarListView_IF<Message> sentMessageListView;    
     private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
@@ -111,11 +113,18 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
         this.sideBar.getSearchField().setOnKeyReleased(e -> {
-        this.patientListView.filter(this.sideBar.getSearchField().getText());
-        this.drugListView.filter(this.sideBar.getSearchField().getText());
-        this.employeeListView.filter(this.sideBar.getSearchField().getText());
+        if(this.patientListView != null){
+            this.patientListView.filter(this.sideBar.getSearchField().getText());
+        }
+        if(this.drugListView != null){
+            this.drugListView.filter(this.sideBar.getSearchField().getText());
+        }
+        if (this.employeeListView != null){
+            this.employeeListView.filter(this.sideBar.getSearchField().getText());
+        }    
+        if (this.userListView != null){
         this.userListView.filter(this.sideBar.getSearchField().getText());
-        
+        }
         });
         this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
@@ -184,14 +193,25 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
 
     @Override
-    public void setMessageList() {
-        this.messageListView = new SideBarListViewGUI("Viestit");
-        this.messageListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (this.messageListView.isExpanded()) {
-                this.messageListView.setList(this.controller.getMessages());
+    public void setReceivedMessageList() {
+        this.receivedMessageListView = new SideBarListViewGUI("Vastaanotetut Viestit");
+        this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.receivedMessageListView.isExpanded()) {
+                this.receivedMessageListView.setList(this.controller.getReceivedMessages());
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.messageListView);
+        this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+    }
+    
+    @Override
+    public void setSentMessageList() {
+        this.sentMessageListView = new SideBarListViewGUI("Lähetetyt Viestit");
+        this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.sentMessageListView.isExpanded()) {
+                this.sentMessageListView.setList(this.controller.getSentMessages());
+            }
+        });
+        this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
     }
 
     //List all users
@@ -436,6 +456,21 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public void setMessageDetails(Message message) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Lähettäjä: "+message.getSender());
+        list.add("Vastaanottaja: "+message.getReceiver());
+        list.add("Päiväys: "+message.getDate());
+        list.add("Viesti: "+message.getMessage() );
+        
+        this.tabPane.getTabs().remove(this.messageTab);
+        this.messageTab = new ListTabGUI("Viesti: "+message.getMessageID());
+        this.messageTab.getListView().setItems(list);
+        this.tabPane.getTabs().add((ListTabGUI)this.messageTab);
+        this.tabPane.getSelectionModel().select((ListTabGUI)this.messageTab);
+    }
+    
+    @Override
     public void setUserDetails(User_IF user) {
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Työntekijänumero: " + user.getUserID());
@@ -504,6 +539,11 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public Message getSelectedMessage() {
+        return this.receivedMessageListView.getSelection();
+    }
+    
+    @Override
     public User_IF getSelectedUser() {
         return this.userListView.getSelection();
     }
@@ -517,5 +557,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public Prescription getPrescriptionForm() {
         return this.prescriptionForm.getPrescription();
     }
+
+    
     
 }

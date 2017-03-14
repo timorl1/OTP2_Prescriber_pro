@@ -4,6 +4,7 @@ import java.util.List;
 import model.Diagnose;
 import model.Drug;
 import model.Employee;
+import model.Message;
 import model.Patient;
 import model.Prescription;
 import model.User;
@@ -21,7 +22,8 @@ public interface MainGUI_IF {
     public abstract void setPatientList();
     public abstract void setDrugList();
     public abstract void setPrescriptionList();
-    public abstract void setMessageList();
+    public abstract void setReceivedMessageList();
+    public abstract void setSentMessageList();
     public abstract void setUserList();
     public abstract void setEmployeeList();
     public abstract void setDatabaseList();
@@ -42,4 +44,6 @@ public interface MainGUI_IF {
     public abstract Employee getSelectedEmployee();
     public abstract Prescription getPrescriptionForm();
     public abstract void setDrugDetails(Drug drug);
+    public abstract void setMessageDetails(Message message);
+    public Message getSelectedMessage();
 }

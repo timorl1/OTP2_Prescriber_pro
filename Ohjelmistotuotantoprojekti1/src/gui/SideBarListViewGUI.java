@@ -65,11 +65,10 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
     
     @Override
     public void filter(String filter){
-        // Nullpointer? Fix this!
-        if(!filter.isEmpty() && !this.list.isEmpty()){
+        if(this.list != null && !filter.isEmpty() && !this.list.isEmpty()){
         ObservableList<E> filteredList = FXCollections.observableArrayList(this.list);
         this.listView.setItems(filteredList.filtered(p -> p.toString().toLowerCase().contains(filter.toLowerCase())));
-        }else {
+        }else if(this.list != null && !list.isEmpty()){
             this.listView.setItems(this.list);
         }
     }
