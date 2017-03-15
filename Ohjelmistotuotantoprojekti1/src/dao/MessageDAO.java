@@ -8,6 +8,7 @@ package dao;
 import java.util.List;
 import model.Message;
 import model.User;
+import model.User_IF;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -84,8 +85,8 @@ public class MessageDAO implements MessageDAO_IF{
             session.beginTransaction();
             session.load(message = new Message(), id);
             session.getTransaction().commit();
-            Hibernate.initialize(message.getSentMessages());
-            Hibernate.initialize(message.getReceivedMessages());
+            Hibernate.initialize(message.getSender());
+            Hibernate.initialize(message.getReceiver());
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
         } finally {
@@ -95,18 +96,41 @@ public class MessageDAO implements MessageDAO_IF{
     }
 
     @Override
-    public List<User> readMessages(String username) {   
-        List<User> result = null;
+    public List<Message> readSentMessages(User user) {   
+        List<Message> result = null;
         session = sf.openSession();
         try {
             session.beginTransaction();
             
-            result = session.createQuery("from user where username = "+"'"+username+"'").getResultList();
+            result = session.createQuery("from message where sender = "+"'"+user.getUsername()+"'").getResultList();
             session.getTransaction().commit();
-            for(User mes : result){
-                Hibernate.initialize(mes.getSentMessages());
-                Hibernate.initialize(mes.getReceivedMessages());
-            }    
+            for(Message messages : result){
+                Hibernate.initialize(messages.getReceiver());
+                Hibernate.initialize(messages.getSender());
+                Hibernate.initialize(messages.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Caught an error while reading resources.");
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+    @Override
+    public List<Message> readReceivedMessages(User user) {   
+        List<Message> result = null;
+        session = sf.openSession();
+        try {
+            session.beginTransaction();
+            
+            result = session.createQuery("from message where receiver = "+"'"+user.getUsername()+"'").getResultList();
+            session.getTransaction().commit();
+            for(Message messages : result){
+                Hibernate.initialize(messages.getReceiver());
+                Hibernate.initialize(messages.getSender());
+                Hibernate.initialize(messages.getMessage());
+            }
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
             e.printStackTrace();

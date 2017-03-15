@@ -3,14 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -20,19 +13,15 @@ import javax.persistence.Table;
 @Table(name="message")
 public class Message {
     
-    @Id
-    @Column(name="MessageID")
     private int messageID;
-    @Column(name="message")
     private String message;
-    @Column(name="date")
     private Date date;
-    
-    @ManyToMany (mappedBy="sentMessages")
-    private List<User> sentM = new ArrayList();
-    @ManyToMany (mappedBy="receivedMessages")
-    private List<User> receivedM = new ArrayList();
+    private String title;
 
+    
+    private User sender;
+    private User receiver;
+    
     
     public Message(){}
     
@@ -40,8 +29,33 @@ public class Message {
         this.messageID = id;
         this.message = message;
         this.date = d;
+        sender = new User();
+        receiver = new User();
+        
+    }
+    
+    @ManyToOne
+    @JoinColumn(name="sender")
+    public User getSender() {
+        return sender;
     }
 
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="receiver")
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    @Id
+    @Column(name="MessageID")
     public int getMessageID() {
         return messageID;
     }
@@ -50,19 +64,30 @@ public class Message {
         this.messageID = messageID;
     }
 
+    @Column(name="message")
     public String getMessage() {
         return message;
     }
+    @Column(name="title")
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public void setMessage(String message) {
         this.message = message;
     }
 
     @Override
     public String toString() {
-        return "Message: " + "messageID= " + messageID + ", message= " + message + ", date= " + date ;
+        return "Lähettäjä: "+sender.getFirstName()+" "+sender.getLastName()+", Vastaanottaja: "+receiver.getFirstName()+
+                " "+receiver.getLastName()+", Aihe: "+title+", pvm: "+date;
     }
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="date")
     public Date getDate() {
         return date;
     }
@@ -70,20 +95,4 @@ public class Message {
     public void setDate(Date date) {
         this.date = date;
     }
-    
-    public List<User> getReceivedMessages(){
-        return receivedM;
-    }
-    
-    public List<User> getSentMessages(){
-        return sentM;
-    }
-    
-    public void setSentMessages(List<User> sentM){
-        this.sentM = sentM;
-    }
-    public void setReceivedMessages(List<User> receivedM){
-        this.receivedM = receivedM;
-    }
-    
 }

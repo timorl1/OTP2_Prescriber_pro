@@ -41,15 +41,18 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private LoginGUI_IF login;
     private PrescriptionFormGUI_IF prescriptionForm;
     private UserFormGUI_IF userForm;
+    private MessageFormGUI_IF messageForm;
     private SideBarListView_IF<Patient> patientListView;
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
     private ListTabGUI_IF<String> prescriptionTab;
     private ListTabGUI_IF<String> drugTab;
+    private ListTabGUI_IF<String> messageTab;
     private ListTabGUI_IF<Prescription> patientPrescriptionTab;
     private ListTabGUI_IF<String> diagnoseTab;
     private ListTabGUI_IF<Diagnose> patientDiagnoseTab;
-    private SideBarListView_IF<Message> messageListView;
+    private SideBarListView_IF<Message> receivedMessageListView;
+    private SideBarListView_IF<Message> sentMessageListView;    
     private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
@@ -111,6 +114,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setSideBar() {
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
+        this.sideBar.getMessageButton().setOnMousePressed(m ->{
+            this.controller.createNewMessage();
+        });
         this.sideBar.getSearchField().setOnKeyReleased(e -> {
         if(this.patientListView != null){
             this.patientListView.filter(this.sideBar.getSearchField().getText());
@@ -139,9 +145,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.patientListView.getListView().setOnMouseClicked(e -> {
             if (this.patientListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
-                this.controller.getPatientDetails();
-                this.controller.getPatientDiagnoses();
-                this.controller.getPatientPrescriptions();
+                this.setPatientDetails(this.getSelectedPatient());
+                this.setPatientDiagnoses(this.controller.getPatientDiagnoses());
+                this.setPatientPrescriptions(this.controller.getPatientPrescriptions());
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
@@ -176,7 +182,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.prescriptionListView = new SideBarListViewGUI("Omat Lääkemääräykset");
         this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.prescriptionListView.isExpanded()) {
-                this.prescriptionListView.setList(this.controller.getPrescriptions());
+                this.prescriptionListView.setList(this.controller.getDoctorPrescriptions());
             }
         });
         this.prescriptionListView.getListView().setOnMouseClicked(e -> {
@@ -192,14 +198,43 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
 
     @Override
-    public void setMessageList() {
-        this.messageListView = new SideBarListViewGUI("Viestit");
-        this.messageListView.getTitledPane().setOnMouseClicked((event) -> {
-            if (this.messageListView.isExpanded()) {
-                this.messageListView.setList(this.controller.getMessages());
+    public void setReceivedMessageList() {
+        this.receivedMessageListView = new SideBarListViewGUI("Vastaanotetut Viestit");
+        this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.receivedMessageListView.isExpanded()) {
+                this.receivedMessageListView.setList(this.controller.getReceivedMessages());
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.messageListView);
+        this.receivedMessageListView.getListView().setOnMouseClicked(e -> {
+            if (this.receivedMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+                this.setMessageDetails(this.receivedMessageListView.getSelection());
+            }
+            else if (this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+            }
+        });
+        this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+    }
+    
+    @Override
+    public void setSentMessageList() {
+        this.sentMessageListView = new SideBarListViewGUI("Lähetetyt Viestit");
+        this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
+            if (this.sentMessageListView.isExpanded()) {
+                this.sentMessageListView.setList(this.controller.getSentMessages());
+            }
+        });
+        this.sentMessageListView.getListView().setOnMouseClicked(e -> {
+            if (this.sentMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+                this.setMessageDetails(this.sentMessageListView.getSelection());
+            }
+            else if (this.status == AppStatus.IDLE) {
+                this.tabPane.getTabs().clear();
+            }
+        });
+        this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
     }
 
     //List all users
@@ -306,18 +341,38 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
             if (this.getPrescriptionForm().getPatient() != null) {
-                ObservableList<Diagnose> list = FXCollections.observableList(this.controller.listPatientDiagnoses());
+                ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
                 this.prescriptionForm.getDiagnoseSelector().setItems(list);
                 this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
                 this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
             }
         });
         if (this.getSelectedPatient() != null) {
-            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.listPatientDiagnoses());
+            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
             this.prescriptionForm.getDiagnoseSelector().setItems(list);
             this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
         }
         this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);
+    }
+    
+    @Override
+    public void setMessageForm(Message message){
+        this.status = AppStatus.CREATE;
+        this.messageForm = new MessageFormGUI(this.controller.getUsers(),message);
+        this.messageForm.getCancelButton().setOnAction(e -> {
+            this.tabPane.getTabs().remove(this.messageForm);
+            this.setStatus(AppStatus.IDLE);
+        });
+        this.messageForm.getSendButton().setOnAction(e -> {
+            if (this.controller.saveMessage()) {
+                this.tabPane.getTabs().remove(this.messageForm);
+                this.setStatus(AppStatus.IDLE);
+            }
+            else {
+                //Some kind of alert message should be thrown
+            }
+        });
+        this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
     }
     
     @Override
@@ -478,6 +533,21 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public void setMessageDetails(Message message) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Lähettäjä: "+message.getSender().getFirstName()+" "+message.getSender().getLastName());
+        list.add("Vastaanottaja: "+message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
+        list.add("Päiväys: "+message.getDate());
+        list.add("Viesti: "+message.getMessage() );
+        
+        this.tabPane.getTabs().remove(this.messageTab);
+        this.messageTab = new ListTabGUI(message.getTitle());
+        this.messageTab.getListView().setItems(list);
+        this.tabPane.getTabs().add((ListTabGUI)this.messageTab);
+        this.tabPane.getSelectionModel().select((ListTabGUI)this.messageTab);
+    }
+    
+    @Override
     public void setUserDetails(User_IF user) {
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Työntekijänumero: " + user.getUserID());
@@ -546,6 +616,11 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public Message getSelectedMessage() {
+        return this.receivedMessageListView.getSelection();
+    }
+    
+    @Override
     public User_IF getSelectedUser() {
         return this.userListView.getSelection();
     }
@@ -559,6 +634,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public Prescription getPrescriptionForm() {
         return this.prescriptionForm.getPrescription();
     }
+
+    @Override
+    public Message getMessageForm() {
+        return this.messageForm.getMessage();
+    }
+
+    
     
     @Override
     public User_IF getUserForm() {

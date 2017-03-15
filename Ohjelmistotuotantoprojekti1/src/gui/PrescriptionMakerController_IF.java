@@ -10,6 +10,16 @@ package gui;
  * @author joosiika
  */
 public interface PrescriptionMakerController_IF {
+
+    /**
+     *
+     * @return
+     */
     public abstract double getOptimalDose();
+
+    /**
+     *
+     */
     public abstract void checkDose();
+    public abstract void checkAllergens();
 }

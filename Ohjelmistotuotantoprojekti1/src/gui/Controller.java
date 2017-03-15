@@ -47,19 +47,22 @@ public class Controller implements Controller_IF {
                 case 1:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     break;
                 case 2:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
                     this.gui.setPrescriptionList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     this.gui.setPrescriptionTools();
                     break;
                 case 3:
                     this.gui.setUserList();
                     this.gui.setEmployeeList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     this.gui.setUserTools();
                     break;
             }
@@ -73,25 +76,15 @@ public class Controller implements Controller_IF {
     public List<Patient> getPatients() {
         return this.clientRes.getPatients();
     }
-
-    @Override
-    public void getPatientDetails() {
-        this.gui.setPatientDetails(this.clientRes.getPatientDetails(this.gui.getSelectedPatient()));
-    }
-
-    @Override
-    public void getPatientDiagnoses() {
-        this.gui.setPatientDiagnoses(this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient()));
-    }
     
     @Override
-    public List<Diagnose> listPatientDiagnoses() {
+    public List<Diagnose> getPatientDiagnoses() {
         return this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient());
     }
 
     @Override
-    public void getPatientPrescriptions() {
-        this.gui.setPatientPrescriptions(this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient()));
+    public List<Prescription> getPatientPrescriptions() {
+        return this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient());
     }
 
     @Override
@@ -100,7 +93,7 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<Prescription> getPrescriptions() {
+    public List<Prescription> getDoctorPrescriptions() {
         return clientRes.getPrescriptionsByDoctor(auth.getUser());
         
     }
@@ -136,13 +129,18 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<Message> getMessages() {
+    public List<Message> getReceivedMessages() {
         return this.auth.getUser().getReceivedMessages();
     }
-
+    
     @Override
-    public List<String> getMessageDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Message> getSentMessages() {
+        return this.auth.getUser().getSentMessages();
+    }
+    
+    @Override
+    public void getMessageDetails() {
+        this.gui.setMessageDetails(this.gui.getSelectedMessage());
     }
     
     @Override
@@ -176,12 +174,22 @@ public class Controller implements Controller_IF {
     }  
     
     @Override
-    public void createNewUser() {
-        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
+    public boolean saveMessage(){
+        return this.clientRes.saveMessage(this.gui.getMessageForm());
+    }
+    
+     @Override
+    public boolean saveUser(){
+        return this.clientRes.saveUser(this.gui.getUserForm());
     }
     
     @Override
-    public boolean saveUser() {
-        return this.clientRes.saveUser(this.gui.getUserForm());
-    }  
+    public void createNewUser() {
+        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
+    }
+
+    @Override
+    public void createNewMessage() {
+        this.gui.setMessageForm(this.clientRes.addNewMessage(this.auth.getUser()));
+    }
 }

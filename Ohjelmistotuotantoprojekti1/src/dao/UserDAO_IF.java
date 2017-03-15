@@ -15,9 +15,38 @@ import model.User_IF;
  * @author Timo
  */
 public interface UserDAO_IF {
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     public abstract boolean updateUser(User_IF user);
+
+    /**
+     *
+     * @return
+     */
     public abstract List <User_IF> getUsers();
+
+    /**
+     *
+     * @param username
+     * @return
+     */
     public abstract User_IF getUser(String username);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     public abstract boolean deleteUser(User_IF user);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     public abstract boolean createUser(User_IF user);
 }

@@ -15,8 +15,28 @@ import javafx.scene.control.Tab;
  * @param <E>
  */
 public interface ListTabGUI_IF<E> {
+
+    /**
+     *
+     * @return
+     */
     public abstract Tab getTab();
+
+    /**
+     *
+     * @return
+     */
     public abstract ListView getListView();
+
+    /**
+     *
+     * @param list
+     */
     public abstract void setList(List<E> list);
+
+    /**
+     *
+     * @return
+     */
     public abstract E getSelection();
 }
