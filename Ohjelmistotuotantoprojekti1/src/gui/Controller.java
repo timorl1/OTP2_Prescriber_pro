@@ -60,6 +60,7 @@ public class Controller implements Controller_IF {
                     this.gui.setUserList();
                     this.gui.setEmployeeList();
                     this.gui.setMessageList();
+                    this.gui.setUserTools();
                     break;
             }
         }
@@ -172,5 +173,15 @@ public class Controller implements Controller_IF {
     @Override
     public boolean savePrescription() {
         return this.clientRes.savePrescription(this.gui.getPrescriptionForm());
+    }  
+    
+    @Override
+    public void createNewUser() {
+        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
+    }
+    
+    @Override
+    public boolean saveUser() {
+        return this.clientRes.saveUser(this.gui.getUserForm());
     }  
 }
