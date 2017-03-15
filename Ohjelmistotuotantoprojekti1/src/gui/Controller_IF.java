@@ -36,5 +36,8 @@ public interface Controller_IF {
     public abstract void createNewPrescription();
     public abstract boolean savePrescription();
     public abstract void lockUser(User_IF user);
-    public abstract void setUserPriviledges(User_IF user);
+    public abstract void setUserPriviledges(User_IF user);    
+    public abstract void createNewUser();
+    public abstract boolean saveUser();
+    
 }
