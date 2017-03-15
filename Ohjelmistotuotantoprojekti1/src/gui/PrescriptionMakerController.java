@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.util.List;
 import model.DoseStatus;
 import model.PrescriptionMaker;
 import model.PrescriptionMaker_IF;
@@ -27,7 +28,6 @@ public class PrescriptionMakerController implements PrescriptionMakerController_
     @Override
     public void checkDose() {
         DoseStatus status = this.maker.evaluateDose(this.gui.getPrescription());
-        System.out.println("evaluating dose");
         switch (status) {
             case NULL:
                 this.gui.setNullDoseMessage();
@@ -50,6 +50,14 @@ public class PrescriptionMakerController implements PrescriptionMakerController_
             case CUMULATIVE_OVERDOSE:
                 this.gui.setCumulativeOverdoseMessage();
                 break;
+        }
+    }
+
+    @Override
+    public void checkAllergens() {
+        List<String> allergens = this.maker.isAllergic(this.gui.getPrescription());
+        if (!allergens.isEmpty()) {
+            this.gui.setIsAllergicMessage(allergens);
         }
     }
     

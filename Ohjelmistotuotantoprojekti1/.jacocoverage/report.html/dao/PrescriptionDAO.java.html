@@ -77,14 +77,14 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
 <span class="fc" id="L77">            session.saveOrUpdate(prescription);</span>
 <span class="fc" id="L78">            transaction.commit();</span>
 <span class="fc" id="L79">            success = true;</span>
-<span class="nc" id="L80">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (transaction != null) {</span>
-<span class="nc" id="L82">                transaction.rollback();</span>
+<span class="fc" id="L80">        } catch (Exception e) {</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">            if (transaction != null) {</span>
+<span class="fc" id="L82">                transaction.rollback();</span>
             }
-<span class="nc" id="L84">            System.out.println(&quot;Inserting an entry to DB failed.&quot;);</span>
+<span class="fc" id="L84">            System.out.println(&quot;Inserting an entry to DB failed.&quot;);</span>
         } finally {
 <span class="pc" id="L86">            session.close();</span>
-<span class="pc" id="L87">        }</span>
+<span class="fc" id="L87">        }</span>
 <span class="fc" id="L88">        return success;</span>
     }
 
@@ -146,12 +146,12 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
 <span class="fc" id="L146">            session.beginTransaction();</span>
 <span class="fc" id="L147">            prescriptions = session.createQuery(&quot;from prescription where username = &quot; + &quot;'&quot;+user.getUsername()+&quot;'&quot;).getResultList();</span>
 <span class="fc" id="L148">            session.getTransaction().commit();</span>
-<span class="nc" id="L149">        } catch (Exception e) {</span>
-<span class="nc" id="L150">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
-<span class="nc" id="L151">            e.printStackTrace();</span>
+<span class="fc" id="L149">        } catch (Exception e) {</span>
+<span class="fc" id="L150">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
+<span class="fc" id="L151">            e.printStackTrace();</span>
         } finally {
 <span class="pc" id="L153">            session.close();</span>
-<span class="pc" id="L154">        }</span>
+<span class="fc" id="L154">        }</span>
 <span class="fc" id="L155">        return prescriptions;</span>
     }
 
@@ -214,4 +214,4 @@ public class PrescriptionDAO implements PrescriptionDAO_IF{
     }
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

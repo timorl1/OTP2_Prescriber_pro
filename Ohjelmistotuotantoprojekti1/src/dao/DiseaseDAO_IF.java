@@ -1,19 +1,17 @@
 package dao;
 
-import java.util.List;
-import model.Diagnose;
 import model.Disease;
 
 /**
- *
+ * Interface that defines methods for getting disease from database
  * @author Timo
  */
 public interface DiseaseDAO_IF {
 
     /**
-     *
+     * Gets disease by id from database
      * @param diseaseId
-     * @return
+     * @return disease object
      */
     public abstract Disease getDisease(int diseaseId);
 }

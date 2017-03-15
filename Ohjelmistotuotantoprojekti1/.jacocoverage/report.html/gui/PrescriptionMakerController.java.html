@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.util.List;
 import model.DoseStatus;
 import model.PrescriptionMaker;
 import model.PrescriptionMaker_IF;
@@ -14,20 +15,19 @@ public class PrescriptionMakerController implements PrescriptionMakerController_
     private PrescriptionFormGUI_IF gui;
     private PrescriptionMaker_IF maker;
 
-<span class="nc" id="L17">    public PrescriptionMakerController(PrescriptionFormGUI_IF gui) {</span>
-<span class="nc" id="L18">        this.gui = gui;</span>
-<span class="nc" id="L19">        this.maker = new PrescriptionMaker();</span>
-<span class="nc" id="L20">    }</span>
+<span class="nc" id="L18">    public PrescriptionMakerController(PrescriptionFormGUI_IF gui) {</span>
+<span class="nc" id="L19">        this.gui = gui;</span>
+<span class="nc" id="L20">        this.maker = new PrescriptionMaker();</span>
+<span class="nc" id="L21">    }</span>
 
     @Override
     public double getOptimalDose() {
-<span class="nc" id="L24">        return this.maker.getOptimalDose(this.gui.getPrescription());</span>
+<span class="nc" id="L25">        return this.maker.getOptimalDose(this.gui.getPrescription());</span>
     }
 
     @Override
     public void checkDose() {
-<span class="nc" id="L29">        DoseStatus status = this.maker.evaluateDose(this.gui.getPrescription());</span>
-<span class="nc" id="L30">        System.out.println(&quot;evaluating dose&quot;);</span>
+<span class="nc" id="L30">        DoseStatus status = this.maker.evaluateDose(this.gui.getPrescription());</span>
 <span class="nc bnc" id="L31" title="All 8 branches missed.">        switch (status) {</span>
             case NULL:
 <span class="nc" id="L33">                this.gui.setNullDoseMessage();</span>
@@ -52,6 +52,14 @@ public class PrescriptionMakerController implements PrescriptionMakerController_
                 break;
         }
 <span class="nc" id="L54">    }</span>
+
+    @Override
+    public void checkAllergens() {
+<span class="nc" id="L58">        List&lt;String&gt; allergens = this.maker.isAllergic(this.gui.getPrescription());</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (!allergens.isEmpty()) {</span>
+<span class="nc" id="L60">            this.gui.setIsAllergicMessage(allergens);</span>
+        }
+<span class="nc" id="L62">    }</span>
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

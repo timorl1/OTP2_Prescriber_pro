@@ -14,13 +14,7 @@ public interface ClientResources_IF {
      */
     public abstract List<Patient> getPatients();
 
-    /**
-     *Gets single patient details
-     * @param patient
-     * @return all patient information as an Patient object
-     */
-    public abstract Patient getPatientDetails(Patient patient);
-
+   
     /**
      *Lists all single patients diagnoses
      * @param patient
@@ -99,13 +93,28 @@ public interface ClientResources_IF {
      * @param prescription
      * @return
      */
-    public abstract boolean savePrescription(Prescription prescription);
+    public abstract boolean savePrescription(Prescription prescription);    
 
     /**
      *
      * @param user
      * @return
      */
+    public abstract User_IF addNewUser(User_IF user);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public abstract boolean saveUser(User_IF user);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+
     public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
 
     /**

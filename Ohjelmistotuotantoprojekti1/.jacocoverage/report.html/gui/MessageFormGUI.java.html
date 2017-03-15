@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MessageFormGUI.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Ohjelmistotuotantoprojekti1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">MessageFormGUI.java</span></div><h1>MessageFormGUI.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gui;
+
+import java.io.IOException;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import model.Message;
+import model.User;
+import model.User_IF;
+
+/**
+ *
+ * @author Timo
+ */
+public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
+    
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label messageLabel;
+    @FXML 
+    private ChoiceBox&lt;User_IF&gt; receiverSelector;
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextArea messageField;
+    @FXML 
+    private ButtonBar buttonBar;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button sendButton;
+    @FXML
+    private Label mainTitle;
+    @FXML
+    private Label receiverLabel;
+    
+    FXMLLoader loader;
+    private Message message;
+    private ObservableList&lt;User_IF&gt; list;
+    
+<span class="nc" id="L54">    public MessageFormGUI(List&lt;User_IF&gt; users, Message message){</span>
+<span class="nc" id="L55">        this.message = message;</span>
+        try {
+<span class="nc" id="L57">            loader = new FXMLLoader(getClass().getResource(&quot;MessageForm.fxml&quot;));</span>
+<span class="nc" id="L58">            loader.setController(this);</span>
+<span class="nc" id="L59">            loader.setRoot(this);</span>
+<span class="nc" id="L60">            loader.load();</span>
+<span class="nc" id="L61">            this.list = FXCollections.observableArrayList(users);</span>
+<span class="nc" id="L62">            this.receiverSelector.setItems(this.list);</span>
+<span class="nc" id="L63">            this.titleField.setOnKeyReleased(e -&gt; this.message.setTitle(this.titleField.getText()));</span>
+<span class="nc" id="L64">            this.messageField.setOnKeyReleased(e -&gt; this.message.setMessage(this.messageField.getText()));</span>
+<span class="nc" id="L65">            this.receiverSelector.setOnAction(e -&gt; this.message.setReceiver((User) this.receiverSelector.getSelectionModel().getSelectedItem()));</span>
+<span class="nc" id="L66">        } catch (IOException ex) {</span>
+<span class="nc" id="L67">            ex.printStackTrace();</span>
+<span class="nc" id="L68">        }</span>
+<span class="nc" id="L69">    }</span>
+
+    @Override
+    public Button getCancelButton() {
+<span class="nc" id="L73">        return cancelButton;</span>
+    }
+
+
+    @Override
+    public Button getSendButton() {
+<span class="nc" id="L79">        return sendButton;</span>
+    }
+
+
+    @Override
+    public Message getMessage() {
+<span class="nc" id="L85">        return message;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -63,6 +63,7 @@ public class Controller implements Controller_IF {
                     this.gui.setEmployeeList();
                     this.gui.setReceivedMessageList();
                     this.gui.setSentMessageList();
+                    this.gui.setUserTools();
                     break;
             }
         }
@@ -75,25 +76,15 @@ public class Controller implements Controller_IF {
     public List<Patient> getPatients() {
         return this.clientRes.getPatients();
     }
-
-    @Override
-    public void getPatientDetails() {
-        this.gui.setPatientDetails(this.clientRes.getPatientDetails(this.gui.getSelectedPatient()));
-    }
-
-    @Override
-    public void getPatientDiagnoses() {
-        this.gui.setPatientDiagnoses(this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient()));
-    }
     
     @Override
-    public List<Diagnose> listPatientDiagnoses() {
+    public List<Diagnose> getPatientDiagnoses() {
         return this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient());
     }
 
     @Override
-    public void getPatientPrescriptions() {
-        this.gui.setPatientPrescriptions(this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient()));
+    public List<Prescription> getPatientPrescriptions() {
+        return this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient());
     }
 
     @Override
@@ -102,7 +93,7 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<Prescription> getPrescriptions() {
+    public List<Prescription> getDoctorPrescriptions() {
         return clientRes.getPrescriptionsByDoctor(auth.getUser());
         
     }
@@ -185,6 +176,16 @@ public class Controller implements Controller_IF {
     @Override
     public boolean saveMessage(){
         return this.clientRes.saveMessage(this.gui.getMessageForm());
+    }
+    
+     @Override
+    public boolean saveUser(){
+        return this.clientRes.saveUser(this.gui.getUserForm());
+    }
+    
+    @Override
+    public void createNewUser() {
+        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
     }
 
     @Override

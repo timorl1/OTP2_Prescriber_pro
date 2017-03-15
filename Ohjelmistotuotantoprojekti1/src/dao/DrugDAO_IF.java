@@ -4,21 +4,21 @@ import java.util.List;
 import model.Drug;
 
 /**
- *
+ * Interface that defines methods for getting info on drugs from database
  * @author joosiika
  */
 public interface DrugDAO_IF {
 
     /**
-     *
+     * Gets drug by id from database
      * @param SN
-     * @return
+     * @return drug object
      */
     public abstract Drug readDrug(int SN);
 
     /**
-     *
-     * @return
+     * Gets all the drugs from database
+     * @return list of drug objects
      */
     public abstract List<Drug> readDrugs();
 }

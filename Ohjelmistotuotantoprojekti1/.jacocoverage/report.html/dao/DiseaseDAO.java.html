@@ -50,13 +50,13 @@ public class DiseaseDAO implements DiseaseDAO_IF {
     
     @Override
     public void finalize() {
-<span class="nc" id="L53">        boolean success = false;</span>
+<span class="fc" id="L53">        boolean success = false;</span>
         do {
             try {
-<span class="nc bnc" id="L56" title="All 2 branches missed.">                if (reg != null) {</span>
-<span class="nc" id="L57">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">                if (reg != null) {</span>
+<span class="fc" id="L57">                    StandardServiceRegistryBuilder.destroy(reg);</span>
                 }
-<span class="nc" id="L59">                success = true;</span>
+<span class="fc" id="L59">                success = true;</span>
 <span class="nc" id="L60">            } catch (Exception e) {</span>
 <span class="nc" id="L61">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
                 try {
@@ -64,10 +64,10 @@ public class DiseaseDAO implements DiseaseDAO_IF {
 <span class="nc" id="L64">                } catch (InterruptedException e1) {</span>
 <span class="nc" id="L65">                    e1.printStackTrace();</span>
 <span class="nc" id="L66">                }</span>
-<span class="nc" id="L67">            }</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        } while (!success);</span>
-<span class="nc" id="L69">        System.out.println(&quot;DB connection shut down.&quot;);</span>
-<span class="nc" id="L70">    }</span>
+<span class="fc" id="L67">            }</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        } while (!success);</span>
+<span class="fc" id="L69">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="fc" id="L70">    }</span>
 
     @Override
     public Disease getDisease(int diseaseId) {
@@ -92,4 +92,4 @@ public class DiseaseDAO implements DiseaseDAO_IF {
     
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

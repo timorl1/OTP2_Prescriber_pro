@@ -10,16 +10,18 @@ import dao.PrescriptionDAO_IF;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PrescriptionMaker implements PrescriptionMaker_IF {
     private PrescriptionDAO_IF prescriptionDAO;
     private DoseCalculator_IF doseCalculator;
 
-<span class="nc" id="L19">    public PrescriptionMaker() {</span>
-<span class="nc" id="L20">        this.prescriptionDAO = new PrescriptionDAO();</span>
-<span class="nc" id="L21">        this.doseCalculator = new DoseCalculator();</span>
-<span class="nc" id="L22">    }</span>
+<span class="fc" id="L21">    public PrescriptionMaker() {</span>
+<span class="fc" id="L22">        this.prescriptionDAO = new PrescriptionDAO();</span>
+<span class="fc" id="L23">        this.doseCalculator = new DoseCalculator();</span>
+<span class="fc" id="L24">    }</span>
 
     /*@Override
     public Prescription createPrescription(User_IF user) {
@@ -37,67 +39,62 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
 
     @Override
     public double getOptimalDose(Prescription prescription) {
-<span class="nc" id="L40">        return this.doseCalculator.getOptimalDose(prescription.getPatient(), prescription.getDrug());</span>
+<span class="fc" id="L42">        return this.doseCalculator.getOptimalDose(prescription.getPatient(), prescription.getDrug());</span>
     }
 
     @Override
     public DoseStatus evaluateDose(Prescription prescription) {
-<span class="nc" id="L45">        Patient patient = prescription.getPatient();</span>
-<span class="nc" id="L46">        Drug drug = prescription.getDrug();</span>
-<span class="nc" id="L47">        double dose = prescription.getDose();</span>
-<span class="nc" id="L48">        int timesADay = prescription.getTimesADay();</span>
-<span class="nc" id="L49">        int duration = 1;</span>
+<span class="fc" id="L47">        Patient patient = prescription.getPatient();</span>
+<span class="fc" id="L48">        Drug drug = prescription.getDrug();</span>
+<span class="fc" id="L49">        double dose = prescription.getDose();</span>
+<span class="fc" id="L50">        int timesADay = prescription.getTimesADay();</span>
+<span class="fc" id="L51">        int duration = 1;</span>
         try{
-<span class="nc" id="L51">        LocalDate startDate = prescription.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
-<span class="nc" id="L52">        LocalDate endDate = prescription.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
-<span class="nc" id="L53">        long days = ChronoUnit.DAYS.between(startDate, endDate);</span>
-<span class="nc" id="L54">        duration = Math.toIntExact(days);</span>
-<span class="nc" id="L55">        } catch (Exception e) {</span>
-<span class="nc" id="L56">        }</span>
-<span class="nc bnc" id="L57" title="All 6 branches missed.">        if (dose == 0 || patient == null || drug == null) {</span>
-<span class="nc" id="L58">            return DoseStatus.NULL;</span>
+<span class="nc" id="L53">        LocalDate startDate = prescription.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="nc" id="L54">        LocalDate endDate = prescription.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="nc" id="L55">        long days = ChronoUnit.DAYS.between(startDate, endDate);</span>
+<span class="nc" id="L56">        duration = Math.toIntExact(days);</span>
+<span class="fc" id="L57">        } catch (Exception e) {</span>
+<span class="nc" id="L58">        }</span>
+<span class="pc bpc" id="L59" title="3 of 6 branches missed.">        if (dose == 0 || patient == null || drug == null) {</span>
+<span class="nc" id="L60">            return DoseStatus.NULL;</span>
         }
-        /*else if (timesADay == 0 || duration == 0) {
-            if (timesADay != 0) {
-                dose = dose*timesADay;
-            }
-            if (dose &lt; this.doseCalculator.getOptimalDose(patient, drug)/2) {
-                return DoseStatus.INSUFFICIENT;
-            }
-            else if (dose &gt;= this.doseCalculator.getOptimalDose(patient, drug)/2 &amp;&amp; dose &lt; this.doseCalculator.getMaxDose(patient, drug)/2) {
-                return DoseStatus.OPTIMAL;
-            }
-            else if (dose &gt;= this.doseCalculator.getMaxDose(patient, drug)/2 &amp;&amp; dose &lt; this.doseCalculator.getMaxDose(patient, drug)*0.75) {
-                return DoseStatus.OVER_OPTIMAL;
-            }
-            else if (dose &gt;= this.doseCalculator.getMaxDose(patient, drug)*0.75 &amp;&amp; dose &lt;= this.doseCalculator.getMaxDose(patient, drug)) {
-                return DoseStatus.RISK_LIMIT;
-            }
-            else {
-                return DoseStatus.OVERDOSE;
-            }
-        }*/
         else {
-<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt; this.doseCalculator.getOptimalDose(patient, drug)/2) {</span>
-<span class="nc" id="L82">                return DoseStatus.INSUFFICIENT;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt; this.doseCalculator.getOptimalDose(patient, drug)/2) {</span>
+<span class="nc" id="L64">                return DoseStatus.INSUFFICIENT;</span>
             }
-<span class="nc bnc" id="L84" title="All 4 branches missed.">            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &gt;= this.doseCalculator.getOptimalDose(patient, drug)/2 &amp;&amp; this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt; this.doseCalculator.getMaxDose(patient, drug)/2) {</span>
-<span class="nc" id="L85">                return DoseStatus.OPTIMAL;</span>
+<span class="pc bpc" id="L66" title="2 of 4 branches missed.">            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &gt;= this.doseCalculator.getOptimalDose(patient, drug)/2 &amp;&amp; this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt; this.doseCalculator.getMaxDose(patient, drug)/2) {</span>
+<span class="nc" id="L67">                return DoseStatus.OPTIMAL;</span>
             }
-<span class="nc bnc" id="L87" title="All 4 branches missed.">            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &gt;= this.doseCalculator.getMaxDose(patient, drug)/2 &amp;&amp; this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt; this.doseCalculator.getMaxDose(patient, drug)*0.75) {</span>
-<span class="nc" id="L88">                return DoseStatus.OVER_OPTIMAL;</span>
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &gt;= this.doseCalculator.getMaxDose(patient, drug)/2 &amp;&amp; this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt; this.doseCalculator.getMaxDose(patient, drug)*0.75) {</span>
+<span class="nc" id="L70">                return DoseStatus.OVER_OPTIMAL;</span>
             }
-<span class="nc bnc" id="L90" title="All 4 branches missed.">            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &gt;= this.doseCalculator.getMaxDose(patient, drug)*0.75 &amp;&amp; this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt;= this.doseCalculator.getMaxDose(patient, drug)) {</span>
-<span class="nc" id="L91">                return DoseStatus.RISK_LIMIT;</span>
+<span class="pc bpc" id="L72" title="2 of 4 branches missed.">            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &gt;= this.doseCalculator.getMaxDose(patient, drug)*0.75 &amp;&amp; this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) &lt;= this.doseCalculator.getMaxDose(patient, drug)) {</span>
+<span class="nc" id="L73">                return DoseStatus.RISK_LIMIT;</span>
             }
-<span class="nc bnc" id="L93" title="All 2 branches missed.">            else if (dose &gt; this.doseCalculator.getMaxDose(patient, drug)){</span>
-<span class="nc" id="L94">                return DoseStatus.OVERDOSE;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            else if (dose &gt; this.doseCalculator.getMaxDose(patient, drug)){</span>
+<span class="fc" id="L76">                return DoseStatus.OVERDOSE;</span>
             }
             else {
-<span class="nc" id="L97">                return DoseStatus.CUMULATIVE_OVERDOSE;</span>
+<span class="fc" id="L79">                return DoseStatus.CUMULATIVE_OVERDOSE;</span>
             }
         }
     }
+
+    @Override
+    public List&lt;String&gt; isAllergic(Prescription prescription) {
+<span class="fc" id="L86">        List&lt;String&gt; patientAllergens = new ArrayList();</span>
+<span class="fc" id="L87">        prescription.getPatient().getDiagnoses().forEach(d -&gt; d.getDisease().getAllergenList().forEach(a -&gt; patientAllergens.add(a.getName())));</span>
+<span class="fc" id="L88">        List&lt;String&gt; drugAllergens = new ArrayList();</span>
+<span class="fc" id="L89">        prescription.getDrug().getAllergens().forEach(da -&gt; drugAllergens.add(da.getName()));</span>
+<span class="fc" id="L90">        List&lt;String&gt; hits = new ArrayList();</span>
+<span class="fc" id="L91">        drugAllergens.forEach(das -&gt; patientAllergens.forEach(pas -&gt; {</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">            if(das.contains(pas)) {</span>
+<span class="fc" id="L93">                hits.add(pas);</span>
+            }
+<span class="fc" id="L95">        }));</span>
+<span class="fc" id="L96">        return hits;</span>
+    }
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -68,11 +68,6 @@ public class ClientResources implements ClientResources_IF {
     }
     
     @Override
-    public Patient getPatientDetails(Patient patient) {
-        return patient;
-    }
-    
-    @Override
     public List<Diagnose> getPatientDiagnoses(Patient patient) {
         List<Diagnose> diagnoses = this.builder.buildPatient(patient).getDiagnoses();
         diagnoses.forEach(this.builder::buildDiagnose);
@@ -152,6 +147,17 @@ public class ClientResources implements ClientResources_IF {
     public boolean savePrescription(Prescription prescription) {
         return this.prescriptionDAO.createPrescription(prescription);
     }
+    
+     @Override
+    public User_IF addNewUser(User_IF user) {
+        user = new User();       
+        return user;
+    }
+
+    @Override
+    public boolean saveUser(User_IF user) {
+        return this.userDAO.createUser(user);
+    } 
     
     @Override
     public boolean saveMessage(Message message){

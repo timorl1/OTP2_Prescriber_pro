@@ -10,6 +10,8 @@ import dao.PrescriptionDAO_IF;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PrescriptionMaker implements PrescriptionMaker_IF {
@@ -57,26 +59,6 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         if (dose == 0 || patient == null || drug == null) {
             return DoseStatus.NULL;
         }
-        /*else if (timesADay == 0 || duration == 0) {
-            if (timesADay != 0) {
-                dose = dose*timesADay;
-            }
-            if (dose < this.doseCalculator.getOptimalDose(patient, drug)/2) {
-                return DoseStatus.INSUFFICIENT;
-            }
-            else if (dose >= this.doseCalculator.getOptimalDose(patient, drug)/2 && dose < this.doseCalculator.getMaxDose(patient, drug)/2) {
-                return DoseStatus.OPTIMAL;
-            }
-            else if (dose >= this.doseCalculator.getMaxDose(patient, drug)/2 && dose < this.doseCalculator.getMaxDose(patient, drug)*0.75) {
-                return DoseStatus.OVER_OPTIMAL;
-            }
-            else if (dose >= this.doseCalculator.getMaxDose(patient, drug)*0.75 && dose <= this.doseCalculator.getMaxDose(patient, drug)) {
-                return DoseStatus.RISK_LIMIT;
-            }
-            else {
-                return DoseStatus.OVERDOSE;
-            }
-        }*/
         else {
             if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) < this.doseCalculator.getOptimalDose(patient, drug)/2) {
                 return DoseStatus.INSUFFICIENT;
@@ -97,6 +79,21 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
                 return DoseStatus.CUMULATIVE_OVERDOSE;
             }
         }
+    }
+
+    @Override
+    public List<String> isAllergic(Prescription prescription) {
+        List<String> patientAllergens = new ArrayList();
+        prescription.getPatient().getDiagnoses().forEach(d -> d.getDisease().getAllergenList().forEach(a -> patientAllergens.add(a.getName())));
+        List<String> drugAllergens = new ArrayList();
+        prescription.getDrug().getAllergens().forEach(da -> drugAllergens.add(da.getName()));
+        List<String> hits = new ArrayList();
+        drugAllergens.forEach(das -> patientAllergens.forEach(pas -> {
+            if(das.contains(pas)) {
+                hits.add(pas);
+            }
+        }));
+        return hits;
     }
     
 }

@@ -54,13 +54,13 @@ public class UserDAO implements UserDAO_IF {
 <span class="fc" id="L54">    }</span>
        
     public void finalize() {
-<span class="nc" id="L57">        boolean success = false;</span>
+<span class="fc" id="L57">        boolean success = false;</span>
         do {
             try {
-<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (reg != null) {</span>
-<span class="nc" id="L61">                    StandardServiceRegistryBuilder.destroy(reg);</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">                if (reg != null) {</span>
+<span class="fc" id="L61">                    StandardServiceRegistryBuilder.destroy(reg);</span>
                 }
-<span class="nc" id="L63">                success = true;</span>
+<span class="fc" id="L63">                success = true;</span>
 <span class="nc" id="L64">            } catch (Exception e) {</span>
 <span class="nc" id="L65">                System.out.println(&quot;DB connection not shutting down. Retrying...&quot;);</span>
                 try {
@@ -68,10 +68,10 @@ public class UserDAO implements UserDAO_IF {
 <span class="nc" id="L68">                } catch (InterruptedException e1) {</span>
 <span class="nc" id="L69">                    e1.printStackTrace();</span>
 <span class="nc" id="L70">                }</span>
-<span class="nc" id="L71">            }</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        } while (!success);</span>
-<span class="nc" id="L73">        System.out.println(&quot;DB connection shut down.&quot;);</span>
-<span class="nc" id="L74">    }</span>
+<span class="fc" id="L71">            }</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        } while (!success);</span>
+<span class="fc" id="L73">        System.out.println(&quot;DB connection shut down.&quot;);</span>
+<span class="fc" id="L74">    }</span>
     
     //Used for updating user information to database
     @Override
@@ -98,18 +98,18 @@ public class UserDAO implements UserDAO_IF {
     // Gets all users from database and returns them as array
     @Override
     public List&lt;User_IF&gt; getUsers() {
-<span class="nc" id="L101">        List&lt;User_IF&gt; users = null;</span>
-<span class="nc" id="L102">        session = sf.openSession();</span>
+<span class="fc" id="L101">        List&lt;User_IF&gt; users = null;</span>
+<span class="fc" id="L102">        session = sf.openSession();</span>
         try {
-<span class="nc" id="L104">            session.beginTransaction();</span>
-<span class="nc" id="L105">            users = session.createQuery(&quot;from user&quot;).getResultList();</span>
-<span class="nc" id="L106">            session.getTransaction().commit();</span>
+<span class="fc" id="L104">            session.beginTransaction();</span>
+<span class="fc" id="L105">            users = session.createQuery(&quot;from user&quot;).getResultList();</span>
+<span class="fc" id="L106">            session.getTransaction().commit();</span>
 <span class="nc" id="L107">        } catch (Exception e) {</span>
 <span class="nc" id="L108">            System.out.println(&quot;Caught an error while reading resources.&quot;);</span>
         } finally {
-<span class="nc" id="L110">            session.close();</span>
-<span class="nc" id="L111">        }</span>
-<span class="nc" id="L112">        return users;</span>
+<span class="pc" id="L110">            session.close();</span>
+<span class="pc" id="L111">        }</span>
+<span class="fc" id="L112">        return users;</span>
     }
     
     // Gets user from database identified by username
@@ -183,4 +183,4 @@ public class UserDAO implements UserDAO_IF {
   
 }
 
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

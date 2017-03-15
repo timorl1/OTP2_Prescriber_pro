@@ -23,19 +23,19 @@ public class DrugResources implements DrugResources_IF {
     private DrugDAO_IF drugDAO;
     private Map&lt;Integer, Drug&gt; drugs;
     
-<span class="nc" id="L26">    public DrugResources() {</span>
-<span class="nc" id="L27">        this.drugDAO = new DrugDAO();</span>
-<span class="nc" id="L28">        this.drugs = new HashMap();</span>
-<span class="nc" id="L29">        this.drugDAO.readDrugs().forEach(drug -&gt;{</span>
-<span class="nc" id="L30">            this.drugs.put(drug.getSN(), drug);</span>
-<span class="nc" id="L31">        });</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L26">    public DrugResources() {</span>
+<span class="fc" id="L27">        this.drugDAO = new DrugDAO();</span>
+<span class="fc" id="L28">        this.drugs = new HashMap();</span>
+<span class="fc" id="L29">        this.drugDAO.readDrugs().forEach(drug -&gt;{</span>
+<span class="fc" id="L30">            this.drugs.put(drug.getSN(), drug);</span>
+<span class="fc" id="L31">        });</span>
+<span class="fc" id="L32">    }</span>
     
     @Override
     public List&lt;Drug&gt; getDrugs() {
-<span class="nc" id="L36">        List&lt;Drug&gt; drugList = new ArrayList();</span>
-<span class="nc" id="L37">        drugList.addAll(drugs.values());</span>
-<span class="nc" id="L38">        return drugList;</span>
+<span class="fc" id="L36">        List&lt;Drug&gt; drugList = new ArrayList();</span>
+<span class="fc" id="L37">        drugList.addAll(drugs.values());</span>
+<span class="fc" id="L38">        return drugList;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
