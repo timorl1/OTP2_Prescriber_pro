@@ -29,7 +29,7 @@ public class PatientDAO implements PatientDAO_IF {
     @Override
     protected void finalize() {
         try {
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">            if (connection != null) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (connection != null) {</span>
 <span class="fc" id="L33">                connection.close();</span>
             }
 <span class="nc" id="L35">        } catch (Exception e) {</span>
@@ -171,10 +171,10 @@ public class PatientDAO implements PatientDAO_IF {
     //Get single diagnose from database identified by diagnose id
     @Override
     public Diagnose readDiagnose(int diagnoseID) {
-<span class="nc" id="L174">        properties = parameters.readDBProperties();</span>
+<span class="fc" id="L174">        properties = parameters.readDBProperties();</span>
         try {
-<span class="nc" id="L176">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
-<span class="nc" id="L177">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
+<span class="fc" id="L176">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="fc" id="L177">            connection = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + properties.getProperty(&quot;url&quot;) + &quot;/&quot; + properties.getProperty(&quot;db&quot;), properties.getProperty(&quot;username&quot;), properties.getProperty(&quot;password&quot;));</span>
 <span class="nc" id="L178">        }catch (SQLException e) {</span>
 <span class="nc" id="L179">            System.out.println(&quot;Yhteyden muodostaminen epäonnistui&quot;);</span>
             try {
@@ -186,52 +186,52 @@ public class PatientDAO implements PatientDAO_IF {
 <span class="nc" id="L186">            }</span>
 <span class="nc" id="L187">        } catch (ClassNotFoundException e) {</span>
 <span class="nc" id="L188">            System.out.println(&quot;JDBC-ajurin lataus epäonnistui&quot;);</span>
-<span class="nc" id="L189">        }</span>
+<span class="pc" id="L189">        }</span>
         
-<span class="nc" id="L191">        Diagnose dia = null;</span>
-<span class="nc" id="L192">        PreparedStatement statement = null;</span>
-<span class="nc" id="L193">        ResultSet rs = null;</span>
-<span class="nc" id="L194">        String sqlSelect = &quot;SELECT * FROM diagnoosi where diagnoosiID = ?&quot;;</span>
+<span class="fc" id="L191">        Diagnose dia = null;</span>
+<span class="fc" id="L192">        PreparedStatement statement = null;</span>
+<span class="fc" id="L193">        ResultSet rs = null;</span>
+<span class="fc" id="L194">        String sqlSelect = &quot;SELECT * FROM diagnoosi where diagnoosiID = ?&quot;;</span>
         try {
-<span class="nc" id="L196">            statement = connection.prepareStatement(sqlSelect);</span>
-<span class="nc" id="L197">            statement.setInt(1, diagnoseID);</span>
-<span class="nc" id="L198">            rs = statement.executeQuery();</span>
-<span class="nc bnc" id="L199" title="All 2 branches missed.">            while (rs.next()) {</span>
-<span class="nc" id="L200">                int id = rs.getInt(&quot;diagnoosiID&quot;);</span>
-<span class="nc" id="L201">                int diseaseID = rs.getInt(&quot;sairaustunniste&quot;);</span>
-<span class="nc" id="L202">                String epicrisis = rs.getString(&quot;epikriisi&quot;);</span>
-<span class="nc" id="L203">                Timestamp creationDate = rs.getTimestamp(&quot;luontipäivä&quot;);</span>
-<span class="nc" id="L204">                Timestamp resolutionDate = rs.getTimestamp(&quot;päättymispäivä&quot;);</span>
-<span class="nc" id="L205">                String patientID = rs.getString(&quot;hetu&quot;);</span>
-<span class="nc" id="L206">                int doctorID = rs.getInt(&quot;työntekijänumero&quot;);</span>
-<span class="nc" id="L207">                dia = new Diagnose();</span>
-<span class="nc" id="L208">                dia.setId(id);</span>
-<span class="nc" id="L209">                dia.setPatientId(patientID);</span>
-<span class="nc" id="L210">                dia.setDoctorId(doctorID);</span>
-<span class="nc" id="L211">                dia.setDiseaseID(diseaseID);</span>
-<span class="nc" id="L212">                dia.setEpicrisis(epicrisis);</span>
-<span class="nc" id="L213">                dia.setCreationDate(creationDate);</span>
-<span class="nc" id="L214">                dia.setResolutionDate(resolutionDate);</span>
-<span class="nc" id="L215">            }</span>
+<span class="fc" id="L196">            statement = connection.prepareStatement(sqlSelect);</span>
+<span class="fc" id="L197">            statement.setInt(1, diagnoseID);</span>
+<span class="fc" id="L198">            rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L200">                int id = rs.getInt(&quot;diagnoosiID&quot;);</span>
+<span class="fc" id="L201">                int diseaseID = rs.getInt(&quot;sairaustunniste&quot;);</span>
+<span class="fc" id="L202">                String epicrisis = rs.getString(&quot;epikriisi&quot;);</span>
+<span class="fc" id="L203">                Timestamp creationDate = rs.getTimestamp(&quot;luontipäivä&quot;);</span>
+<span class="fc" id="L204">                Timestamp resolutionDate = rs.getTimestamp(&quot;päättymispäivä&quot;);</span>
+<span class="fc" id="L205">                String patientID = rs.getString(&quot;hetu&quot;);</span>
+<span class="fc" id="L206">                int doctorID = rs.getInt(&quot;työntekijänumero&quot;);</span>
+<span class="fc" id="L207">                dia = new Diagnose();</span>
+<span class="fc" id="L208">                dia.setId(id);</span>
+<span class="fc" id="L209">                dia.setPatientId(patientID);</span>
+<span class="fc" id="L210">                dia.setDoctorId(doctorID);</span>
+<span class="fc" id="L211">                dia.setDiseaseID(diseaseID);</span>
+<span class="fc" id="L212">                dia.setEpicrisis(epicrisis);</span>
+<span class="fc" id="L213">                dia.setCreationDate(creationDate);</span>
+<span class="fc" id="L214">                dia.setResolutionDate(resolutionDate);</span>
+<span class="fc" id="L215">            }</span>
 <span class="nc" id="L216">        } catch (Exception e) {</span>
 <span class="nc" id="L217">            e.printStackTrace();</span>
 <span class="nc" id="L218">            return null;</span>
         } finally {
 <span class="nc" id="L220">            try {</span>
-<span class="nc bnc" id="L221" title="All 6 branches missed.">                if (rs != null) {</span>
-<span class="nc" id="L222">                    rs.close();</span>
+<span class="pc bpc" id="L221" title="5 of 6 branches missed.">                if (rs != null) {</span>
+<span class="pc" id="L222">                    rs.close();</span>
                 }
-<span class="nc bnc" id="L224" title="All 6 branches missed.">                if (statement != null) {</span>
-<span class="nc" id="L225">                    statement.close();</span>
+<span class="pc bpc" id="L224" title="5 of 6 branches missed.">                if (statement != null) {</span>
+<span class="pc" id="L225">                    statement.close();</span>
                 }
-<span class="nc bnc" id="L227" title="All 6 branches missed.">                if (connection != null) {</span>
-<span class="nc" id="L228">                    connection.close();</span>
+<span class="pc bpc" id="L227" title="5 of 6 branches missed.">                if (connection != null) {</span>
+<span class="pc" id="L228">                    connection.close();</span>
                 }
 <span class="nc" id="L230">            } catch(Exception e) {</span>
                 
-<span class="nc" id="L232">            }</span>
+<span class="pc" id="L232">            }</span>
 <span class="nc" id="L233">        }</span>
-<span class="nc" id="L234">        return dia;</span>
+<span class="fc" id="L234">        return dia;</span>
     }
 
     // Reads patients diagnoses from database
@@ -306,4 +306,4 @@ public class PatientDAO implements PatientDAO_IF {
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

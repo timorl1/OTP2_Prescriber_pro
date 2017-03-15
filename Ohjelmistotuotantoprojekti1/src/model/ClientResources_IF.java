@@ -80,19 +80,16 @@ public interface ClientResources_IF {
      * @return
      */
     public abstract Prescription addNewPrescription(User_IF user);
+    public abstract boolean savePrescription(Prescription prescription);    
+    public abstract User_IF addNewUser(User_IF user);
+    public abstract boolean saveUser(User_IF user);
 
     /**
      *
      * @param prescription
      * @return
      */
-    public abstract boolean savePrescription(Prescription prescription);
 
-    /**
-     *
-     * @param user
-     * @return
-     */
     public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
 
     /**

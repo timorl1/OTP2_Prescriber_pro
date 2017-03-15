@@ -8,6 +8,7 @@ package dao;
 import java.util.List;
 import model.Message;
 import model.User;
+import model.User_IF;
 
 /**
  * Interface that defines methods for CRUD-operations for messages in database

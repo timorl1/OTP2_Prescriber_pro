@@ -63,6 +63,7 @@ public class Controller implements Controller_IF {
                     this.gui.setEmployeeList();
                     this.gui.setReceivedMessageList();
                     this.gui.setSentMessageList();
+                    this.gui.setUserTools();
                     break;
             }
         }
@@ -175,6 +176,16 @@ public class Controller implements Controller_IF {
     @Override
     public boolean saveMessage(){
         return this.clientRes.saveMessage(this.gui.getMessageForm());
+    }
+    
+     @Override
+    public boolean saveUser(){
+        return this.clientRes.saveUser(this.gui.getUserForm());
+    }
+    
+    @Override
+    public void createNewUser() {
+        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
     }
 
     @Override
