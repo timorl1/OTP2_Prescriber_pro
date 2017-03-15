@@ -200,4 +200,12 @@ public interface MainGUI_IF {
      * @return
      */
     public abstract Message getMessageForm();
+
+    /**
+     *
+     * @param drug
+     */
+    public abstract void setUserForm(User_IF user);
+    public abstract void setUserTools();
+    public abstract User_IF getUserForm();
 }

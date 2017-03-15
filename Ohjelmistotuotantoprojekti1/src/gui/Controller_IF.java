@@ -122,4 +122,7 @@ public interface Controller_IF {
      *
      */
     public abstract void createNewMessage();
+    public abstract void createNewUser();
+    public abstract boolean saveUser();
+    
 }

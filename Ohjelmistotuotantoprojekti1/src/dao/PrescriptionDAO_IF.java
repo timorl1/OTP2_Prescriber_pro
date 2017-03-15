@@ -7,68 +7,69 @@ import model.Prescription;
 import model.User_IF;
 
 /**
- *
+ * Interface that defines methods for CRUD-operations for prescriptions in
+ * database
  * @author joosiika
  */
 public interface PrescriptionDAO_IF {
 
     /**
-     *
-     * @param prescription
-     * @return
+     * Creates a new prescription
+     * @param prescription prescription object
+     * @return true if prescription is created, false if not
      */
     public abstract boolean createPrescription(Prescription prescription);
 
     /**
-     *
-     * @param id
-     * @return
+     * Gets prescription by id from database
+     * @param id prescription's id
+     * @return prescription object
      */
     public abstract Prescription readPrescription(int id);
 
     /**
-     *
-     * @return
+     * Gets all of prescriptions from database
+     * @return list of prescription objects
      */
     public abstract List<Prescription> readPrescriptions();
 
     /**
-     *
-     * @param patient
-     * @return
+     * Gets prescriptions by patient from database
+     * @param patient patient object
+     * @return list of prescription objects
      */
     public abstract List<Prescription> getPrescriptionsByPatient(Patient patient);
 
     /**
-     *
-     * @param user
-     * @return
+     * Gets prescriptions by doctor from database
+     * @param user user object
+     * @return list of prescription objects
      */
     public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
 
     /**
-     *
-     * @param diagnose
-     * @return
+     * Gets prescriptions by diagnose from database
+     * @param diagnose diagnose object
+     * @return list of prescription objects
      */
     public abstract Prescription getPrescriptionByDiagnose(Diagnose diagnose);
 
     /**
-     *
-     * @param prescription
-     * @return
+     * Updates a prescription
+     * @param prescription prescription object
+     * @return true if prescription is updated, false if not
      */
     public abstract boolean updatePrescription(Prescription prescription);
 
     /**
-     *
-     * @param prescription
-     * @return
+     * Deletes a prescription from database
+     * @param prescription prescription object
+     * @return true if prescription is deleted, false if not
      */
     public abstract boolean deletePrescription(Prescription prescription);
 
     /**
-     *
+     * Shuts down the connection
      */
     public abstract void shutDown();
     
