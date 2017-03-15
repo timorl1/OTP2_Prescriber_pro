@@ -9,21 +9,21 @@ import model.Employee;
 import java.util.List;
 
 /**
- *
+ * Interface that defines methods for getting info on employees from database
  * @author Paula
  */
 public interface EmployeeDAO_IF {
 
     /**
-     *
+     * Gets employee by userID from database
      * @param userID
-     * @return
+     * @return employee object
      */
     public abstract Employee readEmployee(int userID);
 
     /**
-     *
-     * @return
+     * Gets a list of all the employees from database
+     * @return list of employee objects
      */
     public abstract List<Employee> readEmployees();
     

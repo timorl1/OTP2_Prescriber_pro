@@ -6,17 +6,19 @@
 package dao;
 
 import java.util.List;
-import model.User;
 import model.User_IF;
 
 
 /**
- *
+ * Interface that defines methods for CRUD-operations for users in database
  * @author Timo
  */
 public interface UserDAO_IF {
 
     /**
+     * Updates a user
+     * @param user
+     * @return true if user is updated, false if not
      *
      * @param user
      * @return
@@ -24,29 +26,26 @@ public interface UserDAO_IF {
     public abstract boolean updateUser(User_IF user);
 
     /**
-     *
-     * @return
+     * Gets all users from database
+     * @return list of user objects
      */
     public abstract List <User_IF> getUsers();
 
     /**
-     *
-     * @param username
-     * @return
      */
     public abstract User_IF getUser(String username);
 
     /**
-     *
-     * @param user
-     * @return
+     * Gets user by username
+     * @param username
+     * @return user object
      */
     public abstract boolean deleteUser(User_IF user);
 
     /**
-     *
+     * Deletes user from database
      * @param user
-     * @return
+     * @return true if user is deleted, false if not
      */
     public abstract boolean createUser(User_IF user);
 }
