@@ -1,10 +1,6 @@
 package dao;
 
-import java.util.List;
-import model.Diagnose;
 import model.Disease;
-import model.Drug;
-import model.Patient;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

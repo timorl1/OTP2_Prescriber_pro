@@ -8,7 +8,6 @@ package dao;
 import java.util.List;
 import model.Message;
 import model.User;
-import model.User_IF;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
