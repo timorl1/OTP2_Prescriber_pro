@@ -56,18 +56,6 @@ public class ClientResources_IFTest {
     }
 
     /**
-     * Test of getPatientDetails method, of class ClientResources_IF.
-     */
-    @Test
-    public void testGetPatientDetails() {
-        System.out.println("getPatientDetails");
-        Patient patient = this.pb.readPatient("123456-789a");
-        String expResult = "Potilas";
-        Patient result = this.cres.getPatientDetails(patient);
-        assertEquals(expResult, result.getFirstName());
-    }
-
-    /**
      * Test of getPatientDiagnoses method, of class ClientResources_IF.
      */
     @Test
@@ -129,21 +117,6 @@ public class ClientResources_IFTest {
     }
 
     /**
-     * Test of getEmployeeDetails method, of class ClientResources_IF.
-     */
-    @Test
-    public void testGetEmployeeDetails() {
-        System.out.println("getEmployeeDetails");
-        Employee employee = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
-        Employee expResult = null;
-        Employee result = instance.getEmployeeDetails(employee);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getUsers method, of class ClientResources_IF.
      */
     @Test
@@ -152,21 +125,6 @@ public class ClientResources_IFTest {
         ClientResources_IF instance = new ClientResources_IFImpl();
         List<User_IF> expResult = null;
         List<User_IF> result = instance.getUsers();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getUserDetails method, of class ClientResources_IF.
-     */
-    @Test
-    public void testGetUserDetails() {
-        System.out.println("getUserDetails");
-        User_IF user = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
-        User_IF expResult = null;
-        User_IF result = instance.getUserDetails(user);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

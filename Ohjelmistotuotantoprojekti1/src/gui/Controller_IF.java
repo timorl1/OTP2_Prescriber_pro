@@ -17,13 +17,11 @@ import model.User_IF;
 public interface Controller_IF {
     public abstract void login(String username, String password);
     public abstract List<Patient> getPatients();
-    public abstract void getPatientDetails();
-    public abstract void getPatientDiagnoses();
-    public abstract List<Diagnose> listPatientDiagnoses();
-    public abstract void getPatientPrescriptions();
+    public abstract List<Diagnose> getPatientDiagnoses();
+    public abstract List<Prescription> getPatientPrescriptions();
     public abstract List<Drug> getDrugs();
     public abstract void getDrugDetails();
-    public abstract List<Prescription> getPrescriptions();
+    public abstract List<Prescription> getDoctorPrescriptions();
     public abstract void getPrescriptionDetails();
     public abstract void getDiagnoseDetails();
     public abstract List<Message> getReceivedMessages();

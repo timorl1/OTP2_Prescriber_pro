@@ -8,7 +8,6 @@ import java.util.List;
  */
 public interface ClientResources_IF {
     public abstract List<Patient> getPatients();
-    public abstract Patient getPatientDetails(Patient patient);
     public abstract List<Diagnose> getPatientDiagnoses(Patient patient);
     public abstract Diagnose getDiagnoseDetails(Diagnose diagnose);
     public abstract List<Prescription> getPatientPrescriptions(Patient patient);

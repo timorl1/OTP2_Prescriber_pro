@@ -140,9 +140,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.patientListView.getListView().setOnMouseClicked(e -> {
             if (this.patientListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
-                this.controller.getPatientDetails();
-                this.controller.getPatientDiagnoses();
-                this.controller.getPatientPrescriptions();
+                this.setPatientDetails(this.getSelectedPatient());
+                this.setPatientDiagnoses(this.controller.getPatientDiagnoses());
+                this.setPatientPrescriptions(this.controller.getPatientPrescriptions());
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
@@ -177,7 +177,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.prescriptionListView = new SideBarListViewGUI("Omat Lääkemääräykset");
         this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.prescriptionListView.isExpanded()) {
-                this.prescriptionListView.setList(this.controller.getPrescriptions());
+                this.prescriptionListView.setList(this.controller.getDoctorPrescriptions());
             }
         });
         this.prescriptionListView.getListView().setOnMouseClicked(e -> {
@@ -318,14 +318,14 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
             if (this.getPrescriptionForm().getPatient() != null) {
-                ObservableList<Diagnose> list = FXCollections.observableList(this.controller.listPatientDiagnoses());
+                ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
                 this.prescriptionForm.getDiagnoseSelector().setItems(list);
                 this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
                 this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
             }
         });
         if (this.getSelectedPatient() != null) {
-            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.listPatientDiagnoses());
+            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
             this.prescriptionForm.getDiagnoseSelector().setItems(list);
             this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
         }
