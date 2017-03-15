@@ -9,13 +9,13 @@ public interface AppUser_IF {
 
     /**
      *Sets username to object
-     * @param username
+     * @param username username of current user
      */
     public abstract void setUser(String username);
 
     /**
      *Checks that user enters the correct password and sets the boolean value for isAuthenticated method
-     * @param password
+     * @param password password of current user
      */
     public abstract void authenticate(String password);
 
