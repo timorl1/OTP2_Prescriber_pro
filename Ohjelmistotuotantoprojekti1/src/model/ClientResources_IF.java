@@ -3,28 +3,28 @@ package model;
 import java.util.List;
 
 /**
- *
- * @author joosiika
+ *Gathers all the information for application
+ * @author joosiika, Timo
  */
 public interface ClientResources_IF {
 
     /**
-     *
-     * @return
+     *Gets all the patients from database
+     * @return all the patients as a Patient objects List
      */
     public abstract List<Patient> getPatients();
 
     /**
-     *
+     *Gets single patient details
      * @param patient
-     * @return
+     * @return all patient information as an Patient object
      */
     public abstract Patient getPatientDetails(Patient patient);
 
     /**
-     *
+     *Lists all single patients diagnoses
      * @param patient
-     * @return
+     * @return all the of single patients Diagnose objects List
      */
     public abstract List<Diagnose> getPatientDiagnoses(Patient patient);
 
