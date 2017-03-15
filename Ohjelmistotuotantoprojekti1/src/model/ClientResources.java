@@ -68,11 +68,6 @@ public class ClientResources implements ClientResources_IF {
     }
     
     @Override
-    public Patient getPatientDetails(Patient patient) {
-        return patient;
-    }
-    
-    @Override
     public List<Diagnose> getPatientDiagnoses(Patient patient) {
         List<Diagnose> diagnoses = this.builder.buildPatient(patient).getDiagnoses();
         diagnoses.forEach(this.builder::buildDiagnose);

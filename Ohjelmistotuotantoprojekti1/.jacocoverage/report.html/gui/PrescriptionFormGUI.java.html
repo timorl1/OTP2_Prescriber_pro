@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import model.Diagnose;
@@ -96,231 +98,252 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     private Date creationDate;
     private String info;
     
-<span class="nc" id="L99">    public PrescriptionFormGUI(SideBarListView_IF&lt;Patient&gt; patientSelector, SideBarListView_IF&lt;Drug&gt; drugSelector, String title, Prescription prescription) {</span>
-<span class="nc" id="L100">        this.patientSelector = patientSelector;</span>
-<span class="nc" id="L101">        this.drugSelector = drugSelector;</span>
-<span class="nc" id="L102">        this.title = title;</span>
-<span class="nc" id="L103">        this.prescription = prescription;</span>
-<span class="nc" id="L104">        this.controller = new PrescriptionMakerController(this);</span>
-<span class="nc" id="L105">        this.id = this.prescription.getId();</span>
-<span class="nc" id="L106">        this.patient = this.prescription.getPatient();</span>
-<span class="nc" id="L107">        this.doctor = this.prescription.getDoctor();</span>
-<span class="nc" id="L108">        this.drug = this.prescription.getDrug();</span>
-<span class="nc" id="L109">        this.dose = this.prescription.getDose();</span>
-<span class="nc" id="L110">        this.timesADay = this.prescription.getTimesADay();</span>
-<span class="nc" id="L111">        this.startDate = this.prescription.getStartDate();</span>
-<span class="nc" id="L112">        this.endDate = this.prescription.getEndDate();</span>
-<span class="nc" id="L113">        this.creationDate = this.prescription.getCreationDate();</span>
-<span class="nc" id="L114">        this.info = this.prescription.getInfo();</span>
-<span class="nc" id="L115">        this.diagnoses = FXCollections.observableArrayList();</span>
-<span class="nc" id="L116">        this.diagnose = this.prescription.getDiagnose();</span>
-<span class="nc" id="L117">        this.diagnoses.add(this.diagnose);</span>
+<span class="nc" id="L101">    public PrescriptionFormGUI(SideBarListView_IF&lt;Patient&gt; patientSelector, SideBarListView_IF&lt;Drug&gt; drugSelector, String title, Prescription prescription) {</span>
+<span class="nc" id="L102">        this.patientSelector = patientSelector;</span>
+<span class="nc" id="L103">        this.drugSelector = drugSelector;</span>
+<span class="nc" id="L104">        this.title = title;</span>
+<span class="nc" id="L105">        this.prescription = prescription;</span>
+<span class="nc" id="L106">        this.controller = new PrescriptionMakerController(this);</span>
+<span class="nc" id="L107">        this.id = this.prescription.getId();</span>
+<span class="nc" id="L108">        this.patient = this.prescription.getPatient();</span>
+<span class="nc" id="L109">        this.doctor = this.prescription.getDoctor();</span>
+<span class="nc" id="L110">        this.drug = this.prescription.getDrug();</span>
+<span class="nc" id="L111">        this.dose = this.prescription.getDose();</span>
+<span class="nc" id="L112">        this.timesADay = this.prescription.getTimesADay();</span>
+<span class="nc" id="L113">        this.startDate = this.prescription.getStartDate();</span>
+<span class="nc" id="L114">        this.endDate = this.prescription.getEndDate();</span>
+<span class="nc" id="L115">        this.creationDate = this.prescription.getCreationDate();</span>
+<span class="nc" id="L116">        this.info = this.prescription.getInfo();</span>
+<span class="nc" id="L117">        this.diagnoses = FXCollections.observableArrayList();</span>
+<span class="nc" id="L118">        this.diagnose = this.prescription.getDiagnose();</span>
+<span class="nc" id="L119">        this.diagnoses.add(this.diagnose);</span>
         try {
-<span class="nc" id="L119">            loader = new FXMLLoader(getClass().getResource(&quot;PrescriptionForm.fxml&quot;));</span>
-<span class="nc" id="L120">            loader.setController(this);</span>
-<span class="nc" id="L121">            loader.setRoot(this);</span>
-<span class="nc" id="L122">            loader.load();</span>
-<span class="nc" id="L123">            this.initializeFields();</span>
-<span class="nc" id="L124">            this.initializeBasicListeners();</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (this.patient == null) {</span>
-<span class="nc" id="L126">                this.initializeNewPrescriptionListeners();</span>
+<span class="nc" id="L121">            loader = new FXMLLoader(getClass().getResource(&quot;PrescriptionForm.fxml&quot;));</span>
+<span class="nc" id="L122">            loader.setController(this);</span>
+<span class="nc" id="L123">            loader.setRoot(this);</span>
+<span class="nc" id="L124">            loader.load();</span>
+<span class="nc" id="L125">            this.initializeFields();</span>
+<span class="nc" id="L126">            this.initializeBasicListeners();</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (this.patient == null) {</span>
+<span class="nc" id="L128">                this.initializeNewPrescriptionListeners();</span>
             }
-<span class="nc" id="L128">        } catch (IOException ex) {</span>
-<span class="nc" id="L129">            ex.printStackTrace();</span>
-<span class="nc" id="L130">        }</span>
-<span class="nc" id="L131">    }</span>
+<span class="nc" id="L130">        } catch (IOException ex) {</span>
+<span class="nc" id="L131">            ex.printStackTrace();</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc" id="L133">    }</span>
     
     private void initializeFields() {
-<span class="nc" id="L134">        this.setText(title);</span>
-<span class="nc" id="L135">        this.creationDateLabel.setText(this.creationDate.toString());</span>
-<span class="nc" id="L136">        this.doctorNameLabel.setText(this.doctor.getFirstName() + &quot; &quot; + this.doctor.getLastName());</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (this.id != 0) {</span>
-<span class="nc" id="L138">            this.prescriptionIdLabel.setText(&quot;#&quot; + Integer.toString(this.id));</span>
+<span class="nc" id="L136">        this.setText(title);</span>
+<span class="nc" id="L137">        this.creationDateLabel.setText(this.creationDate.toString());</span>
+<span class="nc" id="L138">        this.doctorNameLabel.setText(this.doctor.getFirstName() + &quot; &quot; + this.doctor.getLastName());</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (this.id != 0) {</span>
+<span class="nc" id="L140">            this.prescriptionIdLabel.setText(&quot;#&quot; + Integer.toString(this.id));</span>
         }
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (this.patient != null) {</span>
-<span class="nc" id="L141">            this.patientField.setText(this.patient.toString());</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (this.patient != null) {</span>
+<span class="nc" id="L143">            this.patientField.setText(this.patient.toString());</span>
         }
-<span class="nc bnc" id="L143" title="All 4 branches missed.">        if (this.patient == null &amp;&amp; this.patientSelector.getSelection() != null) {</span>
-<span class="nc" id="L144">            this.prescription.setPatient(this.patientSelector.getSelection());</span>
-<span class="nc" id="L145">            this.patientField.setText(this.patientSelector.getSelection().toString());</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">        if (this.patient == null &amp;&amp; this.patientSelector.getSelection() != null) {</span>
+<span class="nc" id="L146">            this.prescription.setPatient(this.patientSelector.getSelection());</span>
+<span class="nc" id="L147">            this.patientField.setText(this.patientSelector.getSelection().toString());</span>
         }
-<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (this.drug != null) {</span>
-<span class="nc" id="L148">            this.drugField.setText(this.drug.toString());</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (this.drug != null) {</span>
+<span class="nc" id="L150">            this.drugField.setText(this.drug.toString());</span>
         }
-<span class="nc bnc" id="L150" title="All 4 branches missed.">        if (this.drug == null &amp;&amp; this.drugSelector.getSelection() != null) {</span>
-<span class="nc" id="L151">            this.prescription.setDrug(this.drugSelector.getSelection());</span>
-<span class="nc" id="L152">            this.drugField.setText(this.drugSelector.getSelection().toString());</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        if (this.drug == null &amp;&amp; this.drugSelector.getSelection() != null) {</span>
+<span class="nc" id="L153">            this.prescription.setDrug(this.drugSelector.getSelection());</span>
+<span class="nc" id="L154">            this.drugField.setText(this.drugSelector.getSelection().toString());</span>
         }
-<span class="nc" id="L154">        this.diagnoseSelector.setItems(diagnoses);</span>
-<span class="nc" id="L155">        this.diagnoseSelector.getSelectionModel().clearAndSelect(0);</span>
-<span class="nc" id="L156">        this.doseField.setText(Double.toString(this.dose));</span>
-<span class="nc" id="L157">        this.timesADayField.setText(Integer.toString(this.timesADay));</span>
-<span class="nc" id="L158">        this.infoField.setText(this.info);</span>
-<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (this.startDate != null) {</span>
-<span class="nc" id="L160">            this.startDatePicker.setValue(this.startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());</span>
+<span class="nc" id="L156">        this.diagnoseSelector.setItems(diagnoses);</span>
+<span class="nc" id="L157">        this.diagnoseSelector.getSelectionModel().clearAndSelect(0);</span>
+<span class="nc" id="L158">        this.doseField.setText(Double.toString(this.dose));</span>
+<span class="nc" id="L159">        this.timesADayField.setText(Integer.toString(this.timesADay));</span>
+<span class="nc" id="L160">        this.infoField.setText(this.info);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (this.startDate != null) {</span>
+<span class="nc" id="L162">            this.startDatePicker.setValue(this.startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());</span>
         }
-<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (this.endDate != null) {</span>
-<span class="nc" id="L163">            this.endDatePicker.setValue(this.endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (this.endDate != null) {</span>
+<span class="nc" id="L165">            this.endDatePicker.setValue(this.endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());</span>
         }
-<span class="nc" id="L165">    }</span>
+<span class="nc" id="L167">    }</span>
     
     private void initializeBasicListeners() {
-<span class="nc" id="L168">        this.drugSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener&lt;Drug&gt;() {</span>
+<span class="nc" id="L170">        this.drugSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener&lt;Drug&gt;() {</span>
             @Override
             public void changed(ObservableValue&lt;? extends Drug&gt; ov, Drug oldValue, Drug newValue) {
-<span class="nc bnc" id="L171" title="All 2 branches missed.">                if (newValue != null) {</span>
-<span class="nc" id="L172">                    drug = newValue;</span>
-<span class="nc" id="L173">                    prescription.setDrug(drug);</span>
-<span class="nc" id="L174">                    drugField.setText(drug.toString());</span>
+<span class="nc bnc" id="L173" title="All 4 branches missed.">                if (newValue != null &amp;&amp; !newValue.equals(oldValue)) {</span>
+<span class="nc" id="L174">                    drug = newValue;</span>
+<span class="nc" id="L175">                    prescription.setDrug(drug);</span>
+<span class="nc" id="L176">                    drugField.setText(drug.toString());</span>
+<span class="nc" id="L177">                    drugField.setFill(Color.BLACK);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                    if (prescription.getPatient() != null) {</span>
+<span class="nc" id="L179">                        dose = controller.getOptimalDose();</span>
+<span class="nc" id="L180">                        prescription.setDose(dose);</span>
+<span class="nc" id="L181">                        doseField.setText(Double.toString(dose));</span>
+<span class="nc" id="L182">                        drugField.setFill(Color.BLACK);</span>
+<span class="nc" id="L183">                        controller.checkDose();</span>
+<span class="nc" id="L184">                        controller.checkAllergens();</span>
+                    }
                 }
-<span class="nc bnc" id="L176" title="All 2 branches missed.">                if (prescription.getPatient() != null) {</span>
-<span class="nc" id="L177">                    dose = controller.getOptimalDose();</span>
-<span class="nc" id="L178">                    prescription.setDose(dose);</span>
-<span class="nc" id="L179">                    doseField.setText(Double.toString(dose));</span>
-<span class="nc" id="L180">                    controller.checkDose();</span>
-                }
-<span class="nc" id="L182">            }</span>
+<span class="nc" id="L187">            }</span>
         });
-<span class="nc" id="L184">        this.doseField.setOnKeyReleased(e -&gt; {</span>
+<span class="nc" id="L189">        this.doseField.setOnKeyReleased(e -&gt; {</span>
             try {
-<span class="nc" id="L186">                this.dose = Double.parseDouble(this.doseField.getText().replace(',', '.'));</span>
-<span class="nc" id="L187">            } catch (NumberFormatException ex) {</span>
-<span class="nc" id="L188">            }</span>
-<span class="nc" id="L189">            this.prescription.setDose(this.dose);</span>
-<span class="nc" id="L190">            this.controller.checkDose();</span>
-<span class="nc" id="L191">        });</span>
-<span class="nc" id="L192">        this.timesADayField.setOnKeyReleased(e -&gt; {</span>
+<span class="nc" id="L191">                this.dose = Double.parseDouble(this.doseField.getText().replace(',', '.'));</span>
+<span class="nc" id="L192">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L193">            }</span>
+<span class="nc" id="L194">            this.prescription.setDose(this.dose);</span>
+<span class="nc" id="L195">            this.controller.checkDose();</span>
+<span class="nc" id="L196">        });</span>
+<span class="nc" id="L197">        this.timesADayField.setOnKeyReleased(e -&gt; {</span>
             try {
-<span class="nc" id="L194">                this.timesADay = Integer.parseInt(this.timesADayField.getText());</span>
-<span class="nc" id="L195">            } catch (NumberFormatException ex) {</span>
-<span class="nc" id="L196">            }</span>
-<span class="nc" id="L197">            this.prescription.setTimesADay(this.timesADay);</span>
-<span class="nc" id="L198">            this.controller.checkDose();</span>
-<span class="nc" id="L199">        });</span>
-<span class="nc" id="L200">        this.infoField.setOnKeyReleased(e -&gt; {</span>
-<span class="nc" id="L201">            this.info = this.infoField.getText();</span>
-<span class="nc" id="L202">            this.prescription.setInfo(this.info);</span>
-<span class="nc" id="L203">        });</span>
-<span class="nc" id="L204">    }</span>
+<span class="nc" id="L199">                this.timesADay = Integer.parseInt(this.timesADayField.getText());</span>
+<span class="nc" id="L200">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L201">            }</span>
+<span class="nc" id="L202">            this.prescription.setTimesADay(this.timesADay);</span>
+<span class="nc" id="L203">            this.controller.checkDose();</span>
+<span class="nc" id="L204">        });</span>
+<span class="nc" id="L205">        this.infoField.setOnKeyReleased(e -&gt; {</span>
+<span class="nc" id="L206">            this.info = this.infoField.getText();</span>
+<span class="nc" id="L207">            this.prescription.setInfo(this.info);</span>
+<span class="nc" id="L208">        });</span>
+<span class="nc" id="L209">    }</span>
     
     private void initializeNewPrescriptionListeners() {
-<span class="nc" id="L207">        this.patientSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener&lt;Patient&gt;() {</span>
+<span class="nc" id="L212">        this.patientSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener&lt;Patient&gt;() {</span>
             @Override
             public void changed(ObservableValue&lt;? extends Patient&gt; ov, Patient oldValue, Patient newValue) {
-<span class="nc bnc" id="L210" title="All 2 branches missed.">                if (newValue != null) {</span>
-<span class="nc" id="L211">                    patient = newValue;</span>
-<span class="nc" id="L212">                    prescription.setPatient(patient);</span>
-<span class="nc" id="L213">                    patientField.setText(patient.toString());</span>
+<span class="nc bnc" id="L215" title="All 4 branches missed.">                if (newValue != null &amp;&amp; !newValue.equals(oldValue)) {</span>
+<span class="nc" id="L216">                    patient = newValue;</span>
+<span class="nc" id="L217">                    prescription.setPatient(patient);</span>
+<span class="nc" id="L218">                    patientField.setText(patient.toString());</span>
+<span class="nc" id="L219">                    drugField.setFill(Color.BLACK);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">                    if (prescription.getDrug() != null) {</span>
+<span class="nc" id="L221">                        dose = controller.getOptimalDose();</span>
+<span class="nc" id="L222">                        doseField.setText(Double.toString(dose));</span>
+<span class="nc" id="L223">                        drugField.setFill(Color.BLACK);</span>
+<span class="nc" id="L224">                        prescription.setDose(dose);</span>
+<span class="nc" id="L225">                        controller.checkDose();</span>
+<span class="nc" id="L226">                        controller.checkAllergens();</span>
+                    }
                 }
-<span class="nc bnc" id="L215" title="All 2 branches missed.">                if (prescription.getDrug() != null) {</span>
-<span class="nc" id="L216">                    dose = controller.getOptimalDose();</span>
-<span class="nc" id="L217">                    doseField.setText(Double.toString(dose));</span>
-<span class="nc" id="L218">                    prescription.setDose(dose);</span>
-<span class="nc" id="L219">                    controller.checkDose();</span>
-                }
-<span class="nc" id="L221">            }</span>
+<span class="nc" id="L229">            }</span>
         });
-<span class="nc" id="L223">        this.diagnoseSelector.setOnAction(e -&gt; {</span>
-<span class="nc bnc" id="L224" title="All 2 branches missed.">            if (!this.diagnoses.isEmpty()) {</span>
-<span class="nc" id="L225">                this.diagnose = this.diagnoseSelector.getSelectionModel().getSelectedItem();</span>
-<span class="nc" id="L226">                this.prescription.setDiagnose(this.diagnose);</span>
+<span class="nc" id="L231">        this.diagnoseSelector.setOnAction(e -&gt; {</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            if (!this.diagnoses.isEmpty()) {</span>
+<span class="nc" id="L233">                this.diagnose = this.diagnoseSelector.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L234">                this.prescription.setDiagnose(this.diagnose);</span>
             }
-<span class="nc" id="L228">        });</span>
-<span class="nc" id="L229">        this.startDatePicker.setOnAction(e -&gt; {</span>
-<span class="nc" id="L230">            this.startDate = Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());</span>
-<span class="nc" id="L231">            this.prescription.setStartDate(this.startDate);</span>
-<span class="nc" id="L232">            this.controller.checkDose();</span>
-<span class="nc" id="L233">        });</span>
-<span class="nc" id="L234">        this.endDatePicker.setOnAction(e -&gt; {</span>
-<span class="nc" id="L235">            this.endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());</span>
-<span class="nc" id="L236">            this.prescription.setEndDate(this.endDate);</span>
-<span class="nc" id="L237">            this.controller.checkDose();</span>
-<span class="nc" id="L238">        });</span>
-<span class="nc" id="L239">    }</span>
+<span class="nc" id="L236">        });</span>
+<span class="nc" id="L237">        this.startDatePicker.setOnAction(e -&gt; {</span>
+<span class="nc" id="L238">            this.startDate = Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());</span>
+<span class="nc" id="L239">            this.prescription.setStartDate(this.startDate);</span>
+<span class="nc" id="L240">            this.controller.checkDose();</span>
+<span class="nc" id="L241">        });</span>
+<span class="nc" id="L242">        this.endDatePicker.setOnAction(e -&gt; {</span>
+<span class="nc" id="L243">            this.endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());</span>
+<span class="nc" id="L244">            this.prescription.setEndDate(this.endDate);</span>
+<span class="nc" id="L245">            this.controller.checkDose();</span>
+<span class="nc" id="L246">        });</span>
+<span class="nc" id="L247">    }</span>
     
     @Override
     public void setDiagnose(Diagnose diagnose) {
-<span class="nc" id="L243">        this.diagnose = diagnose;</span>
-<span class="nc" id="L244">        this.prescription.setDiagnose(this.diagnose);</span>
-<span class="nc" id="L245">    }</span>
+<span class="nc" id="L251">        this.diagnose = diagnose;</span>
+<span class="nc" id="L252">        this.prescription.setDiagnose(this.diagnose);</span>
+<span class="nc" id="L253">    }</span>
     
     @Override
     public Text getPatientField() {
-<span class="nc" id="L249">        return this.patientField;</span>
+<span class="nc" id="L257">        return this.patientField;</span>
     }
 
     @Override
     public ChoiceBox&lt;Diagnose&gt; getDiagnoseSelector() {
-<span class="nc" id="L254">        return diagnoseSelector;</span>
+<span class="nc" id="L262">        return diagnoseSelector;</span>
     }
 
     @Override
     public Button getCancelButton() {
-<span class="nc" id="L259">        return cancelButton;</span>
+<span class="nc" id="L267">        return cancelButton;</span>
     }
 
     @Override
     public Button getSaveButton() {
-<span class="nc" id="L264">        return saveButton;</span>
+<span class="nc" id="L272">        return saveButton;</span>
     }
     
     @Override
     public Prescription getPrescription() {
-<span class="nc" id="L269">        return this.prescription;</span>
+<span class="nc" id="L277">        return this.prescription;</span>
     }
     
     @Override
     public void setNullDoseMessage() {
-<span class="nc" id="L274">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 255, 255, 0.7);&quot;);</span>
-<span class="nc" id="L275">    }</span>
+<span class="nc" id="L282">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 255, 255, 0.7);&quot;);</span>
+<span class="nc" id="L283">    }</span>
     
     @Override
     public void setInsuffucientDoseMessage() {
-<span class="nc" id="L279">        this.doseField.setStyle(&quot;-fx-background-color: rgba(0, 0, 255, 0.5);&quot;);</span>
-<span class="nc" id="L280">    }</span>
+<span class="nc" id="L287">        this.doseField.setStyle(&quot;-fx-background-color: rgba(0, 0, 255, 0.5);&quot;);</span>
+<span class="nc" id="L288">    }</span>
 
     @Override
     public void setOptimalDoseMessage() {
-<span class="nc" id="L284">        this.doseField.setStyle(&quot;-fx-background-color: rgba(0, 255, 0, 0.5);&quot;);</span>
-<span class="nc" id="L285">    }</span>
+<span class="nc" id="L292">        this.doseField.setStyle(&quot;-fx-background-color: rgba(0, 255, 0, 0.5);&quot;);</span>
+<span class="nc" id="L293">    }</span>
 
     @Override
     public void setOverOptimalDoseMessage() {
-<span class="nc" id="L289">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 255, 0, 0.5);&quot;);</span>
-<span class="nc" id="L290">    }</span>
+<span class="nc" id="L297">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 255, 0, 0.5);&quot;);</span>
+<span class="nc" id="L298">    }</span>
 
     @Override
     public void setRiskLimitDoseMessage() {
-<span class="nc" id="L294">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 0, 0, 0.5);&quot;);</span>
-<span class="nc" id="L295">    }</span>
+<span class="nc" id="L302">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 0, 0, 0.5);&quot;);</span>
+<span class="nc" id="L303">    }</span>
 
     @Override
     public void setOverdoseMessage() {
-<span class="nc" id="L299">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 0, 0, 0.5);&quot;);</span>
-<span class="nc" id="L300">        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Olet määräämässä vaarallista annostusta!\nKerta-annos on vaarallisen suuri.\nPienennä annostusta.&quot;);</span>
-<span class="nc" id="L301">        alert.setTitle(&quot;Lääkelaskuri&quot;);</span>
-<span class="nc" id="L302">        alert.setHeaderText(&quot;Varoitus:&quot;);</span>
-<span class="nc" id="L303">        alert.initStyle(StageStyle.UNDECORATED);</span>
-<span class="nc" id="L304">        alert.getDialogPane().getStylesheets().add(getClass().getResource(&quot;prescriptionform.css&quot;).toExternalForm());</span>
-<span class="nc" id="L305">        alert.showAndWait();</span>
-<span class="nc" id="L306">    }</span>
+<span class="nc" id="L307">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 0, 0, 0.5);&quot;);</span>
+<span class="nc" id="L308">        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Olet määräämässä vaarallista annostusta!\nKerta-annos on vaarallisen suuri.\nPienennä annostusta.&quot;);</span>
+<span class="nc" id="L309">        alert.setTitle(&quot;Lääkelaskuri&quot;);</span>
+<span class="nc" id="L310">        alert.setHeaderText(&quot;Varoitus:&quot;);</span>
+<span class="nc" id="L311">        alert.initStyle(StageStyle.UNDECORATED);</span>
+<span class="nc" id="L312">        alert.getDialogPane().getStylesheets().add(getClass().getResource(&quot;prescriptionform.css&quot;).toExternalForm());</span>
+<span class="nc" id="L313">        alert.showAndWait();</span>
+<span class="nc" id="L314">    }</span>
     
     @Override
     public void setCumulativeOverdoseMessage() {
-<span class="nc" id="L310">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 0, 0, 0.5);&quot;);</span>
-<span class="nc" id="L311">        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Olet määräämässä vaarallista annostusta!\nKumulatiivinen vaikutus nostaa lääkeaineen pitoisuuden liian korkeaksi.\nPienennä annostusta tai lyhennä kuurin kestoa.&quot;);</span>
-<span class="nc" id="L312">        alert.setTitle(&quot;Lääkelaskuri&quot;);</span>
-<span class="nc" id="L313">        alert.setHeaderText(&quot;Varoitus:&quot;);</span>
-<span class="nc" id="L314">        alert.initStyle(StageStyle.UNDECORATED);</span>
-<span class="nc" id="L315">        alert.getDialogPane().getStylesheets().add(getClass().getResource(&quot;prescriptionform.css&quot;).toExternalForm());</span>
-<span class="nc" id="L316">        alert.showAndWait();</span>
-<span class="nc" id="L317">    }</span>
+<span class="nc" id="L318">        this.doseField.setStyle(&quot;-fx-background-color: rgba(255, 0, 0, 0.5);&quot;);</span>
+<span class="nc" id="L319">        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Olet määräämässä vaarallista annostusta!\nKumulatiivinen vaikutus nostaa lääkeaineen pitoisuuden liian korkeaksi.\nPienennä annostusta tai lyhennä kuurin kestoa.&quot;);</span>
+<span class="nc" id="L320">        alert.setTitle(&quot;Lääkelaskuri&quot;);</span>
+<span class="nc" id="L321">        alert.setHeaderText(&quot;Varoitus:&quot;);</span>
+<span class="nc" id="L322">        alert.initStyle(StageStyle.UNDECORATED);</span>
+<span class="nc" id="L323">        alert.getDialogPane().getStylesheets().add(getClass().getResource(&quot;prescriptionform.css&quot;).toExternalForm());</span>
+<span class="nc" id="L324">        alert.showAndWait();</span>
+<span class="nc" id="L325">    }</span>
+    
+    @Override
+    public void setIsAllergicMessage(List&lt;String&gt; allergens) {
+<span class="nc" id="L329">        this.drugField.setFill(Color.RED);</span>
+<span class="nc" id="L330">        String s = &quot;&quot;;</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        for (String a : allergens) {</span>
+<span class="nc" id="L332">            s += a + &quot;\n&quot;;</span>
+<span class="nc" id="L333">        }</span>
+<span class="nc" id="L334">        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Allergia varoitus!\nValitsemasi lääke sisältää ainesosia, joille potilas on allerginen:\n\n&quot; + s);</span>
+<span class="nc" id="L335">        alert.setTitle(&quot;Allergeenitarkistus&quot;);</span>
+<span class="nc" id="L336">        alert.setHeaderText(&quot;Varoitus:&quot;);</span>
+<span class="nc" id="L337">        alert.initStyle(StageStyle.UNDECORATED);</span>
+<span class="nc" id="L338">        alert.getDialogPane().getStylesheets().add(getClass().getResource(&quot;prescriptionform.css&quot;).toExternalForm());</span>
+<span class="nc" id="L339">        alert.showAndWait();</span>
+<span class="nc" id="L340">    }</span>
 
     @Override
     public void markUpdate() {
-<span class="nc" id="L321">        this.infoField.appendText(&quot;\nMuokattu: &quot; + LocalDate.now(ZoneId.systemDefault()).toString());</span>
-<span class="nc" id="L322">        this.info = this.infoField.getText();</span>
-<span class="nc" id="L323">        this.prescription.setInfo(this.info);</span>
-<span class="nc" id="L324">    }</span>
+<span class="nc" id="L344">        this.infoField.appendText(&quot;\nMuokattu: &quot; + LocalDate.now(ZoneId.systemDefault()).toString());</span>
+<span class="nc" id="L345">        this.info = this.infoField.getText();</span>
+<span class="nc" id="L346">        this.prescription.setInfo(this.info);</span>
+<span class="nc" id="L347">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

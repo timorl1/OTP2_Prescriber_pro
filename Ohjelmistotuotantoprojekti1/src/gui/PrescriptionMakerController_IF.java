@@ -21,4 +21,5 @@ public interface PrescriptionMakerController_IF {
      *
      */
     public abstract void checkDose();
+    public abstract void checkAllergens();
 }

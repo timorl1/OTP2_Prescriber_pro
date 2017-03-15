@@ -13,19 +13,6 @@ public interface ClientResources_IF {
      * @return
      */
     public abstract List<Patient> getPatients();
-
-    /**
-     *
-     * @param patient
-     * @return
-     */
-    public abstract Patient getPatientDetails(Patient patient);
-
-    /**
-     *
-     * @param patient
-     * @return
-     */
     public abstract List<Diagnose> getPatientDiagnoses(Patient patient);
 
     /**

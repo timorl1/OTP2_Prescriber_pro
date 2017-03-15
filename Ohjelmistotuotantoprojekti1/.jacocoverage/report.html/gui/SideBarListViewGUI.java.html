@@ -65,13 +65,14 @@ public class SideBarListViewGUI&lt;E&gt; extends TitledPane implements SideBarLi
     
     @Override
     public void filter(String filter){
-<span class="nc bnc" id="L68" title="All 4 branches missed.">        if(!filter.isEmpty() &amp;&amp; !this.list.isEmpty()){</span>
-<span class="nc" id="L69">        ObservableList&lt;E&gt; filteredList = FXCollections.observableArrayList(this.list);</span>
-<span class="nc" id="L70">        this.listView.setItems(filteredList.filtered(p -&gt; p.toString().toLowerCase().contains(filter.toLowerCase())));</span>
-<span class="nc" id="L71">        }else {</span>
-<span class="nc" id="L72">            this.listView.setItems(this.list);</span>
+        // Nullpointer? Fix this!
+<span class="nc bnc" id="L69" title="All 4 branches missed.">        if(!filter.isEmpty() &amp;&amp; !this.list.isEmpty()){</span>
+<span class="nc" id="L70">        ObservableList&lt;E&gt; filteredList = FXCollections.observableArrayList(this.list);</span>
+<span class="nc" id="L71">        this.listView.setItems(filteredList.filtered(p -&gt; p.toString().toLowerCase().contains(filter.toLowerCase())));</span>
+<span class="nc" id="L72">        }else {</span>
+<span class="nc" id="L73">            this.listView.setItems(this.list);</span>
         }
-<span class="nc" id="L74">    }</span>
+<span class="nc" id="L75">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

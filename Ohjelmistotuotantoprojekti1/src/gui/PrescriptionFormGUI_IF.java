@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
@@ -87,9 +88,6 @@ public interface PrescriptionFormGUI_IF {
      *
      */
     public abstract void setCumulativeOverdoseMessage();
-
-    /**
-     *
-     */
+    public abstract void setIsAllergicMessage(List<String> allergens);
     public abstract void markUpdate();
 }

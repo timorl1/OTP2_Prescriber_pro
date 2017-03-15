@@ -28,48 +28,15 @@ public interface Controller_IF {
      * @return
      */
     public abstract List<Patient> getPatients();
-
-    /**
-     *
-     */
-    public abstract void getPatientDetails();
-
-    /**
-     *
-     */
-    public abstract void getPatientDiagnoses();
-
-    /**
-     *
-     * @return
-     */
-    public abstract List<Diagnose> listPatientDiagnoses();
-
-    /**
-     *
-     */
-    public abstract void getPatientPrescriptions();
-
-    /**
-     *
-     * @return
-     */
+    public abstract List<Diagnose> getPatientDiagnoses();
+    public abstract List<Prescription> getPatientPrescriptions();
     public abstract List<Drug> getDrugs();
 
     /**
      *
      */
     public abstract void getDrugDetails();
-
-    /**
-     *
-     * @return
-     */
-    public abstract List<Prescription> getPrescriptions();
-
-    /**
-     *
-     */
+    public abstract List<Prescription> getDoctorPrescriptions();
     public abstract void getPrescriptionDetails();
 
     /**

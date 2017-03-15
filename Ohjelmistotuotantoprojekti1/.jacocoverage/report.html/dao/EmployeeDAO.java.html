@@ -30,13 +30,13 @@ public class EmployeeDAO implements EmployeeDAO_IF {
     @Override
     protected void finalize() {
         try {
-<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (connection != null) {</span>
-<span class="nc" id="L34">                connection.close();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if (connection != null) {</span>
+<span class="fc" id="L34">                connection.close();</span>
             }
 <span class="nc" id="L36">        } catch (Exception e) {</span>
 <span class="nc" id="L37">            e.printStackTrace();</span>
-<span class="nc" id="L38">        }</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L38">        }</span>
+<span class="fc" id="L39">    }</span>
 
     //Get single Employees from database identified by Employee id
     @Override
