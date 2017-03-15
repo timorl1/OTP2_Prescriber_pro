@@ -13,7 +13,22 @@ import model.Message;
  * @author Timo
  */
 public interface MessageFormGUI_IF {
+
+    /**
+     *
+     * @return
+     */
     public abstract Message getMessage();
+
+    /**
+     *
+     * @return
+     */
     public abstract Button getCancelButton();
+
+    /**
+     *
+     * @return
+     */
     public abstract Button getSendButton();
 }
