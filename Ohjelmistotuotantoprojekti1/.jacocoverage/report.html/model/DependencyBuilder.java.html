@@ -30,48 +30,48 @@ public class DependencyBuilder implements DependencyBuilder_IF {
     private Map&lt;String, Patient&gt; patients;
     private Map&lt;Integer, User_IF&gt; users;
     
-<span class="nc" id="L33">    public DependencyBuilder(Map&lt;String, Patient&gt; patients, Map&lt;Integer, User_IF&gt; users) {</span>
-<span class="nc" id="L34">        this.diseaseDAO = new DiseaseDAO();</span>
-<span class="nc" id="L35">        this.patientDAO = new PatientDAO();</span>
-<span class="nc" id="L36">        this.drugDAO = new DrugDAO();</span>
-<span class="nc" id="L37">        this.prescriptionDAO = new PrescriptionDAO();</span>
-<span class="nc" id="L38">        this.patients = patients;</span>
-<span class="nc" id="L39">        this.users = users;</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L33">    public DependencyBuilder(Map&lt;String, Patient&gt; patients, Map&lt;Integer, User_IF&gt; users) {</span>
+<span class="fc" id="L34">        this.diseaseDAO = new DiseaseDAO();</span>
+<span class="fc" id="L35">        this.patientDAO = new PatientDAO();</span>
+<span class="fc" id="L36">        this.drugDAO = new DrugDAO();</span>
+<span class="fc" id="L37">        this.prescriptionDAO = new PrescriptionDAO();</span>
+<span class="fc" id="L38">        this.patients = patients;</span>
+<span class="fc" id="L39">        this.users = users;</span>
+<span class="fc" id="L40">    }</span>
     
     @Override
     public Patient buildPatient(Patient patient) {
-<span class="nc" id="L44">        this.patient = patient;</span>
-<span class="nc" id="L45">        List&lt;Diagnose&gt; diagnoses = this.patientDAO.readPatientDiagnoses(this.patient);</span>
-<span class="nc" id="L46">        diagnoses.forEach(d -&gt; this.buildDiagnose(d));</span>
-<span class="nc" id="L47">        this.patient.setDiagnoses(diagnoses);</span>
-<span class="nc" id="L48">        List&lt;Prescription&gt; prescriptions = this.prescriptionDAO.getPrescriptionsByPatient(this.patient);</span>
-<span class="nc" id="L49">        prescriptions.forEach(pres -&gt; this.buildPrescription(pres));</span>
-<span class="nc" id="L50">        this.patient.setPrescriptions(prescriptions);</span>
-<span class="nc" id="L51">        return this.patient;</span>
+<span class="fc" id="L44">        this.patient = patient;</span>
+<span class="fc" id="L45">        List&lt;Diagnose&gt; diagnoses = this.patientDAO.readPatientDiagnoses(this.patient);</span>
+<span class="fc" id="L46">        diagnoses.forEach(d -&gt; this.buildDiagnose(d));</span>
+<span class="fc" id="L47">        this.patient.setDiagnoses(diagnoses);</span>
+<span class="fc" id="L48">        List&lt;Prescription&gt; prescriptions = this.prescriptionDAO.getPrescriptionsByPatient(this.patient);</span>
+<span class="fc" id="L49">        prescriptions.forEach(pres -&gt; this.buildPrescription(pres));</span>
+<span class="fc" id="L50">        this.patient.setPrescriptions(prescriptions);</span>
+<span class="fc" id="L51">        return this.patient;</span>
     }
     
     @Override
     public Diagnose buildDiagnose(Diagnose diagnose) {
-<span class="nc" id="L56">        this.diagnose = diagnose;</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (this.diagnose.getPatient() == null) {</span>
-<span class="nc" id="L58">            this.diagnose.setPatient(this.patients.get(this.diagnose.getPatientId()));</span>
-<span class="nc" id="L59">            this.diagnose.setDoctor(this.users.get(this.diagnose.getDoctorId()));</span>
-<span class="nc" id="L60">            this.diagnose.setDisease(this.diseaseDAO.getDisease(this.diagnose.getDiseaseID()));</span>
+<span class="fc" id="L56">        this.diagnose = diagnose;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (this.diagnose.getPatient() == null) {</span>
+<span class="fc" id="L58">            this.diagnose.setPatient(this.patients.get(this.diagnose.getPatientId()));</span>
+<span class="fc" id="L59">            this.diagnose.setDoctor(this.users.get(this.diagnose.getDoctorId()));</span>
+<span class="fc" id="L60">            this.diagnose.setDisease(this.diseaseDAO.getDisease(this.diagnose.getDiseaseID()));</span>
         }
-<span class="nc" id="L62">        return this.diagnose;</span>
+<span class="fc" id="L62">        return this.diagnose;</span>
     }
     
     @Override
     public Prescription buildPrescription(Prescription prescription) {
-<span class="nc" id="L67">        this.prescription = prescription;</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (this.prescription.getPatient() == null) {</span>
-<span class="nc" id="L69">            this.prescription.setPatient(this.patients.get(this.prescription.getPatientID()));</span>
-<span class="nc" id="L70">            this.prescription.setDoctor(this.users.get(this.prescription.getDoctorID()));</span>
-<span class="nc" id="L71">            this.prescription.setDrug(this.drugDAO.readDrug(this.prescription.getDrugID()));</span>
-<span class="nc" id="L72">            this.prescription.setDiagnose(this.buildDiagnose(this.patientDAO.readDiagnose(this.prescription.getDiagnoseID())));</span>
+<span class="fc" id="L67">        this.prescription = prescription;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (this.prescription.getPatient() == null) {</span>
+<span class="fc" id="L69">            this.prescription.setPatient(this.patients.get(this.prescription.getPatientID()));</span>
+<span class="fc" id="L70">            this.prescription.setDoctor(this.users.get(this.prescription.getDoctorID()));</span>
+<span class="fc" id="L71">            this.prescription.setDrug(this.drugDAO.readDrug(this.prescription.getDrugID()));</span>
+<span class="fc" id="L72">            this.prescription.setDiagnose(this.buildDiagnose(this.patientDAO.readDiagnose(this.prescription.getDiagnoseID())));</span>
         }
-<span class="nc" id="L74">        return this.prescription;</span>
+<span class="fc" id="L74">        return this.prescription;</span>
     }
 
     @Override
@@ -82,4 +82,4 @@ public class DependencyBuilder implements DependencyBuilder_IF {
     
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -79,18 +79,18 @@ public class Prescription {
 
     public void setDoctor(User_IF user) {
 <span class="fc" id="L81">        this.user = user;</span>
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        if (this.user != null) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (this.user != null) {</span>
 <span class="fc" id="L83">            this.doctorID = this.user.getUserID();</span>
 <span class="fc" id="L84">            this.username = this.user.getUsername();</span>
         }
         else {
-<span class="nc" id="L87">            this.doctorID = 0;</span>
-<span class="nc" id="L88">            this.username = null;</span>
+<span class="fc" id="L87">            this.doctorID = 0;</span>
+<span class="fc" id="L88">            this.username = null;</span>
         }
 <span class="fc" id="L90">    }</span>
 
     public String getPatientID() {
-<span class="nc" id="L93">        return patientID;</span>
+<span class="fc" id="L93">        return patientID;</span>
     }
 
     public void setPatientID(String patientID) {
@@ -98,7 +98,7 @@ public class Prescription {
 <span class="fc" id="L98">    }</span>
 
     public int getDoctorID() {
-<span class="nc" id="L101">        return doctorID;</span>
+<span class="fc" id="L101">        return doctorID;</span>
     }
 
     public void setDoctorID(int doctorID) {
@@ -107,7 +107,7 @@ public class Prescription {
 
 
     public int getDrugID() {
-<span class="nc" id="L110">        return drugID;</span>
+<span class="fc" id="L110">        return drugID;</span>
     }
 
     public void setDrugID(int drugID) {
@@ -115,7 +115,7 @@ public class Prescription {
 <span class="nc" id="L115">    }</span>
 
     public int getDiagnoseID() {
-<span class="nc" id="L118">        return diagnoseID;</span>
+<span class="fc" id="L118">        return diagnoseID;</span>
     }
 
     public void setDiagnoseID(int diagnoseID) {
@@ -137,7 +137,7 @@ public class Prescription {
 <span class="fc" id="L137">    }</span>
 
     public Diagnose getDiagnose() {
-<span class="nc" id="L140">        return diagnose;</span>
+<span class="fc" id="L140">        return diagnose;</span>
     }
 
     public void setDiagnose(Diagnose diagnose) {
@@ -212,4 +212,4 @@ public class Prescription {
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

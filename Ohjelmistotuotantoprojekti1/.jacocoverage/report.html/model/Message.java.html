@@ -3,14 +3,7 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -20,71 +13,87 @@ import javax.persistence.Table;
 @Table(name=&quot;message&quot;)
 public class Message {
     
+    private int messageID;
+    private String message;
+    private Date date;
+    private String title;
+
+    
+    private User sender;
+    private User receiver;
+    
+    
+<span class="fc" id="L26">    public Message(){}</span>
+    
+<span class="nc" id="L28">    public Message(int id, String message, Date d){</span>
+<span class="nc" id="L29">        this.messageID = id;</span>
+<span class="nc" id="L30">        this.message = message;</span>
+<span class="nc" id="L31">        this.date = d;</span>
+<span class="nc" id="L32">        sender = new User();</span>
+<span class="nc" id="L33">        receiver = new User();</span>
+        
+<span class="nc" id="L35">    }</span>
+    
+    @ManyToOne
+    @JoinColumn(name=&quot;sender&quot;)
+    public User getSender() {
+<span class="nc" id="L40">        return sender;</span>
+    }
+
+    public void setSender(User sender) {
+<span class="fc" id="L44">        this.sender = sender;</span>
+<span class="fc" id="L45">    }</span>
+
+    @ManyToOne
+    @JoinColumn(name=&quot;receiver&quot;)
+    public User getReceiver() {
+<span class="nc" id="L50">        return receiver;</span>
+    }
+
+    public void setReceiver(User receiver) {
+<span class="fc" id="L54">        this.receiver = receiver;</span>
+<span class="fc" id="L55">    }</span>
+
     @Id
     @Column(name=&quot;MessageID&quot;)
-    private int messageID;
-    @Column(name=&quot;message&quot;)
-    private String message;
-    @Column(name=&quot;date&quot;)
-    private Date date;
-    
-<span class="pc" id="L31">    @ManyToMany (mappedBy=&quot;sentMessages&quot;)</span>
-    private List&lt;User&gt; sentM = new ArrayList();
-<span class="pc" id="L33">    @ManyToMany (mappedBy=&quot;receivedMessages&quot;)</span>
-    private List&lt;User&gt; receivedM = new ArrayList();
-
-    
-<span class="fc" id="L37">    public Message(){}</span>
-    
-<span class="nc" id="L39">    public Message(int id, String message, Date d){</span>
-<span class="nc" id="L40">        this.messageID = id;</span>
-<span class="nc" id="L41">        this.message = message;</span>
-<span class="nc" id="L42">        this.date = d;</span>
-<span class="nc" id="L43">    }</span>
-
     public int getMessageID() {
-<span class="nc" id="L46">        return messageID;</span>
+<span class="nc" id="L60">        return messageID;</span>
     }
 
     public void setMessageID(int messageID) {
-<span class="nc" id="L50">        this.messageID = messageID;</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L64">        this.messageID = messageID;</span>
+<span class="fc" id="L65">    }</span>
 
+    @Column(name=&quot;message&quot;)
     public String getMessage() {
-<span class="nc" id="L54">        return message;</span>
+<span class="nc" id="L69">        return message;</span>
+    }
+    @Column(name=&quot;title&quot;)
+    public String getTitle() {
+<span class="nc" id="L73">        return title;</span>
     }
 
+    public void setTitle(String title) {
+<span class="fc" id="L77">        this.title = title;</span>
+<span class="fc" id="L78">    }</span>
+    
     public void setMessage(String message) {
-<span class="nc" id="L58">        this.message = message;</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L81">        this.message = message;</span>
+<span class="fc" id="L82">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L63">        return &quot;Message: &quot; + &quot;messageID= &quot; + messageID + &quot;, message= &quot; + message + &quot;, date= &quot; + date ;</span>
+<span class="nc" id="L86">        return &quot;Lähettäjä: &quot;+sender.getFirstName()+&quot; &quot;+sender.getLastName()+&quot;, Vastaanottaja: &quot;+receiver.getFirstName()+</span>
+<span class="nc" id="L87">                &quot; &quot;+receiver.getLastName()+&quot;, Aihe: &quot;+title+&quot;, pvm: &quot;+date;</span>
     }
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name=&quot;date&quot;)
     public Date getDate() {
-<span class="nc" id="L67">        return date;</span>
+<span class="nc" id="L92">        return date;</span>
     }
 
     public void setDate(Date date) {
-<span class="nc" id="L71">        this.date = date;</span>
-<span class="nc" id="L72">    }</span>
-    
-    public List&lt;User&gt; getReceivedMessages(){
-<span class="nc" id="L75">        return receivedM;</span>
-    }
-    
-    public List&lt;User&gt; getSentMessages(){
-<span class="nc" id="L79">        return sentM;</span>
-    }
-    
-    public void setSentMessages(List&lt;User&gt; sentM){
-<span class="nc" id="L83">        this.sentM = sentM;</span>
-<span class="nc" id="L84">    }</span>
-    public void setReceivedMessages(List&lt;User&gt; receivedM){
-<span class="nc" id="L86">        this.receivedM = receivedM;</span>
-<span class="nc" id="L87">    }</span>
-    
+<span class="fc" id="L96">        this.date = date;</span>
+<span class="fc" id="L97">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
