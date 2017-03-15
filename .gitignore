@@ -17,6 +17,8 @@ hs_err_pid*
 /nbproject/private/
 /build/
 /dist/
+/.jacocoverage/
 /Ohjelmistotuotantoprojekti1/nbproject/private/
 /Ohjelmistotuotantoprojekti1/build/
 /Ohjelmistotuotantoprojekti1/dist/
+/Ohjelmistotuotantoprojekti1/.jacocoverage/

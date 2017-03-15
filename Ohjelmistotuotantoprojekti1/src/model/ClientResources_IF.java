@@ -3,16 +3,23 @@ package model;
 import java.util.List;
 
 /**
- *
- * @author joosiika
+ *Gathers all the information for application
+ * @author joosiika, Timo
  */
 public interface ClientResources_IF {
 
     /**
-     *
-     * @return
+     *Gets all the patients from database
+     * @return all the patients as a Patient objects List
      */
     public abstract List<Patient> getPatients();
+
+   
+    /**
+     *Lists all single patients diagnoses
+     * @param patient
+     * @return all the of single patients Diagnose objects List
+     */
     public abstract List<Diagnose> getPatientDiagnoses(Patient patient);
 
     /**
@@ -80,13 +87,31 @@ public interface ClientResources_IF {
      * @return
      */
     public abstract Prescription addNewPrescription(User_IF user);
-    public abstract boolean savePrescription(Prescription prescription);    
-    public abstract User_IF addNewUser(User_IF user);
-    public abstract boolean saveUser(User_IF user);
 
     /**
      *
      * @param prescription
+     * @return
+     */
+    public abstract boolean savePrescription(Prescription prescription);    
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public abstract User_IF addNewUser(User_IF user);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public abstract boolean saveUser(User_IF user);
+
+    /**
+     *
+     * @param user
      * @return
      */
 
