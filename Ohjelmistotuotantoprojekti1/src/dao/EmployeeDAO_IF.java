@@ -13,7 +13,18 @@ import java.util.List;
  * @author Paula
  */
 public interface EmployeeDAO_IF {
+
+    /**
+     *
+     * @param userID
+     * @return
+     */
     public abstract Employee readEmployee(int userID);
+
+    /**
+     *
+     * @return
+     */
     public abstract List<Employee> readEmployees();
     
 }

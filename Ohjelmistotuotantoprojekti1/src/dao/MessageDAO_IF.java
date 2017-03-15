@@ -16,9 +16,32 @@ import model.User_IF;
  */
 public interface MessageDAO_IF {
     
+    /**
+     *
+     * @param id
+     * @return
+     */
     public abstract Message readMessage(int id);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     public abstract List<Message> readSentMessages(User user);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     public abstract List<Message> readReceivedMessages(User user);
+
+    /**
+     *
+     * @param message
+     * @return
+     */
     public abstract boolean createMessage(Message message);
     
     

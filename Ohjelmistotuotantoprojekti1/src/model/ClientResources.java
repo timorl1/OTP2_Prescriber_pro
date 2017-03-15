@@ -2,6 +2,8 @@ package model;
 
 import dao.EmployeeDAO;
 import dao.EmployeeDAO_IF;
+import dao.MessageDAO;
+import dao.MessageDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
 import dao.PrescriptionDAO;
@@ -29,6 +31,7 @@ public class ClientResources implements ClientResources_IF {
     private DependencyBuilder_IF builder;
     private DoseCalculator_IF doseCalculator;
     private DoubleStringConverter dsc;
+    private MessageDAO_IF messageDAO;
     
     private Map<String, Patient> patients;
     private Map<Integer, Employee> employees;
@@ -39,6 +42,7 @@ public class ClientResources implements ClientResources_IF {
         this.employeeDAO = new EmployeeDAO();
         this.userDAO = new UserDAO();
         this.prescriptionDAO = new PrescriptionDAO();
+        this.messageDAO = new MessageDAO();
         this.doseCalculator = new DoseCalculator();
         this.dsc = new DoubleStringConverter();
         this.patients = new HashMap();
@@ -143,12 +147,25 @@ public class ClientResources implements ClientResources_IF {
     public boolean savePrescription(Prescription prescription) {
         return this.prescriptionDAO.createPrescription(prescription);
     }
+    
+    @Override
+    public boolean saveMessage(Message message){
+        return this.messageDAO.createMessage(message);
+    }
         
     @Override
     public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
         List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
         prescriptions.forEach(this.builder::buildPrescription);
         return prescriptions;
+    }
+
+    @Override
+    public Message addNewMessage(User_IF user) {
+        Message message = new Message();
+        message.setSender((User) user);
+        message.setDate(Date.valueOf(LocalDate.now()));
+        return message;
     }
     
 }

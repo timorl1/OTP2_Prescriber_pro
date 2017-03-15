@@ -122,7 +122,7 @@ public class ClientResources_IFTest {
     @Test
     public void testGetUsers() {
         System.out.println("getUsers");
-        ClientResources_IF instance = new ClientResources_IFImpl();
+        ClientResources_IF instance = new ClientResources();
         List<User_IF> expResult = null;
         List<User_IF> result = instance.getUsers();
         assertEquals(expResult, result);
@@ -137,7 +137,7 @@ public class ClientResources_IFTest {
     public void testSetUserPriviledges() {
         System.out.println("setUserPriviledges");
         User_IF user = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
+        ClientResources_IF instance = new ClientResources();
         instance.setUserPriviledges(user);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -150,7 +150,7 @@ public class ClientResources_IFTest {
     public void testLockUser() {
         System.out.println("lockUser");
         User_IF user = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
+        ClientResources_IF instance = new ClientResources();
         instance.lockUser(user);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -163,7 +163,7 @@ public class ClientResources_IFTest {
     public void testAddNewPrescription() {
         System.out.println("addNewPrescription");
         User_IF user = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
+        ClientResources_IF instance = new ClientResources();
         Prescription expResult = null;
         Prescription result = instance.addNewPrescription(user);
         assertEquals(expResult, result);
@@ -178,7 +178,7 @@ public class ClientResources_IFTest {
     public void testSavePrescription() {
         System.out.println("savePrescription");
         Prescription prescription = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
+        ClientResources_IF instance = new ClientResources();
         boolean expResult = false;
         boolean result = instance.savePrescription(prescription);
         assertEquals(expResult, result);
@@ -193,73 +193,12 @@ public class ClientResources_IFTest {
     public void testGetPrescriptionsByDoctor() {
         System.out.println("getPrescriptionsByDoctor");
         User_IF user = null;
-        ClientResources_IF instance = new ClientResources_IFImpl();
+        ClientResources_IF instance = new ClientResources();
         List<Prescription> expResult = null;
         List<Prescription> result = instance.getPrescriptionsByDoctor(user);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
-
-    public class ClientResources_IFImpl implements ClientResources_IF {
-
-        public List<Patient> getPatients() {
-            return null;
-        }
-
-        public Patient getPatientDetails(Patient patient) {
-            return null;
-        }
-
-        public List<Diagnose> getPatientDiagnoses(Patient patient) {
-            return null;
-        }
-
-        public Diagnose getDiagnoseDetails(Diagnose diagnose) {
-            return null;
-        }
-
-        public List<Prescription> getPatientPrescriptions(Patient patient) {
-            return null;
-        }
-
-        public Prescription getPrescriptionDetails(Prescription prescription) {
-            return null;
-        }
-
-        public List<Employee> getEmployees() {
-            return null;
-        }
-
-        public Employee getEmployeeDetails(Employee employee) {
-            return null;
-        }
-
-        public List<User_IF> getUsers() {
-            return null;
-        }
-
-        public User_IF getUserDetails(User_IF user) {
-            return null;
-        }
-
-        public void setUserPriviledges(User_IF user) {
-        }
-
-        public void lockUser(User_IF user) {
-        }
-
-        public Prescription addNewPrescription(User_IF user) {
-            return null;
-        }
-
-        public boolean savePrescription(Prescription prescription) {
-            return false;
-        }
-
-        public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
-            return null;
-        }
     }
     
 }
