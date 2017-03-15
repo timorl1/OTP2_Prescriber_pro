@@ -40,6 +40,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarGUI_IF sideBar;
     private LoginGUI_IF login;
     private PrescriptionFormGUI_IF prescriptionForm;
+    private UserFormGUI_IF userForm;
     private SideBarListView_IF<Patient> patientListView;
     private SideBarListView_IF<Drug> drugListView;
     private SideBarListView_IF<Prescription> prescriptionListView;
@@ -262,11 +263,11 @@ public class MainGUI implements Initializable, MainGUI_IF {
             }
         });
         this.employeeListView.getListView().setOnMouseClicked(e -> {
-            if (this.employeeListView.getSelection() != null) {
+            if (this.employeeListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
                 this.controller.getEmployeeDetails();
             }
-            else {
+            else if(this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
             }
         });
@@ -320,6 +321,30 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
+    public void setUserForm(User_IF user) {
+        this.status = AppStatus.CREATE;
+        this.userForm = new UserFormGUI(this.employeeListView, user);
+        this.userForm.getCancelButton().setOnAction(e -> {
+            this.tabPane.getTabs().remove(this.userForm);
+            this.setStatus(AppStatus.IDLE);
+        });
+        this.userForm.getSaveButton().setOnAction(e -> {
+           
+            if (this.controller.saveUser()) {
+                this.tabPane.getTabs().remove(this.userForm);
+                this.setStatus(AppStatus.IDLE);
+            }
+            else {
+                //Some kind of alert message should be thrown
+            }
+        });
+      
+        this.tabPane.getTabs().add((UserFormGUI)this.userForm);
+    }
+    
+    
+    
+    @Override
     public void setPrescriptionTools() {
         Button createPrescription = new Button("Uusi lääkemääräys");
         createPrescription.setOnMouseClicked((event) -> {
@@ -337,6 +362,16 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.sideBar.getVbox().getChildren().add(updatePrescription);
     }
 
+     @Override
+    public void setUserTools() {
+        Button createUser = new Button("Uusi käyttäjä");
+        createUser.setOnMouseClicked((event) -> {
+            this.controller.createNewUser();
+            this.setStatus(AppStatus.CREATE);
+        });
+        this.sideBar.getVbox().getChildren().add(createUser);
+
+    }
     @Override
     public void setPatientDetails(Patient patient) {
         ObservableList<String> list = FXCollections.observableArrayList();
@@ -525,4 +560,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
         return this.prescriptionForm.getPrescription();
     }
     
+    @Override
+    public User_IF getUserForm() {
+        return this.userForm.getUser();
+    
+    }
 }
