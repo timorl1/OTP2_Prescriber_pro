@@ -148,7 +148,18 @@ public class ClientResources implements ClientResources_IF {
     public boolean savePrescription(Prescription prescription) {
         return this.prescriptionDAO.createPrescription(prescription);
     }
-        
+    
+     @Override
+    public User_IF addNewUser(User_IF user) {
+        user = new User();       
+        return user;
+    }
+
+    @Override
+    public boolean saveUser(User_IF user) {
+        return this.userDAO.createUser(user);
+    } 
+    
     @Override
     public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
         List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
