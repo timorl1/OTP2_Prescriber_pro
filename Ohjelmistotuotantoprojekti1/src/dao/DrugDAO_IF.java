@@ -11,7 +11,7 @@ public interface DrugDAO_IF {
 
     /**
      * Gets drug by id from database
-     * @param SN
+     * @param SN serial number for drug
      * @return drug object
      */
     public abstract Drug readDrug(int SN);

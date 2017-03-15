@@ -18,7 +18,7 @@ public interface PatientDAO_IF {
 
     /**
      * Gets patient by social security number
-     * @param SSN
+     * @param SSN patient's social security number
      * @return patient object
      */
     public abstract Patient readPatient(String SSN);
@@ -31,14 +31,14 @@ public interface PatientDAO_IF {
 
     /**
      * Gets diagnose by id
-     * @param diagnoseID
+     * @param diagnoseID diagnose's id
      * @return diagnose object
      */
     public abstract Diagnose readDiagnose(int diagnoseID);
 
     /**
      * Gets diagnoses by patient
-     * @param pat
+     * @param pat patient object
      * @return list of diagnose objects
      */
     public abstract List<Diagnose> readPatientDiagnoses(Patient pat);

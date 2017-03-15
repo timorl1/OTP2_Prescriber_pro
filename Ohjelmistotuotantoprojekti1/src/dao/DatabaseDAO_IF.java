@@ -49,7 +49,7 @@ public interface DatabaseDAO_IF {
 
     /**
      * Accesses a .properties file and writes the properties-object
-     * @param comment
+     * @param comment Comment
      * @return true if successful, false if not
      */
     public abstract boolean writeDBProperties(String comment);

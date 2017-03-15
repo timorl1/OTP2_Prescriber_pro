@@ -17,11 +17,8 @@ public interface UserDAO_IF {
 
     /**
      * Updates a user
-     * @param user
+     * @param user user to be updated
      * @return true if user is updated, false if not
-     *
-     * @param user
-     * @return
      */
     public abstract boolean updateUser(User_IF user);
 
@@ -32,20 +29,24 @@ public interface UserDAO_IF {
     public abstract List <User_IF> getUsers();
 
     /**
+     * Gets user by username
+     * @param username user's username
+     * @return user object
      */
     public abstract User_IF getUser(String username);
 
-    /**
-     * Gets user by username
-     * @param username
-     * @return user object
-     */
-    public abstract boolean deleteUser(User_IF user);
-
+    
     /**
      * Deletes user from database
-     * @param user
+     * @param user user to be deleted
      * @return true if user is deleted, false if not
+     */
+    public abstract boolean deleteUser(User_IF user);
+    
+    /**
+     * Creates user
+     * @param user user to be created
+     * @return true if user is created, false if not
      */
     public abstract boolean createUser(User_IF user);
 }

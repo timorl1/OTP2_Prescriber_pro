@@ -10,7 +10,7 @@ public interface DiseaseDAO_IF {
 
     /**
      * Gets disease by id from database
-     * @param diseaseId
+     * @param diseaseId Id of the disease
      * @return disease object
      */
     public abstract Disease getDisease(int diseaseId);
