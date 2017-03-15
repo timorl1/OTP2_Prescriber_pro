@@ -16,7 +16,7 @@ public interface EmployeeDAO_IF {
 
     /**
      * Gets employee by userID from database
-     * @param userID
+     * @param userID user's id number
      * @return employee object
      */
     public abstract Employee readEmployee(int userID);

@@ -15,14 +15,14 @@ public interface PrescriptionDAO_IF {
 
     /**
      * Creates a new prescription
-     * @param prescription
+     * @param prescription prescription object
      * @return true if prescription is created, false if not
      */
     public abstract boolean createPrescription(Prescription prescription);
 
     /**
      * Gets prescription by id from database
-     * @param id
+     * @param id prescription's id
      * @return prescription object
      */
     public abstract Prescription readPrescription(int id);
@@ -35,35 +35,35 @@ public interface PrescriptionDAO_IF {
 
     /**
      * Gets prescriptions by patient from database
-     * @param patient
+     * @param patient patient object
      * @return list of prescription objects
      */
     public abstract List<Prescription> getPrescriptionsByPatient(Patient patient);
 
     /**
      * Gets prescriptions by doctor from database
-     * @param user
+     * @param user user object
      * @return list of prescription objects
      */
     public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
 
     /**
      * Gets prescriptions by diagnose from database
-     * @param diagnose
+     * @param diagnose diagnose object
      * @return list of prescription objects
      */
     public abstract Prescription getPrescriptionByDiagnose(Diagnose diagnose);
 
     /**
      * Updates a prescription
-     * @param prescription
+     * @param prescription prescription object
      * @return true if prescription is updated, false if not
      */
     public abstract boolean updatePrescription(Prescription prescription);
 
     /**
      * Deletes a prescription from database
-     * @param prescription
+     * @param prescription prescription object
      * @return true if prescription is deleted, false if not
      */
     public abstract boolean deletePrescription(Prescription prescription);

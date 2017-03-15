@@ -10,8 +10,8 @@ import java.util.List;
 public interface DrugResources_IF {
 
     /**
-     *
-     * @return
+     * Gets list of drugs from DrugDAO
+     * @return list of drug-objects
      */
     public abstract List<Drug> getDrugs();
 }

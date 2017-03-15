@@ -8,7 +8,6 @@ package dao;
 import java.util.List;
 import model.Message;
 import model.User;
-import model.User_IF;
 
 /**
  * Interface that defines methods for CRUD-operations for messages in database
@@ -18,28 +17,28 @@ public interface MessageDAO_IF {
     
     /**
      * Gets message by id from database
-     * @param id
+     * @param id message's id
      * @return message object
      */
     public abstract Message readMessage(int id);
 
     /**
      * Gets list of sent messages by user
-     * @param user
+     * @param user user that sent messages
      * @return list of message objects
      */
     public abstract List<Message> readSentMessages(User user);
 
     /**
      * Gets list of received messages by user
-     * @param user
+     * @param user user that received messages
      * @return list of message objects
      */
     public abstract List<Message> readReceivedMessages(User user);
 
     /**
      * Creates a message
-     * @param message
+     * @param message message to be sent
      * @return true if message is created, false if not
      */
     public abstract boolean createMessage(Message message);
