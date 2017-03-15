@@ -12,6 +12,7 @@ import dao.DrugDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
 import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -65,7 +66,7 @@ public class PrescriptionMaker_IFTest {
      */
     @Test
     public void testEvaluateDoseOverdose() {
-        System.out.println("evaluateDose");
+        System.out.println("evaluateDoseOverdose");
         this.prescription = new Prescription();
         this.prescription.setPatient(this.patient);
         this.prescription.setDrug(this.drug);
@@ -83,7 +84,7 @@ public class PrescriptionMaker_IFTest {
      */
     @Test
     public void testEvaluateDoseCumulativeOverdose() {
-        System.out.println("evaluateDose");
+        System.out.println("evaluateDoseCumulativeOverdose");
         this.prescription = new Prescription();
         this.prescription.setPatient(this.patient);
         this.prescription.setDrug(this.drug);
@@ -101,14 +102,14 @@ public class PrescriptionMaker_IFTest {
      */
     @Test
     public void testEvaluateDoseDuration() {
-        System.out.println("evaluateDose");
+        System.out.println("evaluateDoseDoseDuration");
         this.prescription = new Prescription();
         this.prescription.setPatient(this.patient);
         this.prescription.setDrug(this.drug);
-        this.prescription.setDose(0.4875);
+        this.prescription.setDose(0.38);
         this.prescription.setTimesADay(4);
-        this.prescription.setStartDate(Date.valueOf("2017-03-01"));
-        this.prescription.setEndDate(Date.valueOf("2017-03-30"));
+        this.prescription.setStartDate(Date.from(Instant.parse("2017-03-01T00:00:00.00Z")));
+        this.prescription.setEndDate(Date.from(Instant.parse("2017-03-30T00:00:00.00Z")));
         DoseStatus expResult = DoseStatus.CUMULATIVE_OVERDOSE;
         DoseStatus result = pm.evaluateDose(prescription);
         assertEquals(expResult, result);
@@ -141,21 +142,6 @@ public class PrescriptionMaker_IFTest {
         List<String> result = pm.isAllergic(prescription);
         String resString = result.get(0);
         assertEquals(expResult, resString);
-    }
-
-    public class PrescriptionMaker_IFImpl implements PrescriptionMaker_IF {
-
-        public DoseStatus evaluateDose(Prescription prescription) {
-            return null;
-        }
-
-        public double getOptimalDose(Prescription prescription) {
-            return 0.0;
-        }
-
-        public List<String> isAllergic(Prescription prescription) {
-            return null;
-        }
     }
     
 }
