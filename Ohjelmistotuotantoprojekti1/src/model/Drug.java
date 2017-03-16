@@ -11,33 +11,29 @@ import javax.persistence.*;
 @Entity (name="lääke")
 @Table (name="lääke")
 public class Drug {
-    @Id
-    @Column (name="tuotenumero")
     private int SN;
-    @Column (name="nimi")
     private String name;
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="lääkeaine", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "lääkeaine_id", referencedColumnName = "id"))
-    private List<ActiveAgent> activeAgents = new ArrayList();
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="lääkkeen_allergeeni", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "allergeeni_id", referencedColumnName = "id"))
+    private List<DrugActiveAgent> drugActiveAgents = new ArrayList();
     private List<Allergen> allergens = new ArrayList();
-    @Column (name="suositeltuannos")
-    private double recommendedDose;
-    @Column (name="maxannos")
-    private double maxDose;
-    @Column (name="yksikkö")
     private String unit;
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="yleinen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
     private List<AdverseEffect> commonAdverseEffects = new ArrayList();
-    @ManyToMany (cascade = {CascadeType.ALL})
-    @JoinTable(name="harvinainen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
     private List<AdverseEffect> rareAdverseEffects = new ArrayList();
 
     public Drug() {
     }
 
+    public Drug(int SN, String name, String unit) {
+        this.SN = SN;
+        this.name = name;
+        this.unit = unit;
+    }
+    
+    public void addActiveAgent(DrugActiveAgent drugActiveAgent) {
+        this.drugActiveAgents.add(drugActiveAgent);
+    }
+
+    @Id
+    @Column (name="tuotenumero")
     public int getSN() {
         return SN;
     }
@@ -46,6 +42,7 @@ public class Drug {
         this.SN = SN;
     }
 
+    @Column (name="nimi")
     public String getName() {
         return name;
     }
@@ -54,14 +51,17 @@ public class Drug {
         this.name = name;
     }
     
-    public List<ActiveAgent> getActiveAgents() {
-        return activeAgents;
+    @OneToMany(mappedBy="drug")
+    public List<DrugActiveAgent> getDrugActiveAgents() {
+        return drugActiveAgents;
     }
 
-    public void setActiveAgents(List<ActiveAgent> activeAgents) {
-        this.activeAgents = activeAgents;
+    public void setDrugActiveAgents(List<DrugActiveAgent> drugActiveAgents) {
+        this.drugActiveAgents = drugActiveAgents;
     }
 
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="lääkkeen_allergeeni", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "allergeeni_id", referencedColumnName = "id"))
     public List<Allergen> getAllergens() {
         return allergens;
     }
@@ -69,23 +69,8 @@ public class Drug {
     public void setAllergens(List<Allergen> allergens) {
         this.allergens = allergens;
     }
-
-    public double getRecommendedDose() {
-        return recommendedDose;
-    }
-
-    public void setRecommendedDose(double recommendedDose) {
-        this.recommendedDose = recommendedDose;
-    }
-
-    public double getMaxDose() {
-        return maxDose;
-    }
-
-    public void setMaxDose(double maxDose) {
-        this.maxDose = maxDose;
-    }
     
+    @Column (name="yksikkö")
     public String getUnit() {
         return unit;
     }
@@ -94,6 +79,8 @@ public class Drug {
         this.unit = unit;
     }
 
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="yleinen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
     public List<AdverseEffect> getCommonAdverseEffects() {
         return commonAdverseEffects;
     }
@@ -102,6 +89,8 @@ public class Drug {
         this.commonAdverseEffects = commonAdverseEffects;
     }
 
+    @ManyToMany (cascade = {CascadeType.ALL})
+    @JoinTable(name="harvinainen", joinColumns = @JoinColumn(name = "lääke_tuotenumero"), inverseJoinColumns = @JoinColumn(name = "haittavaikutus_id", referencedColumnName = "id"))
     public List<AdverseEffect> getRareAdverseEffects() {
         return rareAdverseEffects;
     }
@@ -112,6 +101,6 @@ public class Drug {
     
     @Override
     public String toString() {
-        return this.name + ", " + this.activeAgents.get(0).getName();
+        return this.name + " " + this.drugActiveAgents.get(0).getConcentration() + "mg" + ", " + this.drugActiveAgents.get(0).getActiveAgent().getName();
     }
 }

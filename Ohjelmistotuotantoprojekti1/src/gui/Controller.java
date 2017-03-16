@@ -6,22 +6,26 @@
 package gui;
 
 import java.util.List;
-import javafx.fxml.FXML;
 import model.AppUser;
 import model.ClientResources;
+import model.ClientResources_IF;
+import model.Diagnose;
 import model.Drug;
 import model.DrugResources;
+import model.DrugResources_IF;
 import model.Employee;
+import model.Message;
 import model.Patient;
 import model.Prescription;
 import model.User;
+import model.User_IF;
 
 
 public class Controller implements Controller_IF {
     private MainGUI_IF gui;
     private AppUser auth;
-    private ClientResources clientRes;
-    private DrugResources drugRes;
+    private ClientResources_IF clientRes;
+    private DrugResources_IF drugRes;
     
     public Controller(MainGUI_IF gui) {
         this.gui = gui;
@@ -39,21 +43,28 @@ public class Controller implements Controller_IF {
             switch(this.auth.getUserPrivileges()) {
                 case 0:
                     this.gui.setAccessDenied();
+                    break;
                 case 1:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
                     break;
                 case 2:
                     this.gui.setPatientList();
                     this.gui.setDrugList();
                     this.gui.setPrescriptionList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
+                    this.gui.setPrescriptionTools();
                     break;
                 case 3:
                     this.gui.setUserList();
                     this.gui.setEmployeeList();
-                    this.gui.setMessageList();
+                    this.gui.setReceivedMessageList();
+                    this.gui.setSentMessageList();
+                    this.gui.setUserTools();
+                    break;
             }
         }
         else {
@@ -66,25 +77,14 @@ public class Controller implements Controller_IF {
         return this.clientRes.getPatients();
     }
     
-    @FXML
     @Override
-    public void filterPatients() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Diagnose> getPatientDiagnoses() {
+        return this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient());
     }
 
     @Override
-    public void getPatientDetails() {
-        this.gui.setPatientDetails(this.clientRes.getPatientDetails(this.gui.getSelectedPatient()));
-    }
-
-    @Override
-    public void getPatientDiagnoses() {
-        this.gui.setPatientDiagnoses(this.clientRes.getPatientDiagnoses(this.gui.getSelectedPatient()));
-    }
-
-    @Override
-    public void getPatientPrescriptions() {
-        this.gui.setPatientPrescriptions(this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient()));
+    public List<Prescription> getPatientPrescriptions() {
+        return this.clientRes.getPatientPrescriptions(this.gui.getSelectedPatient());
     }
 
     @Override
@@ -93,8 +93,9 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<Prescription> getPrescriptions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Prescription> getDoctorPrescriptions() {
+        return clientRes.getPrescriptionsByDoctor(auth.getUser());
+        
     }
     
     @Override
@@ -108,13 +109,13 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User_IF> getUsers() {
         return this.clientRes.getUsers();
     }
     
     @Override
     public void getUserDetails() {
-        this.gui.setUserDetails(this.clientRes.getUserDetails(this.gui.getSelectedUser()));
+        this.gui.setUserDetails((User) this.clientRes.getUserDetails(this.gui.getSelectedUser()));
     }
 
     @Override
@@ -123,18 +124,23 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public List<String> getDrugDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void getDrugDetails() {
+        this.gui.setDrugDetails(this.gui.getSelectedDrug());
     }
 
     @Override
-    public List<String> getMessages() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Message> getReceivedMessages() {
+        return this.auth.getUser().getReceivedMessages();
     }
-
+    
     @Override
-    public List<String> getMessageDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Message> getSentMessages() {
+        return this.auth.getUser().getSentMessages();
+    }
+    
+    @Override
+    public void getMessageDetails() {
+        this.gui.setMessageDetails(this.gui.getSelectedMessage());
     }
     
     @Override
@@ -148,12 +154,42 @@ public class Controller implements Controller_IF {
     }
 
     @Override
-    public void lockUser(User user) {
+    public void lockUser(User_IF user) {
         this.clientRes.lockUser(user);
     }
 
     @Override
-    public void setUserPriviledges(User user) {
+    public void setUserPriviledges(User_IF user) {
         this.clientRes.setUserPriviledges(user);
+    }
+    
+    @Override
+    public void createNewPrescription() {
+        this.gui.setPrescriptionForm(this.clientRes.addNewPrescription(this.auth.getUser()));
+    }
+    
+    @Override
+    public boolean savePrescription() {
+        return this.clientRes.savePrescription(this.gui.getPrescriptionForm());
+    }  
+    
+    @Override
+    public boolean saveMessage(){
+        return this.clientRes.saveMessage(this.gui.getMessageForm());
+    }
+    
+     @Override
+    public boolean saveUser(){
+        return this.clientRes.saveUser(this.gui.getUserForm());
+    }
+    
+    @Override
+    public void createNewUser() {
+        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
+    }
+
+    @Override
+    public void createNewMessage() {
+        this.gui.setMessageForm(this.clientRes.addNewMessage(this.auth.getUser()));
     }
 }

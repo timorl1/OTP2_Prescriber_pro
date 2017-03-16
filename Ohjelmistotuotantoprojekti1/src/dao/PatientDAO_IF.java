@@ -10,12 +10,36 @@ import model.Diagnose;
 import model.Patient;
 
 /**
- *
+ * Interface that defines methods for getting info on patients and diagnoses
+ * from database 
  * @author joosiika
  */
 public interface PatientDAO_IF {
+
+    /**
+     * Gets patient by social security number
+     * @param SSN patient's social security number
+     * @return patient object
+     */
     public abstract Patient readPatient(String SSN);
+
+    /**
+     * Gets a list of all patients
+     * @return list of patient objects
+     */
     public abstract List<Patient> readPatients();
+
+    /**
+     * Gets diagnose by id
+     * @param diagnoseID diagnose's id
+     * @return diagnose object
+     */
     public abstract Diagnose readDiagnose(int diagnoseID);
+
+    /**
+     * Gets diagnoses by patient
+     * @param pat patient object
+     * @return list of diagnose objects
+     */
     public abstract List<Diagnose> readPatientDiagnoses(Patient pat);
 }

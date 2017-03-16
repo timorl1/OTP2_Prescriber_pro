@@ -21,7 +21,7 @@ public class Prescription {
     @Column(name="doctorID")
     private int doctorID;
     @Transient
-    private Doctor doctor;
+    private User_IF user;
     @Column(name="drugID")
     private int drugID;
     @Transient
@@ -31,15 +31,17 @@ public class Prescription {
     @Transient
     private Diagnose diagnose;
     @Column(name="dose")
-    private String dose;
+    private double dose;
     @Column(name="timesADay")
     private int timesADay;
     @Column(name="info")
     private String info;
     @Column(name="startDate")
-    private String startDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
     @Column(name="endDate")
-    private String endDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
     @Column(name="creationDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -63,14 +65,28 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+        if (this.patient != null) {
+            this.patientID = this.patient.getSSN();
+        }
+        else {
+            this.patientID = null;
+        }
     }
 
-    public Doctor getDoc() {
-        return doctor;
+    public User_IF getDoctor() {
+        return user;
     }
 
-    public void setDoc(Doctor doc) {
-        this.doctor = doc;
+    public void setDoctor(User_IF user) {
+        this.user = user;
+        if (this.user != null) {
+            this.doctorID = this.user.getUserID();
+            this.username = this.user.getUsername();
+        }
+        else {
+            this.doctorID = 0;
+            this.username = null;
+        }
     }
 
     public String getPatientID() {
@@ -89,13 +105,6 @@ public class Prescription {
         this.doctorID = doctorID;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
 
     public int getDrugID() {
         return drugID;
@@ -119,7 +128,12 @@ public class Prescription {
 
     public void setDrug(Drug drug) {
         this.drug = drug;
-        this.drugID = drug.getSN();
+        if (this.drug != null) {
+            this.drugID = drug.getSN();
+        }
+        else {
+            this.drugID = 0;
+        }
     }
 
     public Diagnose getDiagnose() {
@@ -128,14 +142,19 @@ public class Prescription {
 
     public void setDiagnose(Diagnose diagnose) {
         this.diagnose = diagnose;
-        this.diagnoseID = diagnose.getId();
+        if (this.diagnose != null) {
+            this.diagnoseID = diagnose.getId();
+        }
+        else {
+            this.diagnoseID = 0;
+        }
     }
 
-    public String getDose() {
+    public double getDose() {
         return dose;
     }
 
-    public void setDose(String dose) {
+    public void setDose(double dose) {
         this.dose = dose;
     }
 
@@ -155,19 +174,19 @@ public class Prescription {
         this.info = info;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
     
@@ -189,7 +208,7 @@ public class Prescription {
     
     @Override
     public String toString() {
-        return this.id + ", " + this.patient + ", " + this.diagnose + ", " + this.creationDate;
+        return this.id + ": " + this.patient + ", " + this.diagnose + ", " + this.creationDate;
     }
 
 }

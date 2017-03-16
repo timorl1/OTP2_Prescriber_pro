@@ -58,7 +58,6 @@ public class PatientDAO implements PatientDAO_IF {
         }
         
         Patient pat = null;
-        Diagnose dia = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
@@ -169,7 +168,7 @@ public class PatientDAO implements PatientDAO_IF {
         return lista;
     }
     
-    //Get single patient from database identified by Social security number
+    //Get single diagnose from database identified by diagnose id
     @Override
     public Diagnose readDiagnose(int diagnoseID) {
         properties = parameters.readDBProperties();
@@ -204,7 +203,7 @@ public class PatientDAO implements PatientDAO_IF {
                 Timestamp creationDate = rs.getTimestamp("luontipäivä");
                 Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
                 String patientID = rs.getString("hetu");
-                String doctorID = rs.getString("työntekijänumero");
+                int doctorID = rs.getInt("työntekijänumero");
                 dia = new Diagnose();
                 dia.setId(id);
                 dia.setPatientId(patientID);
@@ -271,7 +270,7 @@ public class PatientDAO implements PatientDAO_IF {
                 Timestamp creationDate = rs.getTimestamp("luontipäivä");
                 Timestamp resolutionDate = rs.getTimestamp("päättymispäivä");
                 String patientID = rs.getString("hetu");
-                String doctorID = rs.getString("työntekijänumero");
+                int doctorID = rs.getInt("työntekijänumero");
                 dia = new Diagnose();
                 dia.setId(id);
                 dia.setPatientId(patientID);
@@ -282,9 +281,9 @@ public class PatientDAO implements PatientDAO_IF {
                 dia.setResolutionDate(resolutionDate);
                 diagnoses.add(dia);
             }
-            if (!diagnoses.isEmpty()) {
+            /*if (!diagnoses.isEmpty()) {
                 pat.setDiagnoses(diagnoses);
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
             return null;

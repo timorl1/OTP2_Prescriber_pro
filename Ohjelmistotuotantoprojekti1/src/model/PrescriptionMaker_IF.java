@@ -1,0 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.util.List;
+
+/**
+ *
+ * @author joosiika
+ */
+public interface PrescriptionMaker_IF {
+    //public abstract Prescription createPrescription(User_IF user);
+    //public abstract boolean savePrescription(Prescription prescription);
+
+    /**
+     *
+     * @param prescription
+     * @return
+     */
+    public abstract DoseStatus evaluateDose(Prescription prescription);
+
+    /**
+     *
+     * @param prescription
+     * @return
+     */
+    public abstract double getOptimalDose(Prescription prescription);
+    public abstract List<String> isAllergic(Prescription prescription);
+}

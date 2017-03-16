@@ -15,6 +15,7 @@
        <property name="hibernate.max_fetch_depth">3</property>
        <mapping class="model.Prescription"/>
        <mapping class="model.User"/>
+       <mapping class="model.Message"/>
 
     </session-factory>
 </hibernate-configuration>

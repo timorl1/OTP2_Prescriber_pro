@@ -13,6 +13,7 @@ import dao.EmployeeDAO_IF;
 import model.Employee;
 import java.util.List;
 import java.util.ArrayList;
+import model.User_IF;
 
 
 /**
@@ -27,7 +28,7 @@ public class UserDAOCRUDTest {
     public static void main(String[] args) {
         char select;
         UserDAO_IF userdao = new UserDAO();
-        User user = new User();
+        User_IF user = new User();
         EmployeeDAO employeedao = new EmployeeDAO();
         Employee employee = new Employee();
         
@@ -55,8 +56,9 @@ public class UserDAOCRUDTest {
                     int id = Reader.readInt();
                     employee = employeedao.readEmployee(id);
                     System.out.println("\n Valittu käyttäjä: "+employee.getFirstName()+" "+employee.getLastName());
-                    user.setId(id);
-                    
+                    user.setUserID(id);
+                    user.setFirstName(employee.getFirstName());
+                    user.setLastName(employee.getLastName());
                     System.out.println("Valitse käyttäjätunnus: ");
                     user.setUsername(Reader.readLine());
                     
@@ -66,11 +68,11 @@ public class UserDAOCRUDTest {
                     user.setEmail(employee.getEmail());
                     
                     if (employee.getTitle().equals("Hoitaja")){
-                        user.setPrivileges(1);
+                        user.setUsertype(1);
                     }else if (employee.getTitle().equals("Lääkäri")){
-                        user.setPrivileges(2);
+                        user.setUsertype(2);
                     }else if (employee.getTitle().equals("Admin")){
-                        user.setPrivileges(3);
+                        user.setUsertype(3);
                     } else {
                         System.out.println("EI käyttöoikeutta");
                     }
@@ -80,7 +82,7 @@ public class UserDAOCRUDTest {
                     
                     if(userdao.createUser(user) == !false){
                         System.out.println("Lisäys onnistui");
-                        System.out.println("Luodun käyttäjän tiedot: \n id: "+ user.getId()+", käyttäjänimi: "+user.getUsername()+", Salasana: " +user.getPassword()+", sähköposti: " + user.getEmail()+ ", käyttöoikeus: " + user.getPrivileges());
+                        System.out.println("Luodun käyttäjän tiedot: \n id: "+ user.getUserID()+", käyttäjänimi: "+user.getUsername()+", Salasana: " +user.getPassword()+", sähköposti: " + user.getEmail()+ ", käyttöoikeus: " + user.getUsertype());
                     } else{ 
                            System.out.println("Lisäys epäonnistui"); 
                     }                   
@@ -88,20 +90,20 @@ public class UserDAOCRUDTest {
                     break;
                   
                 case '2':
-                    for(User users : userdao.getUsers()){
-                        System.out.println("Id:"+users.getId()+", username:"+users.getUsername()+
-                                ", priviledges:"+users.getPrivileges());
+                    for(User_IF users : userdao.getUsers()){
+                        System.out.println("Id:"+users.getUserID()+", username:"+users.getUsername()+
+                                ", priviledges:"+users.getUsertype());
                     }
                     break;
                 case '3':
-                    for(User users : userdao.getUsers()){
-                        System.out.println("Id: "+users.getId()+", username: "+users.getUsername()+
-                                ", priviledges: "+users.getPrivileges());
+                    for(User_IF users : userdao.getUsers()){
+                        System.out.println("Id: "+users.getUserID()+", username: "+users.getUsername()+
+                                ", priviledges: "+users.getUsertype());
                     }
                     System.out.println("Valitse muokattava käyttäjänimi: ");
                     user = userdao.getUser(Reader.readLine());
                     System.out.println("Anna uusi käyttöoikeus");
-                    user.setPrivileges(Reader.readInt());
+                    user.setUsertype(Reader.readInt());
                     if(userdao.updateUser(user)){
                     System.out.println("Muokkaus onnistui");
                     }else{
@@ -112,15 +114,15 @@ public class UserDAOCRUDTest {
                 case '4':
                     System.out.println("Valitse poistettava käyttäjä käyttäjänimen perusteella: ");
                     
-                    for(User users : userdao.getUsers()){
-                        System.out.println("Id: "+users.getId()+", username: "+users.getUsername()+
-                                ", priviledges: "+users.getPrivileges());
+                    for(User_IF users : userdao.getUsers()){
+                        System.out.println("Id: "+users.getUserID()+", username: "+users.getUsername()+
+                                ", priviledges: "+users.getUsertype());
                     }
                     user = userdao.getUser(Reader.readLine());
-                    boolean result = userdao.deleteUser(user);
                     
                     
-                    if (result == true){
+                    
+                    if (userdao.deleteUser(user)){
                         System.out.println("poisto onnistui");
                     } else {
                         System.out.println("poisto epäonnistui");

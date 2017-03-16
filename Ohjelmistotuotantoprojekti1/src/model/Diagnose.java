@@ -15,8 +15,9 @@ public class Diagnose {
     private Timestamp resolutionDate;
     private String patientId;
     private Patient patient;
-    private String doctorId;
-    private Doctor doctor;
+    private int doctorId;
+    private User_IF doctor;
+    
     
     public Diagnose() {
     }
@@ -44,7 +45,6 @@ public class Diagnose {
     public void setDisease(Disease disease) {
         this.disease = disease;
     }
-
     
     public String getEpicrisis() {
         return epicrisis;
@@ -86,19 +86,19 @@ public class Diagnose {
         this.patient = patient;
     }
     
-    public String getDoctorId() {
+    public int getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(String doctorId) {
+    public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
     }
 
-    public Doctor getDoctor() {
+    public User_IF getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(Doctor doctor) {
+    public void setDoctor(User_IF doctor) {
         this.doctor = doctor;
     }
     

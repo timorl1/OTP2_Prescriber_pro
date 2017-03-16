@@ -50,9 +50,10 @@ public class DrugDAOTest {
         Drug result = instance.readDrug(SN);
         assertEquals(123456, result.getSN());
         assertEquals("Burana", result.getName());
-        assertEquals(400.0, result.getRecommendedDose(),0.1);
-        assertEquals(1000.0, result.getMaxDose(),0.1);
-        assertEquals("mg", result.getUnit());
+        assertEquals(3.0, result.getDrugActiveAgents().get(0).getActiveAgent().getRecommendedDose(),0.1);
+        assertEquals(7.0, result.getDrugActiveAgents().get(0).getActiveAgent().getMaxDose(),0.1);
+        assertEquals(4.0, result.getDrugActiveAgents().get(0).getActiveAgent().getHalfTime(),0.1);
+        assertEquals("kpl", result.getUnit());
     } 
     
      /**
@@ -65,9 +66,10 @@ public class DrugDAOTest {
         List<Drug> result = instance.readDrugs();
         assertEquals(123456, result.get(0).getSN());
         assertEquals("Burana", result.get(0).getName());
-        assertEquals(400.0, result.get(0).getRecommendedDose(),0.1);
-        assertEquals(1000.0, result.get(0).getMaxDose(),0.1);
-        assertEquals("mg", result.get(0).getUnit());
+        assertEquals(3.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getRecommendedDose(),0.1);
+        assertEquals(7.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getMaxDose(),0.1);
+        assertEquals(4.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getHalfTime(),0.1);
+        assertEquals("kpl", result.get(0).getUnit());
         
        
     } 

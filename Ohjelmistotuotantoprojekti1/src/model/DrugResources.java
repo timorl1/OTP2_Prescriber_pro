@@ -6,16 +6,35 @@
 package model;
 
 import dao.DrugDAO;
+import dao.DrugDAO_IF;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author joosiika
  */
-public class DrugResources {
-    DrugDAO db = new DrugDAO();
+public class DrugResources implements DrugResources_IF {
+    private DrugDAO_IF drugDAO;
+    private Map<Integer, Drug> drugs;
     
+    public DrugResources() {
+        this.drugDAO = new DrugDAO();
+        this.drugs = new HashMap();
+        this.drugDAO.readDrugs().forEach(drug ->{
+            this.drugs.put(drug.getSN(), drug);
+        });
+    }
+    
+    @Override
     public List<Drug> getDrugs() {
-        return db.readDrugs();
+        List<Drug> drugList = new ArrayList();
+        drugList.addAll(drugs.values());
+        return drugList;
     }
 }

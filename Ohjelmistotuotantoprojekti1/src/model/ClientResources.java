@@ -2,10 +2,16 @@ package model;
 
 import dao.EmployeeDAO;
 import dao.EmployeeDAO_IF;
+import dao.MessageDAO;
+import dao.MessageDAO_IF;
 import dao.PatientDAO;
 import dao.PatientDAO_IF;
+import dao.PrescriptionDAO;
+import dao.PrescriptionDAO_IF;
 import dao.UserDAO;
 import dao.UserDAO_IF;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,70 +20,72 @@ import javafx.util.converter.DoubleStringConverter;
 
 /**
  *
- * @author joosiika
+ * @author joosiika, Timo
+ * This class collects all the data for application
  */
 public class ClientResources implements ClientResources_IF {
     private PatientDAO_IF patientDAO;
     private EmployeeDAO_IF employeeDAO;
     private UserDAO_IF userDAO;
-    private PatientBuilder_IF patientBuilder;
-    private DiagnoseBuilder_IF diagnoseBuilder;
-    private PrescriptionBuilder_IF prescriptionBuilder;
+    private PrescriptionDAO_IF prescriptionDAO;
+    private DependencyBuilder_IF builder;
+    private DoseCalculator_IF doseCalculator;
     private DoubleStringConverter dsc;
+    private MessageDAO_IF messageDAO;
     
     private Map<String, Patient> patients;
     private Map<Integer, Employee> employees;
-    private Map<Integer, User> users;
+    private Map<Integer, User_IF> users;
     
     public ClientResources() {
         this.patientDAO = new PatientDAO();
         this.employeeDAO = new EmployeeDAO();
         this.userDAO = new UserDAO();
-        this.patientBuilder = new PatientBuilder();
-        this.diagnoseBuilder = new DiagnoseBuilder();
-        this.prescriptionBuilder = new PrescriptionBuilder();
+        this.prescriptionDAO = new PrescriptionDAO();
+        this.messageDAO = new MessageDAO();
+        this.doseCalculator = new DoseCalculator();
         this.dsc = new DoubleStringConverter();
         this.patients = new HashMap();
-        this.patientDAO.readPatients().forEach((patient) -> {
-            this.patients.put(patient.getSSN(), patient);
-        });
-        this.employees = new HashMap();
-        this.employeeDAO.readEmployees().forEach((employee) -> {
-            this.employees.put(employee.getUserID(), employee);
-        });
         this.users = new HashMap();
-        this.userDAO.getUsers().forEach((user) -> {
-            this.users.put(user.getId(), user);
+        this.employees = new HashMap();
+        this.patientDAO.readPatients().forEach(p -> {
+            this.patients.put(p.getSSN(), p);
         });
+        this.userDAO.getUsers().forEach(u -> {
+            this.users.put(u.getUserID(), u);
+        });
+        this.employeeDAO.readEmployees().forEach(e -> {
+            this.employees.put(e.getUserID(), e);
+        });
+        this.builder = new DependencyBuilder(this.patients, this.users);
     }
 
     @Override
     public List<Patient> getPatients() {
-        return patientDAO.readPatients();
-    }
-    
-    @Override
-    public Patient getPatientDetails(Patient patient) {
-        return this.patientBuilder.buildPatient(patient);
+        List<Patient> patientList = new ArrayList();
+        patientList.addAll(this.patients.values());
+        return patientList;
     }
     
     @Override
     public List<Diagnose> getPatientDiagnoses(Patient patient) {
-        List<Diagnose> diagnoses = this.patientBuilder.getPatientDiagnoses(patient);
-        diagnoses.forEach(this.diagnoseBuilder::buildDiagnose);
+        List<Diagnose> diagnoses = this.builder.buildPatient(patient).getDiagnoses();
+        diagnoses.forEach(this.builder::buildDiagnose);
         return diagnoses;
     }
 
     @Override
     public List<Prescription> getPatientPrescriptions(Patient patient) {
-        List<Prescription> prescriptions = this.patientBuilder.getPatientPrescriptions(patient);
-        prescriptions.forEach(this.prescriptionBuilder::buildPrescription);
+        List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByPatient(patient);
+        prescriptions.forEach(this.builder::buildPrescription);
         return prescriptions;
     }
 
     @Override
     public List<Employee> getEmployees() {
-        return this.employeeDAO.readEmployees();
+        List<Employee> employeeList = new ArrayList();
+        employeeList.addAll(this.employees.values());
+        return employeeList;
     }
 
     @Override
@@ -86,41 +94,89 @@ public class ClientResources implements ClientResources_IF {
     }
     
     @Override
-    public List<User> getUsers() {
-        return this.userDAO.getUsers();
+    public List<User_IF> getUsers() {
+        List<User_IF> userList = new ArrayList();
+        userList.addAll(this.users.values());
+        return userList;
     }
 
     @Override
-    public User getUserDetails(User user) {
+    public User_IF getUserDetails(User_IF user) {
         return user;
     }
 
     @Override
     public Prescription getPrescriptionDetails(Prescription prescription) {
-        return this.prescriptionBuilder.buildPrescription(prescription);
+        return this.builder.buildPrescription(prescription);
     }
 
     @Override
     public Diagnose getDiagnoseDetails(Diagnose diagnose) {
-        return this.diagnoseBuilder.buildDiagnose(diagnose);
+        return this.builder.buildDiagnose(diagnose);
     }
 
     @Override
-    public void setUserPriviledges(User user) {
-        if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Hoitaja")) {
-            user.setPrivileges(1);
-        } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Lääkäri")) {
-            user.setPrivileges(2);
-        } else if (this.employees.get(user.getId()).getTitle().equalsIgnoreCase("Ylläpitäjä")) {
-            user.setPrivileges(3);
+    public void setUserPriviledges(User_IF user) {
+        if (this.employees.get(user.getUserID()).getTitle().equalsIgnoreCase("Hoitaja")) {
+            user.setUsertype(1);
+        } else if (this.employees.get(user.getUserID()).getTitle().equalsIgnoreCase("Lääkäri")) {
+            user.setUsertype(2);
+        } else if (this.employees.get(user.getUserID()).getTitle().equalsIgnoreCase("Ylläpitäjä")) {
+            user.setUsertype(3);
         }
         this.userDAO.updateUser(user);
     }
 
     @Override
-    public void lockUser(User user) {
-        user.setPrivileges(0);
+    public void lockUser(User_IF user) {
+        user.setUsertype(0);
         this.userDAO.updateUser(user);
+    }
+
+    @Override
+    public Prescription addNewPrescription(User_IF user) {
+        Prescription prescription = new Prescription();
+        prescription.setDoctor(user);
+        prescription.setDoctorID(user.getUserID());
+        prescription.setTimesADay(1);
+        prescription.setCreationDate(Date.valueOf(LocalDate.now()));
+        return prescription;
+    }
+
+    @Override
+    public boolean savePrescription(Prescription prescription) {
+        return this.prescriptionDAO.createPrescription(prescription);
+    }
+    
+     @Override
+    public User_IF addNewUser(User_IF user) {
+        user = new User();       
+        return user;
+    }
+
+    @Override
+    public boolean saveUser(User_IF user) {
+        return this.userDAO.createUser(user);
+    } 
+    
+    @Override
+    public boolean saveMessage(Message message){
+        return this.messageDAO.createMessage(message);
+    }
+        
+    @Override
+    public List<Prescription> getPrescriptionsByDoctor(User_IF user) {
+        List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
+        prescriptions.forEach(this.builder::buildPrescription);
+        return prescriptions;
+    }
+
+    @Override
+    public Message addNewMessage(User_IF user) {
+        Message message = new Message();
+        message.setSender((User) user);
+        message.setDate(Date.valueOf(LocalDate.now()));
+        return message;
     }
     
 }

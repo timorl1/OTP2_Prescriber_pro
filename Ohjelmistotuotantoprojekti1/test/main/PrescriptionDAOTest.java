@@ -5,13 +5,15 @@
  */
 package main;
 import dao.PrescriptionDAO;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import model.Diagnose;
-import model.Doctor;
 import model.Drug;
 import model.Patient;
 import model.Prescription;
+import model.User;
+import model.User_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,12 +48,48 @@ public class PrescriptionDAOTest {
     }
     
     /**
+     * Test of createPrescription method, of class PrescriptionDAO.
+     */
+    @Test
+    public void testCreatePrescription() throws Exception {
+        Patient pat = new Patient();
+        pat.setSSN("123456-789a");
+        User_IF doc = new User();
+        doc.setUserID(3);
+        Diagnose dia = new Diagnose();
+        dia.setId(1);
+        Drug drug = new Drug();
+        drug.setSN(123456);
+        Date x = new Date();
+        
+        System.out.println("createPrescription");
+        PrescriptionDAO instance = new PrescriptionDAO();
+        Prescription test = new Prescription();
+        test.setId(2);
+        test.setPatientID(pat.getSSN());
+        test.setPatient(pat);
+        test.setDoctor(doc);
+        test.setDiagnose(dia);
+        test.setDose(600);
+        test.setTimesADay(4);
+        test.setInfo("Älä yliannosta");
+        Date date = Date.from(Instant.now());
+        test.setStartDate(date);
+        test.setEndDate(date);
+        test.setCreationDate(x);
+        test.setDrug(drug);
+        test.setUsername("doctor1");
+        
+        boolean res = instance.createPrescription(test);
+        assertTrue(res);
+    }
+    /**
      * Test of readPrescrition method, of class PrescriptionDAO.
      */
     @Test
     public void testReadPrescrition() throws Exception {
         System.out.println("ReadPrescrition");
-        int id = 1;
+        int id = 2;
         PrescriptionDAO instance = new PrescriptionDAO();
         Prescription result = instance.readPrescription(id);
     
@@ -60,9 +98,9 @@ public class PrescriptionDAOTest {
         assertEquals("123456-789a", result.getPatient());
         assertEquals(0, result.getDoc());
         assertEquals(1, result.getDiagnose()); */
-        assertEquals("400mg", result.getDose());
-        assertEquals(3, result.getTimesADay());
-        assertEquals("Tarvittaessa", result.getInfo());
+        assertEquals(600, result.getDose(), 0.01);
+        assertEquals(4, result.getTimesADay());
+        assertEquals("Älä yliannosta", result.getInfo());
     //    assertEquals(123456, result.getDrug());
     //    assertEquals("admin", result.getUsername());
         
@@ -76,9 +114,9 @@ public class PrescriptionDAOTest {
         PrescriptionDAO instance = new PrescriptionDAO();
         List<Prescription> pres = instance.readPrescriptions();
         
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals(2.0, pres.get(0).getDose(), 0.01);
+        assertEquals(2, pres.get(0).getTimesADay());
+        assertEquals("Syö yksinäs", pres.get(0).getInfo());
     }
     
     /**
@@ -92,9 +130,9 @@ public class PrescriptionDAOTest {
         pat.setSSN("123456-789a");
         List<Prescription> pres = instance.getPrescriptionsByPatient(pat);
         
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals(2.0, pres.get(0).getDose(), 0.01);
+        assertEquals(2, pres.get(0).getTimesADay());
+        assertEquals("Syö yksinäs", pres.get(0).getInfo());
         
         
     }
@@ -106,13 +144,13 @@ public class PrescriptionDAOTest {
     public void testGetPrescriptionsByDoctor() throws Exception{
         System.out.println("getPrescriptionsByDoctor");
         PrescriptionDAO instance = new PrescriptionDAO();
-        Doctor doc = new Doctor();
-        doc.setId(0);
+        User_IF doc = new User();
+        doc.setUsername("doctor1");
         List<Prescription> pres = instance.getPrescriptionsByDoctor(doc);
        
-        assertEquals("400mg", pres.get(0).getDose());
-        assertEquals(3, pres.get(0).getTimesADay());
-        assertEquals("Tarvittaessa", pres.get(0).getInfo());
+        assertEquals(2.0, pres.get(0).getDose(), 0.01);
+        assertEquals(2, pres.get(0).getTimesADay());
+        assertEquals("Syö yksinäs", pres.get(0).getInfo());
     }
     /**
      * Test of getPrescriptionByDiagnose method, of class PrescriptionDAO.
@@ -125,79 +163,18 @@ public class PrescriptionDAOTest {
         dia.setId(1);
         Prescription pres = instance.getPrescriptionByDiagnose(dia);
         
-        assertEquals("400mg", pres.getDose());
-        assertEquals(3, pres.getTimesADay());
-        assertEquals("Tarvittaessa", pres.getInfo()); 
-    }
-    
-    /**
-     * Test of createPrescription method, of class PrescriptionDAO.
-     */
-    @Test
-    public void testCreatePrescription() throws Exception {
-        Patient pat = new Patient();
-        pat.setSSN("123456-789a");
-        Doctor doc = new Doctor();
-        doc.setId(0);
-        Diagnose dia = new Diagnose();
-        dia.setId(1);
-        Drug drug = new Drug();
-        drug.setSN(1234);
-        Date x = new Date();
-        
-        System.out.println("createPrescription");
-        PrescriptionDAO instance = new PrescriptionDAO();
-        Prescription test = new Prescription();
-        test.setId(2);
-        test.setPatientID(pat.getSSN());
-        test.setPatient(pat);
-        test.setDoc(doc);
-        test.setDiagnose(dia);
-        test.setDose("600mg");
-        test.setTimesADay(4);
-        test.setInfo("Älä yliannosta");
-        test.setStartDate("3.5.2005");
-        test.setEndDate("20.12.2020");
-        test.setCreationDate(x);
-        test.setDrug(drug);
-        test.setUsername("admin");
-        
-        boolean res = instance.createPrescription(test);
-        assertTrue(res);
+        assertEquals(2.0, pres.getDose(), 0.01);
+        assertEquals(2, pres.getTimesADay());
+        assertEquals("Syö yksinäs", pres.getInfo()); 
     }
     /**
      * Test of updatePrescription method, of class PrescriptionDAO.
      */
     @Test
     public void testUpdatePrescription() throws Exception {
-        Patient pat = new Patient();
-        pat.setSSN("123456-789a");
-        Doctor doc = new Doctor();
-        doc.setId(0);
-        Diagnose dia = new Diagnose();
-        dia.setId(1);
-        Drug drug = new Drug();
-        drug.setSN(1234);
-   
-        
         System.out.println("updatePrescription");
         PrescriptionDAO instance = new PrescriptionDAO();
-        Prescription test = new Prescription();
-        
-        test.setId(2);
-        test.setPatient(pat);
-        test.setPatientID(pat.getSSN());
-        test.setDoc(doc);
-        test.setDiagnose(dia);
-        test.setDose("800mg");
-        test.setTimesADay(4);
-        test.setInfo("Älä yliannosta");
-        test.setStartDate("3.5.2005");
-        test.setEndDate("20.12.2020");
-      
-        test.setDrug(drug);
-        test.setUsername("admin");
-       
+        Prescription test = instance.readPrescription(2);
         boolean res = instance.updatePrescription(test);
         assertTrue(res);
         
@@ -211,19 +188,7 @@ public class PrescriptionDAOTest {
     public void testyDeletePrescription() throws Exception {
         System.out.println("deletePrescription");
         PrescriptionDAO instance = new PrescriptionDAO();
-        Prescription test = new Prescription();
-         test.setId(2);
-     //   test.setPatient(pat);
-       // test.setDoc(doc);
-        //test.setDiagnose(dia);
-        test.setDose("600mg");
-        test.setTimesADay(4);
-        test.setInfo("Älä yliannosta");
-        test.setStartDate("3.5.2005");
-        test.setEndDate("20.12.2020");
-        //test.setCreationDate(x);
-        //test.setDrug(drug);
-        test.setUsername("admin");
+        Prescription test = instance.readPrescription(2);
         
         boolean res = instance.deletePrescription(test);
         

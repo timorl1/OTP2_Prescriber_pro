@@ -17,6 +17,7 @@
        <mapping class="model.AdverseEffect"/>
        <mapping class="model.ActiveAgent"/>
        <mapping class="model.Allergen"/>
+       <mapping class="model.DrugActiveAgent"/>
 
     </session-factory>
 </hibernate-configuration>
