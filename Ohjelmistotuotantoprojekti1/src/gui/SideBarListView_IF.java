@@ -9,7 +9,7 @@ import javafx.scene.control.TitledPane;
  * Can be used inside an accordion to create an expandable list view.
  * 
  * @author joosiika
- * @param <E>
+ * @param <E> Any object
  */
 public interface SideBarListView_IF<E> {
 
