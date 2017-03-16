@@ -9,26 +9,26 @@ import javafx.scene.control.Button;
 import model.Message;
 
 /**
- *
+ *Sets up Message form to GUI
  * @author Timo
  */
 public interface MessageFormGUI_IF {
 
     /**
-     *
-     * @return
+     *New message that is created if passed to controller
+     * @return created message
      */
     public abstract Message getMessage();
 
     /**
-     *
-     * @return
+     *Closes message form GUI
+     * @return button for eventhandler
      */
     public abstract Button getCancelButton();
 
     /**
-     *
-     * @return
+     *Button for sending created message
+     * @return button for eventhandler
      */
     public abstract Button getSendButton();
 }
