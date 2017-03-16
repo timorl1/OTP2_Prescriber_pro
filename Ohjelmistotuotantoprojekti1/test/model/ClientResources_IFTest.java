@@ -119,7 +119,7 @@ public class ClientResources_IFTest {
     /**
      * Test of getUsers method, of class ClientResources_IF.
      */
-    @Test
+    /*@Test
     public void testGetUsers() {
         System.out.println("getUsers");
         ClientResources_IF instance = new ClientResources();
@@ -133,7 +133,7 @@ public class ClientResources_IFTest {
     /**
      * Test of setUserPriviledges method, of class ClientResources_IF.
      */
-    @Test
+    /*@Test
     public void testSetUserPriviledges() {
         System.out.println("setUserPriviledges");
         User_IF user = null;
@@ -146,7 +146,7 @@ public class ClientResources_IFTest {
     /**
      * Test of lockUser method, of class ClientResources_IF.
      */
-    @Test
+    /*@Test
     public void testLockUser() {
         System.out.println("lockUser");
         User_IF user = null;
@@ -159,7 +159,7 @@ public class ClientResources_IFTest {
     /**
      * Test of addNewPrescription method, of class ClientResources_IF.
      */
-    @Test
+    /*@Test
     public void testAddNewPrescription() {
         System.out.println("addNewPrescription");
         User_IF user = null;
@@ -174,7 +174,7 @@ public class ClientResources_IFTest {
     /**
      * Test of savePrescription method, of class ClientResources_IF.
      */
-    @Test
+    /*@Test
     public void testSavePrescription() {
         System.out.println("savePrescription");
         Prescription prescription = null;
@@ -189,7 +189,7 @@ public class ClientResources_IFTest {
     /**
      * Test of getPrescriptionsByDoctor method, of class ClientResources_IF.
      */
-    @Test
+    /*@Test
     public void testGetPrescriptionsByDoctor() {
         System.out.println("getPrescriptionsByDoctor");
         User_IF user = null;
@@ -199,6 +199,6 @@ public class ClientResources_IFTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
+    }*/
     
 }
