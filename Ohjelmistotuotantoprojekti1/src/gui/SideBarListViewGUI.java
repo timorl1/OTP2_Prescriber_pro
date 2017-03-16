@@ -15,7 +15,7 @@ import model.Patient;
  * FXML Controller class
  *
  * @author joosiika
- * @param <E>
+ * @param <E> generic list 
  */
 public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView_IF<E> {
 
