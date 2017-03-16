@@ -23,7 +23,7 @@ public class ApplicationMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         AnchorPane root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
-        primaryStage.setTitle("Prescriber Pro v.1.0");
+        primaryStage.setTitle("Prescriber Pro v.0.8-beta");
         final Scene scene = new Scene(root);
         primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()-50);
         primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth()-50);
