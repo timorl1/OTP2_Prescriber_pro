@@ -124,13 +124,13 @@ public class UserDAO implements UserDAO_IF {
                 session.getTransaction().commit();
                 Hibernate.initialize(user.getSentMessages());
                 Hibernate.initialize(user.getReceivedMessages());
-			
+		return user;
 		}catch(Exception e){
 			System.out.println("Caught an error while reading resources.");
+                        return null;
 		}finally{
 			session.close();
 		}
-        return user;
     }
     
     //Deletes user from database identified by username 

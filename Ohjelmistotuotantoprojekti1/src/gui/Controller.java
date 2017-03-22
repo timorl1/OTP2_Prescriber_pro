@@ -36,38 +36,41 @@ public class Controller implements Controller_IF {
 
     @Override
     public void login(String username, String password) {
-        this.auth.setUser(username);
-        this.auth.authenticate(password);
-        if (this.auth.isAuthenticated()) {
-            this.gui.setSideBar();
-            switch(this.auth.getUserPrivileges()) {
-                case 0:
-                    this.gui.setAccessDenied();
-                    break;
-                case 1:
-                    this.gui.setPatientList();
-                    this.gui.setDrugList();
-                    this.gui.setReceivedMessageList();
-                    this.gui.setSentMessageList();
-                    break;
-                case 2:
-                    this.gui.setPatientList();
-                    this.gui.setDrugList();
-                    this.gui.setPrescriptionList();
-                    this.gui.setReceivedMessageList();
-                    this.gui.setSentMessageList();
-                    this.gui.setPrescriptionTools();
-                    break;
-                case 3:
-                    this.gui.setUserList();
-                    this.gui.setEmployeeList();
-                    this.gui.setReceivedMessageList();
-                    this.gui.setSentMessageList();
-                    this.gui.setUserTools();
-                    break;
+        if(this.auth.setUser(username)){
+            this.auth.authenticate(password);
+            if (this.auth.isAuthenticated()) {
+                this.gui.setSideBar();
+                switch(this.auth.getUserPrivileges()) {
+                    case 0:
+                        this.gui.setAccessDenied();
+                        break;
+                    case 1:
+                        this.gui.setPatientList();
+                        this.gui.setDrugList();
+                        this.gui.setReceivedMessageList();
+                        this.gui.setSentMessageList();
+                        break;
+                    case 2:
+                        this.gui.setPatientList();
+                        this.gui.setDrugList();
+                        this.gui.setPrescriptionList();
+                        this.gui.setReceivedMessageList();
+                        this.gui.setSentMessageList();
+                        this.gui.setPrescriptionTools();
+                        break;
+                    case 3:
+                        this.gui.setUserList();
+                        this.gui.setEmployeeList();
+                        this.gui.setReceivedMessageList();
+                        this.gui.setSentMessageList();
+                        this.gui.setUserTools();
+                        break;
+                }
             }
+            else {
+                this.gui.setLoginFailed();
         }
-        else {
+        }else {
             this.gui.setLoginFailed();
         }
     }
