@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -36,8 +37,13 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
-        } catch (IOException exc) {
-            // handle exception
+        } catch (Exception exc) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Sisäänkirjatumis ikkunan latautuminen epäonnistui,\nkäynnistä ohjelma uudeestaan.");
+            alert.setTitle("Virhe");
+            alert.setHeaderText("Varoitus:");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+            alert.showAndWait();
         }
     }
     
