@@ -63,12 +63,14 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     private FXMLLoader loader;
     
     private int id;
+    private final String title;
     private Employee employee;
     private String username;
     private String password;
     private String email;
        
-    public UserFormGUI(SideBarListView_IF<Employee> employeeSelector, User_IF user) {
+    public UserFormGUI(SideBarListView_IF<Employee> employeeSelector, User_IF user, String title) {
+        this.title = title;
         this.employeeSelector = employeeSelector;
         this.user = user;
         this.id = this.user.getUserID();        
@@ -92,7 +94,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     }
     
     private void initializeFields() {
-       // this.setText(title);
+        this.setText(title);
         
         if (this.id != 0) {
             this.userIDLabel.setText("#" + Integer.toString(this.id));
@@ -107,7 +109,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
       }
     
     private void initializeBasicListeners() {
-  
+        this.setText(title);
         this.usernameField.setOnKeyReleased(e -> {
             this.username= this.usernameField.getText();
             this.user.setUsername(this.username);
@@ -120,6 +122,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     }
      
     private void initializeNewUserListeners() {
+        
         this.employeeSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Employee>() {
             @Override
             public void changed(ObservableValue<? extends Employee> ov, Employee oldValue, Employee newValue) {

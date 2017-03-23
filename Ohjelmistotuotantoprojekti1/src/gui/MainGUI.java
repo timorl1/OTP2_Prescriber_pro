@@ -358,7 +358,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setMessageForm(Message message){
         this.status = AppStatus.CREATE;
-        this.messageForm = new MessageFormGUI(this.controller.getUsers(),message);
+        this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, "Uusi viesti");
         this.messageForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.messageForm);
             this.setStatus(AppStatus.IDLE);
@@ -378,7 +378,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setUserForm(User_IF user) {
         this.status = AppStatus.CREATE;
-        this.userForm = new UserFormGUI(this.employeeListView, user);
+        this.userForm = new UserFormGUI(this.employeeListView, user, "Uusi käyttäjä");
         this.userForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.userForm);
             this.setStatus(AppStatus.IDLE);
