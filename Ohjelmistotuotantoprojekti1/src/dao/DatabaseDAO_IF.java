@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 /**
  * Defines database properties
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface DatabaseDAO_IF {
 

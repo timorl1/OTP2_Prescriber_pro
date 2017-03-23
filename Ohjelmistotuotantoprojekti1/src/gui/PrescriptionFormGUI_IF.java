@@ -14,7 +14,7 @@ import model.Prescription;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface PrescriptionFormGUI_IF {
 

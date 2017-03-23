@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author Paula
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class Employee {
     private int userID;

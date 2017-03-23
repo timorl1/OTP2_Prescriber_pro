@@ -9,7 +9,7 @@ import org.hibernate.boot.MetadataSources;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DrugDAO implements DrugDAO_IF {
 

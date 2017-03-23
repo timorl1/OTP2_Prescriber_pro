@@ -5,7 +5,7 @@ import model.Drug;
 
 /**
  * Interface that defines methods for getting info on drugs from database
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface DrugDAO_IF {
 

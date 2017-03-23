@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 @Entity(name="lääkkeen_vaikuttava_aine")
 @Table(name="lääkkeen_vaikuttava_aine")

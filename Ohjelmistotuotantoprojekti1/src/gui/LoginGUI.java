@@ -15,7 +15,7 @@ import javafx.stage.StageStyle;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     

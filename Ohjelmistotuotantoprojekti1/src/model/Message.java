@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 @Entity(name="message")
 @Table(name="message")

@@ -17,7 +17,7 @@ import javafx.scene.control.Tab;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * @param <E> Any object
  */
 public class ListTabGUI<E> extends Tab implements ListTabGUI_IF<E> {

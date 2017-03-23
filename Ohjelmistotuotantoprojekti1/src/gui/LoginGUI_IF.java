@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface LoginGUI_IF {
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Interface for implementing a prescription maker class.
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface PrescriptionMaker_IF {
     //public abstract Prescription createPrescription(User_IF user);

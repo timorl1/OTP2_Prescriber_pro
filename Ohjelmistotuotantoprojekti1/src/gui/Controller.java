@@ -20,7 +20,10 @@ import model.Prescription;
 import model.User;
 import model.User_IF;
 
-
+/**
+ *
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
+ */
 public class Controller implements Controller_IF {
     private MainGUI_IF gui;
     private AppUser auth;

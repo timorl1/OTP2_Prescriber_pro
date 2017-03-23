@@ -29,7 +29,7 @@ import model.User_IF;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class MainGUI implements Initializable, MainGUI_IF {
     

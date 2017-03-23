@@ -13,7 +13,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
+ */
 public class PrescriptionMaker implements PrescriptionMaker_IF {
     private PrescriptionDAO_IF prescriptionDAO;
     private DoseCalculator_IF doseCalculator;

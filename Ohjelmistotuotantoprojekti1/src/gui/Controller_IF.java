@@ -12,7 +12,7 @@ import model.User_IF;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface Controller_IF {
 

@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public enum DoseStatus {
     NULL, INSUFFICIENT, OPTIMAL, OVER_OPTIMAL, RISK_LIMIT, OVERDOSE, CUMULATIVE_OVERDOSE

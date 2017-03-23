@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Interface defines methods for users
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 
 public interface User_IF {

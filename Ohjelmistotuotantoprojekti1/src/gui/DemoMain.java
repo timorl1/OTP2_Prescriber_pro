@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DemoMain extends Application {
     

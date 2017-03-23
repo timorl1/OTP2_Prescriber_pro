@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
 

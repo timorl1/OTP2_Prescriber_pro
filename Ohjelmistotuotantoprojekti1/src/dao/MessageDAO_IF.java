@@ -11,7 +11,7 @@ import model.User;
 
 /**
  * Interface that defines methods for CRUD-operations for messages in database
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface MessageDAO_IF {
     

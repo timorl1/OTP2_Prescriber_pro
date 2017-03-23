@@ -12,7 +12,7 @@ import model.User_IF;
 
 /**
  * Interface for Main View JavaFX element with anchor pane as root
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface MainGUI_IF {
 

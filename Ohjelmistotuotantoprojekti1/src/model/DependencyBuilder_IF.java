@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *Collects the data that is needed to make new prescription
- * @author joosiika, Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface DependencyBuilder_IF {
 

@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * 
  * Drug dosage calculator
  */

@@ -10,7 +10,10 @@ import model.DoseStatus;
 import model.PrescriptionMaker;
 import model.PrescriptionMaker_IF;
 
-
+/**
+ *
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
+ */
 public class PrescriptionMakerController implements PrescriptionMakerController_IF {
     private PrescriptionFormGUI_IF gui;
     private PrescriptionMaker_IF maker;

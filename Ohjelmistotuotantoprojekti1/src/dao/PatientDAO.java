@@ -14,7 +14,7 @@ import model.Patient;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientDAO implements PatientDAO_IF {
 

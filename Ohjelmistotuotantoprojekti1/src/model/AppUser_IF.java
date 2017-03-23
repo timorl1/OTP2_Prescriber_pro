@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author joosiika, Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * Class gets the current application user
  */
 public interface AppUser_IF {

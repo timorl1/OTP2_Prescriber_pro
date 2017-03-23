@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DatabaseSetupTool {
     

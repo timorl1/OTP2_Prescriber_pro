@@ -24,7 +24,7 @@ import model.Employee;
 
 /**
  *
- * @author Paula
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     

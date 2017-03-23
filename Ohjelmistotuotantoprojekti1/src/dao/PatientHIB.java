@@ -14,7 +14,7 @@ import org.hibernate.cfg.Configuration;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientHIB {
     SessionFactory sf;

@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DoseCalculatorTest {
     DrugDAO_IF db;

@@ -11,7 +11,7 @@ import javafx.scene.control.Tab;
 
 /**
  * Generic interface to build a custom JavaFX list view to the tab pane.
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * @param <E> Any object
  */
 public interface ListTabGUI_IF<E> {

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface DrugResources_IF {
 

@@ -10,7 +10,7 @@ import dao.UserDAO_IF;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class AppUser implements AppUser_IF{
     private final UserDAO_IF userdb;

@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * This is an interface for building a custom JavaFX layout element, consisting of an Accordion wrapped in VBox.
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface SideBarGUI_IF {
 

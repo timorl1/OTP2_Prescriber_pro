@@ -8,7 +8,7 @@ import javafx.scene.control.TitledPane;
  * This is a interface for building custom JavaFX List View wrapped in Titled Pane.
  * Can be used inside an accordion to create an expandable list view.
  * 
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * @param <E> Any object
  */
 public interface SideBarListView_IF<E> {

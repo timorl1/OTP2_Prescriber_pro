@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class Diagnose {
     private int id;

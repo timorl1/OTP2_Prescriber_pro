@@ -12,7 +12,7 @@ import model.Patient;
 /**
  * Interface that defines methods for getting info on patients and diagnoses
  * from database 
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface PatientDAO_IF {
 
