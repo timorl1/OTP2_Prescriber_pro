@@ -58,4 +58,9 @@ public class AppUser implements AppUser_IF{
     public User_IF getUser() {
         return this.user;
     }
+
+    @Override
+    public void setAuthenticate(boolean authenticated) {
+        this.authenticated = authenticated;
+    }
 }

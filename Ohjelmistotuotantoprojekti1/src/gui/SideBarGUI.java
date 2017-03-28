@@ -31,6 +31,8 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     private Accordion accordion;
     @FXML
     private Button messageButton;
+    @FXML
+    private Button logoutButton;
     
     MainGUI_IF root;
     FXMLLoader loader;
@@ -87,5 +89,11 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     public Button getMessageButton() {
         return this.messageButton;
     }
+
+    @Override
+    public Button getLogoutButton() {
+        return logoutButton;
+    }
+    
     
 }

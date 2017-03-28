@@ -34,4 +34,9 @@ public interface SideBarGUI_IF {
      * @return the button element at the bottom of this layout
      */
     public abstract Button getMessageButton();
+    /**
+     * Method that gets Logout button of this custom JavaFX element.
+     * @return the button in the middle of this layout
+     */
+    public abstract Button getLogoutButton();
 }

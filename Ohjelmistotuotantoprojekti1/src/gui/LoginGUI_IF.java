@@ -31,4 +31,6 @@ public interface LoginGUI_IF {
      * @param message the message to be set to the message field
      */
     public abstract void addMessage(String message);
+    
+    public abstract void clearPasswordField();
 }

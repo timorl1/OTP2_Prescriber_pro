@@ -70,6 +70,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.dsc = new DoubleStringConverter();
         setLogin();
         setStatus(AppStatus.IDLE);
+        
     }
     
     public AppStatus getStatus() {
@@ -87,6 +88,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.login = new LoginGUI();
         this.login.getButton().setOnAction(e -> {
             this.controller.login(this.login.getUsername(), this.login.getPassword());
+            this.login.clearPasswordField();
         });
         this.root.getChildren().add((LoginGUI)this.login);
     }
@@ -102,6 +104,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setAccessDenied() {
         this.root.getChildren().clear();
         this.root.getChildren().add(new Label("Tunnuksesi on lukittu. Ota yhteys ylläpitäjään."));
+    }
+    
+    @Override
+    public void setLogout(){
+        this.root.getChildren().remove((SideBarGUI)this.sideBar);
+        this.tabPane.getTabs().clear();
+        this.root.getChildren().add((LoginGUI)this.login);
     }
     
     //Removes the login component and loads the side bar component
@@ -132,6 +141,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
         }
         });
         this.root.getChildren().add((SideBarGUI) this.sideBar);
+        this.sideBar.getLogoutButton().setOnAction(e -> {
+            this.controller.logout();
+        });
     }
 
     @Override
@@ -417,7 +429,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.sideBar.getVbox().getChildren().add(updatePrescription);
     }
 
-     @Override
+    @Override
     public void setUserTools() {
         Button createUser = new Button("Uusi käyttäjä");
         createUser.setOnMouseClicked((event) -> {

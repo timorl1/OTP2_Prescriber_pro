@@ -77,7 +77,12 @@ public class Controller implements Controller_IF {
             this.gui.setLoginFailed();
         }
     }
-
+    
+    @Override
+    public void logout(){
+        this.auth.setAuthenticate(false);
+        this.gui.setLogout();
+    }
     @Override
     public List<Patient> getPatients() {
         return this.clientRes.getPatients();

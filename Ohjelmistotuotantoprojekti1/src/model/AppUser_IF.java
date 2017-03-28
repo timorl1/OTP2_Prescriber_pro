@@ -19,7 +19,12 @@ public interface AppUser_IF {
      * @param password password of current user
      */
     public abstract void authenticate(String password);
-
+    
+    /**
+     * Sets authenticated to false when logging out
+     * @param authenticated status of the current user
+     */
+    public abstract void setAuthenticate(boolean authenticated);
     /**
      *Boolean check if user is authenticated
      * @return true if user is authenticated, false if not

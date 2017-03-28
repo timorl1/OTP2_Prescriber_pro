@@ -69,4 +69,8 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
         this.getChildren().add(new Label(message));
     }
     
+    @Override
+    public void clearPasswordField(){
+        this.passwordField.clear();
+    }
 }

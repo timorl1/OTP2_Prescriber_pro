@@ -30,7 +30,13 @@ public interface MainGUI_IF {
      * Method to set an access denied message.
      */
     public abstract void setAccessDenied();
-
+    
+    /**
+     * Method that logs current user out.
+     */
+    public abstract void setLogout();
+    
+    
     /**
      * method to set a sidebar main element.
      */

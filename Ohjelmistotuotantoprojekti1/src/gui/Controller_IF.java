@@ -27,6 +27,12 @@ public interface Controller_IF {
      * Method to serve patients from the backend to the view.
      * @return list of patients
      */
+    
+    /**
+     * Method that logsout current user
+     */
+    public abstract void logout();
+    
     public abstract List<Patient> getPatients();
     /**
      * Method to serve patient's diagnoses from the backend to the view.
