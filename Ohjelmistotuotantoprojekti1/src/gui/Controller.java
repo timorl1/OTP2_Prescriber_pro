@@ -39,6 +39,7 @@ public class Controller implements Controller_IF {
         this.auth.setUser(username);
         this.auth.authenticate(password);
         if (this.auth.isAuthenticated()) {
+            this.updateChecker();
             this.gui.setSideBar();
             switch(this.auth.getUserPrivileges()) {
                 case 0:
@@ -192,4 +193,11 @@ public class Controller implements Controller_IF {
     public void createNewMessage() {
         this.gui.setMessageForm(this.clientRes.addNewMessage(this.auth.getUser()));
     }
+
+    @Override
+    public void updateChecker() {
+        //this.aeChecker.setPrescriptions(this.clientRes.getPrescriptionsByDoctor(this.auth.getUser()));
+    }
+    
+    
 }

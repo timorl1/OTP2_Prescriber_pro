@@ -157,4 +157,5 @@ public interface Controller_IF {
      */
     public abstract boolean saveUser();
     
+    public abstract void updateChecker();
 }
