@@ -28,7 +28,7 @@ import model.Prescription;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 
 //Tämä kontrolleri ei oikeastaan ole kontrolleri, vaan käsittelee käyttöliittymän logiikkaa

@@ -7,7 +7,7 @@ package gui;
 
 /**
  * Interface for implementing controller class for PrescriptionMaker
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface PrescriptionMakerController_IF {
 

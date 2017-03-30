@@ -4,7 +4,7 @@ import model.Disease;
 
 /**
  * Interface that defines methods for getting disease from database
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface DiseaseDAO_IF {
 

@@ -20,7 +20,7 @@ import javafx.util.converter.DoubleStringConverter;
 
 /**
  *
- * @author joosiika, Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * This class collects all the data for application
  */
 public class ClientResources implements ClientResources_IF {

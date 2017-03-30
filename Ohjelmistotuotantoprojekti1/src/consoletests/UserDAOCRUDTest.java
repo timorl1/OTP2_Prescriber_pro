@@ -18,7 +18,7 @@ import model.User_IF;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class UserDAOCRUDTest {
 

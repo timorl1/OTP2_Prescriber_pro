@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 @Entity(name="prescription")
 @Table(name="prescription")

@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DrugResources implements DrugResources_IF {
     private DrugDAO_IF drugDAO;

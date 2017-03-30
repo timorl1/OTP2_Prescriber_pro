@@ -13,7 +13,7 @@ import model.Employee;
 
 /**
  * Interface that defines methods for greating new user
- * @author Paula
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface UserFormGUI_IF {
 

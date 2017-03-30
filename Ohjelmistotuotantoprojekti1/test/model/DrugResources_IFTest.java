@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DrugResources_IFTest {
     private DrugResources_IF dres;

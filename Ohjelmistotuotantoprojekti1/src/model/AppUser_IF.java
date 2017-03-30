@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author joosiika, Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  * Class gets the current application user
  */
 public interface AppUser_IF {
@@ -10,15 +10,21 @@ public interface AppUser_IF {
     /**
      *Sets username to object
      * @param username username of current user
+     * @return true if username if found in database, false if not
      */
-    public abstract void setUser(String username);
+    public abstract boolean setUser(String username);
 
     /**
      *Checks that user enters the correct password and sets the boolean value for isAuthenticated method
      * @param password password of current user
      */
     public abstract void authenticate(String password);
-
+    
+    /**
+     * Sets authenticated to false when logging out
+     * @param authenticated status of the current user
+     */
+    public abstract void setAuthenticate(boolean authenticated);
     /**
      *Boolean check if user is authenticated
      * @return true if user is authenticated, false if not

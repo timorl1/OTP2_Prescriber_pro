@@ -25,7 +25,7 @@ import org.junit.runners.MethodSorters;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrescriptionDAOTest {

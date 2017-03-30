@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Interface that defines methods for getting info on employees from database
- * @author Paula
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface EmployeeDAO_IF {
 

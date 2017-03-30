@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *Gathers all the information for application
- * @author joosiika, Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface ClientResources_IF {
 

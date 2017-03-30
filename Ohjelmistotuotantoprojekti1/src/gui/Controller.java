@@ -20,7 +20,10 @@ import model.Prescription;
 import model.User;
 import model.User_IF;
 
-
+/**
+ *
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
+ */
 public class Controller implements Controller_IF {
     private MainGUI_IF gui;
     private AppUser auth;
@@ -36,43 +39,50 @@ public class Controller implements Controller_IF {
 
     @Override
     public void login(String username, String password) {
-        this.auth.setUser(username);
-        this.auth.authenticate(password);
-        if (this.auth.isAuthenticated()) {
-            this.updateChecker();
-            this.gui.setSideBar();
-            switch(this.auth.getUserPrivileges()) {
-                case 0:
-                    this.gui.setAccessDenied();
-                    break;
-                case 1:
-                    this.gui.setPatientList();
-                    this.gui.setDrugList();
-                    this.gui.setReceivedMessageList();
-                    this.gui.setSentMessageList();
-                    break;
-                case 2:
-                    this.gui.setPatientList();
-                    this.gui.setDrugList();
-                    this.gui.setPrescriptionList();
-                    this.gui.setReceivedMessageList();
-                    this.gui.setSentMessageList();
-                    this.gui.setPrescriptionTools();
-                    break;
-                case 3:
-                    this.gui.setUserList();
-                    this.gui.setEmployeeList();
-                    this.gui.setReceivedMessageList();
-                    this.gui.setSentMessageList();
-                    this.gui.setUserTools();
-                    break;
+        if(this.auth.setUser(username)){
+            this.auth.authenticate(password);
+            if (this.auth.isAuthenticated()) {
+                this.gui.setSideBar();
+                switch(this.auth.getUserPrivileges()) {
+                    case 0:
+                        this.gui.setAccessDenied();
+                        break;
+                    case 1:
+                        this.gui.setPatientList();
+                        this.gui.setDrugList();
+                        this.gui.setReceivedMessageList();
+                        this.gui.setSentMessageList();
+                        break;
+                    case 2:
+                        this.gui.setPatientList();
+                        this.gui.setDrugList();
+                        this.gui.setPrescriptionList();
+                        this.gui.setReceivedMessageList();
+                        this.gui.setSentMessageList();
+                        this.gui.setPrescriptionTools();
+                        break;
+                    case 3:
+                        this.gui.setUserList();
+                        this.gui.setEmployeeList();
+                        this.gui.setReceivedMessageList();
+                        this.gui.setSentMessageList();
+                        this.gui.setUserTools();
+                        break;
+                }
             }
+            else {
+                this.gui.setLoginFailed();
         }
-        else {
+        }else {
             this.gui.setLoginFailed();
         }
     }
-
+    
+    @Override
+    public void logout(){
+        this.auth.setAuthenticate(false);
+        this.gui.setLogout();
+    }
     @Override
     public List<Patient> getPatients() {
         return this.clientRes.getPatients();

@@ -5,7 +5,10 @@
  */
 package model;
 
-
+/**
+ *
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
+ */
 public class DoseCalculator implements DoseCalculator_IF {
     
     private static final int DAY = 24;

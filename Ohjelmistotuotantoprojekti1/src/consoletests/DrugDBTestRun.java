@@ -6,7 +6,7 @@ import dao.DrugDAO;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DrugDBTestRun {
 

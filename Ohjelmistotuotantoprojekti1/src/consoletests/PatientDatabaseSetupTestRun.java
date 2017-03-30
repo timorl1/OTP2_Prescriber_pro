@@ -11,7 +11,7 @@ import dao.DatabaseDAO;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientDatabaseSetupTestRun {
 

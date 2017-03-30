@@ -9,7 +9,7 @@ import com.sun.javafx.application.LauncherImpl;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class AppLauncher {
 

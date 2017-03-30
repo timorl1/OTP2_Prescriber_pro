@@ -20,7 +20,7 @@ import model.User_IF;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     
@@ -51,7 +51,8 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     private Message message;
     private ObservableList<User_IF> list;
     
-    public MessageFormGUI(List<User_IF> users, Message message){
+    public MessageFormGUI(List<User_IF> users, Message message, String title){
+        this.setText(title);
         this.message = message;
         try {
             loader = new FXMLLoader(getClass().getResource("MessageForm.fxml"));

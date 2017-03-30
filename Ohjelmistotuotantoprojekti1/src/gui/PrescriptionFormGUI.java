@@ -25,7 +25,7 @@ import model.User_IF;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
 

@@ -10,7 +10,7 @@ import model.Message;
 
 /**
  *Sets up Message form to GUI
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface MessageFormGUI_IF {
 

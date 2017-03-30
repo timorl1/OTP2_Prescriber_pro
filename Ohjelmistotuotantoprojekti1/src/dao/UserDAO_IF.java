@@ -11,7 +11,7 @@ import model.User_IF;
 
 /**
  * Interface that defines methods for CRUD-operations for users in database
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface UserDAO_IF {
 

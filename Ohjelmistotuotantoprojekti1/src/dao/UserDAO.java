@@ -18,7 +18,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class UserDAO implements UserDAO_IF {
     
@@ -124,13 +124,13 @@ public class UserDAO implements UserDAO_IF {
                 session.getTransaction().commit();
                 Hibernate.initialize(user.getSentMessages());
                 Hibernate.initialize(user.getReceivedMessages());
-			
+		return user;
 		}catch(Exception e){
 			System.out.println("Caught an error while reading resources.");
+                        return null;
 		}finally{
 			session.close();
 		}
-        return user;
     }
     
     //Deletes user from database identified by username 

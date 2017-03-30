@@ -11,7 +11,7 @@ import org.hibernate.boot.registry.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PrescriptionDAO implements PrescriptionDAO_IF{
     SessionFactory sf;

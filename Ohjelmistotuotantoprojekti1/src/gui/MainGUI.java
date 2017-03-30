@@ -29,7 +29,7 @@ import model.User_IF;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class MainGUI implements Initializable, MainGUI_IF {
     
@@ -70,6 +70,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.dsc = new DoubleStringConverter();
         setLogin();
         setStatus(AppStatus.IDLE);
+        
     }
     
     public AppStatus getStatus() {
@@ -87,6 +88,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.login = new LoginGUI();
         this.login.getButton().setOnAction(e -> {
             this.controller.login(this.login.getUsername(), this.login.getPassword());
+            this.login.clearPasswordField();
         });
         this.root.getChildren().add((LoginGUI)this.login);
     }
@@ -102,6 +104,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setAccessDenied() {
         this.root.getChildren().clear();
         this.root.getChildren().add(new Label("Tunnuksesi on lukittu. Ota yhteys ylläpitäjään."));
+    }
+    
+    @Override
+    public void setLogout(){
+        this.root.getChildren().remove((SideBarGUI)this.sideBar);
+        this.tabPane.getTabs().clear();
+        this.root.getChildren().add((LoginGUI)this.login);
     }
     
     //Removes the login component and loads the side bar component
@@ -132,6 +141,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
         }
         });
         this.root.getChildren().add((SideBarGUI) this.sideBar);
+        this.sideBar.getLogoutButton().setOnAction(e -> {
+            this.controller.logout();
+        });
     }
 
     @Override
@@ -358,7 +370,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setMessageForm(Message message){
         this.status = AppStatus.CREATE;
-        this.messageForm = new MessageFormGUI(this.controller.getUsers(),message);
+        this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, "Uusi viesti");
         this.messageForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.messageForm);
             this.setStatus(AppStatus.IDLE);
@@ -378,7 +390,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setUserForm(User_IF user) {
         this.status = AppStatus.CREATE;
-        this.userForm = new UserFormGUI(this.employeeListView, user);
+        this.userForm = new UserFormGUI(this.employeeListView, user, "Uusi käyttäjä");
         this.userForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.userForm);
             this.setStatus(AppStatus.IDLE);
@@ -417,7 +429,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.sideBar.getVbox().getChildren().add(updatePrescription);
     }
 
-     @Override
+    @Override
     public void setUserTools() {
         Button createUser = new Button("Uusi käyttäjä");
         createUser.setOnMouseClicked((event) -> {

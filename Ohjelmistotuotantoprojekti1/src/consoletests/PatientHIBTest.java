@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientHIBTest {
 

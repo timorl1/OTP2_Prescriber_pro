@@ -14,7 +14,7 @@ import java.util.Properties;
 
 /**
  *
- * @author Paula
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class EmployeeDAO implements EmployeeDAO_IF {
     

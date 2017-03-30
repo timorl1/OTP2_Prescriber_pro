@@ -9,7 +9,7 @@ import model.User_IF;
 /**
  * Interface that defines methods for CRUD-operations for prescriptions in
  * database
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface PrescriptionDAO_IF {
 
