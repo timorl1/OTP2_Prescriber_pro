@@ -7,7 +7,7 @@ package model;
 
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.client.Employee;
 import resources.app.Prescription;
 import resources.client.Patient;

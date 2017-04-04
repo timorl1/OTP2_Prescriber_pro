@@ -1,7 +1,7 @@
 package resources.app;
 
 import java.util.List;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.client.Patient;
 import resources.app.Prescription;
 import resources.app.User_IF;

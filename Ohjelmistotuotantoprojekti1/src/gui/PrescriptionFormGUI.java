@@ -16,7 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.data.Drug;
 import resources.client.Patient;
 import resources.app.Prescription;

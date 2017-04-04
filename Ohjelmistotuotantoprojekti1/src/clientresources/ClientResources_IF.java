@@ -1,6 +1,6 @@
 package clientresources;
 
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.client.Employee;
 import resources.app.Message;
 import resources.app.Prescription;

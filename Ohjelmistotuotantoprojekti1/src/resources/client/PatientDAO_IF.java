@@ -6,7 +6,6 @@
 package resources.client;
 
 import java.util.List;
-import resources.data.Diagnose;
 import resources.client.Patient;
 
 /**

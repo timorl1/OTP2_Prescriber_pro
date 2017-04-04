@@ -2,7 +2,6 @@ package resources.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import resources.data.Diagnose;
 import resources.app.Prescription;
 
 /**

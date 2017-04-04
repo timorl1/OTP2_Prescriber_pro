@@ -9,7 +9,7 @@ import java.util.List;
 import appuser.AppUser;
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.data.Drug;
 import drugresources.DrugResources;
 import drugresources.DrugResources_IF;

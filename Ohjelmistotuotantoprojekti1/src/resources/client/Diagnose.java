@@ -1,8 +1,9 @@
-package resources.data;
+package resources.client;
 
 import resources.app.User_IF;
 import resources.client.Patient;
 import java.sql.Timestamp;
+import resources.data.Disease;
 
 /**
  *

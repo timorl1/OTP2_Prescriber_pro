@@ -1,6 +1,6 @@
 package tools;
 
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.app.Prescription;
 import resources.app.User_IF;
 import resources.client.Patient;

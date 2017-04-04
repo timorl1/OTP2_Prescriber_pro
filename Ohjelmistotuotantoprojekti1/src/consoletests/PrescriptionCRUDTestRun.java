@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import resources.app.PrescriptionDAO;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.data.Drug;
 import resources.data.DrugDAO;
 import resources.client.Patient;

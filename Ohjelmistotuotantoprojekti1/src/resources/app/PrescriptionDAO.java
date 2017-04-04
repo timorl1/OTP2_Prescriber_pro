@@ -2,7 +2,7 @@ package resources.app;
 
 import resources.data.DrugDAO;
 import java.util.List;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.client.Patient;
 import resources.app.Prescription;
 import resources.app.User_IF;

@@ -8,7 +8,7 @@ import resources.app.PrescriptionDAO;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import resources.data.Diagnose;
+import resources.client.Diagnose;
 import resources.data.Drug;
 import resources.client.Patient;
 import resources.app.Prescription;
