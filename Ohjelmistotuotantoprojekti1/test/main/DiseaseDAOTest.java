@@ -5,8 +5,8 @@
  */
 package main;
 
-import dao.DiseaseDAO;
-import model.Disease;
+import resources.data.DiseaseDAO;
+import resources.data.Disease;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

@@ -5,6 +5,8 @@
  */
 package model;
 
+import appuser.AppUser;
+import appuser.AppUser_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

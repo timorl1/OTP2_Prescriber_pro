@@ -9,8 +9,8 @@ import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
-import model.Diagnose;
-import model.Prescription;
+import resources.data.Diagnose;
+import resources.app.Prescription;
 
 /**
  *

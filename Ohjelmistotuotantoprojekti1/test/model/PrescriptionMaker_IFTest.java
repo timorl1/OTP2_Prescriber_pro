@@ -5,12 +5,18 @@
  */
 package model;
 
-import dao.DiseaseDAO;
-import dao.DiseaseDAO_IF;
-import dao.DrugDAO;
-import dao.DrugDAO_IF;
-import dao.PatientDAO;
-import dao.PatientDAO_IF;
+import calculator.DoseStatus;
+import resources.data.Drug;
+import prescriptionMaker.PrescriptionMaker;
+import prescriptionMaker.PrescriptionMaker_IF;
+import resources.app.Prescription;
+import resources.client.Patient;
+import resources.data.DiseaseDAO;
+import resources.data.DiseaseDAO_IF;
+import resources.data.DrugDAO;
+import resources.data.DrugDAO_IF;
+import resources.client.PatientDAO;
+import resources.client.PatientDAO_IF;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;

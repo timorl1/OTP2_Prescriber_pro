@@ -6,19 +6,19 @@
 package gui;
 
 import java.util.List;
-import model.AppUser;
-import model.ClientResources;
-import model.ClientResources_IF;
-import model.Diagnose;
-import model.Drug;
-import model.DrugResources;
-import model.DrugResources_IF;
-import model.Employee;
-import model.Message;
-import model.Patient;
-import model.Prescription;
-import model.User;
-import model.User_IF;
+import appuser.AppUser;
+import clientresources.ClientResources;
+import clientresources.ClientResources_IF;
+import resources.data.Diagnose;
+import resources.data.Drug;
+import drugresources.DrugResources;
+import drugresources.DrugResources_IF;
+import resources.client.Employee;
+import resources.app.Message;
+import resources.client.Patient;
+import resources.app.Prescription;
+import resources.app.User;
+import resources.app.User_IF;
 
 /**
  *

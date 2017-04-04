@@ -5,15 +5,15 @@
  */
 package consoletests;
 
-import dao.UserDAO;
-import dao.UserDAO_IF;
-import model.User;
-import dao.EmployeeDAO;
-import dao.EmployeeDAO_IF;
-import model.Employee;
+import resources.app.UserDAO;
+import resources.app.UserDAO_IF;
+import resources.app.User;
+import resources.client.EmployeeDAO;
+import resources.client.EmployeeDAO_IF;
+import resources.client.Employee;
 import java.util.List;
 import java.util.ArrayList;
-import model.User_IF;
+import resources.app.User_IF;
 
 
 /**

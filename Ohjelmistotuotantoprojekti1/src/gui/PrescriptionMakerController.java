@@ -6,9 +6,9 @@
 package gui;
 
 import java.util.List;
-import model.DoseStatus;
-import model.PrescriptionMaker;
-import model.PrescriptionMaker_IF;
+import calculator.DoseStatus;
+import prescriptionMaker.PrescriptionMaker;
+import prescriptionMaker.PrescriptionMaker_IF;
 
 /**
  *

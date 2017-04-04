@@ -8,8 +8,8 @@ package gui;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
-import model.User_IF;
-import model.Employee;
+import resources.app.User_IF;
+import resources.client.Employee;
 
 /**
  * Interface that defines methods for greating new user

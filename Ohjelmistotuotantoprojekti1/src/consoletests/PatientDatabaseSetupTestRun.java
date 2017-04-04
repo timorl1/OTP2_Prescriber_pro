@@ -7,7 +7,7 @@ package consoletests;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import dao.DatabaseDAO;
+import resources.app.DatabaseDAO;
 
 /**
  *

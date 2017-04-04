@@ -5,9 +5,9 @@
  */
 package main;
 
-import dao.EmployeeDAO;
+import resources.client.EmployeeDAO;
 import java.util.List;
-import model.Employee;
+import resources.client.Employee;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

@@ -4,14 +4,14 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import dao.PrescriptionDAO;
-import model.Diagnose;
-import model.Drug;
-import dao.DrugDAO;
-import model.Patient;
-import dao.PatientDAO;
+import resources.app.PrescriptionDAO;
+import resources.data.Diagnose;
+import resources.data.Drug;
+import resources.data.DrugDAO;
+import resources.client.Patient;
+import resources.client.PatientDAO;
 import java.util.ArrayList;
-import model.Prescription;
+import resources.app.Prescription;
 
 /**
  *

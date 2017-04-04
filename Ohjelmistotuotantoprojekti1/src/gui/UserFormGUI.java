@@ -19,8 +19,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
-import model.User_IF;
-import model.Employee;
+import resources.app.User_IF;
+import resources.client.Employee;
 
 /**
  *

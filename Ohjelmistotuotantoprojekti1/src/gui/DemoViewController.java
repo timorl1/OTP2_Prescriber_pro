@@ -1,7 +1,7 @@
 package gui;
 
-import dao.DrugDAO;
-import dao.PatientDAO;
+import resources.data.DrugDAO;
+import resources.client.PatientDAO;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.converter.DoubleStringConverter;
-import model.Allergen;
-import model.Drug;
-import model.Patient;
-import model.Prescription;
+import resources.data.Allergen;
+import resources.data.Drug;
+import resources.client.Patient;
+import resources.app.Prescription;
 
 /**
  * FXML Controller class

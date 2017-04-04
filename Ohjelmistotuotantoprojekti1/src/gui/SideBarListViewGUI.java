@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
-import model.Patient;
+import resources.client.Patient;
 
 /**
  * FXML Controller class

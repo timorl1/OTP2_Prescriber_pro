@@ -16,14 +16,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.util.converter.DoubleStringConverter;
-import model.Diagnose;
-import model.Drug;
-import model.Employee;
-import model.Message;
-import model.Patient;
-import model.Prescription;
-import model.User;
-import model.User_IF;
+import resources.data.Diagnose;
+import resources.data.Drug;
+import resources.client.Employee;
+import resources.app.Message;
+import resources.client.Patient;
+import resources.app.Prescription;
+import resources.app.User;
+import resources.app.User_IF;
 
 
 /**

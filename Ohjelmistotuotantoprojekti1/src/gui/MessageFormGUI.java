@@ -14,9 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import model.Message;
-import model.User;
-import model.User_IF;
+import resources.app.Message;
+import resources.app.User;
+import resources.app.User_IF;
 
 /**
  *

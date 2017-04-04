@@ -5,8 +5,14 @@
  */
 package model;
 
-import dao.PatientDAO;
-import dao.PatientDAO_IF;
+import clientresources.ClientResources;
+import clientresources.ClientResources_IF;
+import resources.data.Diagnose;
+import resources.client.Employee;
+import resources.app.Prescription;
+import resources.client.Patient;
+import resources.client.PatientDAO;
+import resources.client.PatientDAO_IF;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

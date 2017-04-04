@@ -16,11 +16,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
-import model.Diagnose;
-import model.Drug;
-import model.Patient;
-import model.Prescription;
-import model.User_IF;
+import resources.data.Diagnose;
+import resources.data.Drug;
+import resources.client.Patient;
+import resources.app.Prescription;
+import resources.app.User_IF;
 
 /**
  * FXML Controller class

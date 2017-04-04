@@ -6,9 +6,9 @@
 package consoletests;
 
 import java.sql.SQLException;
-import model.Patient;
-import dao.PatientDAO;
-import dao.PatientHIB;
+import resources.client.Patient;
+import resources.client.PatientDAO;
+import resources.client.PatientHIB;
 import java.util.List;
 
 /**
