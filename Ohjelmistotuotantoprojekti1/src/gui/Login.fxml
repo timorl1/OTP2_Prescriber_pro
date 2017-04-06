@@ -18,16 +18,16 @@
             <URL value="@login.css" />
          </stylesheets>
          <children>
-            <Label text="Kirjaudu sisään">
+            <Label fx:id="loginLabel" >
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label text="Käyttäjätunnus:" />
-            <TextField fx:id="usernameField" promptText="Käyttäjätunnus" />
-            <Label text="Salasana:" />
-            <PasswordField fx:id="passwordField" promptText="Salasana" />
-            <Button fx:id="loginButton" mnemonicParsing="false" text="Kirjaudu" />
+            <Label fx:id="usernameLabel" />
+            <TextField fx:id="usernameField" />
+            <Label fx:id="passwordLabel"  />
+            <PasswordField fx:id="passwordField" />
+            <Button fx:id="loginButton" mnemonicParsing="false" />
          </children>
          <padding>
             <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
