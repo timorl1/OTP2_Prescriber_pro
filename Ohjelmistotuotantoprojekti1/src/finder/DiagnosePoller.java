@@ -7,20 +7,19 @@ package finder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import resources.client.Diagnose;
+import resources.client.DiagnoseDAO;
+import resources.client.DiagnoseDAO_IF;
 import resources.client.Patient;
-import resources.client.PatientDAO;
-import resources.client.PatientDAO_IF;
 
 
 public class DiagnosePoller implements DiagnosePoller_IF {
-    private PatientDAO_IF patientDAO;
+    private DiagnoseDAO_IF diagnoseDAO;
     private Patient owner;
     private List<Integer> diagnoseIDs;
 
     public DiagnosePoller(Patient owner) {
-        this.patientDAO = new PatientDAO();
+        this.diagnoseDAO = new DiagnoseDAO();
         this.owner = owner;
         this.owner.getDiagnoses().forEach(d -> this.diagnoseIDs.add(d.getId()));
     }
@@ -28,13 +27,13 @@ public class DiagnosePoller implements DiagnosePoller_IF {
     @Override
     public boolean hasNewDiagnose() {
         //Tee parempi tsekkaus PatientDAO:hon. Mielummin tee DiagnoseDAO ja sinne se tsekkaus.
-        return this.diagnoseIDs.size() < this.patientDAO.readPatientDiagnoses(this.owner).size();
+        return this.diagnoseIDs.size() < this.diagnoseDAO.readPatientDiagnoses(this.owner).size();
     }
 
     @Override
     public List<Diagnose> getNewDiagnoses() {
         List<Diagnose> newDiagnoses = new ArrayList();
-        for (Diagnose diagnose : this.patientDAO.readPatientDiagnoses(this.owner)) {
+        for (Diagnose diagnose : this.diagnoseDAO.readPatientDiagnoses(this.owner)) {
             if (!this.diagnoseIDs.contains(diagnose.getId())) {
                 newDiagnoses.add(diagnose);
             }

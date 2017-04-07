@@ -26,6 +26,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import resources.client.DiagnoseDAO;
+import resources.client.DiagnoseDAO_IF;
 
 /**
  *
@@ -34,6 +36,7 @@ import static org.junit.Assert.*;
 public class PrescriptionMaker_IFTest {
     DrugDAO_IF db;
     PatientDAO_IF pb;
+    DiagnoseDAO_IF dd;
     DiseaseDAO_IF disb;
     PrescriptionMaker_IF pm;
     Patient patient;
@@ -43,6 +46,7 @@ public class PrescriptionMaker_IFTest {
     public PrescriptionMaker_IFTest() {
         this.db = new DrugDAO();
         this.pb = new PatientDAO();
+        this.dd = new DiagnoseDAO();
         this.disb = new DiseaseDAO();
         this.pm = new PrescriptionMaker();
     }
@@ -58,7 +62,7 @@ public class PrescriptionMaker_IFTest {
     @Before
     public void setUp() {
         this.patient = pb.readPatient("123456-789a");
-        this.patient.setDiagnoses(this.pb.readPatientDiagnoses(this.patient));
+        this.patient.setDiagnoses(this.dd.readPatientDiagnoses(this.patient));
         this.patient.getDiagnoses().forEach(d -> d.setDisease(this.disb.getDisease(d.getDiseaseID())));
         this.drug = db.readDrug(123456);
     }

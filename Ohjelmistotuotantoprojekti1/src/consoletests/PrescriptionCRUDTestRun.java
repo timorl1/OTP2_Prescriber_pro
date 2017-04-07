@@ -12,6 +12,7 @@ import resources.client.Patient;
 import resources.client.PatientDAO;
 import java.util.ArrayList;
 import resources.app.Prescription;
+import resources.client.DiagnoseDAO;
 
 /**
  *
@@ -27,6 +28,7 @@ public class PrescriptionCRUDTestRun {
         PrescriptionDAO appdb = new PrescriptionDAO();
         DrugDAO drugdb = new DrugDAO();
         PatientDAO patientdb = new PatientDAO();
+        DiagnoseDAO diagnosedb = new DiagnoseDAO();
         Prescription prescription = new Prescription();
         List<Patient> patients = new ArrayList();
         String fieldName;
@@ -53,7 +55,7 @@ public class PrescriptionCRUDTestRun {
                         System.out.println("Valitse diagnoosi: ");
                         patientdb = new PatientDAO();
                         int i = 1;
-                        List<Diagnose> diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());
+                        List<Diagnose> diagnoses = diagnosedb.readPatientDiagnoses(prescription.getPatient());
                         for (Diagnose diagnose : diagnoses) {
                             System.out.println(i + ". " + diagnose.getId());
                             i++;

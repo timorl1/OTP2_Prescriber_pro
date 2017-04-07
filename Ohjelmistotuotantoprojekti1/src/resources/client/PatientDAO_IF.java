@@ -6,7 +6,6 @@
 package resources.client;
 
 import java.util.List;
-import resources.client.Patient;
 
 /**
  * Interface that defines methods for getting info on patients and diagnoses
@@ -22,23 +21,11 @@ public interface PatientDAO_IF {
      */
     public abstract Patient readPatient(String SSN);
 
+
     /**
      * Gets a list of all patients
      * @return list of patient objects
      */
     public abstract List<Patient> readPatients();
 
-    /**
-     * Gets diagnose by id
-     * @param diagnoseID diagnose's id
-     * @return diagnose object
-     */
-    public abstract Diagnose readDiagnose(int diagnoseID);
-
-    /**
-     * Gets diagnoses by patient
-     * @param pat patient object
-     * @return list of diagnose objects
-     */
-    public abstract List<Diagnose> readPatientDiagnoses(Patient pat);
 }

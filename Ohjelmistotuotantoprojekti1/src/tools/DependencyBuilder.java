@@ -12,9 +12,10 @@ import resources.client.PatientDAO;
 import resources.client.PatientDAO_IF;
 import resources.app.PrescriptionDAO;
 import resources.app.PrescriptionDAO_IF;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import resources.client.DiagnoseDAO;
+import resources.client.DiagnoseDAO_IF;
 
 /**
  *
@@ -24,6 +25,7 @@ public class DependencyBuilder implements DependencyBuilder_IF {
     
     private DiseaseDAO_IF diseaseDAO;
     private PatientDAO_IF patientDAO;
+    private DiagnoseDAO_IF diagnoseDAO;
     private PrescriptionDAO_IF prescriptionDAO;
     private DrugDAO_IF drugDAO;
     
@@ -37,6 +39,7 @@ public class DependencyBuilder implements DependencyBuilder_IF {
     public DependencyBuilder(Map<String, Patient> patients, Map<Integer, User_IF> users) {
         this.diseaseDAO = new DiseaseDAO();
         this.patientDAO = new PatientDAO();
+        this.diagnoseDAO = new DiagnoseDAO();
         this.drugDAO = new DrugDAO();
         this.prescriptionDAO = new PrescriptionDAO();
         this.patients = patients;
@@ -46,7 +49,7 @@ public class DependencyBuilder implements DependencyBuilder_IF {
     @Override
     public Patient buildPatient(Patient patient) {
         this.patient = patient;
-        List<Diagnose> diagnoses = this.patientDAO.readPatientDiagnoses(this.patient);
+        List<Diagnose> diagnoses = this.diagnoseDAO.readPatientDiagnoses(this.patient);
         diagnoses.forEach(d -> this.buildDiagnose(d));
         this.patient.setDiagnoses(diagnoses);
         List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByPatient(this.patient);
@@ -73,7 +76,7 @@ public class DependencyBuilder implements DependencyBuilder_IF {
             this.prescription.setPatient(this.patients.get(this.prescription.getPatientID()));
             this.prescription.setDoctor(this.users.get(this.prescription.getDoctorID()));
             this.prescription.setDrug(this.drugDAO.readDrug(this.prescription.getDrugID()));
-            this.prescription.setDiagnose(this.buildDiagnose(this.patientDAO.readDiagnose(this.prescription.getDiagnoseID())));
+            this.prescription.setDiagnose(this.buildDiagnose(this.diagnoseDAO.readDiagnose(this.prescription.getDiagnoseID())));
         }
         return this.prescription;
     }
