@@ -5,15 +5,22 @@
  */
 package gui;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.loadui.testfx.Assertions.verifyThat;
 import org.loadui.testfx.GuiTest;
+import static org.loadui.testfx.controls.Commons.hasText;
 
 /**
  *
@@ -39,6 +46,12 @@ public class LoginGUITest extends GuiTest{
     @After
     public void tearDown() {
     }
+    
+    @Override
+    protected Parent getRootNode() {
+        Parent parent = null;
+        return new LoginGUI();
+    }
 
     /**
      * Test of getUsername method, of class LoginGUI.
@@ -46,12 +59,9 @@ public class LoginGUITest extends GuiTest{
     @Test
     public void testGetUsername() {
         System.out.println("getUsername");
-        LoginGUI instance = new LoginGUI();
-        String expResult = "";
-        String result = instance.getUsername();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        TextField username = find("#usernameField");
+        click(username).type("tt");
+        verifyThat("#usernameField", hasText("tt"));
     }
 
     /**
@@ -59,12 +69,10 @@ public class LoginGUITest extends GuiTest{
      */
     @Test
     public void testGetPassword() {
-        System.out.println("getPassword");
-        LoginGUI instance = new LoginGUI();
-        String expResult = "";
-        String result = instance.getPassword();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        /*System.out.println("getPassword");
+        TextField password = find("#passwordField");
+        click(password).type("test");
+        verifyThat("#passwordField", hasText("test"));*/
         fail("The test case is a prototype.");
     }
 
@@ -105,11 +113,6 @@ public class LoginGUITest extends GuiTest{
         instance.clearPasswordField();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
-
-    @Override
-    protected Parent getRootNode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
