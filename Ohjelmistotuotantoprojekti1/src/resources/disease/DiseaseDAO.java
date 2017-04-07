@@ -1,6 +1,6 @@
-package resources.data;
+package resources.disease;
 
-import resources.data.Disease;
+import resources.disease.Disease;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

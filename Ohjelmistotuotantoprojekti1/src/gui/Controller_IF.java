@@ -2,7 +2,7 @@ package gui;
 
 import java.util.List;
 import resources.client.Diagnose;
-import resources.data.Drug;
+import resources.drug.Drug;
 import resources.client.Employee;
 import resources.app.Message;
 import resources.client.Patient;

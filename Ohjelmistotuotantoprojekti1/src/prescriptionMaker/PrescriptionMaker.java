@@ -17,7 +17,7 @@ import java.util.List;
 import calculator.DoseCalculator;
 import calculator.DoseCalculator_IF;
 import calculator.DoseStatus;
-import resources.data.Drug;
+import resources.drug.Drug;
 
 /**
  *

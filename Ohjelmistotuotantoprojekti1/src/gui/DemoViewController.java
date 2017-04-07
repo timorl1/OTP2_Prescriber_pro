@@ -1,6 +1,6 @@
 package gui;
 
-import resources.data.DrugDAO;
+import resources.drug.DrugDAO;
 import resources.client.PatientDAO;
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,8 +20,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.converter.DoubleStringConverter;
-import resources.data.Allergen;
-import resources.data.Drug;
+import resources.drug.Allergen;
+import resources.drug.Drug;
 import resources.client.Patient;
 import resources.app.Prescription;
 

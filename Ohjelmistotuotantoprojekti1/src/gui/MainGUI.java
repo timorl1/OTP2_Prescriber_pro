@@ -17,7 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.util.converter.DoubleStringConverter;
 import resources.client.Diagnose;
-import resources.data.Drug;
+import resources.drug.Drug;
 import resources.client.Employee;
 import resources.app.Message;
 import resources.client.Patient;

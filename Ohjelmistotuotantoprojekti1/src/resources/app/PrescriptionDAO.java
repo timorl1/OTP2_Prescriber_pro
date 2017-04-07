@@ -1,6 +1,6 @@
 package resources.app;
 
-import resources.data.DrugDAO;
+import resources.drug.DrugDAO;
 import java.util.List;
 import resources.client.Diagnose;
 import resources.client.Patient;

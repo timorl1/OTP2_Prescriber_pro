@@ -1,4 +1,4 @@
-package resources.data;
+package resources.drug;
 
 import java.io.Serializable;
 import java.util.ArrayList;

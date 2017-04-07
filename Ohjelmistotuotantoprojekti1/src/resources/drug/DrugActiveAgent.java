@@ -1,7 +1,7 @@
-package resources.data;
+package resources.drug;
 
 import javax.persistence.*;
-import resources.data.ActiveAgent;
+import resources.drug.ActiveAgent;
 
 /**
  *

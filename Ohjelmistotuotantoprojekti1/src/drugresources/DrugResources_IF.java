@@ -1,7 +1,7 @@
 
 package drugresources;
 
-import resources.data.Drug;
+import resources.drug.Drug;
 import java.util.List;
 
 /**

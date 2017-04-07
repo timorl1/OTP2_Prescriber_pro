@@ -5,9 +5,9 @@
  */
 package drugresources;
 
-import resources.data.Drug;
-import resources.data.DrugDAO;
-import resources.data.DrugDAO_IF;
+import resources.drug.Drug;
+import resources.drug.DrugDAO;
+import resources.drug.DrugDAO_IF;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;

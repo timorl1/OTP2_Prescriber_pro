@@ -1,8 +1,8 @@
 package consoletests;
 
 import java.util.List;
-import resources.data.Drug;
-import resources.data.DrugDAO;
+import resources.drug.Drug;
+import resources.drug.DrugDAO;
 
 /**
  *

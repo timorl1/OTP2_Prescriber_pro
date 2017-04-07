@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import resources.client.Diagnose;
-import resources.data.Drug;
+import resources.drug.Drug;
 import resources.client.Patient;
 import resources.app.Prescription;
 import resources.app.User;

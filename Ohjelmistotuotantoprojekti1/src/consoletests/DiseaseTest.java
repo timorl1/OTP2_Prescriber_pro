@@ -5,12 +5,12 @@
  */
 package consoletests;
 
-import resources.data.DiseaseDAO;
-import resources.data.DiseaseDAO_IF;
+import resources.disease.DiseaseDAO;
+import resources.disease.DiseaseDAO_IF;
 import java.util.List;
-import resources.data.Allergen;
-import resources.data.Disease;
-import resources.data.Disease_Allergen;
+import resources.drug.Allergen;
+import resources.disease.Disease;
+import resources.disease.Disease_Allergen;
 
 /**
  *

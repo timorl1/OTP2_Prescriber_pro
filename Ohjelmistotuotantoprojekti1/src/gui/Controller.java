@@ -10,7 +10,7 @@ import appuser.AppUser;
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
 import resources.client.Diagnose;
-import resources.data.Drug;
+import resources.drug.Drug;
 import drugresources.DrugResources;
 import drugresources.DrugResources_IF;
 import resources.client.Employee;

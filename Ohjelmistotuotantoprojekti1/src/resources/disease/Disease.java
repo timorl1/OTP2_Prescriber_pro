@@ -1,4 +1,4 @@
-package resources.data;
+package resources.disease;
 
 import java.util.ArrayList;
 import java.util.List;

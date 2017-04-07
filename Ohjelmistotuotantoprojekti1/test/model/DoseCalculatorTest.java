@@ -6,10 +6,10 @@
 package model;
 
 import calculator.DoseCalculator;
-import resources.data.Drug;
+import resources.drug.Drug;
 import resources.client.Patient;
-import resources.data.DrugDAO;
-import resources.data.DrugDAO_IF;
+import resources.drug.DrugDAO;
+import resources.drug.DrugDAO_IF;
 import resources.client.PatientDAO;
 import resources.client.PatientDAO_IF;
 import java.util.ArrayList;

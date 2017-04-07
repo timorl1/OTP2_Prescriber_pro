@@ -5,7 +5,7 @@
  */
 package model;
 
-import resources.data.Drug;
+import resources.drug.Drug;
 import drugresources.DrugResources;
 import drugresources.DrugResources_IF;
 import java.util.List;

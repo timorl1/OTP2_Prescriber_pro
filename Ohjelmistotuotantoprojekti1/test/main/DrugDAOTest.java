@@ -5,10 +5,10 @@
  */
 package main;
 
-import resources.data.DrugDAO;
+import resources.drug.DrugDAO;
 import java.util.List;
 
-import resources.data.Drug;
+import resources.drug.Drug;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

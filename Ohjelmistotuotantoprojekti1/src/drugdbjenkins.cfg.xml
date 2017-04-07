@@ -12,11 +12,11 @@
        <property name="hibernate.connection.password">jenkins</property>
        <property name="hbm2ddl.auto">validate</property>
        <property name="show_sql">true</property>
-       <mapping class="model.Drug"/>
-       <mapping class="model.AdverseEffect"/>
-       <mapping class="model.ActiveAgent"/>
-       <mapping class="model.Allergen"/>
-       <mapping class="model.DrugActiveAgent"/>
+       <mapping class="resources.drug.Drug"/>
+       <mapping class="resources.drug.AdverseEffect"/>
+       <mapping class="resources.drug.ActiveAgent"/>
+       <mapping class="resources.drug.Allergen"/>
+       <mapping class="resources.drug.DrugActiveAgent"/>
 
     </session-factory>
 </hibernate-configuration>

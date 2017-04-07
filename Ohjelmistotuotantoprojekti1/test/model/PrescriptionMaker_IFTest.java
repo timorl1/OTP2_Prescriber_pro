@@ -6,15 +6,15 @@
 package model;
 
 import calculator.DoseStatus;
-import resources.data.Drug;
+import resources.drug.Drug;
 import prescriptionMaker.PrescriptionMaker;
 import prescriptionMaker.PrescriptionMaker_IF;
 import resources.app.Prescription;
 import resources.client.Patient;
-import resources.data.DiseaseDAO;
-import resources.data.DiseaseDAO_IF;
-import resources.data.DrugDAO;
-import resources.data.DrugDAO_IF;
+import resources.disease.DiseaseDAO;
+import resources.disease.DiseaseDAO_IF;
+import resources.drug.DrugDAO;
+import resources.drug.DrugDAO_IF;
 import resources.client.PatientDAO;
 import resources.client.PatientDAO_IF;
 import java.sql.Date;

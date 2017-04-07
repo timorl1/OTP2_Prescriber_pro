@@ -1,6 +1,6 @@
-package resources.data;
+package resources.disease;
 
-import resources.data.Disease;
+import resources.disease.Disease;
 
 /**
  * Interface that defines methods for getting disease from database

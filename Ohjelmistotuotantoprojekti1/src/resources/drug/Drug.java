@@ -1,10 +1,10 @@
-package resources.data;
+package resources.drug;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import resources.data.AdverseEffect;
-import resources.data.Allergen;
+import resources.drug.AdverseEffect;
+import resources.drug.Allergen;
 
 /**
  *

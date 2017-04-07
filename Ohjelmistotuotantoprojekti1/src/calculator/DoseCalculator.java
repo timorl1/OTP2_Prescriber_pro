@@ -5,9 +5,9 @@
  */
 package calculator;
 
-import resources.data.ActiveAgent;
-import resources.data.DrugActiveAgent;
-import resources.data.Drug;
+import resources.drug.ActiveAgent;
+import resources.drug.DrugActiveAgent;
+import resources.drug.Drug;
 import resources.client.Patient;
 
 /**
