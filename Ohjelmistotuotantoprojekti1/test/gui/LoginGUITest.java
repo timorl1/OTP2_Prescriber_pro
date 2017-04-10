@@ -60,8 +60,8 @@ public class LoginGUITest extends GuiTest{
     public void testGetUsername() {
         System.out.println("getUsername");
         TextField username = find("#usernameField");
-        click(username).type("tt");
-        verifyThat("#usernameField", hasText("tt"));
+        click(username).type("test");
+        verifyThat("#usernameField", hasText("test"));
     }
 
     /**

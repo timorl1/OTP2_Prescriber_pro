@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package resources.app;
+package resources.disease;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -14,19 +14,20 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  *Class is used to open hibernate session factory
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class ApplicationDBConnection {
-    private static final ApplicationDBConnection INSTANCE = new ApplicationDBConnection();
+public class DiseaseDBConnection {
+    
+    private static final DiseaseDBConnection INSTANCE = new DiseaseDBConnection();
     private SessionFactory sf;
     final StandardServiceRegistry reg;
     final StandardServiceRegistry reg2;
     /**
      * Opens sessionfactory for disease database
      */
-    private ApplicationDBConnection() {
+    private DiseaseDBConnection() {
         sf = null;
-        reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
+        reg = new StandardServiceRegistryBuilder().configure("diseasedb.cfg.xml").build();
 
-        reg2 = new StandardServiceRegistryBuilder().configure("applicationdbjenkins.cfg.xml").build();
+        reg2 = new StandardServiceRegistryBuilder().configure("diseasedbjenkins.cfg.xml").build();
         try {
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
         }catch (Exception e){
@@ -44,7 +45,6 @@ public class ApplicationDBConnection {
                     }
         }
     }
-    
     @Override
     public void finalize(){
         boolean success = false;
@@ -67,13 +67,11 @@ public class ApplicationDBConnection {
     
     }
     
-    public static ApplicationDBConnection getInstance() {
+    public static DiseaseDBConnection getInstance() {
         return INSTANCE;
     }
     
     public SessionFactory getSessionFactory(){
         return this.sf;
     }
-    
-   
 }

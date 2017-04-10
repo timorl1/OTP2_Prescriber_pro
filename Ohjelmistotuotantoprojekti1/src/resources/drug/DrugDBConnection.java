@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package resources.app;
+package resources.drug;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -14,19 +14,19 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  *Class is used to open hibernate session factory
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class ApplicationDBConnection {
-    private static final ApplicationDBConnection INSTANCE = new ApplicationDBConnection();
+public class DrugDBConnection {
+    private static final DrugDBConnection INSTANCE = new DrugDBConnection();
     private SessionFactory sf;
     final StandardServiceRegistry reg;
     final StandardServiceRegistry reg2;
     /**
-     * Opens sessionfactory for disease database
+     * Opens sessionfactory for drug database
      */
-    private ApplicationDBConnection() {
+    private DrugDBConnection() {
         sf = null;
-        reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
+        reg = new StandardServiceRegistryBuilder().configure("drugdb.cfg.xml").build();
 
-        reg2 = new StandardServiceRegistryBuilder().configure("applicationdbjenkins.cfg.xml").build();
+        reg2 = new StandardServiceRegistryBuilder().configure("drugdbjenkins.cfg.xml").build();
         try {
             sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
         }catch (Exception e){
@@ -44,7 +44,6 @@ public class ApplicationDBConnection {
                     }
         }
     }
-    
     @Override
     public void finalize(){
         boolean success = false;
@@ -67,13 +66,11 @@ public class ApplicationDBConnection {
     
     }
     
-    public static ApplicationDBConnection getInstance() {
+    public static DrugDBConnection getInstance() {
         return INSTANCE;
     }
     
     public SessionFactory getSessionFactory(){
         return this.sf;
     }
-    
-   
 }
