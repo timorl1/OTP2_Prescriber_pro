@@ -20,56 +20,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  */
 public class UserDAO implements UserDAO_IF {
     
-    SessionFactory sf;
-    final StandardServiceRegistry reg;
-    final StandardServiceRegistry reg2;
+    SessionFactory sf = ApplicationDBConnection.getInstance().getSessionFactory();
     
     private Session session;
     private Transaction transaction;
     
-    // Builds session factory
+   
     public UserDAO(){
-        sf = null;
-        reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
-
-        reg2 = new StandardServiceRegistryBuilder().configure("applicationdbjenkins.cfg.xml").build();
-        try {
-            sf = new MetadataSources(reg).buildMetadata().buildSessionFactory();
-        }catch (Exception e){
-            System.out.println("Session failed to initialize.");
-            StandardServiceRegistryBuilder.destroy(reg);
-                    try{
-                        System.out.println("Trying with jenkins");
-                        
-                        sf = new MetadataSources(reg2).buildMetadata().buildSessionFactory();
-                    }catch (Exception e3){
-                        System.err.println("Session failed to initialize.");
-                        e3.printStackTrace();
-                        StandardServiceRegistryBuilder.destroy(reg2);
-                        System.exit(-1);
-                    }
-        }
     }
        
-    public void finalize() {
-        boolean success = false;
-        do {
-            try {
-                if (reg != null) {
-                    StandardServiceRegistryBuilder.destroy(reg);
-                }
-                success = true;
-            } catch (Exception e) {
-                System.out.println("DB connection not shutting down. Retrying...");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        } while (!success);
-        System.out.println("DB connection shut down.");
-    }
+    
     
     //Used for updating user information to database
     @Override

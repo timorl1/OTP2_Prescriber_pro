@@ -67,10 +67,5 @@ public interface PrescriptionDAO_IF {
      * @return true if prescription is deleted, false if not
      */
     public abstract boolean deletePrescription(Prescription prescription);
-
-    /**
-     * Shuts down the connection
-     */
-    public abstract void shutDown();
     
 }
