@@ -12,14 +12,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class ApplicationDBConnection {
     private static final ApplicationDBConnection INSTANCE = new ApplicationDBConnection();
     SessionFactory sf;
     final StandardServiceRegistry reg;
     final StandardServiceRegistry reg2;
-    
+    /**
+     * Opens sessionfactory for disease database
+     */
     private ApplicationDBConnection() {
         sf = null;
         reg = new StandardServiceRegistryBuilder().configure("applicationdb.cfg.xml").build();
