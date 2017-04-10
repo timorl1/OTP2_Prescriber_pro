@@ -5,10 +5,10 @@
  */
 package main;
 
-import resources.client.Patient;
-import resources.client.PatientDAO;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
 import java.util.List;
-import resources.client.Diagnose;
+import resources.diagnose.Diagnose;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

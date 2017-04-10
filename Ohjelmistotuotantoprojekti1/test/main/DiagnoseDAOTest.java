@@ -5,17 +5,17 @@
  */
 package main;
 
-import resources.client.Patient;
-import resources.client.PatientDAO;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
 import java.util.List;
-import resources.client.Diagnose;
+import resources.diagnose.Diagnose;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import resources.client.DiagnoseDAO;
+import resources.diagnose.DiagnoseDAO;
 
 /**
  *
@@ -44,7 +44,7 @@ public class DiagnoseDAOTest {
     
     
     /**
-     * Test of readPatientDiagnoses method, of class PatientDAO.
+     * Test of readPatientDiagnoses method, of class DiagnoseDAO.
      */
     @Test 
     public void testReadPatientDiagnoses() throws Exception {
@@ -57,5 +57,19 @@ public class DiagnoseDAOTest {
         assertEquals(1, result.get(0).getId());
         assertEquals(1, result.get(0).getDiseaseID());
         assertEquals("Potilaalla havaittu äkillinen hengen menetys", result.get(0).getEpicrisis());
+    }
+    
+    /**
+     * Test of getPatientDiagnoseCount method, of class DiagnoseDAO.
+     */
+    @Test 
+    public void testReadPatientDiagnoseCount() throws Exception {
+        System.out.println("getPatientDiagnoseCount");
+        Patient pat = new Patient();
+        pat.setSSN("123456-789a");
+        DiagnoseDAO instance = new DiagnoseDAO();
+        int result = instance.getPatientDiagnoseCount(pat);
+        
+        assertEquals(1, result);
     }
 }

@@ -8,7 +8,7 @@ package calculator;
 import resources.drug.ActiveAgent;
 import resources.drug.DrugActiveAgent;
 import resources.drug.Drug;
-import resources.client.Patient;
+import resources.patient.Patient;
 
 /**
  *

@@ -7,12 +7,12 @@ package model;
 
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
-import resources.client.Diagnose;
-import resources.client.Employee;
-import resources.app.Prescription;
-import resources.client.Patient;
-import resources.client.PatientDAO;
-import resources.client.PatientDAO_IF;
+import resources.diagnose.Diagnose;
+import resources.employee.Employee;
+import resources.prescription.Prescription;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

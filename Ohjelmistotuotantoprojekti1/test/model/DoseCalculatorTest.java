@@ -7,11 +7,11 @@ package model;
 
 import calculator.DoseCalculator;
 import resources.drug.Drug;
-import resources.client.Patient;
+import resources.patient.Patient;
 import resources.drug.DrugDAO;
 import resources.drug.DrugDAO_IF;
-import resources.client.PatientDAO;
-import resources.client.PatientDAO_IF;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

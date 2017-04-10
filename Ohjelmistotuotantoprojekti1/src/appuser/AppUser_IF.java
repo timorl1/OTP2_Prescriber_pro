@@ -1,6 +1,6 @@
 package appuser;
 
-import resources.app.User_IF;
+import resources.user.User_IF;
 
 /**
  *

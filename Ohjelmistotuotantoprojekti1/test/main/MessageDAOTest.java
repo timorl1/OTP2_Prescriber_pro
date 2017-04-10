@@ -5,12 +5,12 @@
  */
 package main;
 
-import resources.app.MessageDAO;
-import resources.app.UserDAO;
+import resources.message.MessageDAO;
+import resources.user.UserDAO;
 import java.util.List;
-import resources.app.Message;
-import resources.app.User;
-import resources.app.User_IF;
+import resources.message.Message;
+import resources.user.User;
+import resources.user.User_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 package main;
-import resources.app.PrescriptionDAO;
+import resources.prescription.PrescriptionDAO;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import resources.client.Diagnose;
+import resources.diagnose.Diagnose;
 import resources.drug.Drug;
-import resources.client.Patient;
-import resources.app.Prescription;
-import resources.app.User;
-import resources.app.User_IF;
+import resources.patient.Patient;
+import resources.prescription.Prescription;
+import resources.user.User;
+import resources.user.User_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -1,21 +1,21 @@
 package tools;
 
-import resources.client.Diagnose;
-import resources.app.Prescription;
-import resources.app.User_IF;
-import resources.client.Patient;
+import resources.diagnose.Diagnose;
+import resources.prescription.Prescription;
+import resources.user.User_IF;
+import resources.patient.Patient;
 import resources.disease.DiseaseDAO;
 import resources.disease.DiseaseDAO_IF;
 import resources.drug.DrugDAO;
 import resources.drug.DrugDAO_IF;
-import resources.client.PatientDAO;
-import resources.client.PatientDAO_IF;
-import resources.app.PrescriptionDAO;
-import resources.app.PrescriptionDAO_IF;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
+import resources.prescription.PrescriptionDAO;
+import resources.prescription.PrescriptionDAO_IF;
 import java.util.List;
 import java.util.Map;
-import resources.client.DiagnoseDAO;
-import resources.client.DiagnoseDAO_IF;
+import resources.diagnose.DiagnoseDAO;
+import resources.diagnose.DiagnoseDAO_IF;
 
 /**
  *

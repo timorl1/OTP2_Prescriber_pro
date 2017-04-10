@@ -1,5 +1,17 @@
 package gui;
 
+import resources.ListTabGUI_IF;
+import resources.ListTabGUI;
+import appuser.LoginGUI_IF;
+import appuser.LoginGUI;
+import resources.message.MessageFormGUI;
+import resources.message.MessageFormGUI_IF;
+import resources.user.UserFormGUI;
+import resources.user.UserFormGUI_IF;
+import resources.prescription.PrescriptionFormGUI_IF;
+import resources.prescription.PrescriptionFormGUI;
+import resources.SideBarListView_IF;
+import resources.SideBarListViewGUI;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -16,14 +28,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.util.converter.DoubleStringConverter;
-import resources.client.Diagnose;
+import resources.diagnose.Diagnose;
 import resources.drug.Drug;
-import resources.client.Employee;
-import resources.app.Message;
-import resources.client.Patient;
-import resources.app.Prescription;
-import resources.app.User;
-import resources.app.User_IF;
+import resources.employee.Employee;
+import resources.message.Message;
+import resources.patient.Patient;
+import resources.prescription.Prescription;
+import resources.user.User;
+import resources.user.User_IF;
 
 
 /**

@@ -7,16 +7,16 @@ package model;
 
 import calculator.DoseStatus;
 import resources.drug.Drug;
-import prescriptionMaker.PrescriptionMaker;
-import prescriptionMaker.PrescriptionMaker_IF;
-import resources.app.Prescription;
-import resources.client.Patient;
+import prescriptionmaker.PrescriptionMaker;
+import prescriptionmaker.PrescriptionMaker_IF;
+import resources.prescription.Prescription;
+import resources.patient.Patient;
 import resources.disease.DiseaseDAO;
 import resources.disease.DiseaseDAO_IF;
 import resources.drug.DrugDAO;
 import resources.drug.DrugDAO_IF;
-import resources.client.PatientDAO;
-import resources.client.PatientDAO_IF;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
@@ -26,8 +26,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import resources.client.DiagnoseDAO;
-import resources.client.DiagnoseDAO_IF;
+import resources.diagnose.DiagnoseDAO;
+import resources.diagnose.DiagnoseDAO_IF;
 
 /**
  *

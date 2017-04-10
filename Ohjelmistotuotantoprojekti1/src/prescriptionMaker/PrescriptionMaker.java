@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prescriptionMaker;
+package prescriptionmaker;
 
-import resources.app.PrescriptionDAO_IF;
-import resources.app.Prescription;
-import resources.app.PrescriptionDAO;
-import resources.client.Patient;
+import resources.prescription.PrescriptionDAO_IF;
+import resources.prescription.Prescription;
+import resources.prescription.PrescriptionDAO;
+import resources.patient.Patient;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;

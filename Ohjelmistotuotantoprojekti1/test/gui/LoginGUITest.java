@@ -5,6 +5,7 @@
  */
 package gui;
 
+import appuser.LoginGUI;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,8 +50,8 @@ public class LoginGUITest extends GuiTest{
     
     @Override
     protected Parent getRootNode() {
-        Parent parent = null;
-        return new LoginGUI();
+        Parent parent = new LoginGUI();
+        return parent;
     }
 
     /**
@@ -69,11 +70,10 @@ public class LoginGUITest extends GuiTest{
      */
     @Test
     public void testGetPassword() {
-        /*System.out.println("getPassword");
+        System.out.println("getPassword");
         TextField password = find("#passwordField");
-        click(password).type("test");
-        verifyThat("#passwordField", hasText("test"));*/
-        fail("The test case is a prototype.");
+        click(password).type("tt");
+        verifyThat("#passwordField", hasText("tt"));
     }
 
     /**
@@ -109,10 +109,11 @@ public class LoginGUITest extends GuiTest{
     @Test
     public void testClearPasswordField() {
         System.out.println("clearPasswordField");
-        LoginGUI instance = new LoginGUI();
+        LoginGUI instance = (LoginGUI)this.getRootNode();
+        TextField password = find("#passwordField");
+        click(password).type("tt");
         instance.clearPasswordField();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        verifyThat("#passwordField", hasText(""));
     }
     
 }

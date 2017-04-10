@@ -1,7 +1,7 @@
 package tools;
 
-import resources.app.DatabaseDAO;
-import resources.app.DatabaseDAO_IF;
+import resources.database.DatabaseDAO;
+import resources.database.DatabaseDAO_IF;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;

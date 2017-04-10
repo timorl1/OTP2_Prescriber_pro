@@ -4,15 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import resources.app.PrescriptionDAO;
-import resources.client.Diagnose;
+import resources.prescription.PrescriptionDAO;
+import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.drug.DrugDAO;
-import resources.client.Patient;
-import resources.client.PatientDAO;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
 import java.util.ArrayList;
-import resources.app.Prescription;
-import resources.client.DiagnoseDAO;
+import resources.prescription.Prescription;
+import resources.diagnose.DiagnoseDAO;
 
 /**
  *

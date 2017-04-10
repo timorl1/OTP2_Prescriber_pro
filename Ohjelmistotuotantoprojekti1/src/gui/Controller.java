@@ -9,16 +9,16 @@ import java.util.List;
 import appuser.AppUser;
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
-import resources.client.Diagnose;
+import resources.diagnose.Diagnose;
 import resources.drug.Drug;
-import drugresources.DrugResources;
-import drugresources.DrugResources_IF;
-import resources.client.Employee;
-import resources.app.Message;
-import resources.client.Patient;
-import resources.app.Prescription;
-import resources.app.User;
-import resources.app.User_IF;
+import resources.drug.DrugResources;
+import resources.drug.DrugResources_IF;
+import resources.employee.Employee;
+import resources.message.Message;
+import resources.patient.Patient;
+import resources.prescription.Prescription;
+import resources.user.User;
+import resources.user.User_IF;
 
 /**
  *

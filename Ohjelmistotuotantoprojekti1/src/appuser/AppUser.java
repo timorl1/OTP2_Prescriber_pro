@@ -5,10 +5,10 @@
  */
 package appuser;
 
-import resources.app.User_IF;
-import resources.app.User;
-import resources.app.UserDAO;
-import resources.app.UserDAO_IF;
+import resources.user.User_IF;
+import resources.user.User;
+import resources.user.UserDAO;
+import resources.user.UserDAO_IF;
 
 /**
  *

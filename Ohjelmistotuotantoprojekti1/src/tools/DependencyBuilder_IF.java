@@ -1,9 +1,9 @@
 package tools;
 
-import resources.client.Diagnose;
-import resources.app.Prescription;
-import resources.app.User_IF;
-import resources.client.Patient;
+import resources.diagnose.Diagnose;
+import resources.prescription.Prescription;
+import resources.user.User_IF;
+import resources.patient.Patient;
 import java.util.List;
 
 /**

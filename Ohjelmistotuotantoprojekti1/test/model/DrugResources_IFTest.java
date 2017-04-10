@@ -6,8 +6,8 @@
 package model;
 
 import resources.drug.Drug;
-import drugresources.DrugResources;
-import drugresources.DrugResources_IF;
+import resources.drug.DrugResources;
+import resources.drug.DrugResources_IF;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

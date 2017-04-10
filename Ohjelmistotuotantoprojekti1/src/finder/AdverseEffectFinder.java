@@ -5,8 +5,8 @@
  */
 package finder;
 
-import resources.client.Diagnose;
-import resources.app.Prescription;
+import resources.diagnose.Diagnose;
+import resources.prescription.Prescription;
 import java.util.ArrayList;
 import java.util.List;
 

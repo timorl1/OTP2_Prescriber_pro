@@ -1,7 +1,7 @@
 package calculator;
 
 import resources.drug.Drug;
-import resources.client.Patient;
+import resources.patient.Patient;
 
 /**
  *

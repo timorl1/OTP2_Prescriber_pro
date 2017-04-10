@@ -1,11 +1,11 @@
 package clientresources;
 
-import resources.client.Diagnose;
-import resources.client.Employee;
-import resources.app.Message;
-import resources.app.Prescription;
-import resources.app.User_IF;
-import resources.client.Patient;
+import resources.diagnose.Diagnose;
+import resources.employee.Employee;
+import resources.message.Message;
+import resources.prescription.Prescription;
+import resources.user.User_IF;
+import resources.patient.Patient;
 import java.util.List;
 
 /**
