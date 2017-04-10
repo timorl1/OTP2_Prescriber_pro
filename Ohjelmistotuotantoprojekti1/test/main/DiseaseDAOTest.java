@@ -19,8 +19,9 @@ import org.junit.Test;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DiseaseDAOTest {
-    
-    public DiseaseDAOTest(){}
+    private final DiseaseDAO instance = new DiseaseDAO();
+    public DiseaseDAOTest(){
+    }
     
     @BeforeClass
     public static void setUpClass() {
@@ -45,7 +46,7 @@ public class DiseaseDAOTest {
     public void testReadDisease(){
         System.out.println("readDisease");
         int id = 1;
-        DiseaseDAO instance = new DiseaseDAO();
+        
         Disease result = instance.getDisease(id);
         
         assertEquals(1, result.getId());
