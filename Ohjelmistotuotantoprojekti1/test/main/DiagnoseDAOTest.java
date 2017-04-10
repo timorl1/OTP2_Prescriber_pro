@@ -22,7 +22,7 @@ import resources.client.DiagnoseDAO;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DiagnoseDAOTest {
-    
+    private final DiagnoseDAO instance = new DiagnoseDAO();
     public DiagnoseDAOTest() {
     }
     
@@ -51,7 +51,6 @@ public class DiagnoseDAOTest {
         System.out.println("readPatientDiagnoses");
         Patient pat = new Patient();
         pat.setSSN("123456-789a");
-        DiagnoseDAO instance = new DiagnoseDAO();
         List<Diagnose> result = instance.readPatientDiagnoses(pat);
         
         assertEquals(1, result.get(0).getId());

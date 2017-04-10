@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientDAOTest {
-    
+    private final PatientDAO instance = new PatientDAO();
     public PatientDAOTest() {
     }
     
@@ -48,7 +48,7 @@ public class PatientDAOTest {
     public void testReadPatient() throws Exception {
         System.out.println("readPatient");
         String SSN = "123456-789a";
-        PatientDAO instance = new PatientDAO();
+        
         Patient result = instance.readPatient(SSN);
         assertEquals("123456-789a", result.getSSN());
         assertEquals("Potilas", result.getFirstName());
@@ -64,7 +64,6 @@ public class PatientDAOTest {
     @Test
     public void testReadPatients() throws Exception {
         System.out.println("readPatients");
-        PatientDAO instance = new PatientDAO();
         List<Patient> result = instance.readPatients();
         assertEquals("123456-789a", result.get(0).getSSN());
         assertEquals("Potilas", result.get(0).getFirstName());
