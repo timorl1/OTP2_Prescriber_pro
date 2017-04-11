@@ -100,6 +100,7 @@ public class MessageDAOTest {
         Message message = new Message();
         message.setMessageID(4);
         message.setMessage("moi");
+        message.setTitle("testi");
         message.setSender(userS);
         message.setReceiver(userR);
         boolean success = instance.createMessage(message);
