@@ -22,11 +22,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
+import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
@@ -389,11 +391,22 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.messageForm.getSendButton().setOnAction(e -> {
             if (this.controller.saveMessage()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Viesti lähetetty.");
+                alert.setTitle("Viesti");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
                 this.tabPane.getTabs().remove(this.messageForm);
                 this.setStatus(AppStatus.IDLE);
             }
             else {
-                //Some kind of alert message should be thrown
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Viestin lähetys epäonnistui.\nTarkista että olet täyttänyt "
+                        + "kaikki kentät.");
+                alert.setTitle("Viesti");
+                alert.setHeaderText("Varoitus");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
             }
         });
         this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
