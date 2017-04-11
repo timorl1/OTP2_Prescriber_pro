@@ -5,7 +5,9 @@
  */
 package gui;
 
+import static gui.Localisation.getInstance;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Accordion;
@@ -22,7 +24,10 @@ import javafx.scene.layout.VBox;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
-
+    
+    ResourceBundle text;
+    Localisation local = getInstance();
+    
     @FXML
     private VBox vBox;
     @FXML
@@ -38,12 +43,16 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     FXMLLoader loader;
     
     public SideBarGUI(MainGUI_IF root) {
+        text = local.language();
         this.root = root;
         try {
             loader = new FXMLLoader(getClass().getResource("SideBar.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            searchField.setPromptText(text.getString("search"));
+            messageButton.setText(text.getString("newMessage"));
+            logoutButton.setText(text.getString("logout"));
         } catch (IOException exc) {
             // handle exception
         }
