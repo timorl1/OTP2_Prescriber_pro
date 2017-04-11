@@ -5,6 +5,7 @@
  */
 package gui;
 
+import static gui.Localisation.getInstance;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,9 +20,11 @@ import javafx.stage.Stage;
 public class ApplicationMain extends Application {
     
     private final MainGUI mainGUI = new MainGUI();
+    Localisation local = getInstance();
     
     @Override
     public void start(Stage primaryStage) throws Exception {
+        local.chooseLanguage("sv", "SE");
         AnchorPane root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
         primaryStage.setTitle("Prescriber Pro v.0.8-beta");
         final Scene scene = new Scene(root);

@@ -1,5 +1,6 @@
 package gui;
 
+import static gui.Localisation.getInstance;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,6 +33,8 @@ import model.User_IF;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class MainGUI implements Initializable, MainGUI_IF {
+    ResourceBundle text;
+    Localisation local = getInstance();
     
     @FXML
     private AnchorPane root;
@@ -96,14 +99,16 @@ public class MainGUI implements Initializable, MainGUI_IF {
     //Set login failed message
     @Override
     public void setLoginFailed() {
-        this.login.addMessage("Kirjautuminen epäonnistui. Väärä käyttäjätunnus tai salasana!");
+        text = local.language();
+        this.login.addMessage(text.getString("loginFail"));
     }
     
     //Set access denied message
     @Override
     public void setAccessDenied() {
+        text = local.language();
         this.root.getChildren().clear();
-        this.root.getChildren().add(new Label("Tunnuksesi on lukittu. Ota yhteys ylläpitäjään."));
+        this.root.getChildren().add(new Label(text.getString("accessDenied")));
     }
     
     @Override
@@ -148,7 +153,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setPatientList() {
-        this.patientListView = new SideBarListViewGUI("Potilas");
+        text = local.language();
+        this.patientListView = new SideBarListViewGUI(text.getString("patient"));
         this.patientListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.patientListView.isExpanded()) {
                 this.patientListView.setList(this.controller.getPatients());
@@ -170,7 +176,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setDrugList() {
-        this.drugListView = new SideBarListViewGUI("Lääkkeet");
+        text = local.language();
+        this.drugListView = new SideBarListViewGUI(text.getString("drugs"));
         this.drugListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.drugListView.isExpanded()) {
                 this.drugListView.setList(this.controller.getDrugs());
@@ -191,7 +198,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setPrescriptionList() {
-        this.prescriptionListView = new SideBarListViewGUI("Omat Lääkemääräykset");
+        text = local.language();
+        this.prescriptionListView = new SideBarListViewGUI(text.getString("ownPrescriptions"));
         this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.prescriptionListView.isExpanded()) {
                 this.prescriptionListView.setList(this.controller.getDoctorPrescriptions());
@@ -211,7 +219,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setReceivedMessageList() {
-        this.receivedMessageListView = new SideBarListViewGUI("Vastaanotetut Viestit");
+        text = local.language();
+        this.receivedMessageListView = new SideBarListViewGUI(text.getString("sentMessages"));
         this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.receivedMessageListView.isExpanded()) {
                 this.receivedMessageListView.setList(this.controller.getReceivedMessages());
@@ -231,7 +240,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setSentMessageList() {
-        this.sentMessageListView = new SideBarListViewGUI("Lähetetyt Viestit");
+        text = local.language();
+        this.sentMessageListView = new SideBarListViewGUI(text.getString("receivedMessages"));
         this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.sentMessageListView.isExpanded()) {
                 this.sentMessageListView.setList(this.controller.getSentMessages());
@@ -252,7 +262,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
     //List all users
     @Override
     public void setUserList() {
-        this.userListView = new SideBarListViewGUI("Käyttäjät");
+        text = local.language();
+        this.userListView = new SideBarListViewGUI(text.getString("users"));
         //Create custom cells with buttons to be able to easily set users accounts in locked state
         this.userListView.getListView().setCellFactory(p -> {
             ListCell<User> cell = new ListCell<User>(){
@@ -303,7 +314,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setEmployeeList() {
-        this.employeeListView = new SideBarListViewGUI("Työntekijät");
+        text = local.language();
+        this.employeeListView = new SideBarListViewGUI(text.getString("employees"));
         this.employeeListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.employeeListView.isExpanded()) {
                 this.employeeListView.setList(this.controller.getEmployees());
@@ -323,7 +335,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setDatabaseList() {
-        this.databaseListView = new SideBarListViewGUI("Tietokannat");
+        text = local.language();
+        this.databaseListView = new SideBarListViewGUI(text.getString("databases"));
         this.databaseListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.databaseListView.isExpanded()) {
                 this.databaseListView.setList(this.controller.getDatabases());
@@ -334,7 +347,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setPrescriptionForm(Prescription prescription) {
-        this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, "Lääkemääräys", prescription);
+        text = local.language();
+        this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, text.getString("prescription"), prescription);
         this.prescriptionForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.prescriptionForm);
             this.setStatus(AppStatus.IDLE);
@@ -369,8 +383,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setMessageForm(Message message){
+        text = local.language();
         this.status = AppStatus.CREATE;
-        this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, "Uusi viesti");
+        this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, text.getString("newMessage"));
         this.messageForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.messageForm);
             this.setStatus(AppStatus.IDLE);
@@ -389,8 +404,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setUserForm(User_IF user) {
+        text = local.language();
         this.status = AppStatus.CREATE;
-        this.userForm = new UserFormGUI(this.employeeListView, user, "Uusi käyttäjä");
+        this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
         this.userForm.getCancelButton().setOnAction(e -> {
             this.tabPane.getTabs().remove(this.userForm);
             this.setStatus(AppStatus.IDLE);
@@ -413,13 +429,14 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setPrescriptionTools() {
-        Button createPrescription = new Button("Uusi lääkemääräys");
+        text = local.language();
+        Button createPrescription = new Button(text.getString("newPrescription"));
         createPrescription.setOnMouseClicked((event) -> {
             this.controller.createNewPrescription();
             this.setStatus(AppStatus.CREATE);
         });
         this.sideBar.getVbox().getChildren().add(createPrescription);
-        Button updatePrescription = new Button("Muokkaa lääkemääräystä");
+        Button updatePrescription = new Button(text.getString("updatePrescription"));
         BooleanBinding booleanBind = Bindings.isNull(this.prescriptionListView.getListView().getSelectionModel().selectedItemProperty());
         updatePrescription.disableProperty().bind(booleanBind);
         updatePrescription.setOnMouseClicked((event) -> {
@@ -431,7 +448,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setUserTools() {
-        Button createUser = new Button("Uusi käyttäjä");
+        text = local.language();
+        Button createUser = new Button(text.getString("newUser"));
         createUser.setOnMouseClicked((event) -> {
             this.controller.createNewUser();
             this.setStatus(AppStatus.CREATE);
@@ -441,14 +459,15 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     @Override
     public void setPatientDetails(Patient patient) {
+        text = local.language();
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Sosiaaliturvatunnus: " + patient.getSSN());
-        list.add("Etunimi: " + patient.getFirstName());
-        list.add("Sukunimi: " + patient.getLastName());
-        list.add("Sukupuoli: " + patient.getGender());
-        list.add("Pituus: " + dsc.toString(patient.getHeight()) + " cm");
-        list.add("Paino: " + dsc.toString(patient.getWeight()) + " kg");
-        ListTabGUI listTab = new ListTabGUI("Potilaan tiedot");
+        list.add(text.getString("socialSecurityNumber")+": " + patient.getSSN());
+        list.add(text.getString("firstname")+": " + patient.getFirstName());
+        list.add(text.getString("lastname")+": " + patient.getLastName());
+        list.add(text.getString("gender")+": " + patient.getGender());
+        list.add(text.getString("height")+": " + dsc.toString(patient.getHeight()) + text.getString("heightUnit"));
+        list.add(text.getString("weight")+": " + dsc.toString(patient.getWeight()) + text.getString("weightUnit"));
+        ListTabGUI listTab = new ListTabGUI(text.getString("patientInfo"));
         listTab.getListView().setItems(list);
         this.tabPane.getTabs().add(listTab);
         
@@ -456,8 +475,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setPatientDiagnoses(List<Diagnose> list) {
+        text = local.language();
         ObservableList<Diagnose> diagnoses = FXCollections.observableArrayList(list);
-        this.patientDiagnoseTab = new ListTabGUI("Potilaan diagnoosit");
+        this.patientDiagnoseTab = new ListTabGUI(text.getString("patientsDiagnoses"));
         this.patientDiagnoseTab.getListView().setOnMouseClicked(e -> {
             this.controller.getDiagnoseDetails();
         });
@@ -467,8 +487,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setPatientPrescriptions(List<Prescription> list) {
+        text = local.language();
         ObservableList<Prescription> prescriptions = FXCollections.observableArrayList(list);
-        this.patientPrescriptionTab = new ListTabGUI("Potilaan reseptit");
+        this.patientPrescriptionTab = new ListTabGUI(text.getString("patientsPrescriptions"));
         this.patientPrescriptionTab.getListView().setOnMouseClicked(e -> {
             this.controller.getPrescriptionDetails();
         });
@@ -478,19 +499,20 @@ public class MainGUI implements Initializable, MainGUI_IF {
 
     @Override
     public void setPrescriptionDetails(Prescription prescription) {
+        text = local.language();
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Tunnus: " + prescription.getId());
-        list.add("Luontipäivä: " + prescription.getCreationDate());
-        list.add("Potilas: " + prescription.getPatient().getLastName() + ", " + prescription.getPatient().getFirstName() + ", " + prescription.getPatient().getSSN());
-        list.add("Lääkäri: " + prescription.getDoctor().getLastName() + ", " + prescription.getDoctor().getFirstName());
-        list.add("Diagnoosi: " + prescription.getDiagnose().getId() + ": " + prescription.getDiagnose().getDisease());
-        list.add("Lääke: " + prescription.getDrug().getName());
-        list.add("Annostus: " + prescription.getDrug() + ", " + prescription.getDose() + " " + prescription.getDrug().getUnit() + " " + prescription.getTimesADay() + " kertaa päivässä.");
-        list.add("Ohjeet: " + prescription.getInfo());
-        list.add("Alkaen: " + prescription.getStartDate());
-        list.add("Päättyen: " + prescription.getEndDate());
+        list.add(text.getString("ID")+": " + prescription.getId());
+        list.add(text.getString("creationDate")+": " + prescription.getCreationDate());
+        list.add(text.getString("patient")+": " + prescription.getPatient().getLastName() + ", " + prescription.getPatient().getFirstName() + ", " + prescription.getPatient().getSSN());
+        list.add(text.getString("doctor")+": " + prescription.getDoctor().getLastName() + ", " + prescription.getDoctor().getFirstName());
+        list.add(text.getString("diagnose")+": " + prescription.getDiagnose().getId() + ": " + prescription.getDiagnose().getDisease());
+        list.add(text.getString("drug")+": " + prescription.getDrug().getName());
+        list.add(text.getString("dose")+": " + prescription.getDrug() + ", " + prescription.getDose() + " " + prescription.getDrug().getUnit() + " " + prescription.getTimesADay() + " kertaa päivässä.");
+        list.add(text.getString("prescriptionInfo")+": " + prescription.getInfo());
+        list.add(text.getString("startDate")+": " + prescription.getStartDate());
+        list.add(text.getString("endDate")+": " + prescription.getEndDate());
         this.tabPane.getTabs().remove(this.prescriptionTab);
-        this.prescriptionTab = new ListTabGUI("Reseptin tiedot");
+        this.prescriptionTab = new ListTabGUI(text.getString("prescriptionInfo"));
         this.prescriptionTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.prescriptionTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.prescriptionTab);
@@ -498,21 +520,22 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setDiagnoseDetails(Diagnose diagnose) {
+        text = local.language();
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Tunnus: " + diagnose.getId());
-        list.add("Luontipäivä: " + diagnose.getCreationDate());
-        list.add("Potilas: " + diagnose.getPatient().getLastName() + ", " + diagnose.getPatient().getFirstName() + ", " + diagnose.getPatient().getSSN());
-        list.add("Lääkäri: " + diagnose.getDoctor().getLastName() + ", " + diagnose.getDoctor().getFirstName());
-        list.add("Sairaus: " + diagnose.getDisease());
-        list.add("Epikriisi: " + diagnose.getEpicrisis());
+        list.add(text.getString("ID")+": " + diagnose.getId());
+        list.add(text.getString("creationDate") +": "+ diagnose.getCreationDate());
+        list.add(text.getString("patient") +": "+ diagnose.getPatient().getLastName() + ", " + diagnose.getPatient().getFirstName() + ", " + diagnose.getPatient().getSSN());
+        list.add(text.getString("doctor")+": " + diagnose.getDoctor().getLastName() + ", " + diagnose.getDoctor().getFirstName());
+        list.add(text.getString("disease")+": " + diagnose.getDisease());
+        list.add(text.getString("epicrisis")+": " + diagnose.getEpicrisis());
         if (diagnose.getResolutionDate() != null) {
-            list.add("Diagnoosin tila: hoidettu, " + diagnose.getResolutionDate());
+            list.add(text.getString("diagnoseStateDone") + diagnose.getResolutionDate());
         }
         else {
-            list.add("Diagnoosin tila: ei hoidettu" );
+            list.add(text.getString("diagnoseStateNotDone") );
         }
         this.tabPane.getTabs().remove(this.diagnoseTab);
-        this.diagnoseTab = new ListTabGUI("Diagnoosin tiedot");
+        this.diagnoseTab = new ListTabGUI(text.getString("diagnoseInfo"));
         this.diagnoseTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.diagnoseTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.diagnoseTab);
@@ -520,25 +543,26 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setDrugDetails(Drug drug) {
+        text = local.language();
         String activeAgents = "";
         String allergens = "";
         String commonAdverseEffects = "";
         String rareAdverseEffects = "";
         
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Tuotenumero: " + drug.getSN());
-        list.add("Lääke: " + drug.getName());
-        list.add("Vaikuttavat aineet:\n\n\t"+drug.getDrugActiveAgents().stream().
+        list.add(text.getString("productNumber")+": " + drug.getSN());
+        list.add(text.getString("drug")+": " + drug.getName());
+        list.add(text.getString("activeAgents")+":\n\n\t"+drug.getDrugActiveAgents().stream().
                 map((a) -> a.getActiveAgent().getName()+" "+a.getConcentration()+"mg\n\t").reduce(activeAgents, String::concat));
-        list.add("Lääkkeen allergeenit:\n\n\t"+drug.getAllergens().stream().
+        list.add(text.getString("drugAllergens")+":\n\n\t"+drug.getAllergens().stream().
                 map((a) -> a.getName()+"\n\t").reduce(allergens, String::concat));
-        list.add("Yleiset haittavaikutukset:\n\n\t"+drug.getCommonAdverseEffects().stream().
+        list.add(text.getString("commonAdverseEffects")+":\n\n\t"+drug.getCommonAdverseEffects().stream().
                 map((a) -> a.getName()+"\n\t").reduce(commonAdverseEffects, String::concat));
-        list.add("Harvinaiset haittavaikutukset:\n\n\t"+drug.getRareAdverseEffects().stream().
+        list.add(text.getString("rareAdverseEffects")+":\n\n\t"+drug.getRareAdverseEffects().stream().
                 map((a) -> a.getName()+"\n\t").reduce(rareAdverseEffects, String::concat));
         
         this.tabPane.getTabs().remove(this.drugTab);
-        this.drugTab = new ListTabGUI("Lääkkeen tiedot");
+        this.drugTab = new ListTabGUI(text.getString("drugInfo"));
         this.drugTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)this.drugTab);
         this.tabPane.getSelectionModel().select((ListTabGUI)this.drugTab);
@@ -546,11 +570,12 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setMessageDetails(Message message) {
+        text = local.language();
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Lähettäjä: "+message.getSender().getFirstName()+" "+message.getSender().getLastName());
-        list.add("Vastaanottaja: "+message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
-        list.add("Päiväys: "+message.getDate());
-        list.add("Viesti: "+message.getMessage() );
+        list.add(text.getString("sender")+": "+message.getSender().getFirstName()+" "+message.getSender().getLastName());
+        list.add(text.getString("receiver")+": "+message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
+        list.add(text.getString("date")+": "+message.getDate());
+        list.add(text.getString("message")+": "+message.getMessage() );
         
         this.tabPane.getTabs().remove(this.messageTab);
         this.messageTab = new ListTabGUI(message.getTitle());
@@ -561,42 +586,44 @@ public class MainGUI implements Initializable, MainGUI_IF {
     
     @Override
     public void setUserDetails(User_IF user) {
+        text = local.language();
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Työntekijänumero: " + user.getUserID());
-        list.add("Käyttäjätunnus: " + user.getUsername());
-        list.add("Sähköposti: " + user.getEmail());
+        list.add(text.getString("userNumber") +": "+ user.getUserID());
+        list.add(text.getString("username") +": "+ user.getUsername());
+        list.add(text.getString("email")+": " + user.getEmail());
         switch (user.getUsertype()) {
             case 0:
-                list.add("Käyttöoikeudet: lukittu");
+                list.add(text.getString("privilegesLocked"));
                 break;
             case 1:
-                list.add("Käyttöoikeudet: hoitaja");
+                list.add(text.getString("privilegesNurse"));
                 break;
             case 2:
-                list.add("Käyttöoikeudet: lääkäri");
+                list.add(text.getString("privilegesDoctor"));
                 break;
             case 3:
-                list.add("Käyttöoikeudet: ylläpitäjä");
+                list.add(text.getString("privilegesAdmin"));
                 break;
             default:
                 break;
         }
         this.tabPane.getTabs().clear();
-        ListTabGUI_IF listTab = new ListTabGUI("Käyttäjän tiedot");
+        ListTabGUI_IF listTab = new ListTabGUI(text.getString("userInfoTab"));
         listTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)listTab);
     }
     
     @Override
     public void setEmployeeDetails(Employee employee) {
+        text = local.language();
         ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Työntekijänumero: " + employee.getUserID());
-        list.add("Etunimi: " + employee.getFirstName());
-        list.add("Sukunimi: " + employee.getLastName());
-        list.add("Titteli: " + employee.getTitle());
-        list.add("Sähköposti: " + employee.getEmail());
+        list.add(text.getString("userNumber")+": " + employee.getUserID());
+        list.add(text.getString("firstname")+": " + employee.getFirstName());
+        list.add(text.getString("lastname")+": " + employee.getLastName());
+        list.add(text.getString("employeeTitle")+": "+ employee.getTitle());
+        list.add(text.getString("email")+": " + employee.getEmail());
         this.tabPane.getTabs().clear();
-        ListTabGUI_IF listTab = new ListTabGUI("Työntekijän tiedot");
+        ListTabGUI_IF listTab = new ListTabGUI(text.getString("employeeInfoTab"));
         listTab.getListView().setItems(list);
         this.tabPane.getTabs().add((ListTabGUI)listTab);
     }
