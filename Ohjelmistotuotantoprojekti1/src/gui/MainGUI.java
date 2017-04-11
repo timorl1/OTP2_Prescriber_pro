@@ -406,8 +406,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.messageForm.getSendButton().setOnAction(e -> {
             if (this.controller.saveMessage()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Viesti lähetetty.");
-                alert.setTitle("Viesti");
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("messageSent"));
+                alert.setTitle(text.getString("message"));
                 alert.initStyle(StageStyle.UNDECORATED);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
                 alert.showAndWait();
@@ -415,10 +415,9 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.setStatus(AppStatus.IDLE);
             }
             else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Viestin lähetys epäonnistui.\nTarkista että olet täyttänyt "
-                        + "kaikki kentät.");
-                alert.setTitle("Viesti");
-                alert.setHeaderText("Varoitus");
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleMessageNotSent"));
+                alert.setTitle(text.getString("message"));
+                alert.setHeaderText(text.getString("alertTextWarning"));
                 alert.initStyle(StageStyle.UNDECORATED);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
                 alert.showAndWait();
