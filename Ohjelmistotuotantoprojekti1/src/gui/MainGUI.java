@@ -541,7 +541,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         list.add(text.getString("disease")+": " + diagnose.getDisease());
         list.add(text.getString("epicrisis")+": " + diagnose.getEpicrisis());
         if (diagnose.getResolutionDate() != null) {
-            list.add(text.getString("diagnoseStateDone") + diagnose.getResolutionDate());
+            list.add(text.getString("diagnoseStateDone")+" " + diagnose.getResolutionDate());
         }
         else {
             list.add(text.getString("diagnoseStateNotDone") );

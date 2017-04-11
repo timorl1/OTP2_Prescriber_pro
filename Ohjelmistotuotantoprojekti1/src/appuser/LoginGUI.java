@@ -42,7 +42,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     //Constructor takes the MainGUI as a parameter to be used as root for this LoginGUI
     //Creates an instance of the LoginController and passes the root and itself as a parameter
     //Loads the custom login-object from fxml-file
-    LoginGUI() {
+    public LoginGUI() {
         text = local.language();
         try {
             loader = new FXMLLoader(getClass().getResource("Login.fxml"));

@@ -14,7 +14,7 @@
               <URL value="@sidebar.css" />
           </stylesheets>
           <children>
-              <TextField fx:id="searchField" onKeyTyped="#filterPatients" promptText="Etsi">
+              <TextField fx:id="searchField" onKeyTyped="#filterPatients" >
                   <VBox.margin>
                       <Insets />
                   </VBox.margin>
@@ -26,9 +26,9 @@
                       <Insets />
                   </opaqueInsets>
               </Accordion>
-              <Button fx:id="messageButton" text="Uusi viesti">    
+              <Button fx:id="messageButton" >    
               </Button>
-              <Button fx:id="logoutButton" text="Kirjaudu ulos">
+              <Button fx:id="logoutButton" >
               </Button>
           </children>
           <padding>
