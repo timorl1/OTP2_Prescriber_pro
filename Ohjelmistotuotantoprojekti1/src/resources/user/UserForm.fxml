@@ -31,17 +31,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                
-                <Label fx:id="userIDLabel" text="ID" GridPane.rowIndex="1" />
-                <Text fx:id="userIDField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
              
-                <Label fx:id="employeeLabel" text="Employee:" GridPane.rowIndex="2" />
-                <Text fx:id="employeeField" GridPane.columnIndex="1" GridPane.rowIndex="2" />             
+                <Label fx:id="employeeLabel"  GridPane.rowIndex="2" />
+                <Text fx:id="employeeField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 
-                <Label fx:id="emailLabel" text="Sähköposti:" GridPane.rowIndex="3" />
+                <Label fx:id="userIDLabel"  GridPane.rowIndex="1" />
+                <Text fx:id="userIDField" GridPane.columnIndex="1" GridPane.rowIndex="1" />          
+                
+                <Label fx:id="emailLabel"  GridPane.rowIndex="3" />
                 <Text fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 
-                <Label fx:id="usernameLabel" text="Valitse käyttäjätunnus" GridPane.rowIndex="4" />
+                <Label fx:id="usernameLabel"  GridPane.rowIndex="4" />
                 <TextArea fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                 <Label fx:id="passwordLabel" text="Valitse käyttäjätunnus" GridPane.rowIndex="5" />
@@ -49,8 +49,8 @@
                 
                 <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
                     <buttons>
-                        <Button fx:id="cancelButton" mnemonicParsing="false" text="Peruuta" />
-                        <Button fx:id="saveButton" mnemonicParsing="false" text="Tallenna" />
+                        <Button fx:id="cancelButton" mnemonicParsing="false"  />
+                        <Button fx:id="saveButton" mnemonicParsing="false"  />
                     </buttons>
                 </ButtonBar>
          

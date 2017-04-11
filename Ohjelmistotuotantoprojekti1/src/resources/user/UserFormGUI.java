@@ -5,11 +5,14 @@
  */
 package resources.user;
 
+import gui.Localisation;
+import static gui.Localisation.getInstance;
 import resources.SideBarListView_IF;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,6 +31,8 @@ import resources.employee.Employee;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class UserFormGUI extends Tab implements UserFormGUI_IF  {
+    ResourceBundle text;
+    Localisation local = getInstance();
     
     @FXML
     private GridPane gridPane;
@@ -84,6 +89,13 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            employeeLabel.setText(text.getString("employee") + ":");
+            userIDLabel.setText(text.getString("ID"));
+            emailLabel.setText(text.getString("email") + ":");
+            usernameLabel.setText(text.getString("chooseUsername"));
+            passwordLabel.setText(text.getString("choosePassword"));
+            cancelButton.setText(text.getString("cancel"));
+            saveButton.setText(text.getString("save"));
           //this.initializeFields(); Mahdolliset update operaatiot!!
             this.initializeBasicListeners();
             if (this.employee == null) {
