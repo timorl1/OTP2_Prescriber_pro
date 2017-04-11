@@ -5,7 +5,10 @@
  */
 package appuser;
 
+import gui.Localisation;
+import static gui.Localisation.getInstance;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -18,6 +21,8 @@ import javafx.stage.StageStyle;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class LoginGUI extends AnchorPane implements LoginGUI_IF {
+    ResourceBundle text;
+    Localisation local = getInstance();
     
     FXMLLoader loader;
     
@@ -27,20 +32,33 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     private TextField passwordField;
     @FXML
     private Button loginButton;
+    @FXML
+    private Label loginLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label passwordLabel;
     
     //Constructor takes the MainGUI as a parameter to be used as root for this LoginGUI
     //Creates an instance of the LoginController and passes the root and itself as a parameter
     //Loads the custom login-object from fxml-file
-    public LoginGUI() {
+    LoginGUI() {
+        text = local.language();
         try {
             loader = new FXMLLoader(getClass().getResource("Login.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            loginLabel.setText(text.getString("login"));
+            usernameLabel.setText(text.getString("username")+":");
+            usernameField.setPromptText(text.getString("username"));
+            passwordLabel.setText(text.getString("password")+":");
+            passwordField.setPromptText(text.getString("password"));
+            loginButton.setText(text.getString("login"));
         } catch (Exception exc) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Sisäänkirjatumis ikkunan latautuminen epäonnistui,\nkäynnistä ohjelma uudeestaan.");
-            alert.setTitle("Virhe");
-            alert.setHeaderText("Varoitus:");
+            Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("loadingFail"));
+            alert.setTitle(text.getString("alertTitle"));
+            alert.setHeaderText(text.getString("alertTextWarning")+":");
             alert.initStyle(StageStyle.UNDECORATED);
             alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
             alert.showAndWait();
