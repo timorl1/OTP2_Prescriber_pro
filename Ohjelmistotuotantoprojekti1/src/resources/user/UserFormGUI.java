@@ -109,9 +109,9 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
         this.emailField.setText(this.email);
       }
     
-    private void initializeBasicListeners() {
+   private void initializeBasicListeners() {
         this.setText(title);
-        this.usernameField.setOnKeyReleased(e -> {
+        this.usernameField.setOnKeyReleased(e -> {                 
             this.username= this.usernameField.getText();
             this.user.setUsername(this.username);
         });

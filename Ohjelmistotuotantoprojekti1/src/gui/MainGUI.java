@@ -436,14 +436,24 @@ public class MainGUI implements Initializable, MainGUI_IF {
             this.tabPane.getTabs().remove(this.userForm);
             this.setStatus(AppStatus.IDLE);
         });
-        this.userForm.getSaveButton().setOnAction(e -> {
-           
+        this.userForm.getSaveButton().setOnAction(e -> {           
             if (this.controller.saveUser()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Käyttäjä lisätty.");
+                alert.setTitle("Uusi käyttäjä");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
                 this.tabPane.getTabs().remove(this.userForm);
                 this.setStatus(AppStatus.IDLE);
             }
             else {
-                //Some kind of alert message should be thrown
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Käyttäjän lisäys epäonnistui.\nTarkista että olet täyttänyt "
+                        + "kaikki kentät.");
+                alert.setTitle("Uusi käyttäjä");
+                alert.setHeaderText("Varoitus");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
             }
         });
       
