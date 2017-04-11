@@ -4,14 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import dao.PrescriptionDAO;
-import model.Diagnose;
-import model.Drug;
-import dao.DrugDAO;
-import model.Patient;
-import dao.PatientDAO;
+import resources.prescription.PrescriptionDAO;
+import resources.diagnose.Diagnose;
+import resources.drug.Drug;
+import resources.drug.DrugDAO;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
 import java.util.ArrayList;
-import model.Prescription;
+import resources.prescription.Prescription;
+import resources.diagnose.DiagnoseDAO;
 
 /**
  *
@@ -27,6 +28,7 @@ public class PrescriptionCRUDTestRun {
         PrescriptionDAO appdb = new PrescriptionDAO();
         DrugDAO drugdb = new DrugDAO();
         PatientDAO patientdb = new PatientDAO();
+        DiagnoseDAO diagnosedb = new DiagnoseDAO();
         Prescription prescription = new Prescription();
         List<Patient> patients = new ArrayList();
         String fieldName;
@@ -53,7 +55,7 @@ public class PrescriptionCRUDTestRun {
                         System.out.println("Valitse diagnoosi: ");
                         patientdb = new PatientDAO();
                         int i = 1;
-                        List<Diagnose> diagnoses = patientdb.readPatientDiagnoses(prescription.getPatient());
+                        List<Diagnose> diagnoses = diagnosedb.readPatientDiagnoses(prescription.getPatient());
                         for (Diagnose diagnose : diagnoses) {
                             System.out.println(i + ". " + diagnose.getId());
                             i++;

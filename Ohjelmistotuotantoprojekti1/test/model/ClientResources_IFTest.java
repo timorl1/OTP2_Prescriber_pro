@@ -5,8 +5,14 @@
  */
 package model;
 
-import dao.PatientDAO;
-import dao.PatientDAO_IF;
+import clientresources.ClientResources;
+import clientresources.ClientResources_IF;
+import resources.diagnose.Diagnose;
+import resources.employee.Employee;
+import resources.prescription.Prescription;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,11 +27,10 @@ import static org.junit.Assert.*;
  */
 public class ClientResources_IFTest {
     private ClientResources_IF cres;
-    private PatientDAO_IF pb;
+    private final PatientDAO_IF pb = new PatientDAO();
     
     public ClientResources_IFTest() {
         this.cres = new ClientResources();
-        this.pb = new PatientDAO();
     }
     
     @BeforeClass

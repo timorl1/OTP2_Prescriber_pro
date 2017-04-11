@@ -5,14 +5,14 @@
  */
 package consoletests;
 
-import dao.MessageDAO;
-import dao.MessageDAO_IF;
-import dao.UserDAO;
-import dao.UserDAO_IF;
+import resources.message.MessageDAO;
+import resources.message.MessageDAO_IF;
+import resources.user.UserDAO;
+import resources.user.UserDAO_IF;
 import java.util.List;
-import model.Message;
-import model.User;
-import model.User_IF;
+import resources.message.Message;
+import resources.user.User;
+import resources.user.User_IF;
 
 /**
  *

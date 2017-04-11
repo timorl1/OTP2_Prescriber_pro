@@ -5,12 +5,18 @@
  */
 package model;
 
-import dao.DiseaseDAO;
-import dao.DiseaseDAO_IF;
-import dao.DrugDAO;
-import dao.DrugDAO_IF;
-import dao.PatientDAO;
-import dao.PatientDAO_IF;
+import calculator.DoseStatus;
+import resources.drug.Drug;
+import prescriptionmaker.PrescriptionMaker;
+import prescriptionmaker.PrescriptionMaker_IF;
+import resources.prescription.Prescription;
+import resources.patient.Patient;
+import resources.disease.DiseaseDAO;
+import resources.disease.DiseaseDAO_IF;
+import resources.drug.DrugDAO;
+import resources.drug.DrugDAO_IF;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
@@ -20,6 +26,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import resources.diagnose.DiagnoseDAO;
+import resources.diagnose.DiagnoseDAO_IF;
 
 /**
  *
@@ -28,6 +36,7 @@ import static org.junit.Assert.*;
 public class PrescriptionMaker_IFTest {
     DrugDAO_IF db;
     PatientDAO_IF pb;
+    DiagnoseDAO_IF dd;
     DiseaseDAO_IF disb;
     PrescriptionMaker_IF pm;
     Patient patient;
@@ -37,6 +46,7 @@ public class PrescriptionMaker_IFTest {
     public PrescriptionMaker_IFTest() {
         this.db = new DrugDAO();
         this.pb = new PatientDAO();
+        this.dd = new DiagnoseDAO();
         this.disb = new DiseaseDAO();
         this.pm = new PrescriptionMaker();
     }
@@ -52,7 +62,7 @@ public class PrescriptionMaker_IFTest {
     @Before
     public void setUp() {
         this.patient = pb.readPatient("123456-789a");
-        this.patient.setDiagnoses(this.pb.readPatientDiagnoses(this.patient));
+        this.patient.setDiagnoses(this.dd.readPatientDiagnoses(this.patient));
         this.patient.getDiagnoses().forEach(d -> d.setDisease(this.disb.getDisease(d.getDiseaseID())));
         this.drug = db.readDrug(123456);
     }

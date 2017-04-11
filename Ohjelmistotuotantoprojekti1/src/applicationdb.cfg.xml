@@ -13,9 +13,9 @@
        <property name="hbm2ddl.auto">validate</property>
        <property name="show_sql">true</property>
        <property name="hibernate.max_fetch_depth">3</property>
-       <mapping class="model.Prescription"/>
-       <mapping class="model.User"/>
-       <mapping class="model.Message"/>
+       <mapping class="resources.prescription.Prescription"/>
+       <mapping class="resources.user.User"/>
+       <mapping class="resources.message.Message"/>
 
     </session-factory>
 </hibernate-configuration>
