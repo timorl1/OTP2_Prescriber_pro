@@ -76,6 +76,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     private String email;
        
     public UserFormGUI(SideBarListView_IF<Employee> employeeSelector, User_IF user, String title) {
+        text = local.language();
         this.title = title;
         this.employeeSelector = employeeSelector;
         this.user = user;
