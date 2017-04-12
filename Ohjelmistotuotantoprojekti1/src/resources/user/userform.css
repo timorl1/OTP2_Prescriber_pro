@@ -64,7 +64,7 @@
 }
 
 .dialog-pane .header-panel .graphic-container {
-    -fx-background-image: url('img/061323-blue-metallic-orb-icon-people-things-pill.png');
+    -fx-background-image: url('/gui/img/061323-blue-metallic-orb-icon-people-things-pill.png');
     -fx-background-size: 60;
     -fx-min-width: 80;
     -fx-min-height: 80;
