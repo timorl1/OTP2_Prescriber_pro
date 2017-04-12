@@ -39,9 +39,6 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     @FXML
     private Label passwordLabel;
     
-    //Constructor takes the MainGUI as a parameter to be used as root for this LoginGUI
-    //Creates an instance of the LoginController and passes the root and itself as a parameter
-    //Loads the custom login-object from fxml-file
     public LoginGUI() {
         text = local.language();
         try {
@@ -65,13 +62,11 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
         }
     }
     
-    //Gets input from the username field and returns it to the caller
     @Override
     public String getUsername() {
         return this.usernameField.getText();
     }
     
-    //Gets input from the password field and returns it to the caller
     @Override
     public String getPassword() {
         return this.passwordField.getText();
