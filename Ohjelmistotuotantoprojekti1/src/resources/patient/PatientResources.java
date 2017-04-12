@@ -38,6 +38,10 @@ public class PatientResources extends CompositeResource {
         this.patients.forEach(p -> list.add(p.toString()));
         return list;
     }
+    
+    public Patient getPatient(int i) {
+        return this.patients.get(i);
+    }
 
     @Override
     public void refresh() {
