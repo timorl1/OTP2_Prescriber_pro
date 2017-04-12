@@ -26,7 +26,7 @@ public class ApplicationMain extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {
-        local.chooseLanguage("sv", "SE");
+        local.chooseLanguage("en", "GB");
         text = local.language();
         AnchorPane root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
         primaryStage.setTitle(text.getString("appLabel"));

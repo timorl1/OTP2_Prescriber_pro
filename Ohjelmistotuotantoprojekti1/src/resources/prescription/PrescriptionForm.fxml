@@ -30,32 +30,32 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="patientLabel" text="Potilas:" GridPane.rowIndex="2" />
-            <Label fx:id="diagnoseLabel" text="Diagnoosi:" GridPane.rowIndex="3" />
-            <Label fx:id="drugLabel" text="Lääke:" GridPane.rowIndex="4" />
-            <Label fx:id="doseLabel" text="Kerta-annos:" GridPane.rowIndex="5" />
-            <Label fx:id="timesADayLabel" text="Kertaa päivässä:" GridPane.rowIndex="6" />
-            <Label fx:id="startDateLabel" text="Alkamispäivä:" GridPane.rowIndex="8" />
+            <Label fx:id="patientLabel"  GridPane.rowIndex="2" />
+            <Label fx:id="diagnoseLabel" GridPane.rowIndex="3" />
+            <Label fx:id="drugLabel"  GridPane.rowIndex="4" />
+            <Label fx:id="doseLabel"  GridPane.rowIndex="5" />
+            <Label fx:id="timesADayLabel"  GridPane.rowIndex="6" />
+            <Label fx:id="startDateLabel"  GridPane.rowIndex="8" />
             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <Label fx:id="endDateLabel" text="Päättymispäivä:" GridPane.rowIndex="9" />
+            <Label fx:id="endDateLabel"  GridPane.rowIndex="9" />
             <Text fx:id="patientField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Text fx:id="drugField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="doseField" promptText="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="timesADayField" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <ChoiceBox fx:id="diagnoseSelector" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="infoLabel" text="Ohjeet:" GridPane.rowIndex="7" />
+            <Label fx:id="infoLabel"  GridPane.rowIndex="7" />
             <TextArea fx:id="infoField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
               <buttons>
-                <Button fx:id="cancelButton" mnemonicParsing="false" text="Peruuta" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" text="Tallenna" />
+                <Button fx:id="cancelButton" mnemonicParsing="false"  />
+                  <Button fx:id="saveButton" mnemonicParsing="false"  />
               </buttons>
             </ButtonBar>
             <Label fx:id="creationDateLabel" text="01/01/01" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="RIGHT" />
-            <Label fx:id="mainTitle" id="title" text="Lääkemääräys" />
-            <Label fx:id="doctorNameLabel" text="Lääkäri" GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
-            <Label fx:id="prescriptionIdLabel" text="ID" GridPane.rowIndex="1" />
+            <Label fx:id="mainTitle" id="title"  />
+            <Label fx:id="doctorNameLabel"  GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
+            <Label fx:id="prescriptionIdLabel"  GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </content>

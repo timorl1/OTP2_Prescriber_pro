@@ -1,5 +1,7 @@
 package resources.prescription;
 
+import gui.Localisation;
+import static gui.Localisation.getInstance;
 import prescriptionMaker.PrescriptionMakerController;
 import prescriptionMaker.PrescriptionMakerController_IF;
 import resources.SideBarListView_IF;
@@ -8,6 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -32,6 +35,9 @@ import resources.user.User_IF;
  */
 public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
 
+    ResourceBundle text;
+    Localisation local = getInstance();
+    
     @FXML
     private GridPane gridPane;
     @FXML
@@ -102,6 +108,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     private String info;
     
     public PrescriptionFormGUI(SideBarListView_IF<Patient> patientSelector, SideBarListView_IF<Drug> drugSelector, String title, Prescription prescription) {
+        text = local.language();
         this.patientSelector = patientSelector;
         this.drugSelector = drugSelector;
         this.title = title;
@@ -125,6 +132,19 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            patientLabel.setText(text.getString("patient")+":");
+            diagnoseLabel.setText(text.getString("diagnose")+":");
+            drugLabel.setText(text.getString("drug")+":");
+            doseLabel.setText(text.getString("singleDose")+":");
+            timesADayLabel.setText(text.getString("timesADay")+":");
+            startDateLabel.setText(text.getString("startDate")+":");
+            endDateLabel.setText(text.getString("endtDate")+":");
+            infoLabel.setText(text.getString("info")+":");
+            cancelButton.setText(text.getString("cancel"));
+            saveButton.setText(text.getString("save"));
+            mainTitle.setText(text.getString("prescription"));
+            doctorNameLabel.setText(text.getString("doctor"));
+            prescriptionIdLabel.setText(text.getString("ID"));
             this.initializeFields();
             this.initializeBasicListeners();
             if (this.patient == null) {

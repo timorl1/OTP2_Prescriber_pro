@@ -57,7 +57,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             alert.setTitle(text.getString("alertTitleError"));
             alert.setHeaderText(text.getString("alertTextWarning")+":");
             alert.initStyle(StageStyle.UNDECORATED);
-            alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("login.css").toExternalForm());
             alert.showAndWait();
         }
     }

@@ -30,19 +30,19 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="titleLabel" text="Aihe:" GridPane.rowIndex="4" />
-            <Label fx:id="messageLabel" text="Viesti:" GridPane.rowIndex="5" />
-            <Label fx:id="receiverLabel" text="Valitse vastaanottaja:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label fx:id="titleLabel" GridPane.rowIndex="4" />
+            <Label fx:id="messageLabel"  GridPane.rowIndex="5" />
+            <Label fx:id="receiverLabel"  GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="receiverSelector" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="titleField" promptText="Aihe" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextArea fx:id="messageField" promptText="Viesti" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="titleField"  GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextArea fx:id="messageField"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
               <buttons>
-                <Button fx:id="cancelButton" mnemonicParsing="false" text="Peruuta" />
-                  <Button fx:id="sendButton" mnemonicParsing="false" text="Lähetä" />
+                <Button fx:id="cancelButton" mnemonicParsing="false"  />
+                  <Button fx:id="sendButton" mnemonicParsing="false"  />
               </buttons>
             </ButtonBar>
-            <Label fx:id="mainTitle" id="title" text="Viesti" />
+            <Label fx:id="mainTitle" id="title"  />
          </children>
       </GridPane>
    </content>
