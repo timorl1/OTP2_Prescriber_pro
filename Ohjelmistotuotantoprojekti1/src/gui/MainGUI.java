@@ -372,11 +372,21 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.prescriptionForm.markUpdate();
             }
             if (this.controller.savePrescription()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
+                alert.setTitle(text.getString("message"));
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
             }
             else {
-                //Some kind of alert message should be thrown
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitlePrescriptionNotSent"));
+                alert.setTitle(text.getString("message"));
+                alert.setHeaderText(text.getString("alertTextWarning"));
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
             }
         });
         this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {

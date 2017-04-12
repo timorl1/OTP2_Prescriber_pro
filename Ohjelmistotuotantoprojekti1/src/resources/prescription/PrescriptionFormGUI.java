@@ -138,7 +138,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             doseLabel.setText(text.getString("singleDose")+":");
             timesADayLabel.setText(text.getString("timesADay")+":");
             startDateLabel.setText(text.getString("startDate")+":");
-            endDateLabel.setText(text.getString("endtDate")+":");
+            endDateLabel.setText(text.getString("endDate")+":");
             infoLabel.setText(text.getString("info")+":");
             cancelButton.setText(text.getString("cancel"));
             saveButton.setText(text.getString("save"));
@@ -213,6 +213,12 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             try {
                 this.dose = Double.parseDouble(this.doseField.getText().replace(',', '.'));
             } catch (NumberFormatException ex) {
+                if (!this.doseField.getText().isEmpty()){
+                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("falseEntry"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+                    alert.showAndWait();
+                }
             }
             this.prescription.setDose(this.dose);
             this.controller.checkDose();
@@ -221,6 +227,10 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             try {
                 this.timesADay = Integer.parseInt(this.timesADayField.getText());
             } catch (NumberFormatException ex) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("falseEntry"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+                    alert.showAndWait();
             }
             this.prescription.setTimesADay(this.timesADay);
             this.controller.checkDose();
