@@ -447,7 +447,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.userForm.getSaveButton().setOnAction(e -> {           
             if (this.controller.saveUser()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("userAdded"));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("userAdded"));
                 alert.setTitle(text.getString("newUser"));
                 alert.initStyle(StageStyle.UNDECORATED);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
