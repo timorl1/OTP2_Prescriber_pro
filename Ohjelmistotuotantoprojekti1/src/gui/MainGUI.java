@@ -416,7 +416,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         });
         this.messageForm.getSendButton().setOnAction(e -> {
             if (this.controller.saveMessage()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("messageSent"));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("messageSent"));
                 alert.setTitle(text.getString("message"));
                 alert.initStyle(StageStyle.UNDECORATED);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
