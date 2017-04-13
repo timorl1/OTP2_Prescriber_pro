@@ -373,11 +373,21 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.prescriptionForm.markUpdate();
             }
             if (this.controller.savePrescription()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
+                alert.setTitle(text.getString("message"));
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
             }
             else {
-                //Some kind of alert message should be thrown
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitlePrescriptionNotSent"));
+                alert.setTitle(text.getString("message"));
+                alert.setHeaderText(text.getString("alertTextWarning"));
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                alert.showAndWait();
             }
         });
         this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
@@ -438,8 +448,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         });
         this.userForm.getSaveButton().setOnAction(e -> {           
             if (this.controller.saveUser()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Käyttäjä lisätty.");
-                alert.setTitle("Uusi käyttäjä");
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("userAdded"));
+                alert.setTitle(text.getString("newUser"));
                 alert.initStyle(StageStyle.UNDECORATED);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
                 alert.showAndWait();
@@ -447,10 +457,9 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.setStatus(AppStatus.IDLE);
             }
             else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Käyttäjän lisäys epäonnistui.\nTarkista että olet täyttänyt "
-                        + "kaikki kentät.");
-                alert.setTitle("Uusi käyttäjä");
-                alert.setHeaderText("Varoitus");
+                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleUserNotAdded"));
+                alert.setTitle(text.getString("newUser"));
+                alert.setHeaderText(text.getString("alertTextWarning"));
                 alert.initStyle(StageStyle.UNDECORATED);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
                 alert.showAndWait();
