@@ -5,10 +5,13 @@
  */
 package model;
 
-import dao.DrugDAO;
-import dao.DrugDAO_IF;
-import dao.PatientDAO;
-import dao.PatientDAO_IF;
+import calculator.DoseCalculator;
+import resources.drug.Drug;
+import resources.patient.Patient;
+import resources.drug.DrugDAO;
+import resources.drug.DrugDAO_IF;
+import resources.patient.PatientDAO;
+import resources.patient.PatientDAO_IF;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -20,11 +23,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DoseCalculatorTest {
-    DrugDAO_IF db;
-    PatientDAO_IF pb;
+    private final DrugDAO_IF db = new DrugDAO();
+    private final PatientDAO_IF pb = new PatientDAO();
     DoseCalculator dc;
     Patient patient;
     Drug drug;
@@ -33,8 +36,7 @@ public class DoseCalculatorTest {
     int duration;
     
     public DoseCalculatorTest() {
-        this.db = new DrugDAO();
-        this.pb = new PatientDAO();
+        
     }
     
     @BeforeClass

@@ -5,6 +5,9 @@
  */
 package model;
 
+import resources.drug.Drug;
+import resources.drug.DrugResources;
+import resources.drug.DrugResources_IF;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,7 +18,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DrugResources_IFTest {
     private DrugResources_IF dres;

@@ -6,12 +6,12 @@
 package consoletests;
 
 import java.sql.SQLException;
-import model.Patient;
-import dao.PatientDAO;
+import resources.patient.Patient;
+import resources.patient.PatientDAO;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientDAOTest {
 

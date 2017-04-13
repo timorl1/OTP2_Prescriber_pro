@@ -7,11 +7,11 @@ package consoletests;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import dao.DatabaseDAO;
+import resources.database.DatabaseDAO;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PatientDatabaseSetupTestRun {
 

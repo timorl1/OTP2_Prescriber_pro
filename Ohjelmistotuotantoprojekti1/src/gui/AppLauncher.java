@@ -9,7 +9,7 @@ import com.sun.javafx.application.LauncherImpl;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class AppLauncher {
 
@@ -17,7 +17,7 @@ public class AppLauncher {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LauncherImpl.launchApplication(ApplicationMain.class, DemoPreloader.class, args);
+        LauncherImpl.launchApplication(ApplicationMain.class, AppPreloader.class, args);
     }
     
 }

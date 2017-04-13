@@ -5,6 +5,8 @@
  */
 package model;
 
+import appuser.AppUser;
+import appuser.AppUser_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class AppUser_IFTest {
     

@@ -1,18 +1,18 @@
 package gui;
 
 import java.util.List;
-import model.Diagnose;
-import model.Drug;
-import model.Employee;
-import model.Message;
-import model.Patient;
-import model.Prescription;
-import model.User;
-import model.User_IF;
+import resources.diagnose.Diagnose;
+import resources.drug.Drug;
+import resources.employee.Employee;
+import resources.message.Message;
+import resources.patient.Patient;
+import resources.prescription.Prescription;
+import resources.user.User;
+import resources.user.User_IF;
 
 /**
  * Interface for Main View JavaFX element with anchor pane as root
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface MainGUI_IF {
 
@@ -30,7 +30,13 @@ public interface MainGUI_IF {
      * Method to set an access denied message.
      */
     public abstract void setAccessDenied();
-
+    
+    /**
+     * Method that logs current user out.
+     */
+    public abstract void setLogout();
+    
+    
     /**
      * method to set a sidebar main element.
      */

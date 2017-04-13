@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="Tab" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <GridPane fx:id="gridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <stylesheets>
+              <URL value="@messageform.css" />
+          </stylesheets>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="100"/>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="100"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="titleLabel" GridPane.rowIndex="4" />
+            <Label fx:id="messageLabel"  GridPane.rowIndex="5" />
+            <Label fx:id="receiverLabel"  GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="receiverSelector" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="titleField"  GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextArea fx:id="messageField"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+              <buttons>
+                <Button fx:id="cancelButton" mnemonicParsing="false"  />
+                  <Button fx:id="sendButton" mnemonicParsing="false"  />
+              </buttons>
+            </ButtonBar>
+            <Label fx:id="mainTitle" id="title"  />
+         </children>
+      </GridPane>
+   </content>
+</fx:root>

@@ -5,12 +5,12 @@
  */
 package main;
 
-import dao.MessageDAO;
-import dao.UserDAO;
+import resources.message.MessageDAO;
+import resources.user.UserDAO;
 import java.util.List;
-import model.Message;
-import model.User;
-import model.User_IF;
+import resources.message.Message;
+import resources.user.User;
+import resources.user.User_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -21,10 +21,10 @@ import org.junit.Test;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class MessageDAOTest {
-    
+    private final MessageDAO instance = new MessageDAO();
      public MessageDAOTest(){
     }
     
@@ -49,7 +49,7 @@ public class MessageDAOTest {
     public void testReadMessage(){
         System.out.println("readMessage");
         int id = 1;
-        MessageDAO instance = new MessageDAO();
+        
         Message result = instance.readMessage(id);
         assertEquals(id, result.getMessageID());
         assertEquals("Joko toimii", result.getMessage());
@@ -65,7 +65,6 @@ public class MessageDAOTest {
         System.out.println("readSENTMessages");
         User user = new User();
         user.setUsername("doctor1");
-        MessageDAO instance = new MessageDAO();
         List<Message> result = instance.readSentMessages(user);
         assertEquals(1, result.get(0).getMessageID());
         assertEquals("Joko toimii", result.get(0).getMessage());
@@ -81,7 +80,6 @@ public class MessageDAOTest {
         System.out.println("readReceivedMessages");
         User user = new User();
         user.setUsername("nurse1");
-        MessageDAO instance = new MessageDAO();
         List<Message> result = instance.readReceivedMessages(user);
         assertEquals(1, result.get(0).getMessageID());
         assertEquals("Joko toimii", result.get(0).getMessage());
@@ -102,9 +100,9 @@ public class MessageDAOTest {
         Message message = new Message();
         message.setMessageID(4);
         message.setMessage("moi");
+        message.setTitle("testi");
         message.setSender(userS);
         message.setReceiver(userR);
-        MessageDAO instance = new MessageDAO();
         boolean success = instance.createMessage(message);
         assertTrue(success);
         

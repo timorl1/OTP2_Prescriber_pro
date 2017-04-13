@@ -2,6 +2,12 @@
 package consoletests;
 
 import java.io.*;
+
+/**
+ *
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
+ */
+
 public class Reader {
 
   static BufferedReader stdin =

@@ -5,9 +5,9 @@
  */
 package main;
 
-import dao.EmployeeDAO;
+import resources.employee.EmployeeDAO;
 import java.util.List;
-import model.Employee;
+import resources.employee.Employee;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -17,10 +17,10 @@ import org.junit.Test;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class EmployeeDAOTest {
-    
+    private final EmployeeDAO instance = new EmployeeDAO();
     public EmployeeDAOTest(){
     }
     
@@ -48,7 +48,7 @@ public class EmployeeDAOTest {
         System.out.println("readEmployee");
         int userID = 1;
         
-        EmployeeDAO instance = new EmployeeDAO();
+        
         Employee result = instance.readEmployee(userID);
         
         assertEquals(1, result.getUserID());
@@ -65,7 +65,6 @@ public class EmployeeDAOTest {
     @Test
     public void testReadEmployees(){
         System.out.println("readEmployees");
-        EmployeeDAO instance = new EmployeeDAO();
         List<Employee> result = instance.readEmployees();
         
         assertEquals(1, result.get(0).getUserID());

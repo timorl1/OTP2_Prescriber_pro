@@ -5,16 +5,16 @@
  */
 package consoletests;
 
-import dao.DiseaseDAO;
-import dao.DiseaseDAO_IF;
+import resources.disease.DiseaseDAO;
+import resources.disease.DiseaseDAO_IF;
 import java.util.List;
-import model.Allergen;
-import model.Disease;
-import model.Disease_Allergen;
+import resources.drug.Allergen;
+import resources.disease.Disease;
+import resources.disease.Disease_Allergen;
 
 /**
  *
- * @author Timo
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DiseaseTest {
 

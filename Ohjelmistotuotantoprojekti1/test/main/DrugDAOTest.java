@@ -5,10 +5,10 @@
  */
 package main;
 
-import dao.DrugDAO;
+import resources.drug.DrugDAO;
 import java.util.List;
 
-import model.Drug;
+import resources.drug.Drug;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class DrugDAOTest {
-    
+    private final DrugDAO instance = new DrugDAO();
     public DrugDAOTest(){
     }
     
@@ -46,7 +46,7 @@ public class DrugDAOTest {
     public void testReadDrug() throws Exception {
         System.out.println("Read drug");
         int SN = 123456;
-        DrugDAO instance = new DrugDAO();
+        
         Drug result = instance.readDrug(SN);
         assertEquals(123456, result.getSN());
         assertEquals("Burana", result.getName());

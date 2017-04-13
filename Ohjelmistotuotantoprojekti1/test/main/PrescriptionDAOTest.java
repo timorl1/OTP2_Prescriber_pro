@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 package main;
-import dao.PrescriptionDAO;
+import resources.prescription.PrescriptionDAO;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import model.Diagnose;
-import model.Drug;
-import model.Patient;
-import model.Prescription;
-import model.User;
-import model.User_IF;
+import resources.diagnose.Diagnose;
+import resources.drug.Drug;
+import resources.patient.Patient;
+import resources.prescription.Prescription;
+import resources.user.User;
+import resources.user.User_IF;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,11 +25,11 @@ import org.junit.runners.MethodSorters;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrescriptionDAOTest {
-    
+    private PrescriptionDAO instance = new PrescriptionDAO();
     public PrescriptionDAOTest(){
     }
     
@@ -63,7 +63,7 @@ public class PrescriptionDAOTest {
         Date x = new Date();
         
         System.out.println("createPrescription");
-        PrescriptionDAO instance = new PrescriptionDAO();
+        
         Prescription test = new Prescription();
         test.setId(2);
         test.setPatientID(pat.getSSN());
@@ -90,7 +90,7 @@ public class PrescriptionDAOTest {
     public void testReadPrescrition() throws Exception {
         System.out.println("ReadPrescrition");
         int id = 2;
-        PrescriptionDAO instance = new PrescriptionDAO();
+        
         Prescription result = instance.readPrescription(id);
     
         //Kommentissa olevat kohdat ovat nulleja miksi näin :00
@@ -125,7 +125,7 @@ public class PrescriptionDAOTest {
     @Test
     public void testGetPrescriptionsByPatient() throws Exception{
         System.out.println("getPrescriptionsByPatient");
-        PrescriptionDAO instance = new PrescriptionDAO();
+       
         Patient pat = new Patient();
         pat.setSSN("123456-789a");
         List<Prescription> pres = instance.getPrescriptionsByPatient(pat);
@@ -143,7 +143,6 @@ public class PrescriptionDAOTest {
     @Test
     public void testGetPrescriptionsByDoctor() throws Exception{
         System.out.println("getPrescriptionsByDoctor");
-        PrescriptionDAO instance = new PrescriptionDAO();
         User_IF doc = new User();
         doc.setUsername("doctor1");
         List<Prescription> pres = instance.getPrescriptionsByDoctor(doc);
@@ -158,7 +157,6 @@ public class PrescriptionDAOTest {
     @Test
     public void testGetPrescriptionByDiagnose() throws Exception{
         System.out.println("getPrescriptionByDiagnose");
-        PrescriptionDAO instance = new PrescriptionDAO();
         Diagnose dia = new Diagnose();
         dia.setId(1);
         Prescription pres = instance.getPrescriptionByDiagnose(dia);
@@ -173,8 +171,7 @@ public class PrescriptionDAOTest {
     @Test
     public void testUpdatePrescription() throws Exception {
         System.out.println("updatePrescription");
-        PrescriptionDAO instance = new PrescriptionDAO();
-        Prescription test = instance.readPrescription(2);
+       Prescription test = instance.readPrescription(2);
         boolean res = instance.updatePrescription(test);
         assertTrue(res);
         
@@ -187,7 +184,6 @@ public class PrescriptionDAOTest {
     @Test
     public void testyDeletePrescription() throws Exception {
         System.out.println("deletePrescription");
-        PrescriptionDAO instance = new PrescriptionDAO();
         Prescription test = instance.readPrescription(2);
         
         boolean res = instance.deletePrescription(test);
