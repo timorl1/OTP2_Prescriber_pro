@@ -22,7 +22,7 @@ import javafx.stage.StageStyle;
  */
 public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     ResourceBundle text;
-    Localisation local = getInstance();
+    Localisation local = Localisation.getInstance();
     
     FXMLLoader loader;
     
@@ -52,7 +52,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             passwordLabel.setText(text.getString("password")+":");
             passwordField.setPromptText(text.getString("password"));
             loginButton.setText(text.getString("login"));
-        } catch (Exception exc) {
+        } catch (IOException exc) {
             Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("loadingFail"));
             alert.setTitle(text.getString("alertTitleError"));
             alert.setHeaderText(text.getString("alertTextWarning")+":");

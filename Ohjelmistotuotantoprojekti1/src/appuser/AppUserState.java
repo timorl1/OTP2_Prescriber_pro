@@ -9,7 +9,11 @@ package appuser;
  *
  * @author joosiika
  */
-public interface LoginController_IF {
-    public abstract void login();
-    public abstract void logout();
+public abstract class AppUserState {
+    
+    public void changeState(AppUser appUser, AppUserState state) {
+        appUser.changeState(state);
+    }
+    
+    public abstract void getMenuComponents();
 }

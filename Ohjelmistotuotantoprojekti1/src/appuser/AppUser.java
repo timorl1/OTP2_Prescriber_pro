@@ -5,6 +5,7 @@
  */
 package appuser;
 
+import java.util.Observable;
 import resources.user.User_IF;
 import resources.user.User;
 import resources.user.UserDAO;
@@ -14,15 +15,23 @@ import resources.user.UserDAO_IF;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class AppUser implements AppUser_IF{
+public class AppUser extends Observable implements AppUser_IF {
     private final UserDAO_IF userdb;
     private User_IF user = null;
     
     private boolean authenticated;
+    private AppUserState state;
 
     public AppUser() {
         this.userdb = new UserDAO();
         this.authenticated = false;
+        //this.state = LoggedOut.getInstance();
+    }
+    
+    protected void changeState(AppUserState state) {
+        this.state = state;
+        this.setChanged();
+        this.notifyObservers(this.state);
     }
     
     //Gets authentication from the server and returns the the authenticated user to the controller

@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -46,7 +47,7 @@ import resources.user.User_IF;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class MainGUI implements Initializable, MainGUI_IF {
+public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     ResourceBundle text;
     Localisation local = getInstance();
     

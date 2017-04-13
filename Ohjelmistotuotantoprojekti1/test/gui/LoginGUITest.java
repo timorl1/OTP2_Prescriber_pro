@@ -46,8 +46,8 @@ public class LoginGUITest extends GuiTest{
     
     @Override
     protected Parent getRootNode() {
-        Parent parent = null;
-        return new LoginGUI();
+        Parent parent = new MainGUI();
+        return parent;
     }
     
     /**
@@ -66,11 +66,10 @@ public class LoginGUITest extends GuiTest{
      */
     @Test
     public void testGetPassword() {
-        /*System.out.println("getPassword");
+        System.out.println("getPassword");
         TextField password = find("#passwordField");
         click(password).type("test");
-        verifyThat("#passwordField", hasText("test"));*/
-        fail("The test case is a prototype.");
+        verifyThat("#passwordField", hasText("test"));
     }
 
     /**

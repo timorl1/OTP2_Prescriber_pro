@@ -9,6 +9,7 @@ import static gui.Localisation.getInstance;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
@@ -20,7 +21,8 @@ import javafx.stage.Stage;
  */
 public class ApplicationMain extends Application {
     
-    private final MainGUI mainGUI = new MainGUI();
+    private final MainGUI_IF mainGUI = new MainGUI();
+    AnchorPane root;
     Localisation local = getInstance();
     ResourceBundle text;
     
@@ -28,7 +30,7 @@ public class ApplicationMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         local.chooseLanguage("en", "GB");
         text = local.language();
-        AnchorPane root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
+        this.root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
         primaryStage.setTitle(text.getString("appLabel"));
         final Scene scene = new Scene(root);
         primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()-50);

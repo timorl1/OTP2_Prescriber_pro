@@ -25,7 +25,7 @@ public class Localisation {
     private Locale currentLocal;
     private ResourceBundle text;  
     
-    public static Localisation getInstance(){
+    public synchronized static Localisation getInstance(){
         if (INSTANCE == null){
             INSTANCE = new Localisation();
         }

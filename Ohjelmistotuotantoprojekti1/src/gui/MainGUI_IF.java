@@ -7,7 +7,6 @@ import resources.employee.Employee;
 import resources.message.Message;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
-import resources.user.User;
 import resources.user.User_IF;
 
 /**
@@ -15,7 +14,6 @@ import resources.user.User_IF;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface MainGUI_IF {
-
     /**
      * Method to set the login view.
      */
