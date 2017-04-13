@@ -234,7 +234,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setReceivedMessageList() {
         text = local.language();
-        this.receivedMessageListView = new SideBarListViewGUI(text.getString("sentMessages"));
+        this.receivedMessageListView = new SideBarListViewGUI(text.getString("receivedMessages"));
         this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.receivedMessageListView.isExpanded()) {
                 this.receivedMessageListView.setList(this.controller.getReceivedMessages());
@@ -255,7 +255,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setSentMessageList() {
         text = local.language();
-        this.sentMessageListView = new SideBarListViewGUI(text.getString("receivedMessages"));
+        this.sentMessageListView = new SideBarListViewGUI(text.getString("sentMessages"));
         this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.sentMessageListView.isExpanded()) {
                 this.sentMessageListView.setList(this.controller.getSentMessages());
