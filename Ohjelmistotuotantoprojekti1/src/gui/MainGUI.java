@@ -36,11 +36,13 @@ import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.drug.DrugListCell;
 import resources.employee.Employee;
+import resources.employee.EmployeeListCell;
 import resources.message.Message;
 import resources.message.ReceivedMessageListCell;
 import resources.message.SentMessageListCell;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
+import resources.prescription.PrescriptionListCell;
 import resources.user.User;
 import resources.user.User_IF;
 
@@ -216,6 +218,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.prescriptionListView.isExpanded()) {
                 this.prescriptionListView.setList(this.controller.getDoctorPrescriptions());
+                this.prescriptionListView.getListView().setCellFactory(listView -> new PrescriptionListCell(text));
             }
         });
         this.prescriptionListView.getListView().setOnMouseClicked(e -> {
@@ -279,28 +282,28 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     public void setUserList() {
         text = local.language();
         this.userListView = new SideBarListViewGUI(text.getString("users"));
-        //Create custom cells with buttons to be able to easily set users accounts in locked state
-        this.userListView.getListView().setCellFactory(p -> {
+        //Move this to a separate UserListCell-class
+        this.userListView.getListView().setCellFactory(listView -> {
             ListCell<User> cell = new ListCell<User>(){
                 @Override
-                protected void updateItem(User u, boolean bln) {
-                    super.updateItem(u, bln);
-                    if (u != null) {
-                        setText(u.toString());
+                protected void updateItem(User user, boolean bln) {
+                    super.updateItem(user, bln);
+                    if (user != null) {
+                        setText(user.toString());
                         Button button = new Button();
-                        if (u.getUsertype() != 0) {
+                        if (user.getUsertype() != 0) {
                             button.setText("-");
                         }
                         else {
                             button.setText("+");
                         }
-                        button.setOnAction((ActionEvent event) -> {
-                            if (u.getUsertype() != 0) {
-                                controller.lockUser(u);
+                        button.setOnAction(e -> {
+                            if (user.getUsertype() != 0) {
+                                controller.lockUser(user);
                                 button.setText("+");
                             }
                             else {
-                                controller.setUserPriviledges(u);
+                                controller.setUserPriviledges(user);
                                 button.setText("-");
                             }
                         });
@@ -334,6 +337,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.employeeListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.employeeListView.isExpanded()) {
                 this.employeeListView.setList(this.controller.getEmployees());
+                this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
             }
         });
         this.employeeListView.getListView().setOnMouseClicked(e -> {
