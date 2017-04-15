@@ -8,6 +8,8 @@ package appuser;
 import gui.Localisation;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -52,6 +54,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             passwordLabel.setText(text.getString("password")+":");
             passwordField.setPromptText(text.getString("password"));
             loginButton.setText(text.getString("login"));
+            loginButton.disableProperty().bind(this.createBooleanBinding());
         } catch (IOException exc) {
             Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("loadingFail"));
             alert.setTitle(text.getString("alertTitleError"));
@@ -92,5 +95,19 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     @Override
     public void clearPasswordField(){
         this.passwordField.clear();
+    }
+    
+    private BooleanBinding createBooleanBinding() {
+        BooleanBinding booleanBinding = new BooleanBinding() {
+            {
+                super.bind(usernameField.textProperty(),
+                        passwordField.textProperty());
+            }
+            @Override
+            protected boolean computeValue() {
+                return (usernameField.getText().isEmpty() || passwordField.getText().isEmpty());
+            }
+        };
+        return booleanBinding;
     }
 }
