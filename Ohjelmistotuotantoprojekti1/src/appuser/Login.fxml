@@ -24,6 +24,7 @@
             <TextField fx:id="usernameField" />
             <Label fx:id="passwordLabel" />
             <PasswordField fx:id="passwordField" />
+            <Label fx:id="messageLabel" />
             <Button fx:id="loginButton" mnemonicParsing="false" />
          </children>
          <padding>

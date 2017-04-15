@@ -8,7 +8,6 @@ package appuser;
 import gui.Localisation;
 import java.io.IOException;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +39,8 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     private Label usernameLabel;
     @FXML
     private Label passwordLabel;
+    @FXML
+    private Label messageLabel;
     
     private LoginGUI() {
         text = local.language();
@@ -89,7 +90,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
 
     @Override
     public void addMessage(String message) {
-        this.getChildren().add(new Label(message));
+        this.messageLabel.setText(message);
     }
     
     @Override

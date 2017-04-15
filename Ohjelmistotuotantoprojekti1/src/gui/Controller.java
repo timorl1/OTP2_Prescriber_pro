@@ -72,8 +72,9 @@ public class Controller implements Controller_IF {
             }
             else {
                 this.gui.setLoginFailed();
+            }
         }
-        }else {
+        else {
             this.gui.setLoginFailed();
         }
     }

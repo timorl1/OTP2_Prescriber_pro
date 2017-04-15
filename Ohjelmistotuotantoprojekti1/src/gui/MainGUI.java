@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
@@ -109,6 +110,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     public void setLogin() {
         this.login = LoginGUI.getInstance();
         this.login.getButton().setOnAction(e -> {
+            this.login.addMessage(null);
             this.controller.login(this.login.getUsername(), this.login.getPassword());
             this.login.clearPasswordField();
         });
@@ -126,8 +128,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     @Override
     public void setAccessDenied() {
         text = local.language();
-        this.root.getChildren().clear();
-        this.root.getChildren().add(new Label(text.getString("accessDenied")));
+        this.login.addMessage(text.getString("accessDenied"));
     }
     
     @Override
