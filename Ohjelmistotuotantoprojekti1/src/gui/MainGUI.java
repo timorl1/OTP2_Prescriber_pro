@@ -23,7 +23,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,10 +31,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
+import resources.patient.PatientListCell;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
+import resources.drug.DrugListCell;
 import resources.employee.Employee;
 import resources.message.Message;
+import resources.message.ReceivedMessageListCell;
+import resources.message.SentMessageListCell;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
 import resources.user.User;
@@ -88,7 +91,6 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.dsc = new DoubleStringConverter();
         setLogin();
         setStatus(AppStatus.IDLE);
-        
     }
     
     public AppStatus getStatus() {
@@ -103,7 +105,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void setLogin() {
-        this.login = new LoginGUI();
+        this.login = LoginGUI.getInstance();
         this.login.getButton().setOnAction(e -> {
             this.controller.login(this.login.getUsername(), this.login.getPassword());
             this.login.clearPasswordField();
@@ -133,12 +135,6 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.root.getChildren().add((LoginGUI)this.login);
     }
     
-    //Removes the login component and loads the side bar component
-    //Component type is defined by user's priviledges
-    //1 - load nurses sidebar components
-    //2 - load doctors sidebar components
-    //3 - load administrators sidebar components
-    //0 - should print out "access revoked" and instructions to contact the administrator
     @Override
     public void setSideBar() {
         this.root.getChildren().remove((LoginGUI) this.login);
@@ -173,6 +169,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.patientListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.patientListView.isExpanded()) {
                 this.patientListView.setList(this.controller.getPatients());
+                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
             }
         });
         this.patientListView.getListView().setOnMouseClicked(e -> {
@@ -196,6 +193,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.drugListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.drugListView.isExpanded()) {
                 this.drugListView.setList(this.controller.getDrugs());
+                this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
             }
         });
         this.drugListView.getListView().setOnMouseClicked(e -> {
@@ -235,16 +233,17 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     @Override
     public void setReceivedMessageList() {
         text = local.language();
-        this.receivedMessageListView = new SideBarListViewGUI(text.getString("sentMessages"));
+        this.receivedMessageListView = new SideBarListViewGUI(text.getString("receivedMessages"));
         this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.receivedMessageListView.isExpanded()) {
                 this.receivedMessageListView.setList(this.controller.getReceivedMessages());
+                this.receivedMessageListView.getListView().setCellFactory(listView -> new ReceivedMessageListCell(text));
             }
         });
         this.receivedMessageListView.getListView().setOnMouseClicked(e -> {
             if (this.receivedMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
-                this.setMessageDetails(this.receivedMessageListView.getSelection());
+                this.controller.getReceivedMessageDetails();
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
@@ -256,16 +255,17 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     @Override
     public void setSentMessageList() {
         text = local.language();
-        this.sentMessageListView = new SideBarListViewGUI(text.getString("receivedMessages"));
+        this.sentMessageListView = new SideBarListViewGUI(text.getString("sentMessages"));
         this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.sentMessageListView.isExpanded()) {
                 this.sentMessageListView.setList(this.controller.getSentMessages());
+                this.sentMessageListView.getListView().setCellFactory(listView -> new SentMessageListCell(text));
             }
         });
         this.sentMessageListView.getListView().setOnMouseClicked(e -> {
             if (this.sentMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
-                this.setMessageDetails(this.sentMessageListView.getSelection());
+                this.controller.getSentMessageDetails();
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
@@ -699,8 +699,13 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     }
     
     @Override
-    public Message getSelectedMessage() {
+    public Message getSelectedReceivedMessage() {
         return this.receivedMessageListView.getSelection();
+    }
+    
+    @Override
+    public Message getSelectedSentMessage() {
+        return this.sentMessageListView.getSelection();
     }
     
     @Override

@@ -192,12 +192,18 @@ public interface MainGUI_IF {
      * @param message message to be shown in detail
      */
     public abstract void setMessageDetails(Message message);
+    
+        /**
+     * Method to get the selected message from list view.
+     * @return message selected in the message list view
+     */
+    public abstract Message getSelectedReceivedMessage();
 
     /**
      * Method to get the selected message from list view.
      * @return message selected in the message list view
      */
-    public abstract Message getSelectedMessage();
+    public abstract Message getSelectedSentMessage();
 
     /**
      * Method to get the message manipulated by the message form view.

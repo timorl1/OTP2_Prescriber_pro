@@ -6,7 +6,6 @@
 package appuser;
 
 import gui.Localisation;
-import static gui.Localisation.getInstance;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -23,6 +22,7 @@ import javafx.stage.StageStyle;
 public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     ResourceBundle text;
     Localisation local = Localisation.getInstance();
+    private static LoginGUI_IF INSTANCE = null;
     
     FXMLLoader loader;
     
@@ -39,7 +39,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     @FXML
     private Label passwordLabel;
     
-    public LoginGUI() {
+    private LoginGUI() {
         text = local.language();
         try {
             loader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -60,6 +60,13 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("login.css").toExternalForm());
             alert.showAndWait();
         }
+    }
+    
+    public synchronized static LoginGUI_IF getInstance(){
+        if (INSTANCE == null){
+            INSTANCE = new LoginGUI();
+        }
+        return INSTANCE;
     }
     
     @Override

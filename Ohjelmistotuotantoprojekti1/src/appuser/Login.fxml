@@ -18,10 +18,7 @@
             <URL value="@login.css" />
          </stylesheets>
          <children>
-            <Label fx:id="loginLabel">
-               <font>
-                  <Font size="22.0" />
-               </font>
+            <Label fx:id="loginLabel" id="loginLabel">
             </Label>
             <Label fx:id="usernameLabel" />
             <TextField fx:id="usernameField" />

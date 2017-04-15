@@ -1,10 +1,8 @@
 package resources.message;
 
-import resources.user.User;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.Type;
 import resources.user.User;
 
 /**
@@ -19,7 +17,7 @@ public class Message {
     private String message;
     private Date date;
     private String title;
-
+    private boolean opened;
     
     private User sender;
     private User receiver;
@@ -81,6 +79,15 @@ public class Message {
     
     public void setMessage(String message) {
         this.message = message;
+    }
+    
+    @Column(name="opened")
+    public boolean isOpened() {
+        return opened;
+    }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
     }
 
     @Override

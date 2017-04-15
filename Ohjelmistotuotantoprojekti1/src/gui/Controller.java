@@ -150,8 +150,16 @@ public class Controller implements Controller_IF {
     }
     
     @Override
-    public void getMessageDetails() {
-        this.gui.setMessageDetails(this.gui.getSelectedMessage());
+    public void getSentMessageDetails() {
+        this.gui.setMessageDetails(this.gui.getSelectedSentMessage());
+    }
+    
+    @Override
+    public void getReceivedMessageDetails() {
+        Message message = this.gui.getSelectedReceivedMessage();
+        message.setOpened(true);
+        this.clientRes.saveMessage(message);
+        this.gui.setMessageDetails(message);
     }
     
     @Override

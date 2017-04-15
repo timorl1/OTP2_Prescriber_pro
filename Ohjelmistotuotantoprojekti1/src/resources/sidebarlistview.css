@@ -1,0 +1,48 @@
+.titled-pane *.content{
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+
+.titled-pane .title {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-font-size: 1.5em;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+
+.titled-pane .title:focused,  .titled-pane .title:hover {
+    -fx-font-weight: bolder;
+}
+
+.titled-pane .list-view {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: rgba(13, 130, 209, 1);
+}
+
+.list-cell:odd {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 0 1 0;
+    -fx-border-color: rgba(204, 204, 204, 0.3);
+}
+
+.list-cell:even {
+    -fx-background-color: transparent;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: rgba(195, 215, 224, 0.7);
+}
+
+.list-cell:empty {
+    -fx-border-color: transparent;
+    visibility:hidden;
+}
+
+.grid-pane {
+    
+}

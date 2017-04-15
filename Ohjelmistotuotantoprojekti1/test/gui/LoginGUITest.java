@@ -78,7 +78,7 @@ public class LoginGUITest extends GuiTest{
     @Test
     public void testGetButton() {
         System.out.println("getButton");
-        LoginGUI instance = new LoginGUI();
+        LoginGUI instance = (LoginGUI)LoginGUI.getInstance();
         Button expResult = null;
         Button result = instance.getButton();
         assertEquals(expResult, result);
@@ -93,7 +93,7 @@ public class LoginGUITest extends GuiTest{
     public void testAddMessage() {
         System.out.println("addMessage");
         String message = "";
-        LoginGUI instance = new LoginGUI();
+        LoginGUI instance = (LoginGUI)LoginGUI.getInstance();
         instance.addMessage(message);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -105,7 +105,7 @@ public class LoginGUITest extends GuiTest{
     @Test
     public void testClearPasswordField() {
         System.out.println("clearPasswordField");
-        LoginGUI instance = new LoginGUI();
+        LoginGUI instance = (LoginGUI)LoginGUI.getInstance();
         instance.clearPasswordField();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
