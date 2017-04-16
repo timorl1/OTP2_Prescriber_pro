@@ -8,8 +8,6 @@ package prescriptionMaker;
 import resources.prescription.PrescriptionFormGUI_IF;
 import java.util.List;
 import calculator.DoseStatus;
-import prescriptionmaker.PrescriptionMaker;
-import prescriptionmaker.PrescriptionMaker_IF;
 
 /**
  *

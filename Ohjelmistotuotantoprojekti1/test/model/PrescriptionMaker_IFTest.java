@@ -7,8 +7,8 @@ package model;
 
 import calculator.DoseStatus;
 import resources.drug.Drug;
-import prescriptionmaker.PrescriptionMaker;
-import prescriptionmaker.PrescriptionMaker_IF;
+import prescriptionMaker.PrescriptionMaker;
+import prescriptionMaker.PrescriptionMaker_IF;
 import resources.prescription.Prescription;
 import resources.patient.Patient;
 import resources.disease.DiseaseDAO;

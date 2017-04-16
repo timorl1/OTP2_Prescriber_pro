@@ -5,7 +5,6 @@
  */
 package resources.prescription;
 
-import resources.drug.*;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
