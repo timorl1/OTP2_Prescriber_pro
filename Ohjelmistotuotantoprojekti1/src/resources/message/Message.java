@@ -1,8 +1,9 @@
 package resources.message;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Observable;
 import javax.persistence.*;
-import org.hibernate.annotations.Type;
 import resources.user.User;
 
 /**
@@ -11,7 +12,9 @@ import resources.user.User;
  */
 @Entity(name="message")
 @Table(name="message")
-public class Message {
+public class Message extends Observable implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private int messageID;
     private String message;
@@ -88,6 +91,8 @@ public class Message {
 
     public void setOpened(boolean opened) {
         this.opened = opened;
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override

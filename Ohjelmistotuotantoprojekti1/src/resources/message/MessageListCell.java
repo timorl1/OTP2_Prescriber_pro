@@ -5,6 +5,7 @@
  */
 package resources.message;
 
+import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -17,7 +18,7 @@ import javafx.scene.text.Text;
  *
  * @author joosiika
  */
-public abstract class MessageListCell extends ListCell<Message> {
+public abstract class MessageListCell extends ListCell<Message> implements Observer {
     
     private ResourceBundle text;
 
@@ -32,10 +33,15 @@ public abstract class MessageListCell extends ListCell<Message> {
     @Override
     protected void updateItem(Message message, boolean empty) {
         super.updateItem(message, empty);
+        
         if (empty || message == null) {
             setText(null);
             setGraphic(null);
-        } else {
+        }
+        else {
+            if (message.countObservers() == 0) {
+                message.addObserver(this);
+            }
             GridPane gridPane = new GridPane();
             Label nameLabel = new Label();
             Label subjectLabel = new Label();

@@ -5,6 +5,7 @@
  */
 package resources.message;
 
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 /**
@@ -28,5 +29,10 @@ public class ReceivedMessageListCell extends MessageListCell {
     @Override
     public String getNameValue(Message message) {
         return message.getSender().getFirstName() + " " + message.getSender().getLastName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.getListView().refresh();
     }
 }

@@ -71,5 +71,5 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
             this.listView.setItems(this.list);
         }
     }
-    
+
 }
