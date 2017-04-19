@@ -628,6 +628,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         list.add(text.getString("sender")+": "+message.getSender().getFirstName()+" "+message.getSender().getLastName());
         list.add(text.getString("receiver")+": "+message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
         list.add(text.getString("date")+": "+message.getDate());
+        list.add(text.getString("subject")+": "+message.getTitle() );
         list.add(text.getString("message")+": "+message.getMessage() );
         
         this.tabPane.getTabs().remove(this.messageTab);
