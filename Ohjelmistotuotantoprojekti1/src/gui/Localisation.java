@@ -5,6 +5,8 @@
  */
 package gui;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,8 +17,6 @@ import java.util.ResourceBundle;
 public class Localisation {
     
     private Localisation(){}
-    //private String language;
-    //private String country; 
     
     private static Localisation INSTANCE = null;
     
@@ -24,6 +24,11 @@ public class Localisation {
     private String country;
     private Locale currentLocal;
     private ResourceBundle text;  
+    private final List<String> languageList = Arrays.asList("eng", "sve");
+
+    public List<String> getLanguageList() {
+        return languageList;
+    }
     
     public synchronized static Localisation getInstance(){
         if (INSTANCE == null){
@@ -31,9 +36,17 @@ public class Localisation {
         }
         return INSTANCE;
     }
-    public Locale chooseLanguage(String l, String c){
-        this.country = c;
-        this.language = l;
+    public Locale chooseLanguage(String l){
+        switch (l) {
+            case "eng":
+                this.country = "GB";
+                this.language = "en";
+                break;
+            case "sve":
+                this.country = "SE";
+                this.language = "sv";
+                break;
+        }
         currentLocal = currentLocal = new Locale(language, country);
         return currentLocal;
     }
