@@ -26,6 +26,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
@@ -286,23 +288,25 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 @Override
                 protected void updateItem(User user, boolean bln) {
                     super.updateItem(user, bln);
+                    Image locked = new Image(getClass().getResourceAsStream("/gui/img/padlock_closed.png"));
+                    Image open = new Image(getClass().getResourceAsStream("/gui/img/padlock_open.png"));
                     if (user != null) {
                         setText(user.toString());
                         Button button = new Button();
                         if (user.getUsertype() != 0) {
-                            button.setText("-");
+                            button.setGraphic(new ImageView(open));
                         }
                         else {
-                            button.setText("+");
+                            button.setGraphic(new ImageView(locked));
                         }
                         button.setOnAction(e -> {
                             if (user.getUsertype() != 0) {
                                 controller.lockUser(user);
-                                button.setText("+");
+                                button.setGraphic(new ImageView(locked));
                             }
                             else {
                                 controller.setUserPriviledges(user);
-                                button.setText("-");
+                                button.setGraphic(new ImageView(open));
                             }
                         });
                         setGraphic(button);
