@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import static org.loadui.testfx.Assertions.verifyThat;
 import org.loadui.testfx.GuiTest;
 import static org.loadui.testfx.controls.Commons.hasText;
@@ -23,6 +24,7 @@ import static org.loadui.testfx.controls.Commons.hasText;
  *
  * @author Timo
  */
+@Ignore
 public class LoginGUITest extends GuiTest{
     
     public LoginGUITest() {
