@@ -84,8 +84,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     
     private AppStatus status;
     
-    private DoubleStringConverter dsc;    
-    
+    private DoubleStringConverter dsc;  
+
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
