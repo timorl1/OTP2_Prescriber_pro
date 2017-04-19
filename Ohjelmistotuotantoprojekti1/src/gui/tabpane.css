@@ -1,10 +1,10 @@
 .mainFxmlClass .tabPane .tab {
-    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-color: rgba(195, 215, 224, 0.9);
     -fx-background-radius: 20;
 }
 
 .mainFxmlClass .tabPane .tab:selected {
-    -fx-background-color: rgba(255, 255, 255, 1);
+    -fx-background-color: rgba(255, 255, 255 0.7);
     -fx-background-radius: 20;
 }
 
@@ -13,17 +13,17 @@
 }
 
 .mainFxmlClass .tabPane .list-view {
-    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-color: rgba(255, 255, 255, 0.93);
     -fx-background-radius: 20;
 }
 
 .mainFxmlClass .tabPane .table-view {
-    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-color: rgba(255, 255, 255, 0.93);
     -fx-background-radius: 20;
 }
 
 .mainFxmlClass .tabPane .list-view .list-cell{
-    -fx-background-color: transparent ;
+    -fx-background-color: transparent;
     -fx-padding: 20;
     -fx-margin: 20;
 }

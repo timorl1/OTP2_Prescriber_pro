@@ -365,110 +365,117 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     @Override
     public void setPrescriptionForm(Prescription prescription) {
         text = local.language();
-        this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, text.getString("prescription"), prescription);
-        this.prescriptionForm.getCancelButton().setOnAction(e -> {
-            this.tabPane.getTabs().remove(this.prescriptionForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.prescriptionForm.getSaveButton().setOnAction(e -> {
-            if (this.status == AppStatus.EDIT) {
-                this.prescriptionForm.markUpdate();
-            }
-            if (this.controller.savePrescription()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
-                alert.setTitle(text.getString("message"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+        if(!this.tabPane.getTabs().contains(this.prescriptionForm)){
+            this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, text.getString("prescription"), prescription);
+            this.prescriptionForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
-            }
-            else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitlePrescriptionNotSent"));
-                alert.setTitle(text.getString("message"));
-                alert.setHeaderText(text.getString("alertTextWarning"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
-            }
-        });
-        this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
-            if (this.getPrescriptionForm().getPatient() != null) {
+            });
+            this.prescriptionForm.getSaveButton().setOnAction(e -> {
+                if (this.status == AppStatus.EDIT) {
+                    this.prescriptionForm.markUpdate();
+                }
+                if (this.controller.savePrescription()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
+                    alert.setTitle(text.getString("message"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                    alert.showAndWait();
+                    this.tabPane.getTabs().remove(this.prescriptionForm);
+                    this.setStatus(AppStatus.IDLE);
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitlePrescriptionNotSent"));
+                    alert.setTitle(text.getString("message"));
+                    alert.setHeaderText(text.getString("alertTextWarning"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                    alert.showAndWait();
+                }
+            });
+            this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
+                if (this.getPrescriptionForm().getPatient() != null) {
+                    ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
+                    this.prescriptionForm.getDiagnoseSelector().setItems(list);
+                    this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
+                    this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
+                }
+            });
+            if (this.getSelectedPatient() != null) {
                 ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
                 this.prescriptionForm.getDiagnoseSelector().setItems(list);
                 this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
-                this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
             }
-        });
-        if (this.getSelectedPatient() != null) {
-            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
-            this.prescriptionForm.getDiagnoseSelector().setItems(list);
-            this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
+            this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);
         }
-        this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);
     }
     
     @Override
     public void setMessageForm(Message message){
         text = local.language();
         this.status = AppStatus.CREATE;
-        this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, text.getString("newMessage"));
-        this.messageForm.getCancelButton().setOnAction(e -> {
-            this.tabPane.getTabs().remove(this.messageForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.messageForm.getSendButton().setOnAction(e -> {
-            if (this.controller.saveMessage()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("messageSent"));
-                alert.setTitle(text.getString("message"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+        if(!this.tabPane.getTabs().contains(this.messageForm)){
+            this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, text.getString("newMessage"));
+
+            this.messageForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.messageForm);
                 this.setStatus(AppStatus.IDLE);
-            }
-            else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleMessageNotSent"));
-                alert.setTitle(text.getString("message"));
-                alert.setHeaderText(text.getString("alertTextWarning"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
-            }
-        });
-        this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
+            });
+            this.messageForm.getSendButton().setOnAction(e -> {
+                if (this.controller.saveMessage()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("messageSent"));
+                    alert.setTitle(text.getString("message"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                    alert.showAndWait();
+                    this.tabPane.getTabs().remove(this.messageForm);
+                    this.setStatus(AppStatus.IDLE);
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleMessageNotSent"));
+                    alert.setTitle(text.getString("message"));
+                    alert.setHeaderText(text.getString("alertTextWarning"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                    alert.showAndWait();
+                }
+            });
+            this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
+
+        }
     }
-    
     @Override
     public void setUserForm(User_IF user) {
         text = local.language();
         this.status = AppStatus.CREATE;
-        this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
-        this.userForm.getCancelButton().setOnAction(e -> {
-            this.tabPane.getTabs().remove(this.userForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.userForm.getSaveButton().setOnAction(e -> {           
-            if (this.controller.saveUser()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("userAdded"));
-                alert.setTitle(text.getString("newUser"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+        if(!this.tabPane.getTabs().contains(this.userForm)){
+            this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
+            this.userForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.userForm);
                 this.setStatus(AppStatus.IDLE);
-            }
-            else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleUserNotAdded"));
-                alert.setTitle(text.getString("newUser"));
-                alert.setHeaderText(text.getString("alertTextWarning"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
-            }
-        });
-      
-        this.tabPane.getTabs().add((UserFormGUI)this.userForm);
+            });
+            this.userForm.getSaveButton().setOnAction(e -> {           
+                if (this.controller.saveUser()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("userAdded"));
+                    alert.setTitle(text.getString("newUser"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                    alert.showAndWait();
+                    this.tabPane.getTabs().remove(this.userForm);
+                    this.setStatus(AppStatus.IDLE);
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleUserNotAdded"));
+                    alert.setTitle(text.getString("newUser"));
+                    alert.setHeaderText(text.getString("alertTextWarning"));
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                    alert.showAndWait();
+                }
+            });
+
+            this.tabPane.getTabs().add((UserFormGUI)this.userForm);
+        }    
     }
     
     
