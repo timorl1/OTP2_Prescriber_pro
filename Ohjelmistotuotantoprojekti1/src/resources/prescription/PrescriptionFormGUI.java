@@ -145,6 +145,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             mainTitle.setText(text.getString("prescription"));
             doctorNameLabel.setText(text.getString("doctor"));
             prescriptionIdLabel.setText(text.getString("ID"));
+            infoField.setWrapText(true);
             this.initializeFields();
             this.initializeBasicListeners();
             if (this.patient == null) {

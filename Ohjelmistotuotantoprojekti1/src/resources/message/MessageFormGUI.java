@@ -72,6 +72,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
             cancelButton.setText(text.getString("cancel"));
             sendButton.setText(text.getString("send"));
             mainTitle.setText(text.getString("message"));
+            messageField.setWrapText(true);
             this.list = FXCollections.observableArrayList(users);
             this.receiverSelector.setItems(this.list);
             this.titleField.setOnKeyReleased(e -> this.message.setTitle(this.titleField.getText()));
