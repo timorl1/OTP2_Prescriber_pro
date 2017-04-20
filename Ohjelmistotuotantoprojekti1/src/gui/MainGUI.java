@@ -349,7 +349,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.userListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.userListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.userListView);
     }
 
     @Override
@@ -371,7 +372,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.employeeListView);
     }
 
     @Override
@@ -383,7 +385,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.databaseListView.setList(this.controller.getDatabases());
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.databaseListView);
     }
     
     @Override
