@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -293,20 +294,25 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                     if (user != null) {
                         setText(user.toString());
                         Button button = new Button();
+                        
                         if (user.getUsertype() != 0) {
                             button.setGraphic(new ImageView(open));
+                            button.setTooltip(new Tooltip(text.getString("lockUser")));
                         }
                         else {
                             button.setGraphic(new ImageView(locked));
+                            button.setTooltip(new Tooltip(text.getString("unlockUser")));
                         }
                         button.setOnAction(e -> {
                             if (user.getUsertype() != 0) {
                                 controller.lockUser(user);
                                 button.setGraphic(new ImageView(locked));
+                                button.setTooltip(new Tooltip(text.getString("unlockUser")));
                             }
                             else {
                                 controller.setUserPriviledges(user);
                                 button.setGraphic(new ImageView(open));
+                                button.setTooltip(new Tooltip(text.getString("lockUser")));
                             }
                         });
                         setGraphic(button);
