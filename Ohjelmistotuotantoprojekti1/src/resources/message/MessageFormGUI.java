@@ -10,6 +10,7 @@ import static gui.Localisation.getInstance;
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import resources.message.Message;
 import resources.user.User;
 import resources.user.User_IF;
 
@@ -52,6 +52,8 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     private Label mainTitle;
     @FXML
     private Label receiverLabel;
+    @FXML
+    private Label counter;
     
     FXMLLoader loader;
     private Message message;
@@ -71,11 +73,12 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
             messageLabel.setText(text.getString("message")+":");
             receiverLabel.setText(text.getString("chooseReceiver")+":");
             titleField.setPromptText(text.getString("subject"));
-            messageField.setPromptText(text.getString("message"));
+            messageField.setPromptText(text.getString("messagewritefield"));
             cancelButton.setText(text.getString("cancel"));
             sendButton.setText(text.getString("send"));
             mainTitle.setText(text.getString("message"));
             messageField.setWrapText(true);
+            counter.setText(text.getString("counter"));
             receiverSelector.setEditable(true);
             receiverSelector.setPromptText("TEst");
             this.list = FXCollections.observableArrayList(users);
@@ -110,7 +113,16 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
 
             this.receiverSelector.setItems(this.filteredList);
             this.titleField.setOnKeyReleased(e -> this.message.setTitle(this.titleField.getText()));
-            this.messageField.setOnKeyReleased(e -> this.message.setMessage(this.messageField.getText()));
+            this.messageField.setOnKeyReleased(e -> {
+                    String s = this.messageField.getText();
+                    int length = this.messageField.getText().length();
+                    this.counter.setText(text.getString("counter")+Integer.toString(length));
+                    if(s.length() >= 1000){
+                        this.messageField.setText(s.substring(0, 1000));
+                        this.messageField.positionCaret(s.length());
+                    } else {
+                        this.message.setMessage(this.messageField.getText());}
+            });
             this.receiverSelector.setOnAction(e -> this.message.setReceiver((User) this.receiverSelector.getSelectionModel().getSelectedItem()));
         } catch (IOException ex) {
             ex.printStackTrace();
