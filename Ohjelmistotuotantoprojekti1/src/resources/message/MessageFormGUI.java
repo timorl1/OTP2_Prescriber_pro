@@ -10,8 +10,10 @@ import static gui.Localisation.getInstance;
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -35,7 +37,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     @FXML
     private Label messageLabel;
     @FXML 
-    private ChoiceBox<User_IF> receiverSelector;
+    private ComboBox<User_IF> receiverSelector;
     @FXML
     private TextField titleField;
     @FXML
@@ -54,6 +56,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     FXMLLoader loader;
     private Message message;
     private ObservableList<User_IF> list;
+    FilteredList<User_IF> filteredList;
     
     public MessageFormGUI(List<User_IF> users, Message message, String title){
         text = local.language();
@@ -73,8 +76,39 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
             sendButton.setText(text.getString("send"));
             mainTitle.setText(text.getString("message"));
             messageField.setWrapText(true);
+            receiverSelector.setEditable(true);
+            receiverSelector.setPromptText("TEst");
             this.list = FXCollections.observableArrayList(users);
-            this.receiverSelector.setItems(this.list);
+            filteredList = new FilteredList<>(this.list, p -> true);
+            
+            // Add a listener to the textProperty of the combobox editor. The
+            // listener will simply filter the list every time the input is changed
+            // as long as the user hasn't selected an item in the list.
+            receiverSelector.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+                final TextField editor = receiverSelector.getEditor();
+                final User_IF selected = receiverSelector.getSelectionModel().getSelectedItem();
+
+                // This needs run on the GUI thread to avoid the error described
+                // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
+                Platform.runLater(() -> {
+                    // If the no item in the list is selected or the selected item
+                    // isn't equal to the current input, we refilter the list.
+                    if (selected == null || !selected.equals(editor.getText())) {
+                        filteredList.setPredicate(item -> {
+                            // We return true for any items that starts with the
+                            // same letters as the input. We use toUpperCase to
+                            // avoid case sensitivity.
+                            if (item.getUsername().toUpperCase().startsWith(newValue.toUpperCase())) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                    }
+                });
+            });
+
+            this.receiverSelector.setItems(this.filteredList);
             this.titleField.setOnKeyReleased(e -> this.message.setTitle(this.titleField.getText()));
             this.messageField.setOnKeyReleased(e -> this.message.setMessage(this.messageField.getText()));
             this.receiverSelector.setOnAction(e -> this.message.setReceiver((User) this.receiverSelector.getSelectionModel().getSelectedItem()));
