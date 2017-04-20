@@ -2,8 +2,6 @@ package resources.prescription;
 
 import gui.Localisation;
 import static gui.Localisation.getInstance;
-import prescriptionMaker.PrescriptionMakerController;
-import prescriptionMaker.PrescriptionMakerController_IF;
 import resources.SideBarListView_IF;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -25,7 +23,6 @@ import javafx.stage.StageStyle;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.patient.Patient;
-import resources.prescription.Prescription;
 import resources.user.User_IF;
 
 /**

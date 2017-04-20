@@ -96,6 +96,8 @@ public interface MainGUI_IF {
      * Method to set the additional buttons for users with privileges to create prescriptions.
      */
     public abstract void setPrescriptionTools();
+    
+    public abstract void setBasicTools();
 
     /**
      * Method to set patient details to the view.

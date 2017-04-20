@@ -52,6 +52,7 @@ public class Controller implements Controller_IF {
                         this.gui.setDrugList();
                         this.gui.setReceivedMessageList();
                         this.gui.setSentMessageList();
+                        this.gui.setBasicTools();
                         break;
                     case 2:
                         this.gui.setPatientList();
@@ -60,6 +61,7 @@ public class Controller implements Controller_IF {
                         this.gui.setReceivedMessageList();
                         this.gui.setSentMessageList();
                         this.gui.setPrescriptionTools();
+                        this.gui.setBasicTools();
                         break;
                     case 3:
                         this.gui.setUserList();
@@ -67,6 +69,7 @@ public class Controller implements Controller_IF {
                         this.gui.setReceivedMessageList();
                         this.gui.setSentMessageList();
                         this.gui.setUserTools();
+                        this.gui.setBasicTools();
                         break;
                 }
             }
