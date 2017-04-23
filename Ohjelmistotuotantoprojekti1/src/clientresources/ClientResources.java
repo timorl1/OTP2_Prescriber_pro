@@ -172,7 +172,14 @@ public class ClientResources implements ClientResources_IF {
     
     @Override
     public boolean saveMessage(Message message){
+      //  if (){
+            
         return this.messageDAO.createMessage(message);
+       // } else {
+         //   return false;
+      //  }
+        
+
     }
         
     @Override

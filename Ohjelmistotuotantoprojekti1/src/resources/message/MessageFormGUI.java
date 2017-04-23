@@ -82,7 +82,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
             this.messageField.setOnKeyReleased(e -> {
                     String s = this.messageField.getText();
                     int length = this.messageField.getText().length();
-                    this.counter.setText(text.getString("counter")+Integer.toString(length));
+                    this.counter.setText(Integer.toString(length)+ text.getString("counter"));
                     if(s.length() >= 1000){
                         this.messageField.setText(s.substring(0, 1000));
                         this.messageField.positionCaret(s.length());
