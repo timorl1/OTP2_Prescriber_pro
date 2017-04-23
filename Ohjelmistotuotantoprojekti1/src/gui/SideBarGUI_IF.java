@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
@@ -28,15 +27,10 @@ public interface SideBarGUI_IF {
      * @return the text field element on the top of this layout
      */
     public abstract TextField getSearchField();
-
+    
     /**
-     * Method to get the Message Button of this custom JavaFX element.
-     * @return the button element at the bottom of this layout
+     * Method to get the VBox element reserved for menu buttons of this custom JavaFX element.
+     * @return the VBox element reserved for menu buttons
      */
-    public abstract Button getMessageButton();
-    /**
-     * Method that gets Logout button of this custom JavaFX element.
-     * @return the button in the middle of this layout
-     */
-    public abstract Button getLogoutButton();
+    public abstract VBox getButtonBox();
 }

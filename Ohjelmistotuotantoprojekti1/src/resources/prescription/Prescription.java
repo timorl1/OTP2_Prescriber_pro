@@ -1,6 +1,6 @@
 package resources.prescription;
 
-import resources.user.User_IF;
+import java.io.Serializable;
 import resources.patient.Patient;
 import javax.persistence.*;
 import java.util.Date;
@@ -14,7 +14,10 @@ import resources.drug.Drug;
  */
 @Entity(name="prescription")
 @Table(name="prescription")
-public class Prescription {
+public class Prescription implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @Column(name="prescriptionID")
     private int id;
