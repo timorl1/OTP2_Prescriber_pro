@@ -5,9 +5,6 @@
  */
 package resources.prescription;
 
-import resources.prescription.PrescriptionDAO_IF;
-import resources.prescription.Prescription;
-import resources.prescription.PrescriptionDAO;
 import resources.patient.Patient;
 import java.time.LocalDate;
 import java.time.ZoneId;
