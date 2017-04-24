@@ -9,21 +9,14 @@ import gui.Localisation;
 import static gui.Localisation.getInstance;
 import resources.SideBarListView_IF;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.StageStyle;
-import resources.user.User_IF;
 import resources.employee.Employee;
 
 /**
@@ -39,23 +32,23 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     @FXML
     private Label employeeLabel;
     @FXML
-    private Text employeeField;
+    private Label employeeField;
     @FXML
     private Label userIDLabel;
     @FXML
-    private Text userIDField;
+    private Label userIDField;
     @FXML
     private Label emailLabel ;
     @FXML
-    private Text emailField;
+    private Label emailField;
     @FXML
     private Label usernameLabel;
     @FXML
-    private TextArea usernameField;
+    private TextField usernameField;
     @FXML
     private Label passwordLabel;
     @FXML
-    private TextArea passwordField;
+    private TextField passwordField;
     @FXML
     private ButtonBar buttonBar;
     @FXML
@@ -171,7 +164,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     }
     
     @Override
-    public Text getEmployeeField() {
+    public Label getEmployeeField() {
         return this.employeeField;    
     }
 
