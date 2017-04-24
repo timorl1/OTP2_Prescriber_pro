@@ -5,7 +5,6 @@
  */
 package resources.prescription;
 
-import resources.prescription.PrescriptionFormGUI_IF;
 import java.util.List;
 import calculator.DoseStatus;
 
