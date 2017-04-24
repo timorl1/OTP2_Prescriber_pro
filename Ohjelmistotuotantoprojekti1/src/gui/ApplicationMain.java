@@ -32,13 +32,7 @@ public class ApplicationMain extends Application {
     AnchorPane root;
     Localisation local = getInstance();
     ResourceBundle text;
-    Scene scene;
     String choice;
-    
-  //  @FXML
-  //  private ChoiceBox<String> languageChoice;
-  //  @FXML
-   // private ObservableList<String> languageList;
     
     private void restart(Stage stage) throws Exception {
         Stage newStage = new Stage();
@@ -75,7 +69,7 @@ public class ApplicationMain extends Application {
                 }
             }           
         });     
-        scene = new Scene(root);        
+        Scene scene = new Scene(root);        
         primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()-50);
         primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth()-50);
         primaryStage.centerOnScreen();
