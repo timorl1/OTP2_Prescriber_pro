@@ -22,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -29,6 +30,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
@@ -80,6 +82,15 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
+    @FXML
+    private VBox vBox;
+    @FXML
+    private VBox menuButtons;
+    @FXML
+    private Accordion accordion;
+    @FXML
+    private VBox controls;
+    private TextField searchField;
     
     private Controller_IF controller;
     
@@ -134,42 +145,40 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     
     @Override
     public void setLogout(){
-        this.root.getChildren().remove((SideBarGUI)this.sideBar);
+        //this.root.getChildren().remove((SideBarGUI)this.sideBar);
         this.tabPane.getTabs().clear();
+        this.accordion.getPanes().clear();
+        this.menuButtons.getChildren().clear();
+        this.controls.getChildren().clear();
         this.root.getChildren().add((LoginGUI)this.login);
     }
     
     @Override
     public void setSideBar() {
+        text = local.language();
         this.root.getChildren().remove((LoginGUI) this.login);
-        this.sideBar = new SideBarGUI(this);
-        this.sideBar.getMessageButton().setOnMousePressed(m ->{
-            this.controller.createNewMessage();
-        });
+        this.sideBar = new SideBarGUI();
         this.sideBar.getSearchField().setOnKeyReleased(e -> {
-        if(this.patientListView != null){
-            this.patientListView.filter(this.sideBar.getSearchField().getText());
-        }
-        if(this.drugListView != null){
-            this.drugListView.filter(this.sideBar.getSearchField().getText());
-        }
-        if (this.employeeListView != null){
-            this.employeeListView.filter(this.sideBar.getSearchField().getText());
-        }    
-        if (this.userListView != null){
-        this.userListView.filter(this.sideBar.getSearchField().getText());
-        }
+            if(this.patientListView != null){
+                this.patientListView.filter(this.sideBar.getSearchField().getText());
+            }
+            if(this.drugListView != null){
+                this.drugListView.filter(this.sideBar.getSearchField().getText());
+            }
+            if (this.employeeListView != null){
+                this.employeeListView.filter(this.sideBar.getSearchField().getText());
+            }    
+            if (this.userListView != null){
+            this.userListView.filter(this.sideBar.getSearchField().getText());
+            }
         });
-        this.root.getChildren().add((SideBarGUI) this.sideBar);
-        this.sideBar.getLogoutButton().setOnAction(e -> {
-            this.controller.logout();
-        });
+        //this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
     @Override
     public void setPatientList() {
         text = local.language();
-        this.patientListView = new SideBarListViewGUI(text.getString("patient"));
+        this.patientListView = new SideBarListViewGUI(text.getString("patients"));
         this.patientListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.patientListView.isExpanded()) {
                 this.patientListView.setList(this.controller.getPatients());
@@ -187,7 +196,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.patientListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.patientListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.patientListView);
     }
 
     @Override
@@ -210,7 +220,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.drugListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.drugListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.drugListView);
     }
 
     @Override
@@ -232,7 +243,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.prescriptionListView);
     }
 
     @Override
@@ -254,7 +266,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.receivedMessageListView);
     }
     
     @Override
@@ -276,7 +289,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.sentMessageListView);
     }
 
     //List all users
@@ -336,7 +350,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.userListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.userListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.userListView);
     }
 
     @Override
@@ -358,7 +373,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.employeeListView);
     }
 
     @Override
@@ -370,7 +386,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.databaseListView.setList(this.controller.getDatabases());
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.databaseListView);
     }
     
     @Override
@@ -499,7 +516,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
             this.controller.createNewPrescription();
             this.setStatus(AppStatus.CREATE);
         });
-        this.sideBar.getVbox().getChildren().add(createPrescription);
+        //this.sideBar.getButtonBox().getChildren().add(createPrescription);
+        this.menuButtons.getChildren().add(createPrescription);
         Button updatePrescription = new Button(text.getString("updatePrescription"));
         BooleanBinding booleanBind = Bindings.isNull(this.prescriptionListView.getListView().getSelectionModel().selectedItemProperty());
         updatePrescription.disableProperty().bind(booleanBind);
@@ -507,7 +525,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
             this.setPrescriptionForm(this.prescriptionListView.getSelection());
             this.setStatus(AppStatus.EDIT);
         });
-        this.sideBar.getVbox().getChildren().add(updatePrescription);
+        //this.sideBar.getButtonBox().getChildren().add(updatePrescription);
+        this.menuButtons.getChildren().add(updatePrescription);
     }
 
     @Override
@@ -518,8 +537,24 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
             this.controller.createNewUser();
             this.setStatus(AppStatus.CREATE);
         });
-        this.sideBar.getVbox().getChildren().add(createUser);
+        //this.sideBar.getButtonBox().getChildren().add(createUser);
+        this.menuButtons.getChildren().add(createUser);
 
+    }
+    
+    @Override
+    public void setBasicTools() {
+        this.searchField = new TextField();
+        this.searchField.setPromptText(text.getString("search"));
+        this.controls.getChildren().add(this.searchField);
+        Button newMessageButton = new Button(text.getString("newMessage"));
+        newMessageButton.setOnAction(b -> this.controller.createNewMessage());
+        //this.sideBar.getButtonBox().getChildren().add(newMessageButton);
+        this.menuButtons.getChildren().add(newMessageButton);
+        Button logoutButton = new Button(text.getString("logout"));
+        logoutButton.setOnAction(b -> this.controller.logout());
+        //this.sideBar.getButtonBox().getChildren().add(logoutButton);
+        this.menuButtons.getChildren().add(logoutButton);
     }
     @Override
     public void setPatientDetails(Patient patient) {

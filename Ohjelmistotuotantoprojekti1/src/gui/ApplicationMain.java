@@ -50,7 +50,7 @@ public class ApplicationMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         local.chooseLanguage(local.getSelectedLanguage());
         text = local.language();
-        this.root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
+        this.root = FXMLLoader.load(getClass().getResource("MainRoot_1.fxml"));
         primaryStage.setTitle(text.getString("appLabel"));
         ComboBox languageChoice = new ComboBox(FXCollections.observableArrayList(local.getLanguageList()));
         languageChoice.setEditable(false);
@@ -81,6 +81,10 @@ public class ApplicationMain extends Application {
         primaryStage.centerOnScreen();
         primaryStage.setScene(scene);
         primaryStage.show(); 
+    }
+    
+    public void addSidebar() {
+        this.root.getChildren().add(new SideBarGUI());
     }
     
     /**
