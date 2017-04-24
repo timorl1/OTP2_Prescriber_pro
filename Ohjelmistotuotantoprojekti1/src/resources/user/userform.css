@@ -16,6 +16,10 @@
     -fx-padding: 20;
 }
 
+.mainFxmlClass #gridPane .label{
+    -fx-padding : 0 0 0 0;
+}
+
 .mainFxmlClass .title {
     -fx-font-weight: Bold;
 }
