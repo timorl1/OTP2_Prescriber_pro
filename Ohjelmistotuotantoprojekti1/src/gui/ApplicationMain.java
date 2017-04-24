@@ -51,7 +51,7 @@ public class ApplicationMain extends Application {
        
     @Override
     public void start(Stage primaryStage) throws Exception {
-        local.chooseLanguage("sve");
+        local.chooseLanguage("eng");
         text = local.language();
         this.root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
         primaryStage.setTitle(text.getString("appLabel"));
