@@ -156,7 +156,19 @@ public class ClientResources implements ClientResources_IF {
 
     @Override
     public boolean savePrescription(Prescription prescription) {
-        return this.prescriptionDAO.createPrescription(prescription);
+        if (prescription.getEndDate()== null | 
+                prescription.getStartDate()== null | 
+                prescription.getInfo().isEmpty() |
+                prescription.getTimesADay() == 0 |  
+                prescription.getDose() == 0 |
+                prescription.getDiagnoseID() == 0 | 
+                prescription.getDrug() == null | 
+                prescription.getPatientID().isEmpty() | 
+                prescription.getDoctorID()== 0 ){
+            return false;
+        }else {
+            return this.prescriptionDAO.createPrescription(prescription);
+        }
     }
     
      @Override
@@ -167,17 +179,28 @@ public class ClientResources implements ClientResources_IF {
 
     @Override
     public boolean saveUser(User_IF user) {
-        return this.userDAO.createUser(user);
+        if(user.getPassword().isEmpty() | 
+                user.getUsername().isEmpty()|
+                user.getEmail().isEmpty()|
+                user.getFirstName().isEmpty()|
+                user.getLastName().isEmpty()){            
+            return false;
+        }else{
+            return this.userDAO.createUser(user);
+        }
     } 
     
     @Override
     public boolean saveMessage(Message message){
-      //  if (){
-            
-        return this.messageDAO.createMessage(message);
-       // } else {
-         //   return false;
-      //  }
+        if (message.getReceiver() == null |
+                message.getSender() == null |
+                message.getDate()== null |
+                message.getTitle().isEmpty() | 
+                message.getMessage().isEmpty()){
+            return false;           
+        } else {
+            return this.messageDAO.createMessage(message);            
+        }
         
 
     }
