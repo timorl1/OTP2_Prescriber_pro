@@ -108,7 +108,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void setLogin() {
-        this.login = LoginGUI.getInstance();
+       // this.login = LoginGUI.getInstance();
+        this.login = new LoginGUI();
         this.login.getButton().setOnAction(e -> {
             this.login.addMessage(null);
             this.controller.login(this.login.getUsername(), this.login.getPassword());

@@ -23,7 +23,7 @@ import javafx.stage.StageStyle;
 public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     ResourceBundle text;
     Localisation local = Localisation.getInstance();
-    private static LoginGUI_IF INSTANCE = null;
+   // private static LoginGUI_IF INSTANCE = null;
     
     FXMLLoader loader;
     
@@ -42,7 +42,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     @FXML
     private Label messageLabel;
     
-    private LoginGUI() {
+    public LoginGUI() {
         text = local.language();
         try {
             loader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -66,12 +66,12 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
         }
     }
     
-    public synchronized static LoginGUI_IF getInstance(){
+  /*  public synchronized static LoginGUI_IF getInstance(){
         if (INSTANCE == null){
             INSTANCE = new LoginGUI();
         }
         return INSTANCE;
-    }
+    } */
     
     @Override
     public String getUsername() {

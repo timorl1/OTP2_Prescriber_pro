@@ -6,32 +6,22 @@
 package gui;
 
 import static gui.Localisation.getInstance;
-import java.awt.Container;
-import java.io.IOException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 
 /**
  *
@@ -43,27 +33,47 @@ public class ApplicationMain extends Application {
     Localisation local = getInstance();
     ResourceBundle text;
     Scene scene;
+    String choice;
     
   //  @FXML
   //  private ChoiceBox<String> languageChoice;
-    @FXML
-    private ObservableList<String> languageList;
+  //  @FXML
+   // private ObservableList<String> languageList;
+    
+    private void restart(Stage stage) throws Exception {
+        Stage newStage = new Stage();
+        stage.close();
+        start(newStage);
+    }
        
     @Override
     public void start(Stage primaryStage) throws Exception {
-        local.chooseLanguage("sve");
+        local.chooseLanguage(local.getSelectedLanguage());
         text = local.language();
         this.root = FXMLLoader.load(getClass().getResource("MainRoot.fxml"));
         primaryStage.setTitle(text.getString("appLabel"));
-        ChoiceBox languageChoice = new ChoiceBox(FXCollections.observableArrayList(local.getLanguageList()));
-        languageChoice.setTooltip(new Tooltip(text.getString("selectLanguage")));
+        ComboBox languageChoice = new ComboBox(FXCollections.observableArrayList(local.getLanguageList()));
+        languageChoice.setEditable(false);
+        languageChoice.setPromptText(text.getString("selectLanguage"));
         AnchorPane.setTopAnchor(languageChoice, 2.0);
         AnchorPane.setRightAnchor(languageChoice, 15.0);
         root.getChildren().add(languageChoice);
         languageChoice.setOnAction((Event e) -> {
-                this.local.chooseLanguage((String) languageChoice.getSelectionModel().getSelectedItem());
-                text = local.language();
-            //languageChoice.setPromptText("VALITSE KIELI"+(String) languageChoice.getSelectionModel().getSelectedItem());
+            
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle(text.getString("confirmationTitleLanguage"));
+            alert.setHeaderText(text.getString("confirmationHeaderTextLanguage"));
+            alert.setContentText(text.getString("confirmationContentTextLanguage"));
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                local.setSelectedLanguage((String) languageChoice.getSelectionModel().getSelectedItem());
+                try {
+                    restart(primaryStage);
+                } catch (Exception ex) {
+                    Logger.getLogger(ApplicationMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }           
         });     
         scene = new Scene(root);        
         primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()-50);
