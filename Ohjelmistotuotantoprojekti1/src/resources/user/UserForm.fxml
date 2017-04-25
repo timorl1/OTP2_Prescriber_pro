@@ -8,7 +8,7 @@
 
 <fx:root type="Tab" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <content>
-        <GridPane fx:id="gridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <GridPane fx:id="gridPane" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <stylesheets>
                 <URL value="@userform.css" />
             </stylesheets>
@@ -17,7 +17,9 @@
                 <ColumnConstraints percentWidth="100"/>
 
             </columnConstraints>
-            <rowConstraints>
+                <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
                 <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
@@ -26,31 +28,30 @@
                 <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="ALWAYS" />
             </rowConstraints>
             <children>
              
-                <Label fx:id="userIDLabel"  GridPane.rowIndex="0" />
+                <Label fx:id="userIDLabel" styleClass="head" GridPane.rowIndex="0" />
                 <Label fx:id="userIDField" GridPane.rowIndex="1" />          
                 
-                <Label fx:id="employeeLabel"  GridPane.rowIndex="2" />
+                <Label fx:id="employeeLabel" styleClass="head"  GridPane.rowIndex="2" />
                 <Label fx:id="employeeField" GridPane.rowIndex="3" />
                 
-                <Label fx:id="emailLabel"  GridPane.rowIndex="4" />
+                <Label fx:id="emailLabel" styleClass="head" GridPane.rowIndex="4" />
                 <Label fx:id="emailField" GridPane.rowIndex="5" />
                 
-                <Label fx:id="usernameLabel"  GridPane.rowIndex="6" />
+                <Label fx:id="usernameLabel" styleClass="head" GridPane.rowIndex="6" />
                 <TextField fx:id="usernameField" GridPane.rowIndex="7" />
 
-                <Label fx:id="passwordLabel"  GridPane.rowIndex="8" />
+                <Label fx:id="passwordLabel" styleClass="head" GridPane.rowIndex="8" />
                 <TextField fx:id="passwordField" GridPane.rowIndex="9" />
                 
-                <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                <ButtonBar fx:id="buttonBar" styleClass="buttons" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10"
+                GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                     <buttons>
-                        <Button fx:id="cancelButton" mnemonicParsing="false"  />
-                        <Button fx:id="saveButton" mnemonicParsing="false"  />
+                        <Button fx:id="cancelButton" mnemonicParsing="true"  />
+                        <Button fx:id="saveButton" mnemonicParsing="true"  />
                     </buttons>
                 </ButtonBar>
          
