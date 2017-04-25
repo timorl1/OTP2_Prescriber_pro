@@ -156,14 +156,14 @@ public class ClientResources implements ClientResources_IF {
 
     @Override
     public boolean savePrescription(Prescription prescription) {
-        if (prescription.getEndDate()== null | 
-                prescription.getStartDate()== null | 
-                prescription.getInfo().isEmpty() |
-                prescription.getTimesADay() == 0 |  
-                prescription.getDose() == 0 |
-                prescription.getDiagnoseID() == 0 | 
-                prescription.getDrug() == null | 
-                prescription.getPatientID().isEmpty() | 
+        if (prescription.getEndDate()== null || 
+                prescription.getStartDate()== null || 
+                prescription.getInfo().isEmpty() ||
+                prescription.getTimesADay() == 0 ||  
+                prescription.getDose() == 0 ||
+                prescription.getDiagnoseID() == 0 || 
+                prescription.getDrug() == null || 
+                prescription.getPatientID().isEmpty() || 
                 prescription.getDoctorID()== 0 ){
             return false;
         }else {
@@ -179,10 +179,10 @@ public class ClientResources implements ClientResources_IF {
 
     @Override
     public boolean saveUser(User_IF user) {
-        if(user.getPassword().isEmpty() | 
-                user.getUsername().isEmpty()|
-                user.getEmail().isEmpty()|
-                user.getFirstName().isEmpty()|
+        if(user.getPassword().isEmpty() || 
+                user.getUsername().isEmpty()||
+                user.getEmail().isEmpty()||
+                user.getFirstName().isEmpty()||
                 user.getLastName().isEmpty()){            
             return false;
         }else{
@@ -192,10 +192,10 @@ public class ClientResources implements ClientResources_IF {
     
     @Override
     public boolean saveMessage(Message message){
-        if (message.getReceiver() == null |
-                message.getSender() == null |
-                message.getDate()== null |
-                message.getTitle().isEmpty() | 
+        if (message.getReceiver() == null ||
+                message.getSender() == null ||
+                message.getDate()== null ||
+                message.getTitle().isEmpty() || 
                 message.getMessage().isEmpty()){
             return false;           
         } else {
