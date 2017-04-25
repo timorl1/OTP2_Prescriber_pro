@@ -103,10 +103,10 @@ public interface ClientResources_IF {
 
     /**
      *Sets up new user
-     * @param user create new user 
+     * 
      * @return new user object
      */
-    public abstract User_IF addNewUser(User_IF user);
+    public abstract User_IF createNewUser();
 
     /**
      *Saves the new user to database

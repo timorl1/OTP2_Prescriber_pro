@@ -74,6 +74,9 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
         this.title = title;
         this.employeeSelector = employeeSelector;
         this.user = user;
+        this.user.setEmail("");
+        this.user.setFirstName("");
+        this.user.setLastName("");
         this.id = this.user.getUserID();        
         this.employee = employee;
         this.username = user.getUsername();

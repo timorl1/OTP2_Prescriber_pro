@@ -172,9 +172,8 @@ public class ClientResources implements ClientResources_IF {
     }
     
      @Override
-    public User_IF addNewUser(User_IF user) {
-        user = new User();       
-        return user;
+    public User_IF createNewUser() {
+        return new User();
     }
 
     @Override

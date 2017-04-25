@@ -208,7 +208,7 @@ public class Controller implements Controller_IF {
     
     @Override
     public void createNewUser() {
-        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
+        this.gui.setUserForm(this.clientRes.createNewUser());
     }
 
     @Override
