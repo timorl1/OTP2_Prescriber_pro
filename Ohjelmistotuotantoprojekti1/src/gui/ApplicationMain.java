@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -58,7 +59,8 @@ public class ApplicationMain extends Application {
             alert.setTitle(text.getString("confirmationTitleLanguage"));
             alert.setHeaderText(text.getString("confirmationHeaderTextLanguage"));
             alert.setContentText(text.getString("confirmationContentTextLanguage"));
-
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 local.setSelectedLanguage((String) languageChoice.getSelectionModel().getSelectedItem());
