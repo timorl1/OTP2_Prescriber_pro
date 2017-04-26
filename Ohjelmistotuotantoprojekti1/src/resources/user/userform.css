@@ -1,23 +1,26 @@
 /*
  * Empty Stylesheet file.
  */
-
+/*
 .mainFxmlClass #borderPane {
     -fx-background-color: rgba(255, 255, 255, 0.7);
     -fx-background-radius: 20;
     -fx-border-radius: 20;
     -fx-padding: 20;
-}
+}*/
 
 .mainFxmlClass #gridPane {
     -fx-background-color: rgba(255, 255, 255, 0.7);
     -fx-background-radius: 20;
     -fx-border-radius: 20;
-    -fx-padding: 20;
+    -fx-padding: 0 20 0 20;
 }
-
-.mainFxmlClass #gridPane .label{
-    -fx-padding : 0 0 0 0;
+/*
+.buttons{
+    -fx-padding : 250 10 0 20;
+}*/
+.head{
+    -fx-padding : 10 0 10 0;
 }
 
 .mainFxmlClass .title {
