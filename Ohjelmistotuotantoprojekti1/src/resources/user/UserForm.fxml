@@ -8,7 +8,7 @@
 
 <fx:root type="Tab" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <content>
-        <GridPane fx:id="gridPane" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <GridPane fx:id="gridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <stylesheets>
                 <URL value="@userform.css" />
             </stylesheets>
@@ -36,7 +36,7 @@
                 <Label fx:id="userIDField" GridPane.rowIndex="1" />          
                 
                 <Label fx:id="employeeLabel" styleClass="head"  GridPane.rowIndex="2" />
-                <Label fx:id="employeeField" GridPane.rowIndex="3" />
+                <TextField fx:id="employeeField" GridPane.rowIndex="3" />
                 
                 <Label fx:id="emailLabel" styleClass="head" GridPane.rowIndex="4" />
                 <Label fx:id="emailField" GridPane.rowIndex="5" />

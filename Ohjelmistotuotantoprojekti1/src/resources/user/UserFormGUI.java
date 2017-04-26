@@ -33,7 +33,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     @FXML
     private Label employeeLabel;
     @FXML
-    private Label employeeField;
+    private TextField employeeField;
     @FXML
     private Label userIDLabel;
     @FXML
@@ -81,17 +81,21 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
         this.employee = employee;
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.email = user.getEmail();        
+        this.email = user.getEmail(); 
         try {
             loader = new FXMLLoader(getClass().getResource("UserForm.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            employeeField.setEditable(false);
+            employeeField.setPromptText(text.getString("chooseUser"));
             employeeLabel.setText(text.getString("employee") + ":");
             userIDLabel.setText(text.getString("ID"));
             emailLabel.setText(text.getString("email") + ":");
             usernameLabel.setText(text.getString("chooseUsername"));
+            usernameField.setPromptText(text.getString("chooseUsername"));
             passwordLabel.setText(text.getString("choosePassword"));
+            passwordField.setPromptText(text.getString("choosePassword"));
             cancelButton.setText(text.getString("cancel"));
             saveButton.setText(text.getString("save"));
           //this.initializeFields(); Mahdolliset update operaatiot!!
@@ -168,7 +172,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     }
     
     @Override
-    public Label getEmployeeField() {
+    public TextField getEmployeeField() {
         return this.employeeField;    
     }
 

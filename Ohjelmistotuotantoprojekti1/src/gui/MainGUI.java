@@ -478,6 +478,11 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.status = AppStatus.CREATE;
         if(!this.tabPane.getTabs().contains(this.userForm)){
             this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
+            this.employeeListView.getTitledPane().setExpanded(true);
+            if (this.employeeListView.isExpanded()) {
+                this.employeeListView.setList(this.controller.getEmployees());
+                this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
+            }
             this.userForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.userForm);
                 this.setStatus(AppStatus.IDLE);
