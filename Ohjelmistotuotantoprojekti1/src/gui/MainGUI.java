@@ -15,6 +15,7 @@ import resources.SideBarListViewGUI;
 import static gui.Localisation.getInstance;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -25,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
@@ -320,14 +322,32 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                         }
                         button.setOnAction(e -> {
                             if (user.getUsertype() != 0) {
-                                controller.lockUser(user);
-                                button.setGraphic(new ImageView(locked));
-                                button.setTooltip(new Tooltip(text.getString("unlockUser")));
-                            }
-                            else {
-                                controller.setUserPriviledges(user);
-                                button.setGraphic(new ImageView(open));
-                                button.setTooltip(new Tooltip(text.getString("lockUser")));
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle(text.getString("lockUser"));
+                                alert.setHeaderText(text.getString("alertHeaderLockUser"));
+                                alert.setContentText(text.getString("alertContentTextLockUser"));
+                                alert.initStyle(StageStyle.UNDECORATED);
+                                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                                Optional<ButtonType> result = alert.showAndWait();
+                                if (result.get() == ButtonType.OK){
+                                    controller.lockUser(user);
+                                    button.setGraphic(new ImageView(locked));
+                                    button.setTooltip(new Tooltip(text.getString("unlockUser")));                                
+                                }      
+                                
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle(text.getString("unlockUser"));
+                                alert.setHeaderText(text.getString("alertHeaderUnlockUser"));
+                                alert.setContentText(text.getString("alertContentTextUnlockUser"));
+                                alert.initStyle(StageStyle.UNDECORATED);
+                                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                                Optional<ButtonType> result = alert.showAndWait();
+                                if (result.get() == ButtonType.OK){
+                                    controller.setUserPriviledges(user);
+                                    button.setGraphic(new ImageView(open));
+                                    button.setTooltip(new Tooltip(text.getString("lockUser")));
+                                }
                             }
                         });
                         setGraphic(button);
@@ -404,7 +424,7 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                     this.prescriptionForm.markUpdate();
                 }
                 if (this.controller.savePrescription()) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("prescriptionCreated"));
                     alert.setTitle(text.getString("message"));
                     alert.initStyle(StageStyle.UNDECORATED);
                     alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
