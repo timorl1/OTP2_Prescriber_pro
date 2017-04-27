@@ -40,7 +40,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @FXML
     private Label patientLabel;
     @FXML
-    private Text patientField;
+    private TextField patientField;
     @FXML
     private Label diagnoseLabel;
     @FXML
@@ -48,7 +48,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @FXML
     private Label drugLabel;
     @FXML
-    private Text drugField;
+    private TextField drugField;
     @FXML
     private Label doseLabel;
     @FXML
@@ -131,6 +131,10 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            patientField.setEditable(false);
+            patientField.setPromptText(text.getString("choosePatient"));
+            drugField.setEditable(false);
+            drugField.setPromptText(text.getString("chooseDrug"));
             patientLabel.setText(text.getString("patient")+":");
             diagnoseLabel.setText(text.getString("diagnose")+":");
             drugLabel.setText(text.getString("drug")+":");
@@ -198,12 +202,12 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                     drug = newValue;
                     prescription.setDrug(drug);
                     drugField.setText(drug.toString());
-                    drugField.setFill(Color.BLACK);
+                    //drugField.setFill(Color.BLACK);
                     if (prescription.getPatient() != null) {
                         dose = controller.getOptimalDose();
                         prescription.setDose(dose);
                         doseField.setText(Double.toString(dose));
-                        drugField.setFill(Color.BLACK);
+                        //drugField.setFill(Color.BLACK);
                         controller.checkDose();
                         controller.checkAllergens();
                     }
@@ -250,11 +254,11 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                     patient = newValue;
                     prescription.setPatient(patient);
                     patientField.setText(patient.toString());
-                    drugField.setFill(Color.BLACK);
+                   // drugField.setFill(Color.BLACK);
                     if (prescription.getDrug() != null) {
                         dose = controller.getOptimalDose();
                         doseField.setText(Double.toString(dose));
-                        drugField.setFill(Color.BLACK);
+                       // drugField.setFill(Color.BLACK);
                         prescription.setDose(dose);
                         controller.checkDose();
                         controller.checkAllergens();
@@ -287,8 +291,12 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     }
     
     @Override
-    public Text getPatientField() {
+    public TextField getPatientField() {
         return this.patientField;
+    }
+
+    public TextField getDrugField() {
+        return drugField;
     }
 
     @Override
@@ -378,7 +386,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @Override
     public void setIsAllergicMessage(List<String> allergens) {
         text = local.language();
-        this.drugField.setFill(Color.RED);
+        //this.drugField.setFill(Color.RED);
         String s = "";
         for (String a : allergens) {
             s += a + "\n";

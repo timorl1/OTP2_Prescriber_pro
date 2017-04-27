@@ -419,6 +419,20 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
             });
+            this.prescriptionForm.getPatientField().setOnMouseClicked(e ->{
+                this.patientListView.getTitledPane().setExpanded(true);
+            if (this.patientListView.isExpanded()) {
+                this.patientListView.setList(this.controller.getPatients());
+                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
+            }
+            });
+            this.prescriptionForm.getDrugField().setOnMouseClicked(e ->{
+                this.drugListView.getTitledPane().setExpanded(true);
+            if (this.drugListView.isExpanded()) {
+                this.drugListView.setList(this.controller.getDrugs());
+                this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
+            }
+            });
             this.prescriptionForm.getSaveButton().setOnAction(e -> {
                 if (this.status == AppStatus.EDIT) {
                     this.prescriptionForm.markUpdate();
