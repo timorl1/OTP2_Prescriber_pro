@@ -157,12 +157,14 @@ public class ClientResources implements ClientResources_IF {
     @Override
     public boolean savePrescription(Prescription prescription) {
         if (prescription.getEndDate()== null || 
-                prescription.getStartDate()== null || 
+                prescription.getStartDate()== null ||
+                prescription.getInfo() == null ||
                 prescription.getInfo().isEmpty() ||
                 prescription.getTimesADay() == 0 ||  
                 prescription.getDose() == 0 ||
                 prescription.getDiagnoseID() == 0 || 
                 prescription.getDrug() == null || 
+                prescription.getPatientID() == null ||
                 prescription.getPatientID().isEmpty() || 
                 prescription.getDoctorID()== 0 ){
             return false;
@@ -178,10 +180,15 @@ public class ClientResources implements ClientResources_IF {
 
     @Override
     public boolean saveUser(User_IF user) {
-        if(user.getPassword().isEmpty() || 
+        if(user.getPassword() == null ||
+                user.getPassword().isEmpty() ||
+                user.getUsername() == null ||
                 user.getUsername().isEmpty()||
+                user.getEmail() == null ||
                 user.getEmail().isEmpty()||
+                user.getFirstName() == null ||
                 user.getFirstName().isEmpty()||
+                user.getLastName() == null ||
                 user.getLastName().isEmpty()){            
             return false;
         }else{
