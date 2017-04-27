@@ -144,10 +144,15 @@ public class ClientResources implements ClientResources_IF {
 
     @Override
     public boolean saveUser(User_IF user) {
-        if(user.getPassword().isEmpty() || 
+        if(user.getPassword() == null ||
+                user.getPassword().isEmpty() ||
+                user.getUsername() == null ||
                 user.getUsername().isEmpty()||
+                user.getEmail() == null ||
                 user.getEmail().isEmpty()||
+                user.getFirstName() == null ||
                 user.getFirstName().isEmpty()||
+                user.getLastName() == null ||
                 user.getLastName().isEmpty()){            
             return false;
         }else{

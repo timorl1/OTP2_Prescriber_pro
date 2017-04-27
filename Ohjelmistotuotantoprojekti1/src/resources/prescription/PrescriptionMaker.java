@@ -44,12 +44,14 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
     @Override
     public boolean savePrescription(Prescription prescription) {
         if (prescription.getEndDate()== null || 
-                prescription.getStartDate()== null || 
+                prescription.getStartDate()== null ||
+                prescription.getInfo() == null ||
                 prescription.getInfo().isEmpty() ||
                 prescription.getTimesADay() == 0 ||  
                 prescription.getDose() == 0 ||
                 prescription.getDiagnoseID() == 0 || 
                 prescription.getDrug() == null || 
+                prescription.getPatientID() == null ||
                 prescription.getPatientID().isEmpty() || 
                 prescription.getDoctorID()== 0 ){
             return false;
