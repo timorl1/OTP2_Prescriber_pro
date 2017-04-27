@@ -3,11 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prescriptionmaker;
+package resources.prescription;
 
-import resources.prescription.PrescriptionDAO_IF;
-import resources.prescription.Prescription;
-import resources.prescription.PrescriptionDAO;
 import resources.patient.Patient;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,7 +14,9 @@ import java.util.List;
 import calculator.DoseCalculator;
 import calculator.DoseCalculator_IF;
 import calculator.DoseStatus;
+import java.sql.Date;
 import resources.drug.Drug;
+import resources.user.User_IF;
 
 /**
  *
@@ -32,19 +31,34 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         this.doseCalculator = new DoseCalculator();
     }
 
-    /*@Override
+    @Override
     public Prescription createPrescription(User_IF user) {
         Prescription prescription = new Prescription();
         prescription.setDoctor(user);
         prescription.setDoctorID(user.getUserID());
+        prescription.setTimesADay(1);
         prescription.setCreationDate(Date.valueOf(LocalDate.now()));
         return prescription;
     }
 
     @Override
     public boolean savePrescription(Prescription prescription) {
-        return this.prescriptionDAO.createPrescription(prescription);
-    }*/
+        if (prescription.getEndDate()== null || 
+                prescription.getStartDate()== null ||
+                prescription.getInfo() == null ||
+                prescription.getInfo().isEmpty() ||
+                prescription.getTimesADay() == 0 ||  
+                prescription.getDose() == 0 ||
+                prescription.getDiagnoseID() == 0 || 
+                prescription.getDrug() == null || 
+                prescription.getPatientID() == null ||
+                prescription.getPatientID().isEmpty() || 
+                prescription.getDoctorID()== 0 ){
+            return false;
+        }else {
+            return this.prescriptionDAO.createPrescription(prescription);
+        }
+    }
 
     @Override
     public double getOptimalDose(Prescription prescription) {

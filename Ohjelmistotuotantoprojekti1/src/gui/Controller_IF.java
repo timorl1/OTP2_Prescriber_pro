@@ -7,7 +7,6 @@ import resources.employee.Employee;
 import resources.message.Message;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
-import resources.user.User;
 import resources.user.User_IF;
 
 /**
@@ -88,7 +87,12 @@ public interface Controller_IF {
     /**
      * Method to serve message details from the backend to the view.
      */
-    public abstract void getMessageDetails();
+    public abstract void getSentMessageDetails();
+    
+    /**
+     * Method to serve message details from the backend to the view.
+     */
+    public abstract void getReceivedMessageDetails();
 
     /**
      * Method to serve users from the backend to the view.

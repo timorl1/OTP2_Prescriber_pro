@@ -13,15 +13,16 @@
               <URL value="@prescriptionform.css" />
           </stylesheets>
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="100"/>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="100"/>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" percentWidth="15"/>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="85"/>
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -34,19 +35,20 @@
             <Label fx:id="diagnoseLabel" GridPane.rowIndex="3" />
             <Label fx:id="drugLabel"  GridPane.rowIndex="4" />
             <Label fx:id="doseLabel"  GridPane.rowIndex="5" />
-            <Label fx:id="timesADayLabel"  GridPane.rowIndex="6" />
+            <Label fx:id="timesADayLabel"  GridPane.rowIndex="7" />
             <Label fx:id="startDateLabel"  GridPane.rowIndex="8" />
             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label fx:id="endDateLabel"  GridPane.rowIndex="9" />
-            <Text fx:id="patientField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Text fx:id="drugField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="doseField" promptText="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="timesADayField" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="patientField" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="drugField" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text fx:id="drugDoseField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="doseField" maxWidth="100" promptText="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="timesADayField" maxWidth="100"   promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <ChoiceBox fx:id="diagnoseSelector" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="infoLabel"  GridPane.rowIndex="7" />
-            <TextArea fx:id="infoField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+            <Label fx:id="infoLabel"  GridPane.rowIndex="10" />
+            <TextArea fx:id="infoField" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
               <buttons>
                 <Button fx:id="cancelButton" mnemonicParsing="false"  />
                   <Button fx:id="saveButton" mnemonicParsing="false"  />

@@ -2,8 +2,6 @@ package resources.prescription;
 
 import gui.Localisation;
 import static gui.Localisation.getInstance;
-import prescriptionMaker.PrescriptionMakerController;
-import prescriptionMaker.PrescriptionMakerController_IF;
 import resources.SideBarListView_IF;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -25,7 +23,6 @@ import javafx.stage.StageStyle;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.patient.Patient;
-import resources.prescription.Prescription;
 import resources.user.User_IF;
 
 /**
@@ -43,7 +40,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @FXML
     private Label patientLabel;
     @FXML
-    private Text patientField;
+    private TextField patientField;
     @FXML
     private Label diagnoseLabel;
     @FXML
@@ -51,7 +48,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @FXML
     private Label drugLabel;
     @FXML
-    private Text drugField;
+    private TextField drugField;
     @FXML
     private Label doseLabel;
     @FXML
@@ -86,6 +83,8 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     private Label doctorNameLabel;
     @FXML
     private Label creationDateLabel;
+    @FXML
+    private Text drugDoseField;
     
     private PrescriptionMakerController_IF controller;
     private ObservableList<Diagnose> diagnoses;
@@ -132,6 +131,10 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            patientField.setEditable(false);
+            patientField.setPromptText(text.getString("choosePatient"));
+            drugField.setEditable(false);
+            drugField.setPromptText(text.getString("chooseDrug"));
             patientLabel.setText(text.getString("patient")+":");
             diagnoseLabel.setText(text.getString("diagnose")+":");
             drugLabel.setText(text.getString("drug")+":");
@@ -145,6 +148,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             mainTitle.setText(text.getString("prescription"));
             doctorNameLabel.setText(text.getString("doctor"));
             prescriptionIdLabel.setText(text.getString("ID"));
+            infoField.setWrapText(true);
             this.initializeFields();
             this.initializeBasicListeners();
             if (this.patient == null) {
@@ -156,6 +160,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     }
     
     private void initializeFields() {
+        text = local.language();
         this.setText(title);
         this.creationDateLabel.setText(this.creationDate.toString());
         this.doctorNameLabel.setText(this.doctor.getFirstName() + " " + this.doctor.getLastName());
@@ -197,12 +202,12 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                     drug = newValue;
                     prescription.setDrug(drug);
                     drugField.setText(drug.toString());
-                    drugField.setFill(Color.BLACK);
+                    //drugField.setFill(Color.BLACK);
                     if (prescription.getPatient() != null) {
                         dose = controller.getOptimalDose();
                         prescription.setDose(dose);
                         doseField.setText(Double.toString(dose));
-                        drugField.setFill(Color.BLACK);
+                        //drugField.setFill(Color.BLACK);
                         controller.checkDose();
                         controller.checkAllergens();
                     }
@@ -249,11 +254,11 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                     patient = newValue;
                     prescription.setPatient(patient);
                     patientField.setText(patient.toString());
-                    drugField.setFill(Color.BLACK);
+                   // drugField.setFill(Color.BLACK);
                     if (prescription.getDrug() != null) {
                         dose = controller.getOptimalDose();
                         doseField.setText(Double.toString(dose));
-                        drugField.setFill(Color.BLACK);
+                       // drugField.setFill(Color.BLACK);
                         prescription.setDose(dose);
                         controller.checkDose();
                         controller.checkAllergens();
@@ -286,8 +291,12 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     }
     
     @Override
-    public Text getPatientField() {
+    public TextField getPatientField() {
         return this.patientField;
+    }
+
+    public TextField getDrugField() {
+        return drugField;
     }
 
     @Override
@@ -312,46 +321,63 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     
     @Override
     public void setNullDoseMessage() {
-        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);");
+        text = local.language();
+        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);"); //white
+        this.drugDoseField.setText(text.getString("nullDose"));
+        //this.drugDoseField.setFill(Color.rgb(255, 255, 255, 0.7));
     }
     
     @Override
     public void setInsuffucientDoseMessage() {
+        text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(0, 0, 255, 0.5);");
+        this.drugDoseField.setText(text.getString("insuffucientDose"));
+       // this.drugDoseField.setFill(Color.rgb(0, 0, 255, 0.5));
     }
 
     @Override
     public void setOptimalDoseMessage() {
+        text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(0, 255, 0, 0.5);");
+        this.drugDoseField.setText(text.getString("optimalDose"));
+        //this.drugDoseField.setFill(Color.rgb(0, 255, 0, 0.5));
     }
 
     @Override
     public void setOverOptimalDoseMessage() {
-        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);");
+        text = local.language();
+        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);"); 
+        this.drugDoseField.setText(text.getString("overOptimalDose"));
+        //this.drugDoseField.setFill(Color.rgb(255, 255, 0, 0.5));
     }
 
     @Override
     public void setRiskLimitDoseMessage() {
+        text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+        this.drugDoseField.setText(text.getString("riskLimitDose"));
+        //this.drugDoseField.setFill(Color.rgb(255, 0, 0, 0.5));
     }
 
     @Override
     public void setOverdoseMessage() {
+        text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Olet määräämässä vaarallista annostusta!\nKerta-annos on vaarallisen suuri.\nPienennä annostusta.");
-        alert.setTitle("Lääkelaskuri");
-        alert.setHeaderText("Varoitus:");
+        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertOverdose"));
+        alert.setTitle(text.getString("titleDrugCalculator"));
+        alert.setHeaderText(text.getString("warning"));
         alert.initStyle(StageStyle.UNDECORATED);
         alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
         alert.showAndWait();
     }
-    
+
     @Override
     public void setCumulativeOverdoseMessage() {
+        text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Olet määräämässä vaarallista annostusta!\nKumulatiivinen vaikutus nostaa lääkeaineen pitoisuuden liian korkeaksi.\nPienennä annostusta tai lyhennä kuurin kestoa.");
-        alert.setTitle("Lääkelaskuri");
-        alert.setHeaderText("Varoitus:");
+        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("titleDrugCalculator"));
+        alert.setTitle(text.getString("titleDrugCalculator"));
+        alert.setHeaderText(text.getString("warning"));
         alert.initStyle(StageStyle.UNDECORATED);
         alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
         alert.showAndWait();
@@ -359,14 +385,15 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     
     @Override
     public void setIsAllergicMessage(List<String> allergens) {
-        this.drugField.setFill(Color.RED);
+        text = local.language();
+        //this.drugField.setFill(Color.RED);
         String s = "";
         for (String a : allergens) {
             s += a + "\n";
         }
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Allergia varoitus!\nValitsemasi lääke sisältää ainesosia, joille potilas on allerginen:\n\n" + s);
-        alert.setTitle("Allergeenitarkistus");
-        alert.setHeaderText("Varoitus:");
+        Alert alert = new Alert(Alert.AlertType.WARNING,text.getString("alertAllergin")+s);
+        alert.setTitle(text.getString("titleAllergen"));
+        alert.setHeaderText(text.getString("warning"));
         alert.initStyle(StageStyle.UNDECORATED);
         alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
         alert.showAndWait();
@@ -374,7 +401,8 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
 
     @Override
     public void markUpdate() {
-        this.infoField.appendText("\nMuokattu: " + LocalDate.now(ZoneId.systemDefault()).toString());
+        text = local.language();
+        this.infoField.appendText(text.getString("updated") + LocalDate.now(ZoneId.systemDefault()).toString());
         this.info = this.infoField.getText();
         this.prescription.setInfo(this.info);
     }

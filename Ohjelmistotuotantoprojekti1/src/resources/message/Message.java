@@ -1,9 +1,8 @@
 package resources.message;
 
-import resources.user.User;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Observable;
 import javax.persistence.*;
 import resources.user.User;
 
@@ -13,13 +12,15 @@ import resources.user.User;
  */
 @Entity(name="message")
 @Table(name="message")
-public class Message {
+public class Message extends Observable implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private int messageID;
     private String message;
     private Date date;
     private String title;
-
+    private boolean opened;
     
     private User sender;
     private User receiver;
@@ -27,12 +28,12 @@ public class Message {
     
     public Message(){}
     
-    public Message(int id, String message, Date d){
+    public Message(int id, String message, Date date){
         this.messageID = id;
         this.message = message;
-        this.date = d;
-        sender = new User();
-        receiver = new User();
+        this.date = date;
+        this.sender = new User();
+        this.receiver = new User();
         
     }
     
@@ -82,12 +83,18 @@ public class Message {
     public void setMessage(String message) {
         this.message = message;
     }
-
-    @Override
-    public String toString() {
-        return "Lähettäjä: "+sender.getFirstName()+" "+sender.getLastName()+", Vastaanottaja: "+receiver.getFirstName()+
-                " "+receiver.getLastName()+", Aihe: "+title+", pvm: "+date;
+    
+    @Column(name="opened")
+    public boolean isOpened() {
+        return opened;
     }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
+        this.setChanged();
+        this.notifyObservers();
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date")
     public Date getDate() {

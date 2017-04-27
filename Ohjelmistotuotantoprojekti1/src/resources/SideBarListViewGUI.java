@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
-import resources.patient.Patient;
 
 /**
  * FXML Controller class
@@ -73,5 +71,5 @@ public class SideBarListViewGUI<E> extends TitledPane implements SideBarListView
             this.listView.setItems(this.list);
         }
     }
-    
+
 }

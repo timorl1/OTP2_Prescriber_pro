@@ -15,28 +15,40 @@ import resources.SideBarListViewGUI;
 import static gui.Localisation.getInstance;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
+import resources.patient.PatientListCell;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
+import resources.drug.DrugListCell;
 import resources.employee.Employee;
+import resources.employee.EmployeeListCell;
 import resources.message.Message;
+import resources.message.ReceivedMessageListCell;
+import resources.message.SentMessageListCell;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
+import resources.prescription.PrescriptionListCell;
 import resources.user.User;
 import resources.user.User_IF;
 
@@ -46,7 +58,7 @@ import resources.user.User_IF;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class MainGUI implements Initializable, MainGUI_IF {
+public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     ResourceBundle text;
     Localisation local = getInstance();
     
@@ -73,13 +85,24 @@ public class MainGUI implements Initializable, MainGUI_IF {
     private SideBarListView_IF<User_IF> userListView;
     private SideBarListView_IF<Employee> employeeListView;
     private SideBarListView_IF<String> databaseListView;
+    @FXML
+    private VBox vBox;
+    @FXML
+    private VBox menuButtons;
+    @FXML
+    private Accordion accordion;
+    @FXML
+    private VBox controls;
+    private TextField searchField;
     
     private Controller_IF controller;
     
     private AppStatus status;
     
-    private DoubleStringConverter dsc;    
+    private DoubleStringConverter dsc;
     
+    private AlertMessage alertMessage = AlertMessage.getINSTANCE();
+
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,7 +110,6 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.dsc = new DoubleStringConverter();
         setLogin();
         setStatus(AppStatus.IDLE);
-        
     }
     
     public AppStatus getStatus() {
@@ -102,8 +124,10 @@ public class MainGUI implements Initializable, MainGUI_IF {
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void setLogin() {
+       // this.login = LoginGUI.getInstance();
         this.login = new LoginGUI();
         this.login.getButton().setOnAction(e -> {
+            this.login.addMessage(null);
             this.controller.login(this.login.getUsername(), this.login.getPassword());
             this.login.clearPasswordField();
         });
@@ -121,57 +145,49 @@ public class MainGUI implements Initializable, MainGUI_IF {
     @Override
     public void setAccessDenied() {
         text = local.language();
-        this.root.getChildren().clear();
-        this.root.getChildren().add(new Label(text.getString("accessDenied")));
+        this.login.addMessage(text.getString("accessDenied"));
     }
     
     @Override
     public void setLogout(){
-        this.root.getChildren().remove((SideBarGUI)this.sideBar);
+        //this.root.getChildren().remove((SideBarGUI)this.sideBar);
         this.tabPane.getTabs().clear();
+        this.accordion.getPanes().clear();
+        this.menuButtons.getChildren().clear();
+        this.controls.getChildren().clear();
         this.root.getChildren().add((LoginGUI)this.login);
     }
     
-    //Removes the login component and loads the side bar component
-    //Component type is defined by user's priviledges
-    //1 - load nurses sidebar components
-    //2 - load doctors sidebar components
-    //3 - load administrators sidebar components
-    //0 - should print out "access revoked" and instructions to contact the administrator
     @Override
     public void setSideBar() {
+        text = local.language();
         this.root.getChildren().remove((LoginGUI) this.login);
         this.sideBar = new SideBarGUI(this);
-        this.sideBar.getMessageButton().setOnMousePressed(m ->{
-            this.controller.createNewMessage();
-        });
-        this.sideBar.getSearchField().setOnKeyReleased(e -> {
-        if(this.patientListView != null){
-            this.patientListView.filter(this.sideBar.getSearchField().getText());
-        }
-        if(this.drugListView != null){
-            this.drugListView.filter(this.sideBar.getSearchField().getText());
-        }
-        if (this.employeeListView != null){
-            this.employeeListView.filter(this.sideBar.getSearchField().getText());
-        }    
-        if (this.userListView != null){
-        this.userListView.filter(this.sideBar.getSearchField().getText());
-        }
-        });
+        /*this.sideBar.getSearchField().setOnKeyReleased(e -> {
+            if(this.patientListView != null){
+                this.patientListView.filter(this.sideBar.getSearchField().getText());
+            }
+            if(this.drugListView != null){
+                this.drugListView.filter(this.sideBar.getSearchField().getText());
+            }
+            if (this.employeeListView != null){
+                this.employeeListView.filter(this.sideBar.getSearchField().getText());
+            }    
+            if (this.userListView != null){
+            this.userListView.filter(this.sideBar.getSearchField().getText());
+            }
+        });*/
         this.root.getChildren().add((SideBarGUI) this.sideBar);
-        this.sideBar.getLogoutButton().setOnAction(e -> {
-            this.controller.logout();
-        });
     }
 
     @Override
     public void setPatientList() {
         text = local.language();
-        this.patientListView = new SideBarListViewGUI(text.getString("patient"));
+        this.patientListView = new SideBarListViewGUI(text.getString("patients"));
         this.patientListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.patientListView.isExpanded()) {
                 this.patientListView.setList(this.controller.getPatients());
+                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
             }
         });
         this.patientListView.getListView().setOnMouseClicked(e -> {
@@ -185,7 +201,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.patientListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.patientListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.patientListView);
     }
 
     @Override
@@ -195,6 +212,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.drugListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.drugListView.isExpanded()) {
                 this.drugListView.setList(this.controller.getDrugs());
+                this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
             }
         });
         this.drugListView.getListView().setOnMouseClicked(e -> {
@@ -207,7 +225,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.drugListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.drugListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.drugListView);
     }
 
     @Override
@@ -217,6 +236,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.prescriptionListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.prescriptionListView.isExpanded()) {
                 this.prescriptionListView.setList(this.controller.getDoctorPrescriptions());
+                this.prescriptionListView.getListView().setCellFactory(listView -> new PrescriptionListCell(text));
             }
         });
         this.prescriptionListView.getListView().setOnMouseClicked(e -> {
@@ -228,7 +248,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.prescriptionListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.prescriptionListView);
     }
 
     @Override
@@ -238,18 +259,20 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.receivedMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.receivedMessageListView.isExpanded()) {
                 this.receivedMessageListView.setList(this.controller.getReceivedMessages());
+                this.receivedMessageListView.getListView().setCellFactory(listView -> new ReceivedMessageListCell(text));
             }
         });
         this.receivedMessageListView.getListView().setOnMouseClicked(e -> {
             if (this.receivedMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
-                this.setMessageDetails(this.receivedMessageListView.getSelection());
+                this.controller.getReceivedMessageDetails();
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.receivedMessageListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.receivedMessageListView);
     }
     
     @Override
@@ -259,18 +282,20 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.sentMessageListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.sentMessageListView.isExpanded()) {
                 this.sentMessageListView.setList(this.controller.getSentMessages());
+                this.sentMessageListView.getListView().setCellFactory(listView -> new SentMessageListCell(text));
             }
         });
         this.sentMessageListView.getListView().setOnMouseClicked(e -> {
             if (this.sentMessageListView.getSelection() != null && this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
-                this.setMessageDetails(this.sentMessageListView.getSelection());
+                this.controller.getSentMessageDetails();
             }
             else if (this.status == AppStatus.IDLE) {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.sentMessageListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.sentMessageListView);
     }
 
     //List all users
@@ -278,29 +303,44 @@ public class MainGUI implements Initializable, MainGUI_IF {
     public void setUserList() {
         text = local.language();
         this.userListView = new SideBarListViewGUI(text.getString("users"));
-        //Create custom cells with buttons to be able to easily set users accounts in locked state
-        this.userListView.getListView().setCellFactory(p -> {
+        //Move this to a separate UserListCell-class
+        this.userListView.getListView().setCellFactory(listView -> {
             ListCell<User> cell = new ListCell<User>(){
                 @Override
-                protected void updateItem(User u, boolean bln) {
-                    super.updateItem(u, bln);
-                    if (u != null) {
-                        setText(u.toString());
+                protected void updateItem(User user, boolean bln) {
+                    super.updateItem(user, bln);
+                    Image locked = new Image(getClass().getResourceAsStream("/gui/img/padlock_closed.png"));
+                    Image open = new Image(getClass().getResourceAsStream("/gui/img/padlock_open.png"));
+                    if (user != null) {
+                        setText(user.toString());
                         Button button = new Button();
-                        if (u.getUsertype() != 0) {
-                            button.setText("-");
+                        
+                        if (user.getUsertype() != 0) {
+                            button.setGraphic(new ImageView(open));
+                            button.setTooltip(new Tooltip(text.getString("lockUser")));
                         }
                         else {
-                            button.setText("+");
+                            button.setGraphic(new ImageView(locked));
+                            button.setTooltip(new Tooltip(text.getString("unlockUser")));
                         }
-                        button.setOnAction((ActionEvent event) -> {
-                            if (u.getUsertype() != 0) {
-                                controller.lockUser(u);
-                                button.setText("+");
-                            }
-                            else {
-                                controller.setUserPriviledges(u);
-                                button.setText("-");
+                        button.setOnAction(e -> {
+                            if (user.getUsertype() != 0) {
+                               Optional<ButtonType> result = alertMessage.showConfirmationAlert(text.getString("lockUser"), text.getString("alertHeaderLockUser"),
+                                        text.getString("alertContentTextLockUser"));
+                                if (result.get() == ButtonType.OK){
+                                    controller.lockUser(user);
+                                    button.setGraphic(new ImageView(locked));
+                                    button.setTooltip(new Tooltip(text.getString("unlockUser")));                                
+                                }      
+                                
+                            } else {
+                                Optional<ButtonType> result = alertMessage.showConfirmationAlert(text.getString("unlockUser"), text.getString("alertHeaderUnlockUser"),
+                                        text.getString("alertContentTextUnlockUser"));
+                                if (result.get() == ButtonType.OK){
+                                    controller.setUserPriviledges(user);
+                                    button.setGraphic(new ImageView(open));
+                                    button.setTooltip(new Tooltip(text.getString("lockUser")));
+                                }
                             }
                         });
                         setGraphic(button);
@@ -323,7 +363,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.userListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.userListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.userListView);
     }
 
     @Override
@@ -333,6 +374,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         this.employeeListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.employeeListView.isExpanded()) {
                 this.employeeListView.setList(this.controller.getEmployees());
+                this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
             }
         });
         this.employeeListView.getListView().setOnMouseClicked(e -> {
@@ -344,7 +386,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().clear();
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.employeeListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.employeeListView);
     }
 
     @Override
@@ -356,116 +399,119 @@ public class MainGUI implements Initializable, MainGUI_IF {
                 this.databaseListView.setList(this.controller.getDatabases());
             }
         });
-        this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
+        //this.sideBar.addView((SideBarListViewGUI)this.databaseListView);
+        this.accordion.getPanes().add((SideBarListViewGUI)this.databaseListView);
     }
     
     @Override
     public void setPrescriptionForm(Prescription prescription) {
         text = local.language();
-        this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, text.getString("prescription"), prescription);
-        this.prescriptionForm.getCancelButton().setOnAction(e -> {
-            this.tabPane.getTabs().remove(this.prescriptionForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.prescriptionForm.getSaveButton().setOnAction(e -> {
-            if (this.status == AppStatus.EDIT) {
-                this.prescriptionForm.markUpdate();
-            }
-            if (this.controller.savePrescription()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
-                alert.setTitle(text.getString("message"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+        if(!this.tabPane.getTabs().contains(this.prescriptionForm)){
+            this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, text.getString("prescription"), prescription);
+            this.prescriptionForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
+            });
+            this.prescriptionForm.getPatientField().setOnMouseClicked(e ->{
+                this.patientListView.getTitledPane().setExpanded(true);
+            if (this.patientListView.isExpanded()) {
+                this.patientListView.setList(this.controller.getPatients());
+                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
             }
-            else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitlePrescriptionNotSent"));
-                alert.setTitle(text.getString("message"));
-                alert.setHeaderText(text.getString("alertTextWarning"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+            });
+            this.prescriptionForm.getDrugField().setOnMouseClicked(e ->{
+                this.drugListView.getTitledPane().setExpanded(true);
+            if (this.drugListView.isExpanded()) {
+                this.drugListView.setList(this.controller.getDrugs());
+                this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
             }
-        });
-        this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
-            if (this.getPrescriptionForm().getPatient() != null) {
+            });
+            this.prescriptionForm.getSaveButton().setOnAction(e -> {
+                if (this.status == AppStatus.EDIT) {
+                    this.prescriptionForm.markUpdate();
+                }
+                if (this.controller.savePrescription()) {
+                    alertMessage.showInformationAlert(text.getString("message"), text.getString("prescriptionCreated"));
+                    this.tabPane.getTabs().remove(this.prescriptionForm);
+                    this.setStatus(AppStatus.IDLE);
+                }
+                else {
+                    alertMessage.showWarningAlert(text.getString("message"), text.getString("alertTextWarning"),
+                            text.getString("alertTitlePrescriptionNotSent"));
+                }
+            });
+            this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
+                if (this.getPrescriptionForm().getPatient() != null) {
+                    ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
+                    this.prescriptionForm.getDiagnoseSelector().setItems(list);
+                    this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
+                    this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
+                }
+            });
+            if (this.getSelectedPatient() != null) {
                 ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
                 this.prescriptionForm.getDiagnoseSelector().setItems(list);
                 this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
-                this.prescriptionForm.setDiagnose(this.prescriptionForm.getDiagnoseSelector().getSelectionModel().getSelectedItem());
             }
-        });
-        if (this.getSelectedPatient() != null) {
-            ObservableList<Diagnose> list = FXCollections.observableList(this.controller.getPatientDiagnoses());
-            this.prescriptionForm.getDiagnoseSelector().setItems(list);
-            this.prescriptionForm.getDiagnoseSelector().getSelectionModel().clearAndSelect(0);
+            this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);
         }
-        this.tabPane.getTabs().add((PrescriptionFormGUI)this.prescriptionForm);
     }
     
     @Override
     public void setMessageForm(Message message){
         text = local.language();
         this.status = AppStatus.CREATE;
-        this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, text.getString("newMessage"));
-        this.messageForm.getCancelButton().setOnAction(e -> {
-            this.tabPane.getTabs().remove(this.messageForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.messageForm.getSendButton().setOnAction(e -> {
-            if (this.controller.saveMessage()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("messageSent"));
-                alert.setTitle(text.getString("message"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+        if(!this.tabPane.getTabs().contains(this.messageForm)){
+            this.messageForm = new MessageFormGUI(this.controller.getUsers(), message, text.getString("newMessage"));
+
+            this.messageForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.messageForm);
                 this.setStatus(AppStatus.IDLE);
-            }
-            else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleMessageNotSent"));
-                alert.setTitle(text.getString("message"));
-                alert.setHeaderText(text.getString("alertTextWarning"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
-            }
-        });
-        this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
+            });
+            this.messageForm.getSendButton().setOnAction(e -> {
+                if (this.controller.saveMessage()) {
+                    alertMessage.showInformationAlert(text.getString("message"), text.getString("messageSent"));
+                    this.tabPane.getTabs().remove(this.messageForm);
+                    this.setStatus(AppStatus.IDLE);
+                }
+                else {
+                    alertMessage.showWarningAlert(text.getString("message"), text.getString("alertTextWarning"),
+                            text.getString("alertTitleMessageNotSent"));
+                }
+            });
+            this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
+
+        }
     }
-    
     @Override
     public void setUserForm(User_IF user) {
         text = local.language();
         this.status = AppStatus.CREATE;
-        this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
-        this.userForm.getCancelButton().setOnAction(e -> {
-            this.tabPane.getTabs().remove(this.userForm);
-            this.setStatus(AppStatus.IDLE);
-        });
-        this.userForm.getSaveButton().setOnAction(e -> {           
-            if (this.controller.saveUser()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("userAdded"));
-                alert.setTitle(text.getString("newUser"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
+        if(!this.tabPane.getTabs().contains(this.userForm)){
+            this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
+            this.employeeListView.getTitledPane().setExpanded(true);
+            if (this.employeeListView.isExpanded()) {
+                this.employeeListView.setList(this.controller.getEmployees());
+                this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
+            }
+            this.userForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.userForm);
                 this.setStatus(AppStatus.IDLE);
-            }
-            else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleUserNotAdded"));
-                alert.setTitle(text.getString("newUser"));
-                alert.setHeaderText(text.getString("alertTextWarning"));
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                alert.showAndWait();
-            }
-        });
-      
-        this.tabPane.getTabs().add((UserFormGUI)this.userForm);
+            });
+            this.userForm.getSaveButton().setOnAction(e -> {           
+                if (this.controller.saveUser()) {
+                    alertMessage.showInformationAlert(text.getString("newUser"), text.getString("userAdded"));
+                    this.tabPane.getTabs().remove(this.userForm);
+                    this.setStatus(AppStatus.IDLE);
+                }
+                else {
+                    alertMessage.showWarningAlert(text.getString("newUser"), text.getString("alertTextWarning"),
+                            text.getString("alertTitleUserNotAdded"));
+                }
+            });
+
+            this.tabPane.getTabs().add((UserFormGUI)this.userForm);
+        }    
     }
     
     
@@ -478,7 +524,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
             this.controller.createNewPrescription();
             this.setStatus(AppStatus.CREATE);
         });
-        this.sideBar.getVbox().getChildren().add(createPrescription);
+        //this.sideBar.getButtonBox().getChildren().add(createPrescription);
+        this.menuButtons.getChildren().add(createPrescription);
         Button updatePrescription = new Button(text.getString("updatePrescription"));
         BooleanBinding booleanBind = Bindings.isNull(this.prescriptionListView.getListView().getSelectionModel().selectedItemProperty());
         updatePrescription.disableProperty().bind(booleanBind);
@@ -486,7 +533,8 @@ public class MainGUI implements Initializable, MainGUI_IF {
             this.setPrescriptionForm(this.prescriptionListView.getSelection());
             this.setStatus(AppStatus.EDIT);
         });
-        this.sideBar.getVbox().getChildren().add(updatePrescription);
+        //this.sideBar.getButtonBox().getChildren().add(updatePrescription);
+        this.menuButtons.getChildren().add(updatePrescription);
     }
 
     @Override
@@ -497,8 +545,24 @@ public class MainGUI implements Initializable, MainGUI_IF {
             this.controller.createNewUser();
             this.setStatus(AppStatus.CREATE);
         });
-        this.sideBar.getVbox().getChildren().add(createUser);
+        //this.sideBar.getButtonBox().getChildren().add(createUser);
+        this.menuButtons.getChildren().add(createUser);
 
+    }
+    
+    @Override
+    public void setBasicTools() {
+        this.searchField = new TextField();
+        this.searchField.setPromptText(text.getString("search"));
+        this.controls.getChildren().add(this.searchField);
+        Button newMessageButton = new Button(text.getString("newMessage"));
+        newMessageButton.setOnAction(b -> this.controller.createNewMessage());
+        //this.sideBar.getButtonBox().getChildren().add(newMessageButton);
+        this.menuButtons.getChildren().add(newMessageButton);
+        Button logoutButton = new Button(text.getString("logout"));
+        logoutButton.setOnAction(b -> this.controller.logout());
+        //this.sideBar.getButtonBox().getChildren().add(logoutButton);
+        this.menuButtons.getChildren().add(logoutButton);
     }
     @Override
     public void setPatientDetails(Patient patient) {
@@ -618,6 +682,7 @@ public class MainGUI implements Initializable, MainGUI_IF {
         list.add(text.getString("sender")+": "+message.getSender().getFirstName()+" "+message.getSender().getLastName());
         list.add(text.getString("receiver")+": "+message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
         list.add(text.getString("date")+": "+message.getDate());
+        list.add(text.getString("subject")+": "+message.getTitle() );
         list.add(text.getString("message")+": "+message.getMessage() );
         
         this.tabPane.getTabs().remove(this.messageTab);
@@ -698,8 +763,13 @@ public class MainGUI implements Initializable, MainGUI_IF {
     }
     
     @Override
-    public Message getSelectedMessage() {
+    public Message getSelectedReceivedMessage() {
         return this.receivedMessageListView.getSelection();
+    }
+    
+    @Override
+    public Message getSelectedSentMessage() {
+        return this.sentMessageListView.getSelection();
     }
     
     @Override

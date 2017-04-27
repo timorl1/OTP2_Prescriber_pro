@@ -6,9 +6,9 @@
 package appuser;
 
 import gui.Localisation;
-import static gui.Localisation.getInstance;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -22,7 +22,8 @@ import javafx.stage.StageStyle;
  */
 public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     ResourceBundle text;
-    Localisation local = getInstance();
+    Localisation local = Localisation.getInstance();
+   // private static LoginGUI_IF INSTANCE = null;
     
     FXMLLoader loader;
     
@@ -38,6 +39,8 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     private Label usernameLabel;
     @FXML
     private Label passwordLabel;
+    @FXML
+    private Label messageLabel;
     
     public LoginGUI() {
         text = local.language();
@@ -52,7 +55,8 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             passwordLabel.setText(text.getString("password")+":");
             passwordField.setPromptText(text.getString("password"));
             loginButton.setText(text.getString("login"));
-        } catch (Exception exc) {
+            loginButton.disableProperty().bind(this.createBooleanBinding());
+        } catch (IOException exc) {
             Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("loadingFail"));
             alert.setTitle(text.getString("alertTitleError"));
             alert.setHeaderText(text.getString("alertTextWarning")+":");
@@ -61,6 +65,13 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             alert.showAndWait();
         }
     }
+    
+  /*  public synchronized static LoginGUI_IF getInstance(){
+        if (INSTANCE == null){
+            INSTANCE = new LoginGUI();
+        }
+        return INSTANCE;
+    } */
     
     @Override
     public String getUsername() {
@@ -79,11 +90,25 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
 
     @Override
     public void addMessage(String message) {
-        this.getChildren().add(new Label(message));
+        this.messageLabel.setText(message);
     }
     
     @Override
     public void clearPasswordField(){
         this.passwordField.clear();
+    }
+    
+    private BooleanBinding createBooleanBinding() {
+        BooleanBinding booleanBinding = new BooleanBinding() {
+            {
+                super.bind(usernameField.textProperty(),
+                        passwordField.textProperty());
+            }
+            @Override
+            protected boolean computeValue() {
+                return (usernameField.getText().isEmpty() || passwordField.getText().isEmpty());
+            }
+        };
+        return booleanBinding;
     }
 }

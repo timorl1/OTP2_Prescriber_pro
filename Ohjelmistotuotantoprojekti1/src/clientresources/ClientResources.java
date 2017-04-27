@@ -2,23 +2,18 @@ package clientresources;
 
 import resources.diagnose.Diagnose;
 import resources.employee.Employee;
-import resources.message.Message;
 import resources.prescription.Prescription;
 import resources.user.User_IF;
 import resources.user.User;
 import resources.patient.Patient;
 import resources.employee.EmployeeDAO;
 import resources.employee.EmployeeDAO_IF;
-import resources.message.MessageDAO;
-import resources.message.MessageDAO_IF;
 import resources.patient.PatientDAO;
 import resources.patient.PatientDAO_IF;
 import resources.prescription.PrescriptionDAO;
 import resources.prescription.PrescriptionDAO_IF;
 import resources.user.UserDAO;
 import resources.user.UserDAO_IF;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +37,6 @@ public class ClientResources implements ClientResources_IF {
     private DependencyBuilder_IF builder;
     private DoseCalculator_IF doseCalculator;
     private DoubleStringConverter dsc;
-    private MessageDAO_IF messageDAO;
     
     private Map<String, Patient> patients;
     private Map<Integer, Employee> employees;
@@ -53,7 +47,6 @@ public class ClientResources implements ClientResources_IF {
         this.employeeDAO = new EmployeeDAO();
         this.userDAO = new UserDAO();
         this.prescriptionDAO = new PrescriptionDAO();
-        this.messageDAO = new MessageDAO();
         this.doseCalculator = new DoseCalculator();
         this.dsc = new DoubleStringConverter();
         this.patients = new HashMap();
@@ -143,36 +136,28 @@ public class ClientResources implements ClientResources_IF {
         user.setUsertype(0);
         this.userDAO.updateUser(user);
     }
-
-    @Override
-    public Prescription addNewPrescription(User_IF user) {
-        Prescription prescription = new Prescription();
-        prescription.setDoctor(user);
-        prescription.setDoctorID(user.getUserID());
-        prescription.setTimesADay(1);
-        prescription.setCreationDate(Date.valueOf(LocalDate.now()));
-        return prescription;
-    }
-
-    @Override
-    public boolean savePrescription(Prescription prescription) {
-        return this.prescriptionDAO.createPrescription(prescription);
-    }
     
      @Override
-    public User_IF addNewUser(User_IF user) {
-        user = new User();       
-        return user;
+    public User_IF createNewUser() {
+        return new User();
     }
 
     @Override
     public boolean saveUser(User_IF user) {
-        return this.userDAO.createUser(user);
-    } 
-    
-    @Override
-    public boolean saveMessage(Message message){
-        return this.messageDAO.createMessage(message);
+        if(user.getPassword() == null ||
+                user.getPassword().isEmpty() ||
+                user.getUsername() == null ||
+                user.getUsername().isEmpty()||
+                user.getEmail() == null ||
+                user.getEmail().isEmpty()||
+                user.getFirstName() == null ||
+                user.getFirstName().isEmpty()||
+                user.getLastName() == null ||
+                user.getLastName().isEmpty()){            
+            return false;
+        }else{
+            return this.userDAO.createUser(user);
+        }
     }
         
     @Override
@@ -180,14 +165,6 @@ public class ClientResources implements ClientResources_IF {
         List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
         prescriptions.forEach(this.builder::buildPrescription);
         return prescriptions;
-    }
-
-    @Override
-    public Message addNewMessage(User_IF user) {
-        Message message = new Message();
-        message.setSender((User) user);
-        message.setDate(Date.valueOf(LocalDate.now()));
-        return message;
     }
     
 }

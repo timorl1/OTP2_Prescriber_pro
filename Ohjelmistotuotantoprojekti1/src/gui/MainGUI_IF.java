@@ -7,7 +7,6 @@ import resources.employee.Employee;
 import resources.message.Message;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
-import resources.user.User;
 import resources.user.User_IF;
 
 /**
@@ -15,7 +14,6 @@ import resources.user.User_IF;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface MainGUI_IF {
-
     /**
      * Method to set the login view.
      */
@@ -98,6 +96,8 @@ public interface MainGUI_IF {
      * Method to set the additional buttons for users with privileges to create prescriptions.
      */
     public abstract void setPrescriptionTools();
+    
+    public abstract void setBasicTools();
 
     /**
      * Method to set patient details to the view.
@@ -194,12 +194,18 @@ public interface MainGUI_IF {
      * @param message message to be shown in detail
      */
     public abstract void setMessageDetails(Message message);
+    
+        /**
+     * Method to get the selected message from list view.
+     * @return message selected in the message list view
+     */
+    public abstract Message getSelectedReceivedMessage();
 
     /**
      * Method to get the selected message from list view.
      * @return message selected in the message list view
      */
-    public abstract Message getSelectedMessage();
+    public abstract Message getSelectedSentMessage();
 
     /**
      * Method to get the message manipulated by the message form view.

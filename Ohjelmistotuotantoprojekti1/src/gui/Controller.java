@@ -15,8 +15,12 @@ import resources.drug.DrugResources;
 import resources.drug.DrugResources_IF;
 import resources.employee.Employee;
 import resources.message.Message;
+import resources.message.Messenger;
+import resources.message.Messenger_IF;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
+import resources.prescription.PrescriptionMaker;
+import resources.prescription.PrescriptionMaker_IF;
 import resources.user.User;
 import resources.user.User_IF;
 
@@ -29,12 +33,16 @@ public class Controller implements Controller_IF {
     private AppUser auth;
     private ClientResources_IF clientRes;
     private DrugResources_IF drugRes;
+    private PrescriptionMaker_IF prescriptionMaker;
+    private Messenger_IF messenger;
     
     public Controller(MainGUI_IF gui) {
         this.gui = gui;
         this.auth = new AppUser();
         this.clientRes = new ClientResources();
         this.drugRes = new DrugResources();
+        this.prescriptionMaker = new PrescriptionMaker();
+        this.messenger = new Messenger();
     }
 
     @Override
@@ -52,6 +60,7 @@ public class Controller implements Controller_IF {
                         this.gui.setDrugList();
                         this.gui.setReceivedMessageList();
                         this.gui.setSentMessageList();
+                        this.gui.setBasicTools();
                         break;
                     case 2:
                         this.gui.setPatientList();
@@ -60,6 +69,7 @@ public class Controller implements Controller_IF {
                         this.gui.setReceivedMessageList();
                         this.gui.setSentMessageList();
                         this.gui.setPrescriptionTools();
+                        this.gui.setBasicTools();
                         break;
                     case 3:
                         this.gui.setUserList();
@@ -67,13 +77,15 @@ public class Controller implements Controller_IF {
                         this.gui.setReceivedMessageList();
                         this.gui.setSentMessageList();
                         this.gui.setUserTools();
+                        this.gui.setBasicTools();
                         break;
                 }
             }
             else {
                 this.gui.setLoginFailed();
+            }
         }
-        }else {
+        else {
             this.gui.setLoginFailed();
         }
     }
@@ -150,8 +162,16 @@ public class Controller implements Controller_IF {
     }
     
     @Override
-    public void getMessageDetails() {
-        this.gui.setMessageDetails(this.gui.getSelectedMessage());
+    public void getSentMessageDetails() {
+        this.gui.setMessageDetails(this.gui.getSelectedSentMessage());
+    }
+    
+    @Override
+    public void getReceivedMessageDetails() {
+        Message message = this.gui.getSelectedReceivedMessage();
+        message.setOpened(true);
+        this.messenger.saveMessage(message);
+        this.gui.setMessageDetails(message);
     }
     
     @Override
@@ -176,17 +196,17 @@ public class Controller implements Controller_IF {
     
     @Override
     public void createNewPrescription() {
-        this.gui.setPrescriptionForm(this.clientRes.addNewPrescription(this.auth.getUser()));
+        this.gui.setPrescriptionForm(this.prescriptionMaker.createPrescription(this.auth.getUser()));
     }
     
     @Override
     public boolean savePrescription() {
-        return this.clientRes.savePrescription(this.gui.getPrescriptionForm());
+        return this.prescriptionMaker.savePrescription(this.gui.getPrescriptionForm());
     }  
     
     @Override
     public boolean saveMessage(){
-        return this.clientRes.saveMessage(this.gui.getMessageForm());
+        return this.messenger.saveMessage(this.gui.getMessageForm());
     }
     
      @Override
@@ -196,12 +216,12 @@ public class Controller implements Controller_IF {
     
     @Override
     public void createNewUser() {
-        this.gui.setUserForm(this.clientRes.addNewUser(this.auth.getUser()));
+        this.gui.setUserForm(this.clientRes.createNewUser());
     }
 
     @Override
     public void createNewMessage() {
-        this.gui.setMessageForm(this.clientRes.addNewMessage(this.auth.getUser()));
+        this.gui.setMessageForm(this.messenger.createMessage(this.auth.getUser()));
     }
 
     @Override

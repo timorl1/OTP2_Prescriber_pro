@@ -85,28 +85,14 @@ public interface ClientResources_IF {
      *Sets users privileges to 0
      * @param user who you need to lock out from application
      */
-    public abstract void lockUser(User_IF user);
-
-    /**
-     *Sets up new presciption 
-     * @param user is the doctor who is making the prescription
-     * @return prescription object with doctor details in it
-     */
-    public abstract Prescription addNewPrescription(User_IF user);
-
-    /**
-     *Saves the new prescription to database
-     * @param prescription object that is saved
-     * @return true if prescription is saved succesfully, false it it fails
-     */
-    public abstract boolean savePrescription(Prescription prescription);    
+    public abstract void lockUser(User_IF user);   
 
     /**
      *Sets up new user
-     * @param user create new user 
+     * 
      * @return new user object
      */
-    public abstract User_IF addNewUser(User_IF user);
+    public abstract User_IF createNewUser();
 
     /**
      *Saves the new user to database
@@ -122,18 +108,4 @@ public interface ClientResources_IF {
      */
 
     public abstract List<Prescription> getPrescriptionsByDoctor(User_IF user);
-
-    /**
-     *Saves the new message in to database
-     * @param message object that is saved
-     * @return true if message is saved succesfully, false it it fails
-     */
-    public abstract boolean saveMessage(Message message);
-
-    /**
-     *Sets up new message
-     * @param user create new user that is sender of the message
-     * @return message with user details 
-     */
-    public abstract Message addNewMessage(User_IF user);
 }

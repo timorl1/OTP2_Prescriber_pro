@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prescriptionMaker;
+package resources.prescription;
 
 /**
  * Interface for implementing controller class for PrescriptionMaker

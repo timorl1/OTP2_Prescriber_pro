@@ -5,16 +5,64 @@
  */
 package appuser;
 
-public class LoginController implements LoginController_IF {
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+
+/**
+ * FXML Controller class
+ *
+ * @author joosiika
+ */
+public class LoginController implements Initializable {
     
+    private AppUser_IF appUser = new AppUser();
+
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Label loginLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private Label passwordLabel;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Label messageLabel;
+    @FXML
+    private Button loginButton;
+
+    /**
+     * Initializes the controller class.
+     */
     @Override
-    public void login() {
-        
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
     }
 
-    @Override
-    public void logout() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void login() {
+        this.appUser.authenticate(this.getPassword());
+    }
+    
+    public void setUser() {
+        this.appUser.setUser(this.getUsername());
+    }
+    
+    public String getUsername() {
+        return this.usernameField.getText();
+    }
+    
+    public String getPassword() {
+        return this.passwordField.getText();
     }
     
 }
