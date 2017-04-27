@@ -31,8 +31,8 @@ import javafx.stage.StageStyle;
  */
 public class ApplicationMain extends Application {
     
-    Parent root;
-    Parent login;
+    AnchorPane root;
+    AnchorPane login;
     Localisation local = getInstance();
     ResourceBundle text;
     String choice;
@@ -54,7 +54,7 @@ public class ApplicationMain extends Application {
         languageChoice.setPromptText(text.getString("selectLanguage"));
         AnchorPane.setTopAnchor(languageChoice, 2.0);
         AnchorPane.setRightAnchor(languageChoice, 15.0);
-        //root.getChildren().add(languageChoice);
+        root.getChildren().add(languageChoice);
         languageChoice.setOnAction((Event e) -> {
             
             Alert alert = new Alert(AlertType.CONFIRMATION);
