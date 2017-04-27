@@ -5,9 +5,6 @@
  */
 package resources.prescription;
 
-import resources.prescription.PrescriptionDAO_IF;
-import resources.prescription.Prescription;
-import resources.prescription.PrescriptionDAO;
 import resources.patient.Patient;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,7 +14,9 @@ import java.util.List;
 import calculator.DoseCalculator;
 import calculator.DoseCalculator_IF;
 import calculator.DoseStatus;
+import java.sql.Date;
 import resources.drug.Drug;
+import resources.user.User_IF;
 
 /**
  *
@@ -32,7 +31,7 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         this.doseCalculator = new DoseCalculator();
     }
 
-    /*@Override
+    @Override
     public Prescription createPrescription(User_IF user) {
         Prescription prescription = new Prescription();
         prescription.setDoctor(user);
@@ -44,7 +43,7 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
     @Override
     public boolean savePrescription(Prescription prescription) {
         return this.prescriptionDAO.createPrescription(prescription);
-    }*/
+    }
 
     @Override
     public double getOptimalDose(Prescription prescription) {

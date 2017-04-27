@@ -42,7 +42,6 @@ public class ClientResources implements ClientResources_IF {
     private DependencyBuilder_IF builder;
     private DoseCalculator_IF doseCalculator;
     private DoubleStringConverter dsc;
-    private MessageDAO_IF messageDAO;
     
     private Map<String, Patient> patients;
     private Map<Integer, Employee> employees;
@@ -53,7 +52,6 @@ public class ClientResources implements ClientResources_IF {
         this.employeeDAO = new EmployeeDAO();
         this.userDAO = new UserDAO();
         this.prescriptionDAO = new PrescriptionDAO();
-        this.messageDAO = new MessageDAO();
         this.doseCalculator = new DoseCalculator();
         this.dsc = new DoubleStringConverter();
         this.patients = new HashMap();
@@ -143,21 +141,6 @@ public class ClientResources implements ClientResources_IF {
         user.setUsertype(0);
         this.userDAO.updateUser(user);
     }
-
-    @Override
-    public Prescription addNewPrescription(User_IF user) {
-        Prescription prescription = new Prescription();
-        prescription.setDoctor(user);
-        prescription.setDoctorID(user.getUserID());
-        prescription.setTimesADay(1);
-        prescription.setCreationDate(Date.valueOf(LocalDate.now()));
-        return prescription;
-    }
-
-    @Override
-    public boolean savePrescription(Prescription prescription) {
-        return this.prescriptionDAO.createPrescription(prescription);
-    }
     
      @Override
     public User_IF addNewUser(User_IF user) {
@@ -168,11 +151,6 @@ public class ClientResources implements ClientResources_IF {
     @Override
     public boolean saveUser(User_IF user) {
         return this.userDAO.createUser(user);
-    } 
-    
-    @Override
-    public boolean saveMessage(Message message){
-        return this.messageDAO.createMessage(message);
     }
         
     @Override
@@ -180,14 +158,6 @@ public class ClientResources implements ClientResources_IF {
         List<Prescription> prescriptions = this.prescriptionDAO.getPrescriptionsByDoctor(user);
         prescriptions.forEach(this.builder::buildPrescription);
         return prescriptions;
-    }
-
-    @Override
-    public Message addNewMessage(User_IF user) {
-        Message message = new Message();
-        message.setSender((User) user);
-        message.setDate(Date.valueOf(LocalDate.now()));
-        return message;
     }
     
 }

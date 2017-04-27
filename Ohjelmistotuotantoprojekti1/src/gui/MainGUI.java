@@ -22,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -55,7 +56,7 @@ import resources.user.User_IF;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
+public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     ResourceBundle text;
     Localisation local = getInstance();
     
@@ -156,8 +157,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     public void setSideBar() {
         text = local.language();
         this.root.getChildren().remove((LoginGUI) this.login);
-        this.sideBar = new SideBarGUI();
-        this.sideBar.getSearchField().setOnKeyReleased(e -> {
+        this.sideBar = new SideBarGUI(this);
+        /*this.sideBar.getSearchField().setOnKeyReleased(e -> {
             if(this.patientListView != null){
                 this.patientListView.filter(this.sideBar.getSearchField().getText());
             }
@@ -170,8 +171,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
             if (this.userListView != null){
             this.userListView.filter(this.sideBar.getSearchField().getText());
             }
-        });
-        //this.root.getChildren().add((SideBarGUI) this.sideBar);
+        });*/
+        this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
     @Override

@@ -28,12 +28,12 @@ public class Message extends Observable implements Serializable {
     
     public Message(){}
     
-    public Message(int id, String message, Date d){
+    public Message(int id, String message, Date date){
         this.messageID = id;
         this.message = message;
-        this.date = d;
-        sender = new User();
-        receiver = new User();
+        this.date = date;
+        this.sender = new User();
+        this.receiver = new User();
         
     }
     
@@ -95,11 +95,6 @@ public class Message extends Observable implements Serializable {
         this.notifyObservers();
     }
 
-    @Override
-    public String toString() {
-        return "Lähettäjä: "+sender.getFirstName()+" "+sender.getLastName()+", Vastaanottaja: "+receiver.getFirstName()+
-                " "+receiver.getLastName()+", Aihe: "+title+", pvm: "+date;
-    }
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date")
     public Date getDate() {

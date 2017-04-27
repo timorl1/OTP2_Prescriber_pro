@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -38,12 +39,12 @@ public class SideBarGUI extends AnchorPane implements SideBarGUI_IF {
     
     FXMLLoader loader;
     
-    public SideBarGUI() {
+    public SideBarGUI(Parent parent) {
         text = local.language();
         try {
             loader = new FXMLLoader(getClass().getResource("SideBar.fxml"));
             loader.setController(this);
-            loader.setRoot(this);
+            loader.setRoot(parent);
             loader.load();
             searchField.setPromptText(text.getString("search"));
         } catch (IOException exc) {
