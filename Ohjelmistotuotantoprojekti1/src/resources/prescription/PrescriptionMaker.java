@@ -36,13 +36,26 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         Prescription prescription = new Prescription();
         prescription.setDoctor(user);
         prescription.setDoctorID(user.getUserID());
+        prescription.setTimesADay(1);
         prescription.setCreationDate(Date.valueOf(LocalDate.now()));
         return prescription;
     }
 
     @Override
     public boolean savePrescription(Prescription prescription) {
-        return this.prescriptionDAO.createPrescription(prescription);
+        if (prescription.getEndDate()== null || 
+                prescription.getStartDate()== null || 
+                prescription.getInfo().isEmpty() ||
+                prescription.getTimesADay() == 0 ||  
+                prescription.getDose() == 0 ||
+                prescription.getDiagnoseID() == 0 || 
+                prescription.getDrug() == null || 
+                prescription.getPatientID().isEmpty() || 
+                prescription.getDoctorID()== 0 ){
+            return false;
+        }else {
+            return this.prescriptionDAO.createPrescription(prescription);
+        }
     }
 
     @Override

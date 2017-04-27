@@ -9,21 +9,13 @@ import gui.Localisation;
 import static gui.Localisation.getInstance;
 import resources.SideBarListView_IF;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.stage.StageStyle;
-import resources.user.User_IF;
 import resources.employee.Employee;
 
 /**
@@ -39,23 +31,23 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     @FXML
     private Label employeeLabel;
     @FXML
-    private Text employeeField;
+    private TextField employeeField;
     @FXML
     private Label userIDLabel;
     @FXML
-    private Text userIDField;
+    private Label userIDField;
     @FXML
     private Label emailLabel ;
     @FXML
-    private Text emailField;
+    private Label emailField;
     @FXML
     private Label usernameLabel;
     @FXML
-    private TextArea usernameField;
+    private TextField usernameField;
     @FXML
     private Label passwordLabel;
     @FXML
-    private TextArea passwordField;
+    private TextField passwordField;
     @FXML
     private ButtonBar buttonBar;
     @FXML
@@ -80,21 +72,28 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
         this.title = title;
         this.employeeSelector = employeeSelector;
         this.user = user;
+        this.user.setEmail("");
+        this.user.setFirstName("");
+        this.user.setLastName("");
         this.id = this.user.getUserID();        
         this.employee = employee;
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.email = user.getEmail();        
+        this.email = user.getEmail(); 
         try {
             loader = new FXMLLoader(getClass().getResource("UserForm.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            employeeField.setEditable(false);
+            employeeField.setPromptText(text.getString("chooseUser"));
             employeeLabel.setText(text.getString("employee") + ":");
             userIDLabel.setText(text.getString("ID"));
             emailLabel.setText(text.getString("email") + ":");
             usernameLabel.setText(text.getString("chooseUsername"));
+            usernameField.setPromptText(text.getString("chooseUsername"));
             passwordLabel.setText(text.getString("choosePassword"));
+            passwordField.setPromptText(text.getString("choosePassword"));
             cancelButton.setText(text.getString("cancel"));
             saveButton.setText(text.getString("save"));
           //this.initializeFields(); Mahdolliset update operaatiot!!
@@ -171,7 +170,7 @@ public class UserFormGUI extends Tab implements UserFormGUI_IF  {
     }
     
     @Override
-    public Text getEmployeeField() {
+    public TextField getEmployeeField() {
         return this.employeeField;    
     }
 

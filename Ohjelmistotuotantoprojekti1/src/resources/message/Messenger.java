@@ -22,6 +22,14 @@ public class Messenger implements Messenger_IF {
 
     @Override
     public boolean saveMessage(Message message) {
-        return this.messageDAO.createMessage(message);
+        if (message.getReceiver() == null ||
+                message.getSender() == null ||
+                message.getDate()== null ||
+                message.getTitle().isEmpty() || 
+                message.getMessage().isEmpty()){
+            return false;           
+        } else {
+            return this.messageDAO.createMessage(message);            
+        }
     }
 }

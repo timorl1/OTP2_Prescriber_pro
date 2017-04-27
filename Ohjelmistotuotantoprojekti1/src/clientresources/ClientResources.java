@@ -2,23 +2,18 @@ package clientresources;
 
 import resources.diagnose.Diagnose;
 import resources.employee.Employee;
-import resources.message.Message;
 import resources.prescription.Prescription;
 import resources.user.User_IF;
 import resources.user.User;
 import resources.patient.Patient;
 import resources.employee.EmployeeDAO;
 import resources.employee.EmployeeDAO_IF;
-import resources.message.MessageDAO;
-import resources.message.MessageDAO_IF;
 import resources.patient.PatientDAO;
 import resources.patient.PatientDAO_IF;
 import resources.prescription.PrescriptionDAO;
 import resources.prescription.PrescriptionDAO_IF;
 import resources.user.UserDAO;
 import resources.user.UserDAO_IF;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,14 +138,21 @@ public class ClientResources implements ClientResources_IF {
     }
     
      @Override
-    public User_IF addNewUser(User_IF user) {
-        user = new User();       
-        return user;
+    public User_IF createNewUser() {
+        return new User();
     }
 
     @Override
     public boolean saveUser(User_IF user) {
-        return this.userDAO.createUser(user);
+        if(user.getPassword().isEmpty() || 
+                user.getUsername().isEmpty()||
+                user.getEmail().isEmpty()||
+                user.getFirstName().isEmpty()||
+                user.getLastName().isEmpty()){            
+            return false;
+        }else{
+            return this.userDAO.createUser(user);
+        }
     }
         
     @Override

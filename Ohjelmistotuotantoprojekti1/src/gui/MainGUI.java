@@ -15,6 +15,7 @@ import resources.SideBarListViewGUI;
 import static gui.Localisation.getInstance;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -26,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
@@ -120,7 +122,8 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void setLogin() {
-        this.login = LoginGUI.getInstance();
+       // this.login = LoginGUI.getInstance();
+        this.login = new LoginGUI();
         this.login.getButton().setOnAction(e -> {
             this.login.addMessage(null);
             this.controller.login(this.login.getUsername(), this.login.getPassword());
@@ -320,14 +323,32 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
                         }
                         button.setOnAction(e -> {
                             if (user.getUsertype() != 0) {
-                                controller.lockUser(user);
-                                button.setGraphic(new ImageView(locked));
-                                button.setTooltip(new Tooltip(text.getString("unlockUser")));
-                            }
-                            else {
-                                controller.setUserPriviledges(user);
-                                button.setGraphic(new ImageView(open));
-                                button.setTooltip(new Tooltip(text.getString("lockUser")));
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle(text.getString("lockUser"));
+                                alert.setHeaderText(text.getString("alertHeaderLockUser"));
+                                alert.setContentText(text.getString("alertContentTextLockUser"));
+                                alert.initStyle(StageStyle.UNDECORATED);
+                                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                                Optional<ButtonType> result = alert.showAndWait();
+                                if (result.get() == ButtonType.OK){
+                                    controller.lockUser(user);
+                                    button.setGraphic(new ImageView(locked));
+                                    button.setTooltip(new Tooltip(text.getString("unlockUser")));                                
+                                }      
+                                
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle(text.getString("unlockUser"));
+                                alert.setHeaderText(text.getString("alertHeaderUnlockUser"));
+                                alert.setContentText(text.getString("alertContentTextUnlockUser"));
+                                alert.initStyle(StageStyle.UNDECORATED);
+                                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
+                                Optional<ButtonType> result = alert.showAndWait();
+                                if (result.get() == ButtonType.OK){
+                                    controller.setUserPriviledges(user);
+                                    button.setGraphic(new ImageView(open));
+                                    button.setTooltip(new Tooltip(text.getString("lockUser")));
+                                }
                             }
                         });
                         setGraphic(button);
@@ -399,12 +420,26 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
             });
+            this.prescriptionForm.getPatientField().setOnMouseClicked(e ->{
+                this.patientListView.getTitledPane().setExpanded(true);
+            if (this.patientListView.isExpanded()) {
+                this.patientListView.setList(this.controller.getPatients());
+                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
+            }
+            });
+            this.prescriptionForm.getDrugField().setOnMouseClicked(e ->{
+                this.drugListView.getTitledPane().setExpanded(true);
+            if (this.drugListView.isExpanded()) {
+                this.drugListView.setList(this.controller.getDrugs());
+                this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
+            }
+            });
             this.prescriptionForm.getSaveButton().setOnAction(e -> {
                 if (this.status == AppStatus.EDIT) {
                     this.prescriptionForm.markUpdate();
                 }
                 if (this.controller.savePrescription()) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("prescriptionCreated"));
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("prescriptionCreated"));
                     alert.setTitle(text.getString("message"));
                     alert.initStyle(StageStyle.UNDECORATED);
                     alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
@@ -478,6 +513,11 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
         this.status = AppStatus.CREATE;
         if(!this.tabPane.getTabs().contains(this.userForm)){
             this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
+            this.employeeListView.getTitledPane().setExpanded(true);
+            if (this.employeeListView.isExpanded()) {
+                this.employeeListView.setList(this.controller.getEmployees());
+                this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
+            }
             this.userForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.userForm);
                 this.setStatus(AppStatus.IDLE);

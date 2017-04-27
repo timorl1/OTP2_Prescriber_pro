@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -35,7 +37,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     @FXML
     private Label messageLabel;
     @FXML 
-    private ChoiceBox<User_IF> receiverSelector;
+    private ComboBox<User_IF> receiverSelector;
     @FXML
     private TextField titleField;
     @FXML
@@ -56,6 +58,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
     FXMLLoader loader;
     private Message message;
     private ObservableList<User_IF> list;
+    FilteredList<User_IF> filteredList;
     
     public MessageFormGUI(List<User_IF> users, Message message, String title){
         text = local.language();
@@ -74,6 +77,8 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
             cancelButton.setText(text.getString("cancel"));
             sendButton.setText(text.getString("send"));
             mainTitle.setText(text.getString("message"));
+            receiverSelector.setEditable(false);
+            receiverSelector.setPromptText(text.getString("chooseReceiver"));
             messageField.setWrapText(true);
             counter.setText(text.getString("counter"));
             this.list = FXCollections.observableArrayList(users);
@@ -82,7 +87,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
             this.messageField.setOnKeyReleased(e -> {
                     String s = this.messageField.getText();
                     int length = this.messageField.getText().length();
-                    this.counter.setText(text.getString("counter")+Integer.toString(length));
+                    this.counter.setText(Integer.toString(length)+ text.getString("counter"));
                     if(s.length() >= 1000){
                         this.messageField.setText(s.substring(0, 1000));
                         this.messageField.positionCaret(s.length());
@@ -93,6 +98,7 @@ public class MessageFormGUI extends Tab implements MessageFormGUI_IF{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
     }
 
     @Override

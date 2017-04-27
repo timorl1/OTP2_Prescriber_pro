@@ -22,9 +22,10 @@ public class Localisation {
     
     private String language;
     private String country;
+    private String selectedLanguage = "English";
     private Locale currentLocal;
     private ResourceBundle text;  
-    private final List<String> languageList = Arrays.asList("eng", "sve");
+    private final List<String> languageList = Arrays.asList("English", "Swedish");
 
     public List<String> getLanguageList() {
         return languageList;
@@ -35,14 +36,14 @@ public class Localisation {
             INSTANCE = new Localisation();
         }
         return INSTANCE;
-    }
+    }    
     public Locale chooseLanguage(String l){
         switch (l) {
-            case "eng":
+            case "English":
                 this.country = "GB";
                 this.language = "en";
                 break;
-            case "sve":
+            case "Swedish":
                 this.country = "SE";
                 this.language = "sv";
                 break;
@@ -55,6 +56,13 @@ public class Localisation {
     public ResourceBundle language(){               
         this.text = ResourceBundle.getBundle("MessagesBundle" +"_"+ this.language+"_"+ this.country, currentLocal);
         return text;
+    }
+    
+    public String getSelectedLanguage() {
+        return selectedLanguage;
+    }
+     public void setSelectedLanguage(String lan) {
+        this.selectedLanguage =lan;
     }
     /*
     public ResourceBundle languageENG(){
