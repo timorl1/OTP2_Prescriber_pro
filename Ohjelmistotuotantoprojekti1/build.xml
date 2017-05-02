@@ -11,7 +11,7 @@
 <project name="Ohjelmistotuotantoprojekti1" default="default" basedir=".">
     <description>Builds, tests, and runs the project Ohjelmistotuotantoprojekti1.</description>
     <import file="nbproject/build-impl.xml"/>
-    <property name="cobertura.dir" value="C:/javastuff/cobertura" />
+    <property name="cobertura.dir" value="" />
  
 <path id="cobertura.classpath">
     <fileset dir="${cobertura.dir}">
