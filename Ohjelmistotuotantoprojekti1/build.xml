@@ -7,9 +7,20 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
+
 <project name="Ohjelmistotuotantoprojekti1" default="default" basedir=".">
     <description>Builds, tests, and runs the project Ohjelmistotuotantoprojekti1.</description>
     <import file="nbproject/build-impl.xml"/>
+    <property name="cobertura.dir" value="C:/javastuff/cobertura" />
+ 
+<path id="cobertura.classpath">
+    <fileset dir="${cobertura.dir}">
+        <include name="cobertura.jar" />
+        <include name="lib/**/*.jar" />
+    </fileset>
+</path>
+ 
+<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
     <!--
 
     There exist several targets which are by default empty and which can be 
