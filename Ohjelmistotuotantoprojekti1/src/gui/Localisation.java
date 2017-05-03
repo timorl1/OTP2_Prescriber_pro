@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class Localisation {
     
