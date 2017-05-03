@@ -1,5 +1,6 @@
 package resources.prescription;
 
+import gui.AlertMessage;
 import gui.Localisation;
 import static gui.Localisation.getInstance;
 import resources.SideBarListView_IF;
@@ -21,7 +22,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import resources.diagnose.Diagnose;
@@ -38,6 +38,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
 
     ResourceBundle text;
     Localisation local = getInstance();
+    AlertMessage alertMessage = AlertMessage.getINSTANCE();
     
     @FXML
     private GridPane gridPane;
@@ -223,7 +224,8 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             try {
                 this.dose = Double.parseDouble(this.doseField.getText().replace(',', '.'));
             } catch (NumberFormatException ex) {
-                if (!this.doseField.getText().isEmpty()){
+                if (!this.doseField.getText().isEmpty()){ 
+                    //Refactor these to use same field as dose warning
                     Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("falseEntry"));
                     alert.initStyle(StageStyle.UNDECORATED);
                     alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
@@ -237,6 +239,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             try {
                 this.timesADay = Integer.parseInt(this.timesADayField.getText());
             } catch (NumberFormatException ex) {
+                    //Refactor this to use some other kind of warning
                     Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("falseEntry"));
                     alert.initStyle(StageStyle.UNDECORATED);
                     alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
@@ -301,6 +304,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         return this.patientField;
     }
 
+    @Override
     public TextField getDrugField() {
         return drugField;
     }

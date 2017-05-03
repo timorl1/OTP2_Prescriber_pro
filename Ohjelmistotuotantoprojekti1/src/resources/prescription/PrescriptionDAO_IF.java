@@ -3,8 +3,6 @@ package resources.prescription;
 import java.util.List;
 import resources.diagnose.Diagnose;
 import resources.patient.Patient;
-import resources.prescription.Prescription;
-import resources.user.User_IF;
 import resources.user.User_IF;
 
 /**

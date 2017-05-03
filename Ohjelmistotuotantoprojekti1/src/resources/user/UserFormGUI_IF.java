@@ -6,7 +6,6 @@
 package resources.user;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import resources.employee.Employee;
 
