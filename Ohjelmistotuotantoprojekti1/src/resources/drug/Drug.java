@@ -20,6 +20,7 @@ public class Drug {
     private String unit;
     private List<AdverseEffect> commonAdverseEffects = new ArrayList();
     private List<AdverseEffect> rareAdverseEffects = new ArrayList();
+    private List<CrossReaction> crossReactions = new ArrayList();
 
     public Drug() {
     }
@@ -100,7 +101,15 @@ public class Drug {
     public void setRareAdverseEffects(List<AdverseEffect> rareAdverseEffects) {
         this.rareAdverseEffects = rareAdverseEffects;
     }
-    
+   
+    @OneToMany(mappedBy="aine2")
+    public List<CrossReaction> getCrossReactions() {
+        return crossReactions;
+    }
+
+    public void setCrossReactions(List<CrossReaction> crossReactions) {
+        this.crossReactions = crossReactions;
+    }
     @Override
     public String toString() {
         return this.name + " " + this.drugActiveAgents.get(0).getConcentration() + "mg" + ", " + this.drugActiveAgents.get(0).getActiveAgent().getName();

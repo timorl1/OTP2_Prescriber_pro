@@ -26,4 +26,6 @@ public interface PrescriptionMakerController_IF {
      * Method to check if the drug contains allergens not suitable for the patient.
      */
     public abstract void checkAllergens();
+    
+    public abstract void checkCrossReactions();
 }

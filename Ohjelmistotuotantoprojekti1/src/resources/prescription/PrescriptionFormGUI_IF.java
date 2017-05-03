@@ -5,6 +5,7 @@
  */
 package resources.prescription;
 
+import java.util.HashMap;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -99,4 +100,6 @@ public interface PrescriptionFormGUI_IF {
      * Method to set update date to the info field of the prescription if the prescription is not new.
      */
     public abstract void markUpdate();
+    
+    public abstract void setCrossReactionMessage(HashMap crossReactions);
 }

@@ -8,6 +8,7 @@ package resources.prescription;
 import resources.prescription.Prescription;
 import java.util.List;
 import calculator.DoseStatus;
+import java.util.HashMap;
 
 /**
  * Interface for implementing a prescription maker class.
@@ -37,4 +38,6 @@ public interface PrescriptionMaker_IF {
      * @return a list of matching allergens
      */
     public abstract List<String> isAllergic(Prescription prescription);
+    
+    public abstract HashMap crossReaction(Prescription prescription);
 }

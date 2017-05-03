@@ -14,6 +14,8 @@ import java.util.List;
 import calculator.DoseCalculator;
 import calculator.DoseCalculator_IF;
 import calculator.DoseStatus;
+import java.util.HashMap;
+import java.util.Map;
 import resources.drug.Drug;
 
 /**
@@ -100,6 +102,19 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
             }
         }));
         return hits;
+    }
+
+    @Override
+    public HashMap crossReaction(Prescription prescription) {
+        HashMap<String, String> map = new HashMap<>();
+        
+        prescription.getDrug().getCrossReactions().forEach(b -> 
+                map.put(b.getAine1().getName(), b.getAine2().getName()));
+        for (int i = 0; i < map.size(); i++){
+            System.out.println(map.values().toString());
+        }
+
+        return map;
     }
     
 }

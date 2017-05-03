@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -206,6 +210,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                         drugField.setFill(Color.BLACK);
                         controller.checkDose();
                         controller.checkAllergens();
+                        controller.checkCrossReactions();
                     }
                 }
             }
@@ -258,6 +263,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                         prescription.setDose(dose);
                         controller.checkDose();
                         controller.checkAllergens();
+                        controller.checkCrossReactions();
                     }
                 }
             }
@@ -367,7 +373,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     public void setCumulativeOverdoseMessage() {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("titleDrugCalculator"));
+        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertCumulativeOverdose"));
         alert.setTitle(text.getString("titleDrugCalculator"));
         alert.setHeaderText(text.getString("warning"));
         alert.initStyle(StageStyle.UNDECORATED);
@@ -398,4 +404,27 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         this.info = this.infoField.getText();
         this.prescription.setInfo(this.info);
     }
+
+    @Override
+    public void setCrossReactionMessage(HashMap crossReactions) {
+        text = local.language();
+        this.drugField.setFill(Color.RED);
+        String prescribedDrug = " ";
+        String crossReactionDrug = " ";
+        Set set = crossReactions.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            prescribedDrug += mentry.getKey()+"\n";
+            crossReactionDrug += mentry.getValue() +"\n";
+        }    
+ 
+        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertCrossReaction")+text.getString("prescribedDrug")
+                +prescribedDrug + text.getString("crossReactionDrug")+crossReactionDrug);
+        alert.setTitle(text.getString("titleCrossReaction"));
+        alert.setHeaderText(text.getString("warning"));
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
+        alert.showAndWait(); 
+    } 
 }
