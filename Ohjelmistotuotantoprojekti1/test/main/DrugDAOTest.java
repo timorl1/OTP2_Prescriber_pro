@@ -64,11 +64,11 @@ public class DrugDAOTest {
         System.out.println("readDrugs");
         DrugDAO instance = new DrugDAO();
         List<Drug> result = instance.readDrugs();
-        assertEquals(123456, result.get(0).getSN());
-        assertEquals("Burana", result.get(0).getName());
-        assertEquals(3.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getRecommendedDose(),0.1);
-        assertEquals(7.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getMaxDose(),0.1);
-        assertEquals(4.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getHalfTime(),0.1);
+        assertEquals(4455, result.get(0).getSN());
+        assertEquals("Faverin", result.get(0).getName());
+        assertEquals(1.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getRecommendedDose(),0.1);
+        assertEquals(2.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getMaxDose(),0.1);
+        assertEquals(10.0, result.get(0).getDrugActiveAgents().get(0).getActiveAgent().getHalfTime(),0.1);
         assertEquals("kpl", result.get(0).getUnit());
         
        
