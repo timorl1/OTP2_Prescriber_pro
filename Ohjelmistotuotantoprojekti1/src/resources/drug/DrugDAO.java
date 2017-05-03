@@ -36,6 +36,7 @@ public class DrugDAO implements DrugDAO_IF {
             Hibernate.initialize(drug.getAllergens());
             Hibernate.initialize(drug.getCommonAdverseEffects());
             Hibernate.initialize(drug.getRareAdverseEffects());
+            Hibernate.initialize(drug.getCrossReactions());
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
         } finally {
@@ -58,6 +59,7 @@ public class DrugDAO implements DrugDAO_IF {
                 Hibernate.initialize(drug.getAllergens());
                 Hibernate.initialize(drug.getCommonAdverseEffects());
                 Hibernate.initialize(drug.getRareAdverseEffects());
+                Hibernate.initialize(drug.getCrossReactions());
             }
         } catch (Exception e) {
             System.out.println("Caught an error while reading resources.");
