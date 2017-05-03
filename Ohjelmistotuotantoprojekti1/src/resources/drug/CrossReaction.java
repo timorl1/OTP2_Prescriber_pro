@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Johanna
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 @Entity (name="yhteisvaikutus")
 @Table (name="yhteisvaikutus")

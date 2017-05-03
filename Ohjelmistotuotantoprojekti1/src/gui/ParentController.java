@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 /**
  * FXML Controller class
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class ParentController implements Initializable {
     

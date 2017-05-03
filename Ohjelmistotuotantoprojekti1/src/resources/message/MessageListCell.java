@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public abstract class MessageListCell extends ListCell<Message> implements Observer {
     

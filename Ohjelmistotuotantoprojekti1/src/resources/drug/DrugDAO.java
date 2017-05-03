@@ -3,8 +3,6 @@ package resources.drug;
 import java.util.List;
 import org.hibernate.*;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.*;
-import org.hibernate.boot.MetadataSources;
 
 /**
  *

@@ -5,7 +5,6 @@
  */
 package resources.employee;
 
-import resources.employee.Employee;
 import java.util.List;
 
 /**

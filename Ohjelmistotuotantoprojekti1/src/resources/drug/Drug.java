@@ -3,8 +3,6 @@ package resources.drug;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import resources.drug.AdverseEffect;
-import resources.drug.Allergen;
 
 /**
  *

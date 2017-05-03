@@ -1,7 +1,6 @@
 package resources.drug;
 
 import javax.persistence.*;
-import resources.drug.ActiveAgent;
 
 /**
  *
