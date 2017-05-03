@@ -8,6 +8,7 @@ package resources.prescription;
 import java.util.List;
 import calculator.DoseStatus;
 import java.util.HashMap;
+import resources.user.User_IF;
 
 /**
  * Interface for implementing a prescription maker class.

@@ -416,7 +416,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @Override
     public void setCrossReactionMessage(HashMap crossReactions) {
         text = local.language();
-        this.drugField.setFill(Color.RED);
+        //this.drugField.setFill(Color.RED);
         String prescribedDrug = " ";
         String crossReactionDrug = " ";
         Set set = crossReactions.entrySet();
