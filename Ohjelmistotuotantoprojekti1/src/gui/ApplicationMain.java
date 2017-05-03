@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -31,6 +32,7 @@ import javafx.stage.StageStyle;
 public class ApplicationMain extends Application {
     
     AnchorPane root;
+    AnchorPane login;
     Localisation local = getInstance();
     ResourceBundle text;
     String choice;
@@ -45,7 +47,7 @@ public class ApplicationMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         local.chooseLanguage(local.getSelectedLanguage());
         text = local.language();
-        this.root = FXMLLoader.load(getClass().getResource("MainRoot_1.fxml"));
+        this.root = FXMLLoader.load(getClass().getResource("MainRoot_1.fxml"), text);
         primaryStage.setTitle(text.getString("appLabel"));
         ComboBox languageChoice = new ComboBox(FXCollections.observableArrayList(local.getLanguageList()));
         languageChoice.setEditable(false);
@@ -76,11 +78,7 @@ public class ApplicationMain extends Application {
         primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth()-50);
         primaryStage.centerOnScreen();
         primaryStage.setScene(scene);
-        primaryStage.show(); 
-    }
-    
-    public void addSidebar() {
-        this.root.getChildren().add(new SideBarGUI());
+        primaryStage.show();
     }
     
     /**

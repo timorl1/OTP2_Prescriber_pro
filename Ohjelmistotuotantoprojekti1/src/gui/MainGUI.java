@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -57,7 +58,7 @@ import resources.user.User_IF;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
+public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     ResourceBundle text;
     Localisation local = getInstance();
     
@@ -98,7 +99,9 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     
     private AppStatus status;
     
-    private DoubleStringConverter dsc;  
+    private DoubleStringConverter dsc;
+    
+    private AlertMessage alertMessage = AlertMessage.getINSTANCE();
 
     //Load login-component on initalization
     @Override
@@ -159,8 +162,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
     public void setSideBar() {
         text = local.language();
         this.root.getChildren().remove((LoginGUI) this.login);
-        this.sideBar = new SideBarGUI();
-        this.sideBar.getSearchField().setOnKeyReleased(e -> {
+        this.sideBar = new SideBarGUI(this);
+        /*this.sideBar.getSearchField().setOnKeyReleased(e -> {
             if(this.patientListView != null){
                 this.patientListView.filter(this.sideBar.getSearchField().getText());
             }
@@ -173,8 +176,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
             if (this.userListView != null){
             this.userListView.filter(this.sideBar.getSearchField().getText());
             }
-        });
-        //this.root.getChildren().add((SideBarGUI) this.sideBar);
+        });*/
+        this.root.getChildren().add((SideBarGUI) this.sideBar);
     }
 
     @Override
@@ -322,13 +325,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                         }
                         button.setOnAction(e -> {
                             if (user.getUsertype() != 0) {
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle(text.getString("lockUser"));
-                                alert.setHeaderText(text.getString("alertHeaderLockUser"));
-                                alert.setContentText(text.getString("alertContentTextLockUser"));
-                                alert.initStyle(StageStyle.UNDECORATED);
-                                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                                Optional<ButtonType> result = alert.showAndWait();
+                               Optional<ButtonType> result = alertMessage.showConfirmationAlert(text.getString("lockUser"), text.getString("alertHeaderLockUser"),
+                                        text.getString("alertContentTextLockUser"));
                                 if (result.get() == ButtonType.OK){
                                     controller.lockUser(user);
                                     button.setGraphic(new ImageView(locked));
@@ -336,13 +334,8 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                                 }      
                                 
                             } else {
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle(text.getString("unlockUser"));
-                                alert.setHeaderText(text.getString("alertHeaderUnlockUser"));
-                                alert.setContentText(text.getString("alertContentTextUnlockUser"));
-                                alert.initStyle(StageStyle.UNDECORATED);
-                                alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                                Optional<ButtonType> result = alert.showAndWait();
+                                Optional<ButtonType> result = alertMessage.showConfirmationAlert(text.getString("unlockUser"), text.getString("alertHeaderUnlockUser"),
+                                        text.getString("alertContentTextUnlockUser"));
                                 if (result.get() == ButtonType.OK){
                                     controller.setUserPriviledges(user);
                                     button.setGraphic(new ImageView(open));
@@ -419,26 +412,32 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);
             });
+            this.prescriptionForm.getPatientField().setOnMouseClicked(e ->{
+                this.patientListView.getTitledPane().setExpanded(true);
+            if (this.patientListView.isExpanded()) {
+                this.patientListView.setList(this.controller.getPatients());
+                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
+            }
+            });
+            this.prescriptionForm.getDrugField().setOnMouseClicked(e ->{
+                this.drugListView.getTitledPane().setExpanded(true);
+            if (this.drugListView.isExpanded()) {
+                this.drugListView.setList(this.controller.getDrugs());
+                this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
+            }
+            });
             this.prescriptionForm.getSaveButton().setOnAction(e -> {
                 if (this.status == AppStatus.EDIT) {
                     this.prescriptionForm.markUpdate();
                 }
                 if (this.controller.savePrescription()) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("prescriptionCreated"));
-                    alert.setTitle(text.getString("message"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                    alert.showAndWait();
+                    alertMessage.showInformationAlert(text.getString("message"), text.getString("prescriptionCreated"));
                     this.tabPane.getTabs().remove(this.prescriptionForm);
                     this.setStatus(AppStatus.IDLE);
                 }
                 else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitlePrescriptionNotSent"));
-                    alert.setTitle(text.getString("message"));
-                    alert.setHeaderText(text.getString("alertTextWarning"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                    alert.showAndWait();
+                    alertMessage.showWarningAlert(text.getString("message"), text.getString("alertTextWarning"),
+                            text.getString("alertTitlePrescriptionNotSent"));
                 }
             });
             this.prescriptionForm.getPatientField().textProperty().addListener((observable, oldValue, newValue) -> {
@@ -471,21 +470,13 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
             });
             this.messageForm.getSendButton().setOnAction(e -> {
                 if (this.controller.saveMessage()) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("messageSent"));
-                    alert.setTitle(text.getString("message"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                    alert.showAndWait();
+                    alertMessage.showInformationAlert(text.getString("message"), text.getString("messageSent"));
                     this.tabPane.getTabs().remove(this.messageForm);
                     this.setStatus(AppStatus.IDLE);
                 }
                 else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleMessageNotSent"));
-                    alert.setTitle(text.getString("message"));
-                    alert.setHeaderText(text.getString("alertTextWarning"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                    alert.showAndWait();
+                    alertMessage.showWarningAlert(text.getString("message"), text.getString("alertTextWarning"),
+                            text.getString("alertTitleMessageNotSent"));
                 }
             });
             this.tabPane.getTabs().add((MessageFormGUI)this.messageForm);
@@ -498,27 +489,24 @@ public class MainGUI extends AnchorPane implements Initializable, MainGUI_IF {
         this.status = AppStatus.CREATE;
         if(!this.tabPane.getTabs().contains(this.userForm)){
             this.userForm = new UserFormGUI(this.employeeListView, user, text.getString("newUser"));
+            this.employeeListView.getTitledPane().setExpanded(true);
+            if (this.employeeListView.isExpanded()) {
+                this.employeeListView.setList(this.controller.getEmployees());
+                this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
+            }
             this.userForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.userForm);
                 this.setStatus(AppStatus.IDLE);
             });
             this.userForm.getSaveButton().setOnAction(e -> {           
                 if (this.controller.saveUser()) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, text.getString("userAdded"));
-                    alert.setTitle(text.getString("newUser"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                    alert.showAndWait();
+                    alertMessage.showInformationAlert(text.getString("newUser"), text.getString("userAdded"));
                     this.tabPane.getTabs().remove(this.userForm);
                     this.setStatus(AppStatus.IDLE);
                 }
                 else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertTitleUserNotAdded"));
-                    alert.setTitle(text.getString("newUser"));
-                    alert.setHeaderText(text.getString("alertTextWarning"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("warning.css").toExternalForm());
-                    alert.showAndWait();
+                    alertMessage.showWarningAlert(text.getString("newUser"), text.getString("alertTextWarning"),
+                            text.getString("alertTitleUserNotAdded"));
                 }
             });
 

@@ -9,9 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
 import resources.diagnose.Diagnose;
-import resources.prescription.Prescription;
 
 /**
  *
@@ -41,7 +40,12 @@ public interface PrescriptionFormGUI_IF {
      * Method to get the patient text element from this custom view element.
      * @return patient info text element of the form
      */
-    public abstract Text getPatientField();
+    public abstract TextField getPatientField();
+    /**
+     * Method to get the patient text element from this custom view element.
+     * @return drug info text element of the form
+     */
+    public TextField getDrugField();
 
     /**
      * Method to get the prescription handled by this view.

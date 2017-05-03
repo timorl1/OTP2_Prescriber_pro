@@ -7,6 +7,7 @@ package resources.user;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import resources.employee.Employee;
 
 /**
@@ -31,7 +32,7 @@ public interface UserFormGUI_IF {
      * Gets selected employees informations to the field
      * @return employee informations
      */
-    public abstract Label getEmployeeField();
+    public abstract TextField getEmployeeField();
 
     /**
      * Gets selevted employee informations from the database

@@ -5,33 +5,31 @@
  */
 package resources.message;
 
-import java.util.List;
+import java.time.LocalDate;
+import resources.user.User;
 import resources.user.User_IF;
 
-
 public class Messenger implements Messenger_IF {
-    
-    private final MessageFactory_IF messageFactory = new MessageFactory();
     private final MessageDAO_IF messageDAO = new MessageDAO();
 
     @Override
-    public Message newMessage() {
-        return this.messageFactory.createMessage();
+    public Message createMessage(User_IF user) {
+        Message message = new Message();
+        message.setSender((User)user);
+        message.setDate(java.sql.Date.valueOf(LocalDate.now()));
+        return message;
     }
 
     @Override
     public boolean saveMessage(Message message) {
-        return this.messageDAO.createMessage(message);
+        if (message.getReceiver() == null ||
+                message.getSender() == null ||
+                message.getDate()== null ||
+                message.getTitle().isEmpty() || 
+                message.getMessage().isEmpty()){
+            return false;           
+        } else {
+            return this.messageDAO.createMessage(message);            
+        }
     }
-
-    @Override
-    public List<Message> getSentMessagesByUser(User_IF user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Message> getReceivedMessagesByUser(User_IF user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

@@ -1,6 +1,5 @@
 package appuser;
 
-import java.util.Observable;
 import resources.user.User_IF;
 
 /**

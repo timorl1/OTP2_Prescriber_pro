@@ -5,7 +5,6 @@
  */
 package resources.prescription;
 
-import resources.prescription.Prescription;
 import java.util.List;
 import calculator.DoseStatus;
 import java.util.HashMap;
@@ -15,8 +14,8 @@ import java.util.HashMap;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface PrescriptionMaker_IF {
-    //public abstract Prescription createPrescription(User_IF user);
-    //public abstract boolean savePrescription(Prescription prescription);
+    public abstract Prescription createPrescription(User_IF user);
+    public abstract boolean savePrescription(Prescription prescription);
 
     /**
      * Method to evaluate the prescription's dose.

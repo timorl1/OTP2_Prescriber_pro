@@ -5,7 +5,6 @@
  */
 package resources.message;
 
-import java.util.List;
 import resources.user.User_IF;
 
 /**
@@ -13,8 +12,6 @@ import resources.user.User_IF;
  * @author joosiika
  */
 public interface Messenger_IF {
-    public abstract Message newMessage();
+    public abstract Message createMessage(User_IF user);
     public abstract boolean saveMessage(Message message);
-    public abstract List<Message> getSentMessagesByUser(User_IF user);
-    public abstract List<Message> getReceivedMessagesByUser(User_IF user);
 }
