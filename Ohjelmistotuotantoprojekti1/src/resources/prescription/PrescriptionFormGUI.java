@@ -207,12 +207,10 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                     drug = newValue;
                     prescription.setDrug(drug);
                     drugField.setText(drug.toString());
-                    //drugField.setFill(Color.BLACK);
                     if (prescription.getPatient() != null) {
                         dose = controller.getOptimalDose();
                         prescription.setDose(dose);
                         doseField.setText(Double.toString(dose));
-                        //drugField.setFill(Color.BLACK);
                         controller.checkDose();
                         controller.checkAllergens();
                         controller.checkCrossReactions();
@@ -262,11 +260,9 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
                     patient = newValue;
                     prescription.setPatient(patient);
                     patientField.setText(patient.toString());
-                   // drugField.setFill(Color.BLACK);
                     if (prescription.getDrug() != null) {
                         dose = controller.getOptimalDose();
                         doseField.setText(Double.toString(dose));
-                       // drugField.setFill(Color.BLACK);
                         prescription.setDose(dose);
                         controller.checkDose();
                         controller.checkAllergens();
@@ -334,7 +330,6 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);"); //white
         this.drugDoseField.setText(text.getString("nullDose"));
-        //this.drugDoseField.setFill(Color.rgb(255, 255, 255, 0.7));
     }
     
     @Override
@@ -342,7 +337,6 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(0, 0, 255, 0.5);");
         this.drugDoseField.setText(text.getString("insuffucientDose"));
-       // this.drugDoseField.setFill(Color.rgb(0, 0, 255, 0.5));
     }
 
     @Override
@@ -350,7 +344,6 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(0, 255, 0, 0.5);");
         this.drugDoseField.setText(text.getString("optimalDose"));
-        //this.drugDoseField.setFill(Color.rgb(0, 255, 0, 0.5));
     }
 
     @Override
@@ -358,7 +351,6 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);"); 
         this.drugDoseField.setText(text.getString("overOptimalDose"));
-        //this.drugDoseField.setFill(Color.rgb(255, 255, 0, 0.5));
     }
 
     @Override
@@ -366,47 +358,33 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
         this.drugDoseField.setText(text.getString("riskLimitDose"));
-        //this.drugDoseField.setFill(Color.rgb(255, 0, 0, 0.5));
     }
 
     @Override
     public void setOverdoseMessage() {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertOverdose"));
-        alert.setTitle(text.getString("titleDrugCalculator"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait();
+        alertMessage.showWarningAlert(text.getString("titleDrugCalculator"),
+                text.getString("warning"), text.getString("alertOverdose"));
     }
 
     @Override
     public void setCumulativeOverdoseMessage() {
         text = local.language();
         this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertCumulativeOverdose"));
-        alert.setTitle(text.getString("titleDrugCalculator"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait();
+        alertMessage.showWarningAlert(text.getString("titleDrugCalculator"),
+                text.getString("warning"), text.getString("alertCumulativeOverdose"));
     }
     
     @Override
     public void setIsAllergicMessage(List<String> allergens) {
         text = local.language();
-        //this.drugField.setFill(Color.RED);
         String s = "";
         for (String a : allergens) {
             s += a + "\n";
         }
-        Alert alert = new Alert(Alert.AlertType.WARNING,text.getString("alertAllergin")+s);
-        alert.setTitle(text.getString("titleAllergen"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait();
+        alertMessage.showWarningAlert(text.getString("titleAllergen"),
+                text.getString("warning"),text.getString("alertAllergin")+s);
     }
 
     @Override
@@ -420,7 +398,6 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     @Override
     public void setCrossReactionMessage(HashMap crossReactions) {
         text = local.language();
-        //this.drugField.setFill(Color.RED);
         String prescribedDrug = " ";
         String crossReactionDrug = " ";
         Set set = crossReactions.entrySet();
@@ -430,13 +407,8 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             prescribedDrug += mentry.getKey()+"\n";
             crossReactionDrug += mentry.getValue() +"\n";
         }    
- 
-        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertCrossReaction")+text.getString("prescribedDrug")
+        alertMessage.showWarningAlert(text.getString("titleCrossReaction"),text.getString("warning")
+                , text.getString("alertCrossReaction")+text.getString("prescribedDrug")
                 +prescribedDrug + text.getString("crossReactionDrug")+crossReactionDrug);
-        alert.setTitle(text.getString("titleCrossReaction"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait(); 
     } 
 }
