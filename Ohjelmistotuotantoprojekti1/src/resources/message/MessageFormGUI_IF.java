@@ -6,7 +6,6 @@
 package resources.message;
 
 import javafx.scene.control.Button;
-import resources.message.Message;
 
 /**
  *Sets up Message form to GUI

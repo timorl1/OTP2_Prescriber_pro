@@ -27,5 +27,6 @@ public interface PrescriptionMakerController_IF {
      */
     public abstract void checkAllergens();
     
+    public abstract void checkCrossReactions();
     public abstract void setCalculatorStrategy(int i);
 }

@@ -25,7 +25,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
@@ -35,7 +34,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.stage.StageStyle;
 import javafx.util.converter.DoubleStringConverter;
 import resources.patient.PatientListCell;
 import resources.diagnose.Diagnose;
@@ -61,6 +59,7 @@ import resources.user.User_IF;
 public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     ResourceBundle text;
     Localisation local = getInstance();
+    private AlertMessage alertMessage = AlertMessage.getINSTANCE();
     
     @FXML
     private AnchorPane root;
@@ -101,8 +100,6 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     
     private DoubleStringConverter dsc;
     
-    private AlertMessage alertMessage = AlertMessage.getINSTANCE();
-
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -125,7 +122,6 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     //Adds the LoginGUI as a child-component to the MainGUI's anchor pane
     @Override
     public void setLogin() {
-       // this.login = LoginGUI.getInstance();
         this.login = new LoginGUI();
         this.login.getButton().setOnAction(e -> {
             this.login.addMessage(null);

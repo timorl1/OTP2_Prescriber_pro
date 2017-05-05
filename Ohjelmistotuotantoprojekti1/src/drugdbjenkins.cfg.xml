@@ -17,6 +17,7 @@
        <mapping class="resources.drug.ActiveAgent"/>
        <mapping class="resources.drug.Allergen"/>
        <mapping class="resources.drug.DrugActiveAgent"/>
+       <mapping class="resources.drug.CrossReaction"/>
 
     </session-factory>
 </hibernate-configuration>

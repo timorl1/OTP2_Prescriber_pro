@@ -9,7 +9,7 @@ import resources.user.User_IF;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public interface Messenger_IF {
     public abstract Message createMessage(User_IF user);

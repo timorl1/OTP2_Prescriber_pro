@@ -7,6 +7,7 @@ package resources.prescription;
 
 import java.util.List;
 import calculator.DoseStatus;
+import java.util.HashMap;
 
 /**
  *
@@ -62,6 +63,14 @@ public class PrescriptionMakerController implements PrescriptionMakerController_
         }
     }
 
+    @Override
+    public void checkCrossReactions() {
+        HashMap crossReactions = this.maker.crossReaction(this.gui.getPrescription());
+        if (!crossReactions.isEmpty()) {
+            this.gui.setCrossReactionMessage(crossReactions);
+        }
+    }
+    
     @Override
     public void setCalculatorStrategy(int i) {
         this.maker.setCalculatorStrategy(i);

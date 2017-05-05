@@ -4,7 +4,6 @@ import java.util.List;
 import resources.diagnose.Diagnose;
 import resources.patient.Patient;
 import resources.user.User_IF;
-import resources.user.User_IF;
 
 /**
  * Interface that defines methods for CRUD-operations for prescriptions in

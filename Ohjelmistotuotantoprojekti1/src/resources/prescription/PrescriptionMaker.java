@@ -17,6 +17,7 @@ import calculator.DoseStatus;
 import calculator.DuboisBSAConverter;
 import calculator.MonstellerBSAConverter;
 import java.sql.Date;
+import java.util.HashMap;
 import resources.drug.Drug;
 import resources.user.User_IF;
 import calculator.CalculatorStrategy;
@@ -43,28 +44,13 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         Prescription prescription = new Prescription();
         prescription.setDoctor(user);
         prescription.setDoctorID(user.getUserID());
-        prescription.setTimesADay(1);
         prescription.setCreationDate(Date.valueOf(LocalDate.now()));
         return prescription;
     }
 
     @Override
     public boolean savePrescription(Prescription prescription) {
-        if (prescription.getEndDate()== null || 
-                prescription.getStartDate()== null ||
-                prescription.getInfo() == null ||
-                prescription.getInfo().isEmpty() ||
-                prescription.getTimesADay() == 0 ||  
-                prescription.getDose() == 0 ||
-                prescription.getDiagnoseID() == 0 || 
-                prescription.getDrug() == null || 
-                prescription.getPatientID() == null ||
-                prescription.getPatientID().isEmpty() || 
-                prescription.getDoctorID()== 0 ){
-            return false;
-        }else {
-            return this.prescriptionDAO.createPrescription(prescription);
-        }
+        return this.prescriptionDAO.createPrescription(prescription);
     }
 
     @Override
@@ -130,6 +116,19 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         return hits;
     }
 
+    @Override
+    public HashMap crossReaction(Prescription prescription) {
+        HashMap<String, String> map = new HashMap<>();
+        
+        prescription.getDrug().getCrossReactions().forEach(b -> 
+                map.put(b.getAine1().getName(), b.getAine2().getName()));
+        for (int i = 0; i < map.size(); i++){
+            System.out.println(map.values().toString());
+        }
+
+        return map;
+    }
+    
     @Override
     public void setCalculatorStrategy(int i) {
         this.doseCalculator.changeStrategy(this.strategies[i]);

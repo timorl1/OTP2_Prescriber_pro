@@ -3,7 +3,6 @@ package resources.patient;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
-import resources.patient.Patient;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
