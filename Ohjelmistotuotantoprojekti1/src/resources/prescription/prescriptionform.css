@@ -16,6 +16,18 @@
     -fx-padding: 20;
 }
 
+.radio-button .text {
+    -fx-rotate: 180; 
+}
+
+.radio-button {
+    -fx-rotate:180;
+}
+
+.radio-button .tooltip {
+    -fx-rotate:180;
+}
+
 .mainFxmlClass .title {
     -fx-font-weight: Bold;
 }

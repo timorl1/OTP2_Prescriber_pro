@@ -106,6 +106,7 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.text = rb;
         this.controller = new Controller(this);
         this.dsc = new DoubleStringConverter();
         setLogin();
@@ -407,7 +408,7 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     public void setPrescriptionForm(Prescription prescription) {
         text = local.language();
         if(!this.tabPane.getTabs().contains(this.prescriptionForm)){
-            this.prescriptionForm = new PrescriptionFormGUI(this.patientListView, this.drugListView, text.getString("prescription"), prescription);
+            this.prescriptionForm = new PrescriptionFormGUI(this.text, this.patientListView, this.drugListView, prescription);
             this.prescriptionForm.getCancelButton().setOnAction(e -> {
                 this.tabPane.getTabs().remove(this.prescriptionForm);
                 this.setStatus(AppStatus.IDLE);

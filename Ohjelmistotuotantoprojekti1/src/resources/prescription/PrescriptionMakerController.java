@@ -61,5 +61,10 @@ public class PrescriptionMakerController implements PrescriptionMakerController_
             this.gui.setIsAllergicMessage(allergens);
         }
     }
+
+    @Override
+    public void setCalculatorStrategy(int i) {
+        this.maker.setCalculatorStrategy(i);
+    }
     
 }

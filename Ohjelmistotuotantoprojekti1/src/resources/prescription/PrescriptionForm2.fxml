@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="Tab" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.prescription.PrescriptionForm2Controller">
+   <content>
+      <GridPane fx:id="gridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <stylesheets>
+              <URL value="@prescriptionform.css" />
+          </stylesheets>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" percentWidth="15"/>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="85"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="patientLabel" text="%patient" GridPane.rowIndex="2" />
+            <Label fx:id="diagnoseLabel" text="%diagnose" GridPane.rowIndex="3" />
+            <Label fx:id="drugLabel" text="%drug" GridPane.rowIndex="4" />
+            <Label fx:id="doseLabel" text="%singleDose" GridPane.rowIndex="5" />
+            <Label fx:id="timesADayLabel" text="%timesAday" GridPane.rowIndex="7" />
+            <Label fx:id="startDateLabel" text="%startDate" GridPane.rowIndex="8" />
+            <DatePicker fx:id="startDatePicker" onAction="#setStartDate" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <DatePicker fx:id="endDatePicker" onAction="#setEndDate" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label fx:id="endDateLabel" text="%endDate" GridPane.rowIndex="9" />
+            <TextField fx:id="patientField" promptText="%choosePatient" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="drugField" promptText="%chooseDrug" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text fx:id="drugDoseField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="doseField" maxWidth="100" promptText="0.0" onKeyReleased="#setDose" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="timesADayField" maxWidth="100" promptText="0" onKeyReleased="#setTimesADay" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ChoiceBox fx:id="diagnoseSelector" onAction="setDiagnose" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="infoLabel" GridPane.rowIndex="10" />
+            <TextArea fx:id="infoField" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+              <buttons>
+                <Button fx:id="cancelButton" mnemonicParsing="true" onAction="#cancel" />
+                  <Button fx:id="saveButton" mnemonicParsing="true" onAction="#save" />
+              </buttons>
+            </ButtonBar>
+            <Label fx:id="creationDateLabel" text="01/01/01" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="RIGHT" />
+            <Label fx:id="mainTitle" id="title"  />
+            <Label fx:id="doctorNameLabel" GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
+            <Label fx:id="prescriptionIdLabel" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </content>
+</fx:root>

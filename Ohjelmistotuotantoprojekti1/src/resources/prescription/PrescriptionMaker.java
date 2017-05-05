@@ -14,10 +14,12 @@ import java.util.List;
 import calculator.DoseCalculator;
 import calculator.DoseCalculator_IF;
 import calculator.DoseStatus;
+import calculator.DuboisBSAConverter;
+import calculator.MonstellerBSAConverter;
 import java.sql.Date;
 import resources.drug.Drug;
 import resources.user.User_IF;
-
+import calculator.CalculatorStrategy;
 /**
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
@@ -25,6 +27,11 @@ import resources.user.User_IF;
 public class PrescriptionMaker implements PrescriptionMaker_IF {
     private PrescriptionDAO_IF prescriptionDAO;
     private DoseCalculator_IF doseCalculator;
+    private final CalculatorStrategy[] strategies = {null, new MonstellerBSAConverter(), new DuboisBSAConverter()};
+    
+    private double optimalDose;
+    private double maxDose;
+    private double cumulativeDose;
 
     public PrescriptionMaker() {
         this.prescriptionDAO = new PrescriptionDAO();
@@ -62,7 +69,8 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
 
     @Override
     public double getOptimalDose(Prescription prescription) {
-        return this.doseCalculator.getOptimalDose(prescription.getPatient(), prescription.getDrug());
+        this.optimalDose = this.doseCalculator.getOptimalDose(prescription.getPatient(), prescription.getDrug());
+        return this.optimalDose;
     }
 
     @Override
@@ -83,19 +91,22 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
             return DoseStatus.NULL;
         }
         else {
-            if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) < this.doseCalculator.getOptimalDose(patient, drug)/2) {
+            //this.optimalDose = this.doseCalculator.getOptimalDose(patient, drug);
+            this.maxDose = this.doseCalculator.getMaxDose(patient, drug);
+            this.cumulativeDose = this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration);
+            if (this.cumulativeDose < this.optimalDose/2) {
                 return DoseStatus.INSUFFICIENT;
             }
-            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) >= this.doseCalculator.getOptimalDose(patient, drug)/2 && this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) < this.doseCalculator.getMaxDose(patient, drug)/2) {
+            else if (this.cumulativeDose >= this.optimalDose/2 && this.cumulativeDose < this.maxDose/2) {
                 return DoseStatus.OPTIMAL;
             }
-            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) >= this.doseCalculator.getMaxDose(patient, drug)/2 && this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) < this.doseCalculator.getMaxDose(patient, drug)*0.75) {
+            else if (this.cumulativeDose >= this.maxDose/2 && this.cumulativeDose < this.maxDose*0.75) {
                 return DoseStatus.OVER_OPTIMAL;
             }
-            else if (this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) >= this.doseCalculator.getMaxDose(patient, drug)*0.75 && this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration) <= this.doseCalculator.getMaxDose(patient, drug)) {
+            else if (this.cumulativeDose >= this.maxDose*0.75 && this.cumulativeDose <= this.maxDose) {
                 return DoseStatus.RISK_LIMIT;
             }
-            else if (dose > this.doseCalculator.getMaxDose(patient, drug)){
+            else if (dose > this.maxDose){
                 return DoseStatus.OVERDOSE;
             }
             else {
@@ -117,6 +128,11 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
             }
         }));
         return hits;
+    }
+
+    @Override
+    public void setCalculatorStrategy(int i) {
+        this.doseCalculator.changeStrategy(this.strategies[i]);
     }
     
 }

@@ -3,7 +3,6 @@ package resources.prescription;
 import java.util.List;
 import resources.diagnose.Diagnose;
 import resources.patient.Patient;
-import resources.prescription.Prescription;
 import resources.user.User_IF;
 import resources.user.User_IF;
 
@@ -68,6 +67,5 @@ public interface PrescriptionDAO_IF {
      * @return true if prescription is deleted, false if not
      */
     public abstract boolean deletePrescription(Prescription prescription);
-
     
 }
