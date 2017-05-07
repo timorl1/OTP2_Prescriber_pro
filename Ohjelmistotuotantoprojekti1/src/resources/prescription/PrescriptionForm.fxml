@@ -38,36 +38,37 @@
             <Label fx:id="doseLabel" text="%doseLabel" GridPane.rowIndex="5" />
             <Label fx:id="timesADayLabel" text="%timesADayLabel" GridPane.rowIndex="7" />
             <Label fx:id="startDateLabel" text="%startDateLabel" GridPane.rowIndex="8" />
-            <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="8" >
+            <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="8" onAction="#setStartDate" >
                 <tooltip>
                     <Tooltip text="%startDateHint" />
                 </tooltip>
             </DatePicker>
-            <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="9" >
+            <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="9" onAction="#setEndDate" >
                 <tooltip>
                     <Tooltip text="%endDateHint" />
                 </tooltip>
             </DatePicker>
             <Label fx:id="endDateLabel" text="%endDateLabel" GridPane.rowIndex="9" />
-            <TextField fx:id="patientField" promptText="%choosePatient" editable="false" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="2" >
+            <TextField fx:id="patientField" promptText="%choosePatient" editable="false" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="2" onMouseClicked="#setPatient">
                 <tooltip>
                     <Tooltip text="%choosePatient" />
                 </tooltip>
             </TextField>
-            <TextField fx:id="drugField" promptText="%chooseDrug" editable="false" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="4" >
+            <TextField fx:id="drugField" promptText="%chooseDrug" editable="false" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="4" onMouseClicked="#setDrug">
                 <tooltip>
                     <Tooltip text="%chooseDrug" />
                 </tooltip>
             </TextField>
             <Text fx:id="drugDoseField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="doseField" maxWidth="100" promptText="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="doseField" maxWidth="100" promptText="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" onKeyReleased="#setDose" >
                 <tooltip>
                     <Tooltip text="%doseHint" />
                 </tooltip>
             </TextField>
             <AnchorPane GridPane.columnIndex="2" GridPane.rowIndex="6">
                 <children>
-                    <RadioButton fx:id="rb1" text="%weightBased" layoutY="0" mnemonicParsing="true" selected="true" AnchorPane.rightAnchor="0.0">
+                    <Label fx:id="strategyLabel" text="%strategyLabel" layoutY="0" AnchorPane.rightAnchor="0.0"></Label>
+                    <RadioButton fx:id="rb1" text="%weightBased" layoutY="20" mnemonicParsing="true" selected="true" AnchorPane.rightAnchor="0.0" onAction="#changeStrategy" >
                     <toggleGroup>
                         <ToggleGroup fx:id="strategy" />
                     </toggleGroup>
@@ -75,30 +76,30 @@
                         <Tooltip text="%weightBasedFormula" />
                     </tooltip>
                     </RadioButton>
-                    <RadioButton fx:id="rb2" text="%monsteller" layoutY="40" mnemonicParsing="true" toggleGroup="$strategy" AnchorPane.rightAnchor="0.0">
+                    <RadioButton fx:id="rb2" text="%monsteller" layoutY="60" mnemonicParsing="true" toggleGroup="$strategy" AnchorPane.rightAnchor="0.0" onAction="#changeStrategy" >
                         <tooltip>
                             <Tooltip text="%monstellerFormula" />
                         </tooltip>
                     </RadioButton>
-                    <RadioButton fx:id="rb3" text="%dubois" layoutY="80" mnemonicParsing="true" toggleGroup="$strategy" AnchorPane.rightAnchor="0.0">
+                    <RadioButton fx:id="rb3" text="%dubois" layoutY="100" mnemonicParsing="true" toggleGroup="$strategy" AnchorPane.rightAnchor="0.0" onAction="#changeStrategy" >
                         <tooltip>
                         <Tooltip text="%duboisFormula" />
                     </tooltip>
                     </RadioButton>
                 </children>
             </AnchorPane>
-            <TextField fx:id="timesADayField" maxWidth="100" promptText="1" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <TextField fx:id="timesADayField" maxWidth="100" promptText="1" GridPane.columnIndex="1" GridPane.rowIndex="7" onKeyReleased="#setTimesADay" >
                 <tooltip>
                     <Tooltip text="%timesADayHint" />
                 </tooltip>
             </TextField>
-            <ChoiceBox fx:id="diagnoseSelector" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="diagnoseSelector" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#setDiagnose" />
             <Label fx:id="infoLabel" text="%info" GridPane.rowIndex="10" />
-            <TextArea fx:id="infoField" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <TextArea fx:id="infoField" maxWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="10" wrapText="true" onKeyReleased="#setInfo" />
             <ButtonBar fx:id="buttonBar" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="11">
               <buttons>
-                <Button fx:id="cancelButton" text="%cancel" mnemonicParsing="false"  />
-                  <Button fx:id="saveButton" text="%save" mnemonicParsing="false"  />
+                <Button fx:id="cancelButton" text="%cancel" mnemonicParsing="false" onAction="#cancel" />
+                  <Button fx:id="saveButton" text="%save" mnemonicParsing="false" onAction="#save" />
               </buttons>
             </ButtonBar>
             <Label fx:id="creationDateLabel" text="01/01/01" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.halignment="RIGHT" />

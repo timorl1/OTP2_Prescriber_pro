@@ -68,6 +68,7 @@ public class ClientResources implements ClientResources_IF {
     public List<Patient> getPatients() {
         List<Patient> patientList = new ArrayList();
         patientList.addAll(this.patients.values());
+        patientList.forEach(p -> this.getPatientDiagnoses(p));
         return patientList;
     }
     

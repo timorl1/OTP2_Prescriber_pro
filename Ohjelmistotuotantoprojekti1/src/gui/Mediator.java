@@ -7,9 +7,13 @@ package gui;
 
 import java.util.List;
 import appuser.AppUser;
+import calculator.DoseStatus;
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
+import java.util.HashMap;
+import java.util.Map;
 import resources.diagnose.Diagnose;
+import resources.drug.Allergen;
 import resources.drug.Drug;
 import resources.drug.DrugResources;
 import resources.drug.DrugResources_IF;
@@ -19,29 +23,35 @@ import resources.message.Messenger;
 import resources.message.Messenger_IF;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
-import resources.prescription.PrescriptionMaker;
-import resources.prescription.PrescriptionMaker_IF;
+import resources.prescription.PrescriptionFactory;
+import resources.prescription.PrescriptionFactory_IF;
+import resources.prescription.PrescriptionFormGUI;
+import resources.prescription.PrescriptionFormGUI_IF;
+import resources.prescription.PrescriptionEditor;
 import resources.user.User;
 import resources.user.User_IF;
+import resources.prescription.PrescriptionEditor_IF;
 
 /**
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class Controller implements Controller_IF {
+public class Mediator implements Mediator_IF {
     private MainGUI_IF gui;
     private AppUser auth;
+    private PrescriptionFactory_IF prescriptionFactory;
     private ClientResources_IF clientRes;
     private DrugResources_IF drugRes;
-    private PrescriptionMaker_IF prescriptionMaker;
+    private PrescriptionEditor_IF prescriptionMaker;
     private Messenger_IF messenger;
     
-    public Controller(MainGUI_IF gui) {
+    public Mediator(MainGUI_IF gui) {
         this.gui = gui;
         this.auth = new AppUser();
+        this.prescriptionFactory = new PrescriptionFactory();
         this.clientRes = new ClientResources();
         this.drugRes = new DrugResources();
-        this.prescriptionMaker = new PrescriptionMaker();
+        this.prescriptionMaker = new PrescriptionEditor();
         this.messenger = new Messenger();
     }
 
@@ -95,6 +105,12 @@ public class Controller implements Controller_IF {
         this.auth.setAuthenticate(false);
         this.gui.setLogout();
     }
+    
+    @Override
+    public User_IF getAuthenticatedUser() {
+        return this.auth.getUser();
+    }
+    
     @Override
     public List<Patient> getPatients() {
         return this.clientRes.getPatients();
@@ -192,17 +208,7 @@ public class Controller implements Controller_IF {
     @Override
     public void setUserPriviledges(User_IF user) {
         this.clientRes.setUserPriviledges(user);
-    }
-    
-    @Override
-    public void createNewPrescription() {
-        this.gui.setPrescriptionForm(this.prescriptionMaker.createPrescription(this.auth.getUser()));
-    }
-    
-    @Override
-    public boolean savePrescription() {
-        return this.prescriptionMaker.savePrescription(this.gui.getPrescriptionForm());
-    }  
+    } 
     
     @Override
     public boolean saveMessage(){
@@ -227,6 +233,54 @@ public class Controller implements Controller_IF {
     @Override
     public void updateChecker() {
         //this.aeChecker.setPrescriptions(this.clientRes.getPrescriptionsByDoctor(this.auth.getUser()));
+    }
+
+    @Override
+    public boolean savePrescription() {
+        return this.prescriptionMaker.savePrescription();
+    }
+
+    @Override
+    public void createPrescription() {
+        Prescription prescription = this.prescriptionFactory.create(this.auth.getUser());
+        this.prescriptionMaker.editPrescription(prescription);
+        this.gui.setPrescriptionForm(prescription);
+    }
+    
+    @Override
+    public void editPrescription(Prescription prescription) {
+        this.prescriptionMaker.editPrescription(prescription);
+        this.gui.setPrescriptionForm(prescription);
+    }
+
+    @Override
+    public void revertPrescription() {
+        this.prescriptionMaker.undo();
+    }
+
+    @Override
+    public double getOptimalDose() {
+        return this.prescriptionMaker.getOptimalDose();
+    }
+
+    @Override
+    public DoseStatus checkDoseLevel() {
+        return this.prescriptionMaker.evaluateDose();
+    }
+
+    @Override
+    public void changeCalculationMethod(int i) {
+        this.prescriptionMaker.setCalculatorStrategy(i);
+    }
+
+    @Override
+    public List<String> checkForAllergens() {
+        return this.prescriptionMaker.isAllergic();
+    }
+
+    @Override
+    public HashMap<String, String> checkForCrossReactions() {
+        return this.prescriptionMaker.crossReaction();
     }
     
     

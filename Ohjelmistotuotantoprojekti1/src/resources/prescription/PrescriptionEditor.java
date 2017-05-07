@@ -25,50 +25,62 @@ import calculator.CalculatorStrategy;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public class PrescriptionMaker implements PrescriptionMaker_IF {
-    private PrescriptionDAO_IF prescriptionDAO;
-    private DoseCalculator_IF doseCalculator;
+public class PrescriptionEditor implements PrescriptionEditor_IF {
+    private final PrescriptionDAO_IF prescriptionDAO;
+    private final DoseCalculator_IF doseCalculator;
     private final CalculatorStrategy[] strategies = {null, new MonstellerBSAConverter(), new DuboisBSAConverter()};
     
     private double optimalDose;
     private double maxDose;
     private double cumulativeDose;
+    private Prescription prescription;
+    private Object memento;
 
-    public PrescriptionMaker() {
+    public PrescriptionEditor() {
         this.prescriptionDAO = new PrescriptionDAO();
         this.doseCalculator = new DoseCalculator();
     }
-
+    
     @Override
-    public Prescription createPrescription(User_IF user) {
-        Prescription prescription = new Prescription();
-        prescription.setDoctor(user);
-        prescription.setDoctorID(user.getUserID());
-        prescription.setCreationDate(Date.valueOf(LocalDate.now()));
-        return prescription;
+    public void setCalculatorStrategy(int i) {
+        this.doseCalculator.changeStrategy(this.strategies[i]);
+    }
+    
+    @Override
+    public void editPrescription(Prescription prescription) {
+        this.prescription = prescription;
+        this.memento = new Memento(prescription);
     }
 
     @Override
-    public boolean savePrescription(Prescription prescription) {
-        return this.prescriptionDAO.createPrescription(prescription);
+    public boolean savePrescription() {
+        return this.prescriptionDAO.createPrescription(this.prescription);
+    }
+    
+    @Override
+    public void undo() {
+        if (this.memento != null) {
+            Memento undo = (Memento)this.memento;
+            this.prescription = undo.original;
+        }
     }
 
     @Override
-    public double getOptimalDose(Prescription prescription) {
-        this.optimalDose = this.doseCalculator.getOptimalDose(prescription.getPatient(), prescription.getDrug());
+    public double getOptimalDose() {
+        this.optimalDose = this.doseCalculator.getOptimalDose(this.prescription.getPatient(), this.prescription.getDrug());
         return this.optimalDose;
     }
 
     @Override
-    public DoseStatus evaluateDose(Prescription prescription) {
-        Patient patient = prescription.getPatient();
-        Drug drug = prescription.getDrug();
-        double dose = prescription.getDose();
-        int timesADay = prescription.getTimesADay();
+    public DoseStatus evaluateDose() {
+        Patient patient = this.prescription.getPatient();
+        Drug drug = this.prescription.getDrug();
+        double dose = this.prescription.getDose();
+        int timesADay = this.prescription.getTimesADay();
         int duration = 1;
         try{
-        LocalDate startDate = prescription.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate endDate = prescription.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate startDate = this.prescription.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = this.prescription.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         long days = ChronoUnit.DAYS.between(startDate, endDate);
         duration = Math.toIntExact(days);
         } catch (Exception e) {
@@ -77,7 +89,7 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
             return DoseStatus.NULL;
         }
         else {
-            //this.optimalDose = this.doseCalculator.getOptimalDose(patient, drug);
+            this.optimalDose = this.doseCalculator.getOptimalDose(patient, drug);
             this.maxDose = this.doseCalculator.getMaxDose(patient, drug);
             this.cumulativeDose = this.doseCalculator.getCumulativeDose(patient, drug, dose, timesADay, duration);
             if (this.cumulativeDose < this.optimalDose/2) {
@@ -102,11 +114,11 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
     }
 
     @Override
-    public List<String> isAllergic(Prescription prescription) {
+    public List<String> isAllergic() {
         List<String> patientAllergens = new ArrayList();
-        prescription.getPatient().getDiagnoses().forEach(d -> d.getDisease().getAllergenList().forEach(a -> patientAllergens.add(a.getName())));
+        this.prescription.getPatient().getDiagnoses().forEach(d -> d.getDisease().getAllergenList().forEach(a -> patientAllergens.add(a.getName())));
         List<String> drugAllergens = new ArrayList();
-        prescription.getDrug().getAllergens().forEach(da -> drugAllergens.add(da.getName()));
+        this.prescription.getDrug().getAllergens().forEach(da -> drugAllergens.add(da.getName()));
         List<String> hits = new ArrayList();
         drugAllergens.forEach(das -> patientAllergens.forEach(pas -> {
             if(das.contains(pas)) {
@@ -117,10 +129,10 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
     }
 
     @Override
-    public HashMap crossReaction(Prescription prescription) {
+    public HashMap crossReaction() {
         HashMap<String, String> map = new HashMap<>();
         
-        prescription.getDrug().getCrossReactions().forEach(b -> 
+        this.prescription.getDrug().getCrossReactions().forEach(b -> 
                 map.put(b.getAine1().getName(), b.getAine2().getName()));
         for (int i = 0; i < map.size(); i++){
             System.out.println(map.values().toString());
@@ -129,9 +141,12 @@ public class PrescriptionMaker implements PrescriptionMaker_IF {
         return map;
     }
     
-    @Override
-    public void setCalculatorStrategy(int i) {
-        this.doseCalculator.changeStrategy(this.strategies[i]);
+    private class Memento {    
+        private Prescription original;
+        
+        public Memento(Prescription prescription) {
+            this.original = prescription.clone();
+        }
     }
     
 }
