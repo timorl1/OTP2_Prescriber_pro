@@ -27,10 +27,9 @@ import static org.junit.Assert.*;
  */
 public class ClientResources_IFTest {
     private ClientResources_IF cres;
-    private final PatientDAO_IF pb = new PatientDAO();
+    private PatientDAO_IF pb;
     
     public ClientResources_IFTest() {
-        this.cres = new ClientResources();
     }
     
     @BeforeClass
@@ -43,6 +42,8 @@ public class ClientResources_IFTest {
     
     @Before
     public void setUp() {
+        this.cres = new ClientResources();
+        this.pb = new PatientDAO();
     }
     
     @After
