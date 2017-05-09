@@ -65,6 +65,7 @@ public class ApplicationMain extends Application {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 local.setSelectedLanguage((String) languageChoice.getSelectionModel().getSelectedItem());
+                System.out.println(local.language().getLocale().getCountry());
                 try {
                     restart(primaryStage);
                 } catch (Exception ex) {
