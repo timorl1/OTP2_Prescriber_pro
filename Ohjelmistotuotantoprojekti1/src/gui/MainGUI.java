@@ -19,6 +19,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -182,10 +185,13 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     public void setPatientList() {
         text = local.language();
         this.patientListView = new SideBarListViewGUI(text.getString("patients"));
-        this.patientListView.getTitledPane().setOnMouseClicked(e -> {
-            if (this.patientListView.isExpanded()) {
-                this.patientListView.setList(this.mediator.getPatients());
-                this.patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
+        this.patientListView.getTitledPane().expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                if (newValue != null && !newValue.equals(oldValue)) {
+                    patientListView.setList(mediator.getPatients());
+                    patientListView.getListView().setCellFactory(listView -> new PatientListCell(text));
+                }
             }
         });
         this.patientListView.getListView().setOnMouseClicked(e -> {
@@ -207,10 +213,19 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     public void setDrugList() {
         text = local.language();
         this.drugListView = new SideBarListViewGUI(text.getString("drugs"));
-        this.drugListView.getTitledPane().setOnMouseClicked(e -> {
+        /*this.drugListView.getTitledPane().setOnMouseClicked(e -> {
             if (this.drugListView.isExpanded()) {
                 this.drugListView.setList(this.mediator.getDrugs());
                 this.drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
+            }
+        });*/
+        this.drugListView.getTitledPane().expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                if (newValue != null && !newValue.equals(oldValue)) {
+                    drugListView.setList(mediator.getDrugs());
+                    drugListView.getListView().setCellFactory(listView -> new DrugListCell(text));
+                }
             }
         });
         this.drugListView.getListView().setOnMouseClicked(e -> {
@@ -369,10 +384,19 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     public void setEmployeeList() {
         text = local.language();
         this.employeeListView = new SideBarListViewGUI(text.getString("employees"));
-        this.employeeListView.getTitledPane().setOnMouseClicked((event) -> {
+        /*this.employeeListView.getTitledPane().setOnMouseClicked((event) -> {
             if (this.employeeListView.isExpanded()) {
                 this.employeeListView.setList(this.mediator.getEmployees());
                 this.employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
+            }
+        });*/
+        this.employeeListView.getTitledPane().expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                if (newValue != null && !newValue.equals(oldValue)) {
+                    employeeListView.setList(mediator.getEmployees());
+                    employeeListView.getListView().setCellFactory(listView -> new EmployeeListCell(text));
+                }
             }
         });
         this.employeeListView.getListView().setOnMouseClicked(e -> {
