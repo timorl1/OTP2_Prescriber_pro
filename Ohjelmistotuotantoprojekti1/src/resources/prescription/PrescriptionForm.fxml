@@ -62,7 +62,7 @@
             <Text fx:id="drugDoseField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <TextField fx:id="doseField" maxWidth="100" promptText="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" onKeyReleased="#setDose" >
                 <tooltip>
-                    <Tooltip text="%doseHint" />
+                    <Tooltip text="%doseHint" maxWidth="400" wrapText="true" />
                 </tooltip>
             </TextField>
             <AnchorPane GridPane.columnIndex="2" GridPane.rowIndex="6">

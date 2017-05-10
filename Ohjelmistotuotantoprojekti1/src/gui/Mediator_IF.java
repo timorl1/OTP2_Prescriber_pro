@@ -3,7 +3,6 @@ package gui;
 import calculator.DoseStatus;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.employee.Employee;
@@ -172,4 +171,7 @@ public interface Mediator_IF {
     public abstract void changeCalculationMethod(int i);
     public abstract List<String> checkForAllergens();
     public abstract HashMap<String, String> checkForCrossReactions();
+    public abstract String getOptimalDoseFormula();
+    public abstract String getMaxDoseFormula();
+    public abstract String getCumulativeDoseFormula();
 }

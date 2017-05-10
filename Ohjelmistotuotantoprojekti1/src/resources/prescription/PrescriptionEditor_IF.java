@@ -41,4 +41,8 @@ public interface PrescriptionEditor_IF {
     public abstract List<String> isAllergic();
     
     public abstract HashMap crossReaction();
+    
+    public abstract String getOptimalDoseFormula();
+    public abstract String getMaxDoseFormula();
+    public abstract String getCumulativeDoseFormula();
 }

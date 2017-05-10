@@ -39,4 +39,8 @@ public interface DoseCalculator_IF {
     public abstract double getCumulativeDose(Patient patient, Drug drug, double dose, int timesADay, int duration);
     
     public abstract void changeStrategy(CalculatorStrategy strategy);
+    
+    public abstract String getOptimalDoseFormula();
+    public abstract String getMaxDoseFormula();
+    public abstract String getCumulativeDoseFormula();
 }

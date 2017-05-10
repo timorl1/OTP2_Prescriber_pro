@@ -282,6 +282,21 @@ public class Mediator implements Mediator_IF {
     public HashMap<String, String> checkForCrossReactions() {
         return this.prescriptionMaker.crossReaction();
     }
+
+    @Override
+    public String getOptimalDoseFormula() {
+        return this.prescriptionMaker.getOptimalDoseFormula();
+    }
+
+    @Override
+    public String getMaxDoseFormula() {
+        return this.prescriptionMaker.getMaxDoseFormula();
+    }
+
+    @Override
+    public String getCumulativeDoseFormula() {
+        return this.prescriptionMaker.getCumulativeDoseFormula();
+    }
     
     
 }

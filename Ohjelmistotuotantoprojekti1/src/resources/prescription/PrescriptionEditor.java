@@ -16,10 +16,8 @@ import calculator.DoseCalculator_IF;
 import calculator.DoseStatus;
 import calculator.DuboisBSAConverter;
 import calculator.MonstellerBSAConverter;
-import java.sql.Date;
 import java.util.HashMap;
 import resources.drug.Drug;
-import resources.user.User_IF;
 import calculator.CalculatorStrategy;
 /**
  *
@@ -139,6 +137,21 @@ public class PrescriptionEditor implements PrescriptionEditor_IF {
         }
 
         return map;
+    }
+
+    @Override
+    public String getOptimalDoseFormula() {
+        return this.doseCalculator.getOptimalDoseFormula();
+    }
+
+    @Override
+    public String getMaxDoseFormula() {
+        return this.doseCalculator.getMaxDoseFormula();
+    }
+
+    @Override
+    public String getCumulativeDoseFormula() {
+        return this.doseCalculator.getCumulativeDoseFormula();
     }
     
     private class Memento {    

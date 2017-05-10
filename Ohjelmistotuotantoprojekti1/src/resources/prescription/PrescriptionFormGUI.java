@@ -286,6 +286,8 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
             this.checkDose();
             if (this.doseField.getTooltip().isActivated()) {
                 this.doseField.getTooltip().hide();
+            }
+            if (this.doseField.getText().isEmpty()) {
                 this.doseField.getTooltip().setText(text.getString("doseHint"));
             }
         } catch (NumberFormatException ex) {
@@ -340,6 +342,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     public void checkDose() {
         if (this.validator.isEvaluable(this.prescription)) {
             DoseStatus status = this.mediator.checkDoseLevel();
+            this.doseField.getTooltip().setText(text.getString("optimalDoseTitle") + "\n" + this.mediator.getOptimalDoseFormula() + "\n" + this.text.getString("maxDoseTitle") + "\n" + this.mediator.getMaxDoseFormula() + "\n" + this.text.getString("cumulativeDoseTitle") + "\n" + this.mediator.getCumulativeDoseFormula());
             switch (status) {
                 case NULL:
                     this.setNullDoseMessage();
@@ -371,6 +374,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
         if (this.validator.isCalculable(this.prescription) && !this.doseField.isFocused()) {
             this.doseField.setText(this.formatter.format(this.mediator.getOptimalDose()));
             this.prescription.setDose(Double.parseDouble(this.doseField.getText().replace(',', '.')));
+            this.doseField.getTooltip().setText(text.getString("optimalDoseTitle") + "\n" + this.mediator.getOptimalDoseFormula() + "\n" + this.text.getString("maxDoseTitle") + "\n" + this.mediator.getMaxDoseFormula());
         }
     }
     
