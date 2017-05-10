@@ -14,6 +14,7 @@ import resources.SideBarListView_IF;
 import resources.SideBarListViewGUI;
 import static gui.Localisation.getInstance;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -99,14 +100,14 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
     
     private AppStatus status;
     
-    private DoubleStringConverter dsc;
+    private NumberFormat numberFormatter;
     
     //Load login-component on initalization
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.text = rb;
         this.mediator = new Mediator(this);
-        this.dsc = new DoubleStringConverter();
+        this.numberFormatter = NumberFormat.getNumberInstance(this.text.getLocale());
         setLogin();
         setStatus(AppStatus.IDLE);
     }
@@ -535,8 +536,8 @@ public class MainGUI extends Parent implements Initializable, MainGUI_IF {
         list.add(text.getString("firstname")+": " + patient.getFirstName());
         list.add(text.getString("lastname")+": " + patient.getLastName());
         list.add(text.getString("gender")+": " + patient.getGender());
-        list.add(text.getString("height")+": " + dsc.toString(patient.getHeight()) + text.getString("heightUnit"));
-        list.add(text.getString("weight")+": " + dsc.toString(patient.getWeight()) + text.getString("weightUnit"));
+        list.add(text.getString("height")+": " + numberFormatter.format(patient.getHeight()) + text.getString("heightUnit"));
+        list.add(text.getString("weight")+": " + numberFormatter.format(patient.getWeight()) + text.getString("weightUnit"));
         ListTabGUI listTab = new ListTabGUI(text.getString("patientInfo"));
         listTab.getListView().setItems(list);
         this.tabPane.getTabs().add(listTab);
