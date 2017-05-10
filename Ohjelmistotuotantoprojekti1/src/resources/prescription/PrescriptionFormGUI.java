@@ -4,7 +4,6 @@ import calculator.DoseStatus;
 import gui.AlertMessage;
 import resources.SideBarListView_IF;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -28,7 +27,6 @@ import resources.drug.Drug;
 import resources.patient.Patient;
 import gui.Mediator_IF;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 /**
  * FXML Controller class

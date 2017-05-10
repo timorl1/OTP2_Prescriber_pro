@@ -5,6 +5,8 @@
  */
 package resources.prescription;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -18,9 +20,11 @@ import javafx.scene.text.Text;
 public class PrescriptionListCell extends ListCell<Prescription> {
     
     private ResourceBundle text;
+    private SimpleDateFormat dateFormatter;
 
     public PrescriptionListCell(ResourceBundle text) {
         this.text = text;
+        this.dateFormatter = new SimpleDateFormat(this.text.getString("basicDateTimeFormat"), this.text.getLocale());
     }
 
     @Override
@@ -46,7 +50,7 @@ public class PrescriptionListCell extends ListCell<Prescription> {
             patientValue.setText(prescription.getPatient().getFirstName() + " " + prescription.getPatient().getLastName() + " : " + prescription.getPatient().getSSN());
 
             creationDateLabel.setText(text.getString("creationDate") + ": ");
-            creationDateValue.setText(prescription.getCreationDate().toString());
+            creationDateValue.setText(dateFormatter.format(prescription.getCreationDate()));
 
             gridPane.add(idLabel, 0, 0);
             gridPane.add(idValue, 1, 0);
