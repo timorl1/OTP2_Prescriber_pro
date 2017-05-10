@@ -2,7 +2,6 @@ package resources.prescription;
 
 import calculator.DoseStatus;
 import gui.AlertMessage;
-import gui.MainGUI_IF;
 import resources.SideBarListView_IF;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -28,7 +27,8 @@ import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.patient.Patient;
 import gui.Mediator_IF;
-import javafx.event.Event;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * FXML Controller class
@@ -99,7 +99,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     private final Mediator_IF mediator;
     private final PrescriptionValidator validator = PrescriptionValidator.getInstance();
     private final AlertMessage alertMessage = AlertMessage.getINSTANCE();
-    private final DecimalFormat formatter = new DecimalFormat("#0.000");
+    private final NumberFormat formatter;
     private final ResourceBundle text;
     private final SideBarListView_IF<Patient> patientSelector;
     private final SideBarListView_IF<Drug> drugSelector;
@@ -112,6 +112,7 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     public PrescriptionFormGUI(Mediator_IF mediator, ResourceBundle rb, SideBarListView_IF<Patient> patientSelector, SideBarListView_IF<Drug> drugSelector, Prescription prescription) {
         this.mediator = mediator;
         this.text = rb;
+        this.formatter = NumberFormat.getNumberInstance(text.getLocale());
         this.patientSelector = patientSelector;
         this.drugSelector = drugSelector;
         this.prescription = prescription;

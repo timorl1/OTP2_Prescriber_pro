@@ -257,6 +257,11 @@ public class Mediator implements Mediator_IF {
     public void revertPrescription() {
         this.prescriptionMaker.undo();
     }
+    
+    @Override
+    public void changeCalculationMethod(int i) {
+        this.prescriptionMaker.setCalculatorStrategy(i);
+    }
 
     @Override
     public double getOptimalDose() {
@@ -266,11 +271,6 @@ public class Mediator implements Mediator_IF {
     @Override
     public DoseStatus checkDoseLevel() {
         return this.prescriptionMaker.evaluateDose();
-    }
-
-    @Override
-    public void changeCalculationMethod(int i) {
-        this.prescriptionMaker.setCalculatorStrategy(i);
     }
 
     @Override

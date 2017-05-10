@@ -54,7 +54,7 @@ public class Localisation {
     
     
     public ResourceBundle language(){               
-        this.text = ResourceBundle.getBundle("MessagesBundle" +"_"+ this.language+"_"+ this.country, currentLocal);
+        this.text = ResourceBundle.getBundle("MessagesBundle", currentLocal);
         return text;
     }
     
