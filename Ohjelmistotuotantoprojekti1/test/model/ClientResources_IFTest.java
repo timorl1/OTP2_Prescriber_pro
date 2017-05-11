@@ -20,6 +20,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import resources.diagnose.DiagnoseDAO;
+import resources.diagnose.DiagnoseDAO_IF;
 
 /**
  *
@@ -28,6 +30,7 @@ import static org.junit.Assert.*;
 public class ClientResources_IFTest {
     private ClientResources_IF cres;
     private PatientDAO_IF pb;
+    private DiagnoseDAO_IF db;
     
     public ClientResources_IFTest() {
     }
@@ -44,6 +47,7 @@ public class ClientResources_IFTest {
     public void setUp() {
         this.cres = new ClientResources();
         this.pb = new PatientDAO();
+        this.db = new DiagnoseDAO();
     }
     
     @After
