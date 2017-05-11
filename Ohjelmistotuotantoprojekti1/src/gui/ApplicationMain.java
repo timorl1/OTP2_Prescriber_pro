@@ -14,7 +14,6 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -66,6 +65,7 @@ public class ApplicationMain extends Application {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 local.setSelectedLanguage((String) languageChoice.getSelectionModel().getSelectedItem());
+                System.out.println(local.language().getLocale().getCountry());
                 try {
                     restart(primaryStage);
                 } catch (Exception ex) {

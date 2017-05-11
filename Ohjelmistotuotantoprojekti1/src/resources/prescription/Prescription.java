@@ -14,7 +14,7 @@ import resources.drug.Drug;
  */
 @Entity(name="prescription")
 @Table(name="prescription")
-public class Prescription implements Serializable {
+public class Prescription implements Serializable, Cloneable {
     
     private static final long serialVersionUID = 1L;
     
@@ -216,6 +216,28 @@ public class Prescription implements Serializable {
     @Override
     public String toString() {
         return this.id + ": " + this.patient + ", " + this.diagnose + ", " + this.creationDate;
+    }
+    
+    @Override
+    public Prescription clone() {
+        Prescription prescription = new Prescription();
+        prescription.id = this.id;
+        prescription.creationDate = this.creationDate;
+        prescription.doctorID = this.doctorID;
+        prescription.user = this.user;
+        prescription.username = this.username;
+        prescription.patientID = this.patientID;
+        prescription.patient = this.patient;
+        prescription.diagnoseID = this.diagnoseID;
+        prescription.diagnose = this.diagnose;
+        prescription.drugID = this.drugID;
+        prescription.drug = this.drug;
+        prescription.dose = this.dose;
+        prescription.timesADay = this.timesADay;
+        prescription.info = this.info;
+        prescription.startDate = this.startDate;
+        prescription.endDate = this.endDate;
+        return prescription;
     }
 
 }

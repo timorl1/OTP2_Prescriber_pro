@@ -100,6 +100,10 @@ public interface ClientResources_IF {
      * @return true if user is saved succesfully, false it it fails
      */
     public abstract boolean saveUser(User_IF user);
+    
+    public abstract Prescription createPrescription(User_IF user);
+    
+    public abstract boolean savePrescription(Prescription prescription);
 
     /**
      *List of prescriptions made by doctor that is currently logged in

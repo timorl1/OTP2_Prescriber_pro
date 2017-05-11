@@ -7,7 +7,6 @@ package resources.message;
 
 import java.util.List;
 import resources.user.User;
-import resources.user.User;
 
 /**
  * Interface that defines methods for CRUD-operations for messages in database

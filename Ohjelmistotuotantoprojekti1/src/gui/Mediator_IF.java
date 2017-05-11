@@ -1,5 +1,7 @@
 package gui;
 
+import calculator.DoseStatus;
+import java.util.HashMap;
 import java.util.List;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
@@ -13,7 +15,7 @@ import resources.user.User_IF;
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
-public interface Controller_IF {
+public interface Mediator_IF {
 
     /**
      * Method to set the current user.
@@ -31,6 +33,8 @@ public interface Controller_IF {
      * Method that logsout current user
      */
     public abstract void logout();
+    
+    public abstract User_IF getAuthenticatedUser();
     
     public abstract List<Patient> getPatients();
     /**
@@ -123,17 +127,6 @@ public interface Controller_IF {
     public abstract List<String> getDatabases();
 
     /**
-     * Method to create a new prescription in the backend and set it into the prescription form.
-     */
-    public abstract void createNewPrescription();
-
-    /**
-     * Method to get a prescription from view and serve it to the backend for writing to database.
-     * @return success state of the save or update from the backend
-     */
-    public abstract boolean savePrescription();
-
-    /**
      * Method to serve a user from the view to the backend for setting user privileges to locked state.
      * @param user to be locked
      */
@@ -168,4 +161,17 @@ public interface Controller_IF {
     public abstract boolean saveUser();
     
     public abstract void updateChecker();
+    
+    public abstract void createPrescription();
+    public abstract void editPrescription(Prescription prescription);
+    public abstract boolean savePrescription();
+    public abstract void revertPrescription();
+    public abstract double getOptimalDose();
+    public abstract DoseStatus checkDoseLevel();
+    public abstract void changeCalculationMethod(int i);
+    public abstract List<String> checkForAllergens();
+    public abstract HashMap<String, String> checkForCrossReactions();
+    public abstract String getOptimalDoseFormula();
+    public abstract String getMaxDoseFormula();
+    public abstract String getCumulativeDoseFormula();
 }

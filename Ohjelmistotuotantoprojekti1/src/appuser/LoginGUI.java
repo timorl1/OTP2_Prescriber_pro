@@ -5,6 +5,7 @@
  */
 package appuser;
 
+import gui.AlertMessage;
 import gui.Localisation;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -13,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -42,6 +42,7 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
     @FXML
     private Label messageLabel;
     
+    private AlertMessage alertMessage = AlertMessage.getINSTANCE();
     public LoginGUI() {
         text = local.language();
         try {
@@ -57,12 +58,8 @@ public class LoginGUI extends AnchorPane implements LoginGUI_IF {
             loginButton.setText(text.getString("login"));
             loginButton.disableProperty().bind(this.createBooleanBinding());
         } catch (IOException exc) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("loadingFail"));
-            alert.setTitle(text.getString("alertTitleError"));
-            alert.setHeaderText(text.getString("alertTextWarning")+":");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.getDialogPane().getStylesheets().add(getClass().getResource("login.css").toExternalForm());
-            alert.showAndWait();
+            alertMessage.showWarningAlert(text.getString("alertTitleError"),
+                    text.getString("alertTextWarning")+":", text.getString("loadingFail"));
         }
     }
     

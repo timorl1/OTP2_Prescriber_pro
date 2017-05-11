@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package calculator;
 
+import calculator.CalculatorStrategy;
 import calculator.DoseCalculator;
+import calculator.DuboisBSAConverter;
+import calculator.MonstellerBSAConverter;
 import resources.drug.Drug;
 import resources.patient.Patient;
 import resources.drug.DrugDAO;
@@ -28,6 +31,8 @@ import static org.junit.Assert.*;
 public class DoseCalculatorTest {
     private final DrugDAO_IF db = new DrugDAO();
     private final PatientDAO_IF pb = new PatientDAO();
+    private CalculatorStrategy mConv = new MonstellerBSAConverter();
+    private CalculatorStrategy dConv = new DuboisBSAConverter();
     DoseCalculator dc;
     Patient patient;
     Drug drug;
@@ -68,6 +73,30 @@ public class DoseCalculatorTest {
         double result = dc.getOptimalDose(this.patient, this.drug);
         assertEquals(expResult, result, 0.1);
     }
+    
+    /**
+     * Test of getOptimalDose method with Monsteller formula, of class DoseCalculator.
+     */
+    @Test
+    public void testGetOptimalDoseMonsteller() {
+        System.out.println("getOptimalDoseMonsteller");
+        dc.changeStrategy(mConv);
+        double expResult = 0.4875;
+        double result = dc.getOptimalDose(this.patient, this.drug);
+        assertEquals(expResult, result, 0.1);
+    }
+    
+    /**
+     * Test of getOptimalDose method with Dubois formula, of class DoseCalculator.
+     */
+    @Test
+    public void testGetOptimalDoseDubois() {
+        System.out.println("getOptimalDoseDubois");
+        dc.changeStrategy(dConv);
+        double expResult = 0.4875;
+        double result = dc.getOptimalDose(this.patient, this.drug);
+        assertEquals(expResult, result, 0.1);
+    }
 
     /**
      * Test of getMaxDose method, of class DoseCalculator.
@@ -75,6 +104,30 @@ public class DoseCalculatorTest {
     @Test
     public void testGetMaxDose() {
         System.out.println("getMaxDose");
+        double expResult = 1.1375;
+        double result = dc.getMaxDose(this.patient, this.drug);
+        assertEquals(expResult, result, 0.1);
+    }
+    
+    /**
+     * Test of getMaxDose method Monsteller formula, of class DoseCalculator.
+     */
+    @Test
+    public void testGetMaxDoseMonsteller() {
+        System.out.println("getMaxDoseMonsteller");
+        dc.changeStrategy(mConv);
+        double expResult = 1.1375;
+        double result = dc.getMaxDose(this.patient, this.drug);
+        assertEquals(expResult, result, 0.1);
+    }
+    
+    /**
+     * Test of getMaxDose method Dubois formula, of class DoseCalculator.
+     */
+    @Test
+    public void testGetMaxDoseDubois() {
+        System.out.println("getMaxDoseDubois");
+        dc.changeStrategy(dConv);
         double expResult = 1.1375;
         double result = dc.getMaxDose(this.patient, this.drug);
         assertEquals(expResult, result, 0.1);

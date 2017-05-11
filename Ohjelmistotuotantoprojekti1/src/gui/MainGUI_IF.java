@@ -181,7 +181,7 @@ public interface MainGUI_IF {
      * Method to get the prescription manipulated by the prescription form view.
      * @return prescription updated by the user
      */
-    public abstract Prescription getPrescriptionForm();
+    //public abstract Prescription getPrescriptionForm();
 
     /**
      * Method to set drug's details to the view.
@@ -229,4 +229,6 @@ public interface MainGUI_IF {
      * @return user updated by the user form view.
      */
     public abstract User_IF getUserForm();
+    
+    public abstract User_IF getAuthenticatedUser();
 }

@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class SentMessageListCell extends MessageListCell {
     

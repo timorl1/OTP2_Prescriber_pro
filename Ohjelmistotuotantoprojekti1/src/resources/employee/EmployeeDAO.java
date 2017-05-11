@@ -6,7 +6,6 @@
 package resources.employee;
 
 import resources.database.DatabaseDAO;
-import resources.employee.Employee;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

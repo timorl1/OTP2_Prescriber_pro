@@ -5,6 +5,7 @@
  */
 package resources.drug;
 
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -18,9 +19,11 @@ import javafx.scene.text.Text;
 public class DrugListCell extends ListCell<Drug> {
     
     private ResourceBundle text;
+    private NumberFormat numberFormatter;
 
     public DrugListCell(ResourceBundle text) {
         this.text = text;
+        this.numberFormatter = NumberFormat.getNumberInstance(this.text.getLocale());
     }
 
     @Override
@@ -46,7 +49,7 @@ public class DrugListCell extends ListCell<Drug> {
             nameValue.setText(drug.getName());
 
             mainAgentLabel.setText(text.getString("activeAgent") + ": ");
-            mainAgentValue.setText(drug.getDrugActiveAgents().get(0).getActiveAgent().getName() + " " + drug.getDrugActiveAgents().get(0).getConcentration() + "mg");
+            mainAgentValue.setText(drug.getDrugActiveAgents().get(0).getActiveAgent().getName() + " " + this.numberFormatter.format(drug.getDrugActiveAgents().get(0).getConcentration()) + "mg");
 
             gridPane.add(snLabel, 0, 0);
             gridPane.add(snValue, 1, 0);

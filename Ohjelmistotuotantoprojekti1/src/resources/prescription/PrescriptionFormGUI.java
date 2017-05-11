@@ -1,14 +1,18 @@
 package resources.prescription;
 
-import gui.Localisation;
-import static gui.Localisation.getInstance;
+import calculator.DoseStatus;
+import gui.AlertMessage;
 import resources.SideBarListView_IF;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,13 +21,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.StageStyle;
 import resources.diagnose.Diagnose;
 import resources.drug.Drug;
 import resources.patient.Patient;
-import resources.user.User_IF;
+import gui.Mediator_IF;
+import java.text.NumberFormat;
 
 /**
  * FXML Controller class
@@ -31,9 +34,6 @@ import resources.user.User_IF;
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
-
-    ResourceBundle text;
-    Localisation local = getInstance();
     
     @FXML
     private GridPane gridPane;
@@ -85,325 +85,405 @@ public class PrescriptionFormGUI extends Tab implements PrescriptionFormGUI_IF {
     private Label creationDateLabel;
     @FXML
     private Text drugDoseField;
+    @FXML
+    private RadioButton rb1;
+    @FXML
+    private RadioButton rb2;
+    @FXML
+    private RadioButton rb3;
+    @FXML
+    private ToggleGroup strategy;
     
-    private PrescriptionMakerController_IF controller;
-    private ObservableList<Diagnose> diagnoses;
+    private final Mediator_IF mediator;
+    private final PrescriptionValidator validator = PrescriptionValidator.getInstance();
+    private final AlertMessage alertMessage = AlertMessage.getINSTANCE();
+    private final NumberFormat formatter;
+    private final ResourceBundle text;
     private final SideBarListView_IF<Patient> patientSelector;
     private final SideBarListView_IF<Drug> drugSelector;
-    private Prescription prescription;
-    private final String title;
+    private final Prescription prescription;
     private FXMLLoader loader;
     
-    private int id;
-    private Patient patient;
-    private User_IF doctor;
-    private Drug drug;
-    private Diagnose diagnose;
-    private double dose;
-    private int timesADay;
-    private Date startDate;
-    private Date endDate;
-    private Date creationDate;
-    private String info;
+    private ChangeListener patientSelectorListener;
+    private ChangeListener drugSelectionListener;
     
-    public PrescriptionFormGUI(SideBarListView_IF<Patient> patientSelector, SideBarListView_IF<Drug> drugSelector, String title, Prescription prescription) {
-        text = local.language();
+    public PrescriptionFormGUI(Mediator_IF mediator, ResourceBundle rb, SideBarListView_IF<Patient> patientSelector, SideBarListView_IF<Drug> drugSelector, Prescription prescription) {
+        this.mediator = mediator;
+        this.text = rb;
+        this.formatter = NumberFormat.getNumberInstance(text.getLocale());
         this.patientSelector = patientSelector;
         this.drugSelector = drugSelector;
-        this.title = title;
         this.prescription = prescription;
-        this.controller = new PrescriptionMakerController(this);
-        this.id = this.prescription.getId();
-        this.patient = this.prescription.getPatient();
-        this.doctor = this.prescription.getDoctor();
-        this.drug = this.prescription.getDrug();
-        this.dose = this.prescription.getDose();
-        this.timesADay = this.prescription.getTimesADay();
-        this.startDate = this.prescription.getStartDate();
-        this.endDate = this.prescription.getEndDate();
-        this.creationDate = this.prescription.getCreationDate();
-        this.info = this.prescription.getInfo();
-        this.diagnoses = FXCollections.observableArrayList();
-        this.diagnose = this.prescription.getDiagnose();
-        this.diagnoses.add(this.diagnose);
         try {
-            loader = new FXMLLoader(getClass().getResource("PrescriptionForm.fxml"));
-            loader.setController(this);
-            loader.setRoot(this);
-            loader.load();
-            patientField.setEditable(false);
-            patientField.setPromptText(text.getString("choosePatient"));
-            drugField.setEditable(false);
-            drugField.setPromptText(text.getString("chooseDrug"));
-            patientLabel.setText(text.getString("patient")+":");
-            diagnoseLabel.setText(text.getString("diagnose")+":");
-            drugLabel.setText(text.getString("drug")+":");
-            doseLabel.setText(text.getString("singleDose")+":");
-            timesADayLabel.setText(text.getString("timesADay")+":");
-            startDateLabel.setText(text.getString("startDate")+":");
-            endDateLabel.setText(text.getString("endDate")+":");
-            infoLabel.setText(text.getString("info")+":");
-            cancelButton.setText(text.getString("cancel"));
-            saveButton.setText(text.getString("save"));
-            mainTitle.setText(text.getString("prescription"));
-            doctorNameLabel.setText(text.getString("doctor"));
-            prescriptionIdLabel.setText(text.getString("ID"));
-            infoField.setWrapText(true);
+            this.loader = new FXMLLoader(getClass().getResource("PrescriptionForm.fxml"));
+            this.loader.setController(this);
+            this.loader.setRoot(this);
+            this.loader.setResources(rb);
+            this.loader.load();
             this.initializeFields();
             this.initializeBasicListeners();
-            if (this.patient == null) {
+            if (this.prescription.getPatient() == null) {
                 this.initializeNewPrescriptionListeners();
             }
+            this.performChecks();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
     private void initializeFields() {
-        text = local.language();
-        this.setText(title);
-        this.creationDateLabel.setText(this.creationDate.toString());
-        this.doctorNameLabel.setText(this.doctor.getFirstName() + " " + this.doctor.getLastName());
-        if (this.id != 0) {
-            this.prescriptionIdLabel.setText("#" + Integer.toString(this.id));
+        this.creationDateLabel.setText(this.prescription.getCreationDate().toString());
+        this.doctorNameLabel.setText(this.prescription.getDoctor().getFirstName() + " " + this.prescription.getDoctor().getLastName());
+        if (this.prescription.getId() != 0) {
+            this.prescriptionIdLabel.setText("#" + Integer.toString(this.prescription.getId()));
         }
-        if (this.patient != null) {
-            this.patientField.setText(this.patient.toString());
+        if (this.prescription.getPatient() != null) {
+            this.patientField.setText(this.prescription.getPatient().toString());
+            ObservableList<Diagnose> list = FXCollections.observableArrayList();
+            list.add(this.prescription.getDiagnose());
+            this.diagnoseSelector.setItems(list);
+            this.diagnoseSelector.getSelectionModel().clearAndSelect(0);
         }
-        if (this.patient == null && this.patientSelector.getSelection() != null) {
+        else if (this.patientSelector.getSelection() != null) {
             this.prescription.setPatient(this.patientSelector.getSelection());
             this.patientField.setText(this.patientSelector.getSelection().toString());
+            ObservableList<Diagnose> list = FXCollections.observableArrayList();
+            list.add(this.prescription.getDiagnose());
+            this.diagnoseSelector.setItems(list);
+            this.diagnoseSelector.getSelectionModel().clearAndSelect(0);
         }
-        if (this.drug != null) {
-            this.drugField.setText(this.drug.toString());
+        if (this.prescription.getDrug() != null) {
+            this.drugField.setText(this.prescription.getDrug().toString());
         }
-        if (this.drug == null && this.drugSelector.getSelection() != null) {
+        else if (this.drugSelector.getSelection() != null) {
             this.prescription.setDrug(this.drugSelector.getSelection());
             this.drugField.setText(this.drugSelector.getSelection().toString());
         }
-        this.diagnoseSelector.setItems(diagnoses);
-        this.diagnoseSelector.getSelectionModel().clearAndSelect(0);
-        this.doseField.setText(Double.toString(this.dose));
-        this.timesADayField.setText(Integer.toString(this.timesADay));
-        this.infoField.setText(this.info);
-        if (this.startDate != null) {
-            this.startDatePicker.setValue(this.startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        if (this.prescription.getDose() != 0) {
+            this.doseField.setText(Double.toString(this.prescription.getDose()));
         }
-        if (this.endDate != null) {
-            this.endDatePicker.setValue(this.endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        if (this.prescription.getTimesADay() != 0) {
+            this.timesADayField.setText(Integer.toString(this.prescription.getTimesADay()));
+        }
+        this.infoField.setText(this.prescription.getInfo());
+        if (this.prescription.getStartDate() != null) {
+            this.startDatePicker.setValue(this.prescription.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        if (this.prescription.getEndDate() != null) {
+            this.endDatePicker.setValue(this.prescription.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         }
     }
     
     private void initializeBasicListeners() {
-        this.drugSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Drug>() {
+        this.drugSelectionListener = new ChangeListener<Drug>() {
             @Override
             public void changed(ObservableValue<? extends Drug> ov, Drug oldValue, Drug newValue) {
                 if (newValue != null && !newValue.equals(oldValue)) {
-                    drug = newValue;
-                    prescription.setDrug(drug);
-                    drugField.setText(drug.toString());
-                    //drugField.setFill(Color.BLACK);
-                    if (prescription.getPatient() != null) {
-                        dose = controller.getOptimalDose();
-                        prescription.setDose(dose);
-                        doseField.setText(Double.toString(dose));
-                        //drugField.setFill(Color.BLACK);
-                        controller.checkDose();
-                        controller.checkAllergens();
-                    }
+                    prescription.setDrug(newValue);
+                    drugField.setText(newValue.toString());
+                    performChecks();
                 }
             }
-        });
-        this.doseField.setOnKeyReleased(e -> {
-            try {
-                this.dose = Double.parseDouble(this.doseField.getText().replace(',', '.'));
-            } catch (NumberFormatException ex) {
-                if (!this.doseField.getText().isEmpty()){
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("falseEntry"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-                    alert.showAndWait();
-                }
-            }
-            this.prescription.setDose(this.dose);
-            this.controller.checkDose();
-        });
-        this.timesADayField.setOnKeyReleased(e -> {
-            try {
-                this.timesADay = Integer.parseInt(this.timesADayField.getText());
-            } catch (NumberFormatException ex) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("falseEntry"));
-                    alert.initStyle(StageStyle.UNDECORATED);
-                    alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-                    alert.showAndWait();
-            }
-            this.prescription.setTimesADay(this.timesADay);
-            this.controller.checkDose();
-        });
-        this.infoField.setOnKeyReleased(e -> {
-            this.info = this.infoField.getText();
-            this.prescription.setInfo(this.info);
-        });
+        };
+        this.drugSelector.getListView().getSelectionModel().selectedItemProperty().addListener(this.drugSelectionListener);
     }
     
     private void initializeNewPrescriptionListeners() {
-        this.patientSelector.getListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
+        this.patientSelectorListener = new ChangeListener<Patient>() {
             @Override
             public void changed(ObservableValue<? extends Patient> ov, Patient oldValue, Patient newValue) {
                 if (newValue != null && !newValue.equals(oldValue)) {
-                    patient = newValue;
-                    prescription.setPatient(patient);
-                    patientField.setText(patient.toString());
-                   // drugField.setFill(Color.BLACK);
-                    if (prescription.getDrug() != null) {
-                        dose = controller.getOptimalDose();
-                        doseField.setText(Double.toString(dose));
-                       // drugField.setFill(Color.BLACK);
-                        prescription.setDose(dose);
-                        controller.checkDose();
-                        controller.checkAllergens();
-                    }
+                    prescription.setPatient(newValue);
+                    patientField.setText(prescription.getPatient().toString());
+                    ObservableList<Diagnose> list = FXCollections.observableList(prescription.getPatient().getDiagnoses());
+                    diagnoseSelector.setItems(list);
+                    diagnoseSelector.getSelectionModel().clearAndSelect(0);
+                    prescription.setDiagnose(diagnoseSelector.getSelectionModel().getSelectedItem());
+                    performChecks();
                 }
             }
-        });
-        this.diagnoseSelector.setOnAction(e -> {
-            if (!this.diagnoses.isEmpty()) {
-                this.diagnose = this.diagnoseSelector.getSelectionModel().getSelectedItem();
-                this.prescription.setDiagnose(this.diagnose);
+        };
+        this.patientSelector.getListView().getSelectionModel().selectedItemProperty().addListener(this.patientSelectorListener);
+    }
+    
+    @Override
+    @FXML
+    public void save() {
+        if (this.validator.validate(prescription)) {
+            this.mediator.savePrescription();
+            try {
+                this.patientSelector.getListView().getSelectionModel().selectedItemProperty().removeListener(this.patientSelectorListener);
+            } catch (NullPointerException e) {
             }
-        });
-        this.startDatePicker.setOnAction(e -> {
-            this.startDate = Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            this.prescription.setStartDate(this.startDate);
-            this.controller.checkDose();
-        });
-        this.endDatePicker.setOnAction(e -> {
-            this.endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            this.prescription.setEndDate(this.endDate);
-            this.controller.checkDose();
-        });
+            try {
+                this.drugSelector.getListView().getSelectionModel().selectedItemProperty().removeListener(this.drugSelectionListener);
+            } catch (NullPointerException e) {
+            }
+            this.getTabPane().getTabs().remove(this);
+        }
+        else {
+            this.alertMessage.showWarningAlert(text.getString("message"),
+                    text.getString("alertTextWarning"),
+                    text.getString("alertTitlePrescriptionNotSent"));
+        }
+    }
+
+    @Override
+    @FXML
+    public void cancel() {
+        this.mediator.revertPrescription();
+        try {
+            this.patientSelector.getListView().getSelectionModel().selectedItemProperty().removeListener(this.patientSelectorListener);
+        } catch (NullPointerException e) {
+        }
+        try {
+            this.drugSelector.getListView().getSelectionModel().selectedItemProperty().removeListener(this.drugSelectionListener);
+        } catch (NullPointerException e) {
+        }
+        this.getTabPane().getTabs().remove(this);
+    }
+
+    @Override
+    @FXML
+    public void changeStrategy() {
+        int i = this.strategy.getToggles().indexOf(this.strategy.getSelectedToggle());
+        this.mediator.changeCalculationMethod(i);
+        if (this.validator.isCalculable(this.prescription)) {
+            this.getOptimalDose();
+        }
+        if (this.validator.isEvaluable(this.prescription)) {
+            this.checkDose();
+        }
     }
     
     @Override
-    public void setDiagnose(Diagnose diagnose) {
-        this.diagnose = diagnose;
-        this.prescription.setDiagnose(this.diagnose);
+    @FXML
+    public void setPatient() {
+        if (this.patientField.isFocused()) {
+            this.patientSelector.getTitledPane().setExpanded(true);
+        }
     }
     
     @Override
-    public TextField getPatientField() {
-        return this.patientField;
-    }
-
-    public TextField getDrugField() {
-        return drugField;
+    @FXML
+    public void setDiagnose() {
+        this.prescription.setDiagnose(this.diagnoseSelector.getValue());
     }
 
     @Override
-    public ChoiceBox<Diagnose> getDiagnoseSelector() {
-        return diagnoseSelector;
+    @FXML
+    public void setDrug() {
+        if (this.drugField.isFocused()) {
+            this.drugSelector.getTitledPane().setExpanded(true);
+        }
     }
 
     @Override
-    public Button getCancelButton() {
-        return cancelButton;
+    @FXML
+    public void setDose() {
+        try {
+            this.prescription.setDose(Double.parseDouble(this.doseField.getText().replace(',', '.')));
+            this.checkDose();
+            if (this.doseField.getTooltip().isActivated()) {
+                this.doseField.getTooltip().hide();
+            }
+            if (this.doseField.getText().isEmpty()) {
+                this.doseField.getTooltip().setText(text.getString("doseHint"));
+            }
+        } catch (NumberFormatException ex) {
+            if (!this.doseField.getText().isEmpty()) {
+                this.doseField.getTooltip().setText(text.getString("falseEntry"));
+                this.doseField.getTooltip().centerOnScreen();
+                this.doseField.getTooltip().show(this.doseField.getScene().getWindow());
+            }
+        }
     }
 
     @Override
-    public Button getSaveButton() {
-        return saveButton;
+    @FXML
+    public void setTimesADay() {
+        try {
+            this.prescription.setTimesADay(Integer.parseInt(this.timesADayField.getText()));
+            this.checkDose();
+            if (this.timesADayField.getTooltip().isActivated()) {
+                this.timesADayField.getTooltip().hide();
+                this.timesADayField.getTooltip().setText(text.getString("timesADayHint"));
+            }
+        } catch (NumberFormatException ex) {
+            if (!this.timesADayField.getText().isEmpty()) {
+                this.timesADayField.getTooltip().setText(text.getString("falseEntry"));
+                this.timesADayField.getTooltip().centerOnScreen();
+                this.timesADayField.getTooltip().show(this.timesADayField.getScene().getWindow());
+            }
+        }
+    }
+
+    @Override
+    @FXML
+    public void setStartDate() {
+        this.prescription.setStartDate(Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        this.checkDose();
+    }
+
+    @Override
+    @FXML
+    public void setEndDate() {
+        this.prescription.setEndDate(Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        this.checkDose();
     }
     
     @Override
-    public Prescription getPrescription() {
-        return this.prescription;
+    @FXML
+    public void setInfo() {
+        this.prescription.setInfo(this.infoField.getText());
     }
     
     @Override
-    public void setNullDoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);"); //white
-        this.drugDoseField.setText(text.getString("nullDose"));
-        //this.drugDoseField.setFill(Color.rgb(255, 255, 255, 0.7));
+    public void checkDose() {
+        if (this.validator.isEvaluable(this.prescription)) {
+            DoseStatus status = this.mediator.checkDoseLevel();
+            this.doseField.getTooltip().setText(text.getString("optimalDoseTitle") + "\n" + this.mediator.getOptimalDoseFormula() + "\n" + this.text.getString("maxDoseTitle") + "\n" + this.mediator.getMaxDoseFormula() + "\n" + this.text.getString("cumulativeDoseTitle") + "\n" + this.mediator.getCumulativeDoseFormula());
+            switch (status) {
+                case NULL:
+                    this.setNullDoseMessage();
+                    break;
+                case INSUFFICIENT:
+                    this.setInsuffucientDoseMessage();
+                    break;
+                case OPTIMAL:
+                    this.setOptimalDoseMessage();
+                    break;
+                case OVER_OPTIMAL:
+                    this.setOverOptimalDoseMessage();
+                    break;
+                case RISK_LIMIT:
+                    this.setRiskLimitDoseMessage();
+                    break;
+                case OVERDOSE:
+                    this.setOverdoseMessage();
+                    break;
+                case CUMULATIVE_OVERDOSE:
+                    this.setCumulativeOverdoseMessage();
+                    break;
+            }
+        }
     }
     
     @Override
-    public void setInsuffucientDoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(0, 0, 255, 0.5);");
-        this.drugDoseField.setText(text.getString("insuffucientDose"));
-       // this.drugDoseField.setFill(Color.rgb(0, 0, 255, 0.5));
+    public void getOptimalDose() {
+        if (this.validator.isCalculable(this.prescription) && !this.doseField.isFocused()) {
+            this.doseField.setText(this.formatter.format(this.mediator.getOptimalDose()));
+            this.prescription.setDose(Double.parseDouble(this.doseField.getText().replace(',', '.')));
+            this.doseField.getTooltip().setText(text.getString("optimalDoseTitle") + "\n" + this.mediator.getOptimalDoseFormula() + "\n" + this.text.getString("maxDoseTitle") + "\n" + this.mediator.getMaxDoseFormula());
+        }
+    }
+    
+    @Override
+    public void checkAllergens() {
+        if (this.validator.isCalculable(this.prescription)) {
+            List<String> allergens = this.mediator.checkForAllergens();
+            if (!allergens.isEmpty()) {
+                this.setIsAllergicMessage(allergens);
+            }
+        }
     }
 
     @Override
-    public void setOptimalDoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(0, 255, 0, 0.5);");
-        this.drugDoseField.setText(text.getString("optimalDose"));
-        //this.drugDoseField.setFill(Color.rgb(0, 255, 0, 0.5));
+    public void checkCrossReactions() {
+        if (this.validator.isCalculable(this.prescription)) {
+            HashMap crossReactions = this.mediator.checkForCrossReactions();
+            if (!crossReactions.isEmpty()) {
+                this.setCrossReactionMessage(crossReactions);
+            }
+        }
     }
-
+    
     @Override
-    public void setOverOptimalDoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);"); 
-        this.drugDoseField.setText(text.getString("overOptimalDose"));
-        //this.drugDoseField.setFill(Color.rgb(255, 255, 0, 0.5));
+    public void performChecks() {
+        this.getOptimalDose();
+        this.checkDose();
+        this.checkAllergens();
+        this.checkCrossReactions();
     }
-
+    
     @Override
-    public void setRiskLimitDoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        this.drugDoseField.setText(text.getString("riskLimitDose"));
-        //this.drugDoseField.setFill(Color.rgb(255, 0, 0, 0.5));
-    }
-
-    @Override
-    public void setOverdoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("alertOverdose"));
-        alert.setTitle(text.getString("titleDrugCalculator"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait();
-    }
-
-    @Override
-    public void setCumulativeOverdoseMessage() {
-        text = local.language();
-        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
-        Alert alert = new Alert(Alert.AlertType.WARNING, text.getString("titleDrugCalculator"));
-        alert.setTitle(text.getString("titleDrugCalculator"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait();
+    public void setCrossReactionMessage(HashMap crossReactions) {
+        String prescribedDrug = " ";
+        String crossReactionDrug = " ";
+        Set set = crossReactions.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            prescribedDrug += mentry.getKey()+"\n";
+            crossReactionDrug += mentry.getValue() +"\n";
+        }    
+        this.alertMessage.showWarningAlert(this.text.getString("titleCrossReaction"),
+                this.text.getString("warning"),
+                this.text.getString("alertCrossReaction")
+                        +text.getString("prescribedDrug")
+                        +prescribedDrug
+                        +this.text.getString("crossReactionDrug")+crossReactionDrug);
     }
     
     @Override
     public void setIsAllergicMessage(List<String> allergens) {
-        text = local.language();
-        //this.drugField.setFill(Color.RED);
         String s = "";
         for (String a : allergens) {
             s += a + "\n";
         }
-        Alert alert = new Alert(Alert.AlertType.WARNING,text.getString("alertAllergin")+s);
-        alert.setTitle(text.getString("titleAllergen"));
-        alert.setHeaderText(text.getString("warning"));
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("prescriptionform.css").toExternalForm());
-        alert.showAndWait();
+        alertMessage.showWarningAlert(text.getString("titleAllergen"),
+                text.getString("warning"),text.getString("alertAllergin")+s);
+    }
+    
+    @Override
+    public void setNullDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);"); //white
+        this.drugDoseField.setText(text.getString("nullDose"));
+    }
+    
+    @Override
+    public void setInsuffucientDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(0, 0, 255, 0.5);");
+        this.drugDoseField.setText(text.getString("insuffucientDose"));
+    }
+
+    @Override
+    public void setOptimalDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(0, 255, 0, 0.5);");
+        this.drugDoseField.setText(text.getString("optimalDose"));
+    }
+
+    @Override
+    public void setOverOptimalDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 255, 0, 0.5);"); 
+        this.drugDoseField.setText(text.getString("overOptimalDose"));
+    }
+
+    @Override
+    public void setRiskLimitDoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+        this.drugDoseField.setText(text.getString("riskLimitDose"));
+    }
+
+    @Override
+    public void setOverdoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+        this.drugDoseField.setText(text.getString("overdose"));
+        alertMessage.showWarningAlert(text.getString("titleDrugCalculator"),
+                text.getString("warning"), text.getString("alertOverdose"));
+    }
+
+    @Override
+    public void setCumulativeOverdoseMessage() {
+        this.doseField.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5);");
+        this.drugDoseField.setText(text.getString("cumulativeOverdose"));
+        alertMessage.showWarningAlert(text.getString("titleDrugCalculator"),
+                text.getString("warning"), text.getString("alertCumulativeOverdose"));
     }
 
     @Override
     public void markUpdate() {
-        text = local.language();
         this.infoField.appendText(text.getString("updated") + LocalDate.now(ZoneId.systemDefault()).toString());
-        this.info = this.infoField.getText();
-        this.prescription.setInfo(this.info);
+        this.prescription.setInfo(this.infoField.getText());
     }
 }

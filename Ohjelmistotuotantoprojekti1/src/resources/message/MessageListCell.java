@@ -5,6 +5,8 @@
  */
 package resources.message;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
@@ -16,14 +18,16 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author joosiika
+ * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
  */
 public abstract class MessageListCell extends ListCell<Message> implements Observer {
     
     private ResourceBundle text;
+    private SimpleDateFormat dateFormatter;
 
     public MessageListCell(ResourceBundle text) {
         this.text = text;
+        this.dateFormatter = new SimpleDateFormat(this.text.getString("messageDateTimeFormat"), this.text.getLocale());
     }
     
     public abstract String getNameLabel();
@@ -60,7 +64,7 @@ public abstract class MessageListCell extends ListCell<Message> implements Obser
             subjectValue.setText(message.getTitle());
             
             dateLabel.setText(text.getString("date") + ": ");
-            dateValue.setText(message.getDate().toString());
+            dateValue.setText(dateFormatter.format(message.getDate()));
             
             gridPane.add(nameLabel, 0, 0);
             gridPane.add(nameValue, 1, 0);
