@@ -11,9 +11,7 @@ import calculator.DoseStatus;
 import clientresources.ClientResources;
 import clientresources.ClientResources_IF;
 import java.util.HashMap;
-import java.util.Map;
 import resources.diagnose.Diagnose;
-import resources.drug.Allergen;
 import resources.drug.Drug;
 import resources.drug.DrugResources;
 import resources.drug.DrugResources_IF;
@@ -23,10 +21,6 @@ import resources.message.Messenger;
 import resources.message.Messenger_IF;
 import resources.patient.Patient;
 import resources.prescription.Prescription;
-import resources.prescription.PrescriptionFactory;
-import resources.prescription.PrescriptionFactory_IF;
-import resources.prescription.PrescriptionFormGUI;
-import resources.prescription.PrescriptionFormGUI_IF;
 import resources.prescription.PrescriptionEditor;
 import resources.user.User;
 import resources.user.User_IF;
@@ -39,7 +33,6 @@ import resources.prescription.PrescriptionEditor_IF;
 public class Mediator implements Mediator_IF {
     private MainGUI_IF gui;
     private AppUser auth;
-    private PrescriptionFactory_IF prescriptionFactory;
     private ClientResources_IF clientRes;
     private DrugResources_IF drugRes;
     private PrescriptionEditor_IF prescriptionMaker;
@@ -48,7 +41,6 @@ public class Mediator implements Mediator_IF {
     public Mediator(MainGUI_IF gui) {
         this.gui = gui;
         this.auth = new AppUser();
-        this.prescriptionFactory = new PrescriptionFactory();
         this.clientRes = new ClientResources();
         this.drugRes = new DrugResources();
         this.prescriptionMaker = new PrescriptionEditor();
@@ -237,12 +229,12 @@ public class Mediator implements Mediator_IF {
 
     @Override
     public boolean savePrescription() {
-        return this.prescriptionMaker.savePrescription();
+        return this.clientRes.savePrescription(this.prescriptionMaker.getPrescription());
     }
 
     @Override
     public void createPrescription() {
-        Prescription prescription = this.prescriptionFactory.create(this.auth.getUser());
+        Prescription prescription = this.clientRes.createPrescription(this.auth.getUser());
         this.prescriptionMaker.editPrescription(prescription);
         this.gui.setPrescriptionForm(prescription);
     }

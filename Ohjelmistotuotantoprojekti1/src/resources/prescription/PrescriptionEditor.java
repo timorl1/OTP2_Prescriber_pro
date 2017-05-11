@@ -19,6 +19,7 @@ import calculator.MonstellerBSAConverter;
 import java.util.HashMap;
 import resources.drug.Drug;
 import calculator.CalculatorStrategy;
+import calculator.WeightBasedConverter;
 /**
  *
  * @author Timo Lehtola, Paula Rinta-Harri, Joonas Siikavirta, Johanna Tani
@@ -26,7 +27,7 @@ import calculator.CalculatorStrategy;
 public class PrescriptionEditor implements PrescriptionEditor_IF {
     private final PrescriptionDAO_IF prescriptionDAO;
     private final DoseCalculator_IF doseCalculator;
-    private final CalculatorStrategy[] strategies = {null, new MonstellerBSAConverter(), new DuboisBSAConverter()};
+    private final CalculatorStrategy[] strategies = {new WeightBasedConverter(), new MonstellerBSAConverter(), new DuboisBSAConverter()};
     
     private double optimalDose;
     private double maxDose;
@@ -37,6 +38,7 @@ public class PrescriptionEditor implements PrescriptionEditor_IF {
     public PrescriptionEditor() {
         this.prescriptionDAO = new PrescriptionDAO();
         this.doseCalculator = new DoseCalculator();
+        this.doseCalculator.changeStrategy(this.strategies[0]);
     }
     
     @Override
@@ -51,8 +53,8 @@ public class PrescriptionEditor implements PrescriptionEditor_IF {
     }
 
     @Override
-    public boolean savePrescription() {
-        return this.prescriptionDAO.createPrescription(this.prescription);
+    public Prescription getPrescription() {
+        return this.prescription;
     }
     
     @Override

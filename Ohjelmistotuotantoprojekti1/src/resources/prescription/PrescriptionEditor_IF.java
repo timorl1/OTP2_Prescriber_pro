@@ -16,7 +16,7 @@ import java.util.HashMap;
 public interface PrescriptionEditor_IF {
     public abstract void setCalculatorStrategy(int i);
     public abstract void editPrescription(Prescription prescription);
-    public abstract boolean savePrescription();
+    public abstract Prescription getPrescription();
     public abstract void undo();
 
     /**

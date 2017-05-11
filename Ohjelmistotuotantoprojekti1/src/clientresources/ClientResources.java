@@ -23,6 +23,8 @@ import tools.DependencyBuilder;
 import tools.DependencyBuilder_IF;
 import calculator.DoseCalculator;
 import calculator.DoseCalculator_IF;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -159,6 +161,19 @@ public class ClientResources implements ClientResources_IF {
         }else{
             return this.userDAO.createUser(user);
         }
+    }
+    
+    @Override
+    public Prescription createPrescription(User_IF creator) {
+        Prescription prescription = new Prescription();
+        prescription.setDoctor(creator);
+        prescription.setCreationDate(Date.valueOf(LocalDate.now()));
+        return prescription;
+    }
+    
+    @Override
+    public boolean savePrescription(Prescription prescription) {
+        return this.prescriptionDAO.createPrescription(prescription);
     }
         
     @Override
